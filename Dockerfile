@@ -11,7 +11,12 @@ FROM amazoncorretto:17-alpine
 
 WORKDIR /app
 
+RUN apk add --no-cache shadow
+RUN useradd -ms /bin/bash appuser
+
 COPY --from=build /app/target/*.jar app.jar
+
+USER appuser
 
 EXPOSE 8080
 
