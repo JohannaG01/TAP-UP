@@ -32,6 +32,9 @@ ehthumbs.db
 .env
 *.env
 
+# SQL Scripts
+*.local.sql
+
 # Other
 *.jar
 *.war

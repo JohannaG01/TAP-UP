@@ -1,4 +1,4 @@
-package com.johannag.tapup.configuration;
+package com.johannag.tapup.configurations;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -59,7 +59,10 @@ public class SecurityConfig {
                         .requestMatchers("/docs")
                         .permitAll()
                         .requestMatchers("/error/**")
-                        .permitAll().anyRequest()
+                        .permitAll()
+                        .requestMatchers("/api/v1/users")
+                        .permitAll()
+                        .anyRequest()
                         .authenticated()
         );
 
