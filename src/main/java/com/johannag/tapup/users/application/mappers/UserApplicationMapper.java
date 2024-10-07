@@ -16,14 +16,6 @@ public interface UserApplicationMapper {
     CreateUserDTO toCreateUserDTO(CreateUserRequestDTO dto);
 
     /**
-     * Converts a {@link UserModel} object to a {@link UserResponseDTO} object.
-     *
-     * @param userModel the UserModel object to be converted
-     * @return a UserResponseDTO representation of the provided UserModel
-     */
-    UserResponseDTO toUserResponseDTO(UserModel userModel);
-
-    /**
      * Converts a {@link CreateUserDTO} to a {@link UserModel}.
      *
      * @param dto the {@link CreateUserDTO} to be converted

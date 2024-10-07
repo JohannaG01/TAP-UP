@@ -2,17 +2,14 @@ package com.johannag.tapup.users.domain.models;
 
 import lombok.Builder;
 import lombok.Data;
-import com.johannag.tapup.users.infrastructure.db.entities.UserEntity;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 
-/**
- * Model for {@link UserEntity}
- */
-
 @Data
 @Builder
+@ToString(exclude = "hashedPassword")
 public class UserModel {
     private UUID uuid;
     private String email;

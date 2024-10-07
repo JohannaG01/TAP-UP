@@ -7,6 +7,7 @@ import com.johannag.tapup.users.application.services.UserService;
 import com.johannag.tapup.users.domain.models.UserModel;
 import com.johannag.tapup.users.presentation.dtos.CreateUserRequestDTO;
 import com.johannag.tapup.users.presentation.dtos.UserResponseDTO;
+import com.johannag.tapup.users.presentation.mapper.UserPresentationMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserApplicationMapper userApplicationMapper;
+    private final UserPresentationMapper userPresentationMapper;
     private final UserService userService;
 
     @PostMapping("/users")
@@ -28,7 +30,7 @@ public class UserController {
 
         CreateUserDTO createUserDTO = userApplicationMapper.toCreateUserDTO(createUserRequestDTO);
         UserModel user = userService.signIn(createUserDTO);
-        UserResponseDTO userResponseDTO = userApplicationMapper.toUserResponseDTO(user);
+        UserResponseDTO userResponseDTO = userPresentationMapper.toUserResponseDTO(user);
 
         return new ResponseEntity<>(userResponseDTO, HttpStatus.CREATED);
     }

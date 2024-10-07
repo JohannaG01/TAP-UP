@@ -23,17 +23,6 @@ public class UserApplicationMapperImpl implements UserApplicationMapper {
     }
 
     @Override
-    public UserResponseDTO toUserResponseDTO(UserModel userModel) {
-        return UserResponseDTO.builder()
-                .uuid(userModel.getUuid())
-                .email(userModel.getEmail())
-                .name(userModel.getName())
-                .lastName(userModel.getLastName())
-                .balance(userModel.getBalance())
-                .build();
-    }
-
-    @Override
     public UserModel toUserModel(CreateUserDTO dto) {
         return UserModel.builder()
                 .uuid(UUID.randomUUID())

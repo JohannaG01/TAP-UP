@@ -19,22 +19,22 @@ public class SignInUserUseCase {
     private UserApplicationMapper userApplicationMapper;
 
     private static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    private static final Logger LOGGER = LogManager.getLogger(SignInUserUseCase.class);
+    private static final Logger logger = LogManager.getLogger(SignInUserUseCase.class);
 
     public UserModel execute(CreateUserDTO dto) throws UserAlreadyExistsException {
-        LOGGER.info("Starting SignIn process for user {}", dto.getEmail());
+        logger.info("Starting SignIn process for user {}", dto.getEmail());
 
         validateUserDoesNotExistsOrThrow(dto.getEmail());
         UserModel user = createModelWithHashedPassword(dto);
         userRepository.create(user);
 
-        LOGGER.info("SignIn process for user {} has finished", dto.getEmail());
+        logger.info("SignIn process for user {} has finished", dto.getEmail());
 
         return user;
     }
 
     private void validateUserDoesNotExistsOrThrow(String email) throws UserAlreadyExistsException {
-        LOGGER.info("Checking if user exists with email {}", email);
+        logger.info("Checking if user exists with email {}", email);
 
         if (userRepository.userExists(email)) {
             throw new UserAlreadyExistsException(email);
@@ -42,7 +42,7 @@ public class SignInUserUseCase {
     }
 
     private UserModel createModelWithHashedPassword(CreateUserDTO dto) {
-        LOGGER.info("Creating hash for password");
+        logger.info("Creating hash for password");
 
         UserModel user = userApplicationMapper.toUserModel(dto);
         user.setHashedPassword(passwordEncoder.encode(dto.getPassword()));
