@@ -1,4 +1,4 @@
-package com.johannag.tapup.globals.constants;
+package com.johannag.tapup.globals.domain.constants;
 
 public class Regex {
     public static final String EMAIL_RGX = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]+(;[A-Za-z0-9" +

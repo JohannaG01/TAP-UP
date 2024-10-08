@@ -1,8 +1,8 @@
 package com.johannag.tapup.users.application.services;
 
 import com.johannag.tapup.users.application.dtos.CreateUserDTO;
-import com.johannag.tapup.users.domain.models.UserModel;
 import com.johannag.tapup.users.application.exceptions.UserAlreadyExistsException;
+import com.johannag.tapup.users.domain.models.UserModel;
 
 public interface UserService {
 

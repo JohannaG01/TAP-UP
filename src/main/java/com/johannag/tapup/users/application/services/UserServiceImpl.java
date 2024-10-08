@@ -4,7 +4,6 @@ import com.johannag.tapup.users.application.dtos.CreateUserDTO;
 import com.johannag.tapup.users.application.exceptions.UserAlreadyExistsException;
 import com.johannag.tapup.users.application.useCases.SignInUserUseCase;
 import com.johannag.tapup.users.domain.models.UserModel;
-import com.johannag.tapup.users.infrastructure.db.adapter.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

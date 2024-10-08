@@ -15,11 +15,10 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class SignInUserUseCase {
 
-    private UserRepository userRepository;
-    private UserApplicationMapper userApplicationMapper;
-
     private static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     private static final Logger logger = LogManager.getLogger(SignInUserUseCase.class);
+    private UserRepository userRepository;
+    private UserApplicationMapper userApplicationMapper;
 
     public UserModel execute(CreateUserDTO dto) throws UserAlreadyExistsException {
         logger.info("Starting SignIn process for user {}", dto.getEmail());
