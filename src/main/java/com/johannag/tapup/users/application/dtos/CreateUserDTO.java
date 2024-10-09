@@ -7,8 +7,8 @@ import lombok.Value;
 @Value
 @Builder
 public class CreateUserDTO {
-     String email;
-     String name;
-     String lastName;
-     String password;
+    String email;
+    String name;
+    String lastName;
+    String password;
 }

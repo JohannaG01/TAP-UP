@@ -3,7 +3,6 @@ package com.johannag.tapup.users.application.mappers;
 import com.johannag.tapup.users.application.dtos.CreateUserDTO;
 import com.johannag.tapup.users.domain.models.UserModel;
 import com.johannag.tapup.users.presentation.dtos.CreateUserRequestDTO;
-import com.johannag.tapup.users.presentation.dtos.UserResponseDTO;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
