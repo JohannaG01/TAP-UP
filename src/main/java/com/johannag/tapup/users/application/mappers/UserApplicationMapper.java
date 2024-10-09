@@ -4,7 +4,6 @@ import com.johannag.tapup.users.application.dtos.CreateUserDTO;
 import com.johannag.tapup.users.domain.dtos.CreateUserEntityDTO;
 import com.johannag.tapup.users.domain.models.UserModel;
 import com.johannag.tapup.users.presentation.dtos.CreateUserRequestDTO;
-import com.johannag.tapup.users.presentation.dtos.UserResponseDTO;
 
 public interface UserApplicationMapper {
 

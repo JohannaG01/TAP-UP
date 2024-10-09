@@ -16,11 +16,10 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class UserRepositoryImpl implements UserRepository {
 
+    private static final Logger logger = LogManager.getLogger(UserRepositoryImpl.class);
     private final JpaUserRepository jpaUserRepository;
     private final UserDomainMapper userDomainMapper;
     private final UserSystemConfig userSystemConfig;
-
-    private static final Logger logger = LogManager.getLogger(UserRepositoryImpl.class);
 
     @Override
     public boolean userExists(String email) {
