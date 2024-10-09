@@ -1,19 +1,25 @@
 package com.johannag.tapup.globals.presentation.errors;
 
-import lombok.Builder;
-import lombok.Value;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.springframework.lang.Nullable;
 
 import java.time.OffsetDateTime;
 
-@Value
-@Builder
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@SuperBuilder
 public class ErrorResponse {
-    OffsetDateTime timestamp;
-    Integer status;
-    String error;
-    String message;
+    private OffsetDateTime timestamp;
+    private Integer status;
+    private String error;
+    private String message;
     @Nullable
-    String code;
-    String path;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String code;
+    private String path;
 }
