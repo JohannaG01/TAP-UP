@@ -1,6 +1,7 @@
 package com.johannag.tapup.users.infrastructure.db.adapter;
 
 import com.johannag.tapup.configurations.UserSystemConfig;
+import com.johannag.tapup.users.domain.dtos.CreateUserEntityDTO;
 import com.johannag.tapup.users.domain.mappers.UserDomainMapper;
 import com.johannag.tapup.users.domain.models.UserModel;
 import com.johannag.tapup.users.infrastructure.db.entities.UserEntity;
@@ -28,17 +29,22 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     @Transactional
-    public void create(UserModel userModel) {
-        logger.info("Saving user: {}", userModel.toString());
-        UserEntity userEntityToBeSaved = userDomainMapper.toEntity(userModel);
-        userEntityToBeSaved.setCreatedBy(userSystemConfig.getAdminUserId());
-        userEntityToBeSaved.setUpdatedBy(userSystemConfig.getAdminUserId());
+    public UserModel create(CreateUserEntityDTO dto) {
+        logger.info("Saving user: {}", dto.toString());
 
-        UserEntity savedUserEntity = jpaUserRepository.save(userEntityToBeSaved);
-        savedUserEntity.setCreatedBy(savedUserEntity.getId());
-        savedUserEntity.setUpdatedBy(savedUserEntity.getId());
+        UserEntity userEntity = userDomainMapper.toEntity(dto);
+        userEntity.setCreatedBy(userSystemConfig.getAdminUserId());
+        userEntity.setUpdatedBy(userSystemConfig.getAdminUserId());
 
-        jpaUserRepository.save(savedUserEntity);
+        jpaUserRepository.saveAndFlush(userEntity);
+        userEntity.setCreatedBy(userEntity.getId());
+        userEntity.setUpdatedBy(userEntity.getId());
+
+        jpaUserRepository.save(userEntity);
+        UserModel userModel = userDomainMapper.toModel(userEntity);
+
         logger.info("Saved user: {}", userModel.toString());
+
+        return userModel;
     }
 }

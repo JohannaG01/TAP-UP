@@ -1,9 +1,12 @@
 package com.johannag.tapup.users.application.mappers;
 
+import com.johannag.tapup.configurations.UserSystemConfig;
 import com.johannag.tapup.users.application.dtos.CreateUserDTO;
+import com.johannag.tapup.users.domain.dtos.CreateUserEntityDTO;
 import com.johannag.tapup.users.domain.models.UserModel;
 import com.johannag.tapup.users.presentation.dtos.CreateUserRequestDTO;
 import com.johannag.tapup.users.presentation.dtos.UserResponseDTO;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -23,14 +26,15 @@ public class UserApplicationMapperImpl implements UserApplicationMapper {
     }
 
     @Override
-    public UserModel toUserModel(CreateUserDTO dto) {
-        return UserModel.builder()
+    public CreateUserEntityDTO toCreateUserEntityDTO(CreateUserDTO dto, String hashedPassword) {
+        return CreateUserEntityDTO.builder()
                 .uuid(UUID.randomUUID())
                 .email(dto.getEmail())
                 .name(dto.getName())
                 .lastName(dto.getLastName())
                 .isAdmin(false)
                 .balance(new BigDecimal(0))
+                .hashedPassword(hashedPassword)
                 .build();
     }
 }

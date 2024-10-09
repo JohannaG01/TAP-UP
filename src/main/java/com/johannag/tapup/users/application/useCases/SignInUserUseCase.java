@@ -3,6 +3,7 @@ package com.johannag.tapup.users.application.useCases;
 import com.johannag.tapup.users.application.dtos.CreateUserDTO;
 import com.johannag.tapup.users.application.exceptions.UserAlreadyExistsException;
 import com.johannag.tapup.users.application.mappers.UserApplicationMapper;
+import com.johannag.tapup.users.domain.dtos.CreateUserEntityDTO;
 import com.johannag.tapup.users.domain.models.UserModel;
 import com.johannag.tapup.users.infrastructure.db.adapter.UserRepository;
 import lombok.AllArgsConstructor;
@@ -25,8 +26,8 @@ public class SignInUserUseCase {
         logger.info("Starting SignIn process for user {}", dto.getEmail());
 
         validateUserDoesNotExistsOrThrow(dto.getEmail());
-        UserModel user = createModelWithHashedPassword(dto);
-        userRepository.create(user);
+        CreateUserEntityDTO createUserEntityDTO = buildCreationDTOWithHashedPassword(dto);
+        UserModel user = userRepository.create(createUserEntityDTO);
 
         logger.info("SignIn process for user {} has finished", dto.getEmail());
 
@@ -41,12 +42,12 @@ public class SignInUserUseCase {
         }
     }
 
-    private UserModel createModelWithHashedPassword(CreateUserDTO dto) {
+    private CreateUserEntityDTO buildCreationDTOWithHashedPassword(CreateUserDTO dto) {
         logger.info("Creating hash for password");
 
-        UserModel user = userApplicationMapper.toUserModel(dto);
-        user.setHashedPassword(passwordEncoder.encode(dto.getPassword()));
+        String hashedPassword = passwordEncoder.encode(dto.getPassword());
+        CreateUserEntityDTO createUserEntityDTO = userApplicationMapper.toCreateUserEntityDTO(dto, hashedPassword);
 
-        return user;
+        return createUserEntityDTO;
     }
 }

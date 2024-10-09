@@ -1,5 +1,6 @@
 package com.johannag.tapup.users.infrastructure.db.adapter;
 
+import com.johannag.tapup.users.domain.dtos.CreateUserEntityDTO;
 import com.johannag.tapup.users.domain.models.UserModel;
 
 public interface UserRepository {
@@ -15,7 +16,7 @@ public interface UserRepository {
     /**
      * Saves the specified user model to the database.
      *
-     * @param userModel the user model to be saved
+     * @param dto the CreateUserEntityDTO to be saved
      */
-    void create(UserModel userModel);
+    UserModel create(CreateUserEntityDTO dto);
 }

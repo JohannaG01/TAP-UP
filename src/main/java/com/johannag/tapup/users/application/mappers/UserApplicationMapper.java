@@ -1,6 +1,7 @@
 package com.johannag.tapup.users.application.mappers;
 
 import com.johannag.tapup.users.application.dtos.CreateUserDTO;
+import com.johannag.tapup.users.domain.dtos.CreateUserEntityDTO;
 import com.johannag.tapup.users.domain.models.UserModel;
 import com.johannag.tapup.users.presentation.dtos.CreateUserRequestDTO;
 import com.johannag.tapup.users.presentation.dtos.UserResponseDTO;
@@ -16,11 +17,11 @@ public interface UserApplicationMapper {
     CreateUserDTO toCreateUserDTO(CreateUserRequestDTO dto);
 
     /**
-     * Converts a {@link CreateUserDTO} to a {@link UserModel}.
+     * Converts a {@link CreateUserDTO} to a {@link CreateUserEntityDTO}.
      *
      * @param dto the {@link CreateUserDTO} to be converted
-     * @return the corresponding {@link UserModel} representation of the provided DTO
+     * @return the corresponding {@link CreateUserEntityDTO} representation of the provided DTO
      */
-    UserModel toUserModel(CreateUserDTO dto);
+    CreateUserEntityDTO toCreateUserEntityDTO(CreateUserDTO dto, String hashedPassword);
 
 }
