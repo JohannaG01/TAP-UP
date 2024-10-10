@@ -6,8 +6,11 @@ import org.springframework.context.annotation.Configuration;
 
 @Getter
 @Configuration
-public class UserSystemConfig {
+public class JwtConfig {
 
-    @Value("${user.system.admin.id}")
-    private Long adminUserId;
+    @Value("${jwt.expiration-in-seconds}")
+    private Integer expiresInSeconds;
+
+    @Value("${jwt.secret-word}")
+    private String secretWord;
 }

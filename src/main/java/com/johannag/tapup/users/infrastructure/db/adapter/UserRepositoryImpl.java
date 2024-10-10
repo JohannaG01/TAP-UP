@@ -12,6 +12,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @AllArgsConstructor
 public class UserRepositoryImpl implements UserRepository {
@@ -45,5 +47,11 @@ public class UserRepositoryImpl implements UserRepository {
         logger.info("Saved user: {}", userModel.toString());
 
         return userModel;
+    }
+
+    @Override
+    public Optional<UserModel> findByEmail(String email) {
+        return jpaUserRepository.findByEmail(email)
+                .map(userDomainMapper::toModel);
     }
 }

@@ -1,4 +1,4 @@
-package com.johannag.tapup.globals.utils;
+package com.johannag.tapup.utils;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;

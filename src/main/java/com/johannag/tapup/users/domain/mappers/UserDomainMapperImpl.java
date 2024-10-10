@@ -6,7 +6,7 @@ import com.johannag.tapup.users.infrastructure.db.entities.UserEntity;
 import org.modelmapper.TypeMap;
 import org.springframework.stereotype.Component;
 
-import static com.johannag.tapup.globals.utils.ModelMapperUtils.builderTypeMapper;
+import static com.johannag.tapup.utils.ModelMapperUtils.builderTypeMapper;
 
 @Component
 public class UserDomainMapperImpl implements UserDomainMapper {

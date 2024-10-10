@@ -1,8 +1,11 @@
 package com.johannag.tapup.users.application.services;
 
 import com.johannag.tapup.users.application.dtos.CreateUserDTO;
+import com.johannag.tapup.users.application.dtos.LogInUserDTO;
+import com.johannag.tapup.users.application.exceptions.InvalidLoginCredentialsException;
 import com.johannag.tapup.users.application.exceptions.UserAlreadyExistsException;
 import com.johannag.tapup.users.domain.models.UserModel;
+import com.johannag.tapup.users.domain.models.UserWithTokenModel;
 
 public interface UserService {
 
@@ -20,4 +23,15 @@ public interface UserService {
      **/
 
     UserModel signIn(CreateUserDTO dto) throws UserAlreadyExistsException;
+
+    /**
+     * Authenticates a user using the provided login credentials and returns a {@link UserWithTokenModel}.
+     *
+     * @param dto The {@link LogInUserDTO} object containing the user's login credentials.
+     * @return A {@link UserWithTokenModel} object that contains the authenticated user information and a generated
+     * token.
+     * @throws InvalidLoginCredentialsException if the login credentials are invalid, such as incorrect username or
+     * password.
+     */
+    UserWithTokenModel logIn(LogInUserDTO dto) throws InvalidLoginCredentialsException;
 }

@@ -1,4 +1,4 @@
-package com.johannag.tapup.users.presentation.dtos;
+package com.johannag.tapup.users.presentation.dtos.requests;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

@@ -6,17 +6,16 @@ import com.johannag.tapup.users.application.mappers.UserApplicationMapper;
 import com.johannag.tapup.users.domain.dtos.CreateUserEntityDTO;
 import com.johannag.tapup.users.domain.models.UserModel;
 import com.johannag.tapup.users.infrastructure.db.adapter.UserRepository;
+import com.johannag.tapup.utils.PasswordUtils;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
 public class SignInUserUseCase {
 
-    private static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     private static final Logger logger = LogManager.getLogger(SignInUserUseCase.class);
     private UserRepository userRepository;
     private UserApplicationMapper userApplicationMapper;
@@ -44,7 +43,7 @@ public class SignInUserUseCase {
     private CreateUserEntityDTO buildCreationDTOWithHashedPassword(CreateUserDTO dto) {
         logger.info("Creating hash for password");
 
-        String hashedPassword = passwordEncoder.encode(dto.getPassword());
+        String hashedPassword = PasswordUtils.hash(dto.getPassword());
         CreateUserEntityDTO createUserEntityDTO = userApplicationMapper.toCreateUserEntityDTO(dto, hashedPassword);
 
         return createUserEntityDTO;
