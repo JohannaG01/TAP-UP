@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 @Data
-@Builder
+@Builder(builderClassName = "Builder")
 @ToString(exclude = "hashedPassword")
 public class UserModel {
     private UUID uuid;

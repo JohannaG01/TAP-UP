@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 @Value
-@Builder
+@Builder(builderClassName = "Builder")
 @ToString(exclude = "hashedPassword")
 public class CreateUserEntityDTO {
     UUID uuid;
