@@ -7,7 +7,7 @@ import com.johannag.tapup.users.application.exceptions.InvalidLoginCredentialsEx
 import com.johannag.tapup.users.application.exceptions.UserNotFoundException;
 import com.johannag.tapup.users.domain.models.UserModel;
 import com.johannag.tapup.users.domain.models.UserWithTokenModel;
-import com.johannag.tapup.utils.PasswordUtils;
+import com.johannag.tapup.globals.application.utils.PasswordUtils;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

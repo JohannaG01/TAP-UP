@@ -1,4 +1,4 @@
-package com.johannag.tapup.configurations;
+package com.johannag.tapup.tokens.application.configs;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;

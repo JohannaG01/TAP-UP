@@ -1,9 +1,9 @@
 package com.johannag.tapup.tokens.application.useCases;
 
-import com.johannag.tapup.configurations.JwtConfig;
+import com.johannag.tapup.tokens.application.configs.JwtConfig;
 import com.johannag.tapup.tokens.domain.models.TokenModel;
 import com.johannag.tapup.users.domain.models.UserModel;
-import com.johannag.tapup.utils.DateTimeUtils;
+import com.johannag.tapup.globals.application.utils.DateTimeUtils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;

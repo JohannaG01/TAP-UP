@@ -1,6 +1,6 @@
 package com.johannag.tapup.users.infrastructure.db.adapter;
 
-import com.johannag.tapup.configurations.UserSystemConfig;
+import com.johannag.tapup.users.application.configs.UserSystemConfig;
 import com.johannag.tapup.users.domain.dtos.CreateUserEntityDTO;
 import com.johannag.tapup.users.domain.mappers.UserDomainMapper;
 import com.johannag.tapup.users.domain.models.UserModel;

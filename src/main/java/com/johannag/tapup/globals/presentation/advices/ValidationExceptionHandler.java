@@ -1,7 +1,7 @@
 package com.johannag.tapup.globals.presentation.advices;
 
 import com.johannag.tapup.globals.presentation.errors.ValidationErrorResponse;
-import com.johannag.tapup.utils.DateTimeUtils;
+import com.johannag.tapup.globals.application.utils.DateTimeUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

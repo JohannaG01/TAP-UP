@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-import static com.johannag.tapup.utils.ModelMapperUtils.builderTypeMapper;
+import static com.johannag.tapup.globals.application.utils.ModelMapperUtils.builderTypeMapper;
 
 @Component
 public class UserApplicationMapperImpl implements UserApplicationMapper {

@@ -5,8 +5,8 @@ import jakarta.validation.constraints.Pattern;
 import lombok.Builder;
 import lombok.Value;
 
-import static com.johannag.tapup.globals.domain.constants.Regex.EMAIL_RGX;
-import static com.johannag.tapup.globals.domain.constants.ValidationMessages.EMAIL_VALIDATION_MSG;
+import static com.johannag.tapup.globals.presentation.constants.Regex.EMAIL_RGX;
+import static com.johannag.tapup.globals.presentation.constants.ValidationMessages.EMAIL_VALIDATION_MSG;
 
 @Value
 @Builder

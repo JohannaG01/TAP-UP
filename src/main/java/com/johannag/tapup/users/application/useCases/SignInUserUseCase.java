@@ -6,7 +6,7 @@ import com.johannag.tapup.users.application.mappers.UserApplicationMapper;
 import com.johannag.tapup.users.domain.dtos.CreateUserEntityDTO;
 import com.johannag.tapup.users.domain.models.UserModel;
 import com.johannag.tapup.users.infrastructure.db.adapter.UserRepository;
-import com.johannag.tapup.utils.PasswordUtils;
+import com.johannag.tapup.globals.application.utils.PasswordUtils;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,6 +35,7 @@ public class SignInUserUseCase {
     private void validateUserDoesNotExistsOrThrow(String email) throws UserAlreadyExistsException {
         logger.info("Checking if user exists with email {}", email);
 
+        //Create useCase for this
         if (userRepository.userExists(email)) {
             throw new UserAlreadyExistsException(email);
         }

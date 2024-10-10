@@ -1,16 +1,21 @@
-package com.johannag.tapup.configurations;
+package com.johannag.tapup.security.presentation.configs;
 
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
+@AllArgsConstructor
 public class SecurityConfig {
+
+    private final AuthenticationEntryPoint authenticationEntryPoint;
 
     /**
      * Configures the security filter chain for the application.
@@ -33,44 +38,34 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        // Disable CSRF
-        http.csrf(AbstractHttpConfigurer::disable);
-
-        // Establish session management
-        http.sessionManagement(sessionManagement ->
-                sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-
-        // Configure Error handling for unauthorized request
-        //http.exceptionHandling(
-        //        errorHandling -> errorHandling.authenticationEntryPoint(customAuthenticationEntryPoint));
-
-        // Set permissions on endpoints
-        http.authorizeHttpRequests(authorize ->
-                authorize.requestMatchers("/api/v1")
-                        .permitAll()
-                        .requestMatchers("/api/v1/healthcheck/**")
-                        .permitAll()
-                        .requestMatchers("/api/v1/version")
-                        .permitAll()
-                        .requestMatchers("/api-docs/**")
-                        .permitAll()
-                        .requestMatchers("/swagger-ui/**")
-                        .permitAll()
-                        .requestMatchers("/docs")
-                        .permitAll()
-                        .requestMatchers("/error/**")
-                        .permitAll()
-                        .requestMatchers("/api/v1/users")
-                        .permitAll()
-                        .requestMatchers("/api/v1/login")
-                        .permitAll()
-                        .anyRequest()
-                        .authenticated()
-        );
+        return http
+                .csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .exceptionHandling(exception -> exception.authenticationEntryPoint(authenticationEntryPoint))
+                .authorizeHttpRequests(authorize ->
+                        authorize.requestMatchers("/api/v1")
+                                .permitAll()
+                                .requestMatchers("/api/v1/healthcheck/**")
+                                .permitAll()
+                                .requestMatchers("/api/v1/version")
+                                .permitAll()
+                                .requestMatchers("/api-docs/**")
+                                .permitAll()
+                                .requestMatchers("/swagger-ui/**")
+                                .permitAll()
+                                .requestMatchers("/docs")
+                                .permitAll()
+                                .requestMatchers("/error/**")
+                                .permitAll()
+                                .requestMatchers("/api/v1/users")
+                                .permitAll()
+                                .requestMatchers("/api/v1/login")
+                                .permitAll()
+                                .anyRequest()
+                                .authenticated())
+                .build();
 
         // Add Authorization filter
         //http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-
-        return http.build();
     }
 }

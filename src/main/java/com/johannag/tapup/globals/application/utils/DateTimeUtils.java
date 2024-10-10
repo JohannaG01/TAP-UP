@@ -1,4 +1,4 @@
-package com.johannag.tapup.utils;
+package com.johannag.tapup.globals.application.utils;
 
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
