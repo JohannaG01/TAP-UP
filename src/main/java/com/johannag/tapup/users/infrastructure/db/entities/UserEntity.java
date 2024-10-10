@@ -13,7 +13,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Builder(builderClassName = "Builder")
 @Entity
 @Table(name = "users")
 public class UserEntity {
@@ -48,7 +48,7 @@ public class UserEntity {
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    @Column(name = "created_by", nullable = false, updatable = false)
+    @Column(name = "created_by", nullable = false)
     private Long createdBy;
 
     @UpdateTimestamp
