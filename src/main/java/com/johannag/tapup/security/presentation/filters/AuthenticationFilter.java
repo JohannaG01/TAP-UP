@@ -19,23 +19,17 @@ import java.util.Optional;
 @Component
 @AllArgsConstructor
 public class AuthenticationFilter extends OncePerRequestFilter {
+
     private RequestMappingHandlerMapping requestMappingHandlerMapping;
     private static final Logger logger = LogManager.getLogger(AuthenticationFilter.class);
-
     private static final List<String> AUTH_HEADER_NAMES = List.of("Authorization", "authorization");
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
-        Optional<String> maybeToken = maybeAuthorizationToken(request);
-
-        if (!pathExists(request) || (maybeToken.isEmpty())) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
-        authenticateOnContextForJwt(maybeToken.get());
+        maybeAuthorizationToken(request)
+                .ifPresent(token -> attemptAuthentication(request, token));
 
         filterChain.doFilter(request, response);
     }
@@ -47,17 +41,27 @@ public class AuthenticationFilter extends OncePerRequestFilter {
                 .findFirst();
     }
 
+    private void attemptAuthentication(HttpServletRequest request, String token) {
+        if (pathExists(request)) {
+            authenticateOnContextForJwt(token);
+        }
+    }
+
     private boolean pathExists(HttpServletRequest request) {
+        boolean exists;
+
         try {
-            if (requestMappingHandlerMapping.getHandler(request) == null) {
-                logger.warn("Accessed path {} does not exists", request.getServletPath());
-                return false;
-            }
-            return true;
+            exists = requestMappingHandlerMapping.getHandler(request) != null;
         } catch (Exception e) {
-            logger.error("An error occurred while verifying whether or not the path exists. Error: {}", e.getMessage());
+            logger.error("Error verifying path existence for {}: {}", request.getServletPath(), e.getMessage(), e);
             return false;
         }
+
+        if (!exists) {
+            logger.warn("Accessed path {} does not exist", request.getServletPath());
+        }
+
+        return exists;
     }
 
     //TODO this in tokenService

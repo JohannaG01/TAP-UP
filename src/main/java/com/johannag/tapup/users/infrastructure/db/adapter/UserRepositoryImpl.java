@@ -50,7 +50,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public Optional<UserModel> findByEmail(String email) {
+    public Optional<UserModel> findMaybeByEmail(String email) {
         return jpaUserRepository.findByEmail(email)
                 .map(userDomainMapper::toModel);
     }

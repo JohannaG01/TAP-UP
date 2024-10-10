@@ -19,7 +19,7 @@ public class FindUserByEmailUseCase {
         logger.info("Starting FindUserByEmail process for email: [{}]", email);
 
         UserModel user = userRepository
-                .findByEmail(email)
+                .findMaybeByEmail(email)
                 .orElseThrow(() -> new UserNotFoundException(email));
 
         logger.info("Finished FindUserByEmail process for email: [{}]", email);

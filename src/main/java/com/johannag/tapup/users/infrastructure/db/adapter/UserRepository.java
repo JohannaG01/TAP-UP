@@ -29,5 +29,5 @@ public interface UserRepository {
      * @return An {@link Optional} containing the {@link UserModel} if a user is found, or an empty {@link Optional}
      * if no user exists with the given email.
      */
-    Optional<UserModel> findByEmail(String email);
+    Optional<UserModel> findMaybeByEmail(String email);
 }
