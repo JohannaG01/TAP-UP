@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * Utility class for date and time operations in the Buenos Aires time zone.
@@ -49,5 +50,9 @@ public class DateTimeUtils {
         return date.toInstant()
                 .atZone(buenosAiresZoneId())
                 .toLocalDateTime();
+    }
+
+    public static TimeZone buenosAiresTimeZone() {
+        return TimeZone.getTimeZone(buenosAiresZoneId());
     }
 }

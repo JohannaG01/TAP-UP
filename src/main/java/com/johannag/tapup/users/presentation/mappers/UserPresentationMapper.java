@@ -1,9 +1,9 @@
 package com.johannag.tapup.users.presentation.mappers;
 
 import com.johannag.tapup.users.domain.models.UserModel;
-import com.johannag.tapup.users.domain.models.UserWithTokenModel;
+import com.johannag.tapup.users.domain.models.UserWithAuthTokenModel;
 import com.johannag.tapup.users.presentation.dtos.responses.UserResponseDTO;
-import com.johannag.tapup.users.presentation.dtos.responses.UserWithTokenResponseDTO;
+import com.johannag.tapup.users.presentation.dtos.responses.UserWithAuthTokenResponseDTO;
 
 public interface UserPresentationMapper {
 
@@ -16,11 +16,11 @@ public interface UserPresentationMapper {
     UserResponseDTO toUserResponseDTO(UserModel userModel);
 
     /**
-     * Converts a {@link UserWithTokenModel} object into a {@link UserWithTokenResponseDTO} object.
+     * Converts a {@link UserWithAuthTokenModel} object into a {@link UserWithAuthTokenResponseDTO} object.
      *
-     * @param userWithTokenModel The {@link UserWithTokenModel} object containing user data and token.
-     * @return A {@link UserWithTokenResponseDTO} object representing the user data and token formatted for the
+     * @param userWithAuthTokenModel The {@link UserWithAuthTokenModel} object containing user data and token.
+     * @return A {@link UserWithAuthTokenResponseDTO} object representing the user data and token formatted for the
      * response.
      */
-    UserWithTokenResponseDTO toUserWithTokenResponseDTO(UserWithTokenModel userWithTokenModel);
+    UserWithAuthTokenResponseDTO toUserWithTokenResponseDTO(UserWithAuthTokenModel userWithAuthTokenModel);
 }

@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS notifications
     updated_by BIGINT    NOT NULL REFERENCES users (id),
     CONSTRAINT cck_type CHECK (type in ('INFO', 'WARNING', 'ERROR', 'SUCCESS', 'REMINDER')),
     CONSTRAINT cck_message_not_empty CHECK (TRIM(message) <> ''),
-    CONSTRAINT cck_sent_at_not_future CHECK (sent_at <= NOW())
+    CONSTRAINT cck_sent_at_not_future CHECK (sent_at <= (NOW() AT TIME ZONE 'UTC' AT TIME ZONE 'America/Buenos_Aires'))
 );
 
 CREATE TABLE IF NOT EXISTS horse_races
@@ -48,8 +48,8 @@ CREATE TABLE IF NOT EXISTS horse_races
     created_by BIGINT    NOT NULL REFERENCES users (id),
     updated_at TIMESTAMP NOT NULL,
     updated_by BIGINT    NOT NULL REFERENCES users (id),
-    CONSTRAINT cck_start_time_not_future CHECK (start_time <= NOW()),
-    CONSTRAINT cck_end_time_not_future CHECK (end_time <= NOW()),
+    CONSTRAINT cck_start_time_not_future CHECK (start_time <= (NOW() AT TIME ZONE 'UTC' AT TIME ZONE 'America/Buenos_Aires')),
+    CONSTRAINT cck_end_time_not_future CHECK (end_time <= (NOW() AT TIME ZONE 'UTC' AT TIME ZONE 'America/Buenos_Aires')),
     CONSTRAINT cck_state CHECK (state in ('SCHEDULED', 'FINISHED', 'CANCELED'))
 );
 

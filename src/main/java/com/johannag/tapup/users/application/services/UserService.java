@@ -4,8 +4,9 @@ import com.johannag.tapup.users.application.dtos.CreateUserDTO;
 import com.johannag.tapup.users.application.dtos.LogInUserDTO;
 import com.johannag.tapup.users.application.exceptions.InvalidLoginCredentialsException;
 import com.johannag.tapup.users.application.exceptions.UserAlreadyExistsException;
+import com.johannag.tapup.users.application.exceptions.UserNotFoundException;
 import com.johannag.tapup.users.domain.models.UserModel;
-import com.johannag.tapup.users.domain.models.UserWithTokenModel;
+import com.johannag.tapup.users.domain.models.UserWithAuthTokenModel;
 
 public interface UserService {
 
@@ -25,13 +26,22 @@ public interface UserService {
     UserModel signIn(CreateUserDTO dto) throws UserAlreadyExistsException;
 
     /**
-     * Authenticates a user using the provided login credentials and returns a {@link UserWithTokenModel}.
+     * Authenticates a user using the provided login credentials and returns a {@link UserWithAuthTokenModel}.
      *
      * @param dto The {@link LogInUserDTO} object containing the user's login credentials.
-     * @return A {@link UserWithTokenModel} object that contains the authenticated user information and a generated
+     * @return A {@link UserWithAuthTokenModel} object that contains the authenticated user information and a generated
      * token.
      * @throws InvalidLoginCredentialsException if the login credentials are invalid, such as incorrect username or
      * password.
      */
-    UserWithTokenModel logIn(LogInUserDTO dto) throws InvalidLoginCredentialsException;
+    UserWithAuthTokenModel logIn(LogInUserDTO dto) throws InvalidLoginCredentialsException;
+
+    /**
+     * Retrieves a user by their email address.
+     *
+     * @param email the email address of the user to be retrieved. It must be a valid email format.
+     * @return the UserModel associated with the given email address.
+     * @throws UserNotFoundException if no user is found with the specified email address.
+     */
+    UserModel findByEmail(String email) throws UserNotFoundException;
 }

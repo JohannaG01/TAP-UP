@@ -3,9 +3,9 @@ package com.johannag.tapup.globals.presentation.advices;
 import com.johannag.tapup.globals.application.exceptions.ApiException;
 import com.johannag.tapup.globals.presentation.errors.ErrorResponse;
 import com.johannag.tapup.globals.application.utils.DateTimeUtils;
+import com.johannag.tapup.globals.utils.Logger;
 import jakarta.servlet.http.HttpServletRequest;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.java.Log;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ import org.springframework.web.method.HandlerMethod;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    private static final Logger logger = LogManager.getLogger(GlobalExceptionHandler.class);
+    private static final Logger logger = Logger.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler(ApiException.class)
     public ResponseEntity<ErrorResponse> handleApiException(

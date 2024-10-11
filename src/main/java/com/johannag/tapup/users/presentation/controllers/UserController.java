@@ -6,11 +6,11 @@ import com.johannag.tapup.users.application.exceptions.UserAlreadyExistsExceptio
 import com.johannag.tapup.users.application.mappers.UserApplicationMapper;
 import com.johannag.tapup.users.application.services.UserService;
 import com.johannag.tapup.users.domain.models.UserModel;
-import com.johannag.tapup.users.domain.models.UserWithTokenModel;
+import com.johannag.tapup.users.domain.models.UserWithAuthTokenModel;
 import com.johannag.tapup.users.presentation.dtos.requests.CreateUserRequestDTO;
 import com.johannag.tapup.users.presentation.dtos.requests.LogInUserRequestDTO;
 import com.johannag.tapup.users.presentation.dtos.responses.UserResponseDTO;
-import com.johannag.tapup.users.presentation.dtos.responses.UserWithTokenResponseDTO;
+import com.johannag.tapup.users.presentation.dtos.responses.UserWithAuthTokenResponseDTO;
 import com.johannag.tapup.users.presentation.mappers.UserPresentationMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -40,11 +40,11 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserWithTokenResponseDTO> logIn(@Valid @RequestBody LogInUserRequestDTO createUserRequestDTO) {
+    public ResponseEntity<UserWithAuthTokenResponseDTO> logIn(@Valid @RequestBody LogInUserRequestDTO createUserRequestDTO) {
 
         LogInUserDTO logInUserDTO = userApplicationMapper.toLogInUserDTO(createUserRequestDTO);
-        UserWithTokenModel userWithToken = userService.logIn(logInUserDTO);
-        UserWithTokenResponseDTO response = userPresentationMapper.toUserWithTokenResponseDTO(userWithToken);
+        UserWithAuthTokenModel userWithToken = userService.logIn(logInUserDTO);
+        UserWithAuthTokenResponseDTO response = userPresentationMapper.toUserWithTokenResponseDTO(userWithToken);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

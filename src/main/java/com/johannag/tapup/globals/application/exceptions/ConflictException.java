@@ -3,7 +3,6 @@ package com.johannag.tapup.globals.application.exceptions;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-@Getter
 public abstract class ConflictException extends ApiException {
 
     public ConflictException(String message) {

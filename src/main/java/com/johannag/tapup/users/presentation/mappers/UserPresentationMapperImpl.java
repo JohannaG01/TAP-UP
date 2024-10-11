@@ -1,11 +1,11 @@
 package com.johannag.tapup.users.presentation.mappers;
 
-import com.johannag.tapup.tokens.presentation.dtos.responses.TokenResponseDTO;
-import com.johannag.tapup.tokens.presentation.mappers.TokenPresentationMapper;
+import com.johannag.tapup.authentication.presentation.dtos.responses.TokenResponseDTO;
+import com.johannag.tapup.authentication.presentation.mappers.TokenPresentationMapper;
 import com.johannag.tapup.users.domain.models.UserModel;
-import com.johannag.tapup.users.domain.models.UserWithTokenModel;
+import com.johannag.tapup.users.domain.models.UserWithAuthTokenModel;
 import com.johannag.tapup.users.presentation.dtos.responses.UserResponseDTO;
-import com.johannag.tapup.users.presentation.dtos.responses.UserWithTokenResponseDTO;
+import com.johannag.tapup.users.presentation.dtos.responses.UserWithAuthTokenResponseDTO;
 import lombok.AllArgsConstructor;
 import org.modelmapper.TypeMap;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,15 +19,11 @@ public class UserPresentationMapperImpl implements UserPresentationMapper {
 
     private final TokenPresentationMapper tokenPresentationMapper;
     private final TypeMap<UserModel, UserResponseDTO.Builder> userResponseDTOMapper;
-    private final TypeMap<UserWithTokenModel, UserWithTokenResponseDTO.Builder> userWithTokenResponseDTOMapper;
 
     @Autowired
     public UserPresentationMapperImpl(TokenPresentationMapper tokenPresentationMapper) {
         this.tokenPresentationMapper = tokenPresentationMapper;
-
         userResponseDTOMapper = builderTypeMapper(UserModel.class, UserResponseDTO.Builder.class);
-        userWithTokenResponseDTOMapper = builderTypeMapper(UserWithTokenModel.class,
-                UserWithTokenResponseDTO.Builder.class);
     }
 
     @Override
@@ -38,11 +34,12 @@ public class UserPresentationMapperImpl implements UserPresentationMapper {
     }
 
     @Override
-    public UserWithTokenResponseDTO toUserWithTokenResponseDTO(UserWithTokenModel userWithTokenModel) {
-        TokenResponseDTO tokenResponseDTO = tokenPresentationMapper.toTokenResponseDTO(userWithTokenModel.getToken());
-        UserResponseDTO userResponseDTO = toUserResponseDTO(userWithTokenModel.getUser());
+    public UserWithAuthTokenResponseDTO toUserWithTokenResponseDTO(UserWithAuthTokenModel userWithAuthTokenModel) {
+        TokenResponseDTO tokenResponseDTO =
+                tokenPresentationMapper.toTokenResponseDTO(userWithAuthTokenModel.getToken());
+        UserResponseDTO userResponseDTO = toUserResponseDTO(userWithAuthTokenModel.getUser());
 
-        return UserWithTokenResponseDTO.builder()
+        return UserWithAuthTokenResponseDTO.builder()
                 .token(tokenResponseDTO)
                 .user(userResponseDTO)
                 .build();

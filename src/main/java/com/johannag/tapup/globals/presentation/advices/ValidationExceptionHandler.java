@@ -2,9 +2,8 @@ package com.johannag.tapup.globals.presentation.advices;
 
 import com.johannag.tapup.globals.presentation.errors.ValidationErrorResponse;
 import com.johannag.tapup.globals.application.utils.DateTimeUtils;
+import com.johannag.tapup.globals.utils.Logger;
 import jakarta.servlet.http.HttpServletRequest;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +22,7 @@ import java.util.stream.Collectors;
 @RestControllerAdvice()
 public class ValidationExceptionHandler {
 
-    private static final Logger logger = LogManager.getLogger(ValidationExceptionHandler.class);
+    private static final Logger logger = Logger.getLogger(ValidationExceptionHandler.class);
 
     @ExceptionHandler({MethodArgumentNotValidException.class})
     public ResponseEntity<ValidationErrorResponse> handleMethodArgumentNotValidException(
