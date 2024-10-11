@@ -47,7 +47,7 @@ public class HorseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "sex", nullable = false)
-    private SexEntity type;
+    private SexEntity sex;
 
     @Column(name = "color", nullable = false)
     private String color;

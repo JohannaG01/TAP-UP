@@ -17,8 +17,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final ValidateJwtTokenUseCase validateJwtTokenUseCase;
 
     @Override
-    public AuthTokenModel createJwtToken(UserModel user) {
-        return createJWTTokenUseCase.execute(user);
+    public AuthTokenModel createJwtToken(Long id, UserModel user) {
+        return createJWTTokenUseCase.execute(id, user);
     }
 
     @Override

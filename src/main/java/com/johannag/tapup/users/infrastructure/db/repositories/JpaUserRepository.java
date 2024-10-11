@@ -57,4 +57,18 @@ public interface JpaUserRepository extends JpaRepository<UserEntity, Long> {
     @Query("SELECT u FROM UserEntity u WHERE u.uuid = :uuid")
     UserEntity findOneByUuidForUpdate(UUID uuid);
 
+    /**
+     * Retrieves the user ID associated with the specified email address.
+     *
+     * <p>This method searches for a user in the system using their email address
+     * and returns the unique identifier of the user if found. If no user is found
+     * with the given email, the method will return {@code null}.</p>
+     *
+     * @param email the email address of the user to search for
+     * @return the unique identifier of the user, or {@code null} if no user is found
+     */
+
+    @Query("SELECT u.id FROM UserEntity u WHERE u.email = :email")
+    Long findIdByEmail(String email);
+
 }

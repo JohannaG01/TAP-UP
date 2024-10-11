@@ -8,6 +8,7 @@ import java.util.UUID;
 @Value
 @Builder(builderClassName = "Builder")
 public class UserOnContext {
+    Long id;
     UUID uuid;
     String email;
     String name;

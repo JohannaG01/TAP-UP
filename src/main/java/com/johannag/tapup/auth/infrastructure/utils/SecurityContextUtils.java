@@ -53,6 +53,21 @@ public class SecurityContextUtils {
                 .map(Stream::toList);
     }
 
+    /**
+     * Retrieves the ID of the user currently in context.
+     *
+     * <p>This method attempts to obtain the ID of the user that is currently
+     * associated with the context. If there is a user present in the context,
+     * the method will return the user's unique identifier. If no user is found,
+     * the method will return {@code null}.</p>
+     *
+     * @return the unique identifier of the user in context, or {@code null} if no user is present
+     */
+    public static Long userOnContextId(){
+        return maybeUserOnContext()
+                .map(UserOnContext::getId)
+                .orElse(null);
+    }
 
     /**
      * Converts a {@link GrantedAuthority} to a {@link RoleOnContext}.
