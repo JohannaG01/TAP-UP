@@ -1,5 +1,7 @@
 package com.johannag.tapup.users.infrastructure.db.entities;
 
+import com.johannag.tapup.bets.infrastructure.db.entities.BetEntity;
+import com.johannag.tapup.notifications.infrastructure.db.entities.NotificationEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -7,6 +9,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -25,6 +29,12 @@ public class UserEntity {
 
     @Column(name = "uuid", nullable = false, updatable = false)
     private UUID uuid;
+
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    private List<NotificationEntity> notifications = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    private List<BetEntity> bets = new ArrayList<>();
 
     @Column(name = "email", nullable = false, updatable = false)
     private String email;
