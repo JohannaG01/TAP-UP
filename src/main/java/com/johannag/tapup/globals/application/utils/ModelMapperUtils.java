@@ -16,10 +16,10 @@ public class ModelMapperUtils {
     /**
      * Creates a TypeMap for mapping between a source class and a destination builder class.
      *
-     * @param sourceClass the class of the source object to be mapped
+     * @param sourceClass             the class of the source object to be mapped
      * @param destinationBuilderClass the class of the destination builder object
-     * @param <Source> the type of the source object
-     * @param <DestinationBuilder> the type of the destination builder object
+     * @param <Source>                the type of the source object
+     * @param <DestinationBuilder>    the type of the destination builder object
      * @return a TypeMap for the specified source and destination builder classes
      */
     public static <Source, DestinationBuilder> TypeMap<Source, DestinationBuilder> builderTypeMapper(

@@ -1,11 +1,10 @@
 package com.johannag.tapup.globals.presentation.advices;
 
 import com.johannag.tapup.globals.application.exceptions.ApiException;
-import com.johannag.tapup.globals.presentation.errors.ErrorResponse;
 import com.johannag.tapup.globals.application.utils.DateTimeUtils;
+import com.johannag.tapup.globals.presentation.errors.ErrorResponse;
 import com.johannag.tapup.globals.utils.Logger;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.extern.java.Log;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -9,9 +9,7 @@ import com.johannag.tapup.users.infrastructure.framework.context.UserOnContext;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -31,10 +29,9 @@ import static com.johannag.tapup.users.infrastructure.framework.context.RoleOnCo
 @RequiredArgsConstructor(onConstructor_ = {@Lazy})
 public class ValidateJwtTokenUseCase {
 
+    private static final Logger logger = Logger.getLogger(ValidateJwtTokenUseCase.class);
     private final UserService userService;
     private final JwtConfig jwtConfig;
-    private static final Logger logger = Logger.getLogger(ValidateJwtTokenUseCase.class);
-
 
     public void execute(String bearerToken) throws JwtTokenInvalidException {
         logger.debug("Authenticating JWT token {}", bearerToken);

@@ -20,10 +20,10 @@ import java.util.Optional;
 @AllArgsConstructor
 public class AuthenticationFilter extends OncePerRequestFilter {
 
-    private final RequestMappingHandlerMapping requestMappingHandlerMapping;
-    private final AuthenticationService authenticationService;
     private static final Logger logger = Logger.getLogger(AuthenticationFilter.class);
     private static final List<String> AUTH_HEADER_NAMES = List.of("Authorization", "authorization");
+    private final RequestMappingHandlerMapping requestMappingHandlerMapping;
+    private final AuthenticationService authenticationService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,

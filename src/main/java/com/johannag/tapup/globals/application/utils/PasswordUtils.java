@@ -21,7 +21,7 @@ public class PasswordUtils {
     /**
      * Checks if a plain text password matches a previously hashed password.
      *
-     * @param password the plain text password to check
+     * @param password       the plain text password to check
      * @param hashedPassword the hashed password to compare against
      * @return true if the passwords match, false otherwise
      */

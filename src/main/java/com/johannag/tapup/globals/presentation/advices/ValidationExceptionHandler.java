@@ -1,7 +1,7 @@
 package com.johannag.tapup.globals.presentation.advices;
 
-import com.johannag.tapup.globals.presentation.errors.ValidationErrorResponse;
 import com.johannag.tapup.globals.application.utils.DateTimeUtils;
+import com.johannag.tapup.globals.presentation.errors.ValidationErrorResponse;
 import com.johannag.tapup.globals.utils.Logger;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.annotation.Order;
@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
@@ -74,9 +75,17 @@ public class ValidationExceptionHandler {
 
     private List<ValidationErrorResponse.FieldError> buildTypeMismatchFieldErrors(MethodArgumentTypeMismatchException ex) {
         return List.of(ValidationErrorResponse.FieldError.builder()
-                .field(ex.getPropertyName())
+                .field(extractPropertyName(ex))
                 .message(buildTypeMismatchErrorMessage(ex))
                 .build());
+    }
+
+    private String extractPropertyName(MethodArgumentTypeMismatchException ex) {
+        if (ex.getParameter().hasParameterAnnotation(RequestParam.class)) {
+            return String.format("param.%s", ex.getPropertyName());
+        }
+
+        return ex.getPropertyName();
     }
 
     private String buildTypeMismatchErrorMessage(MethodArgumentTypeMismatchException ex) {

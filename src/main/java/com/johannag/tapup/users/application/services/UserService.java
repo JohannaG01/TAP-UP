@@ -32,7 +32,7 @@ public interface UserService {
      * @return A {@link UserWithAuthTokenModel} object that contains the authenticated user information and a generated
      * token.
      * @throws InvalidLoginCredentialsException if the login credentials are invalid, such as incorrect username or
-     * password.
+     *                                          password.
      */
     UserWithAuthTokenModel logIn(LogInUserDTO dto) throws InvalidLoginCredentialsException;
 

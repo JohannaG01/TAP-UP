@@ -1,5 +1,6 @@
 package com.johannag.tapup.users.application.useCases;
 
+import com.johannag.tapup.globals.application.utils.PasswordUtils;
 import com.johannag.tapup.globals.utils.Logger;
 import com.johannag.tapup.users.application.dtos.CreateUserDTO;
 import com.johannag.tapup.users.application.exceptions.UserAlreadyExistsException;
@@ -7,7 +8,6 @@ import com.johannag.tapup.users.application.mappers.UserApplicationMapper;
 import com.johannag.tapup.users.domain.dtos.CreateUserEntityDTO;
 import com.johannag.tapup.users.domain.models.UserModel;
 import com.johannag.tapup.users.infrastructure.db.adapter.UserRepository;
-import com.johannag.tapup.globals.application.utils.PasswordUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
