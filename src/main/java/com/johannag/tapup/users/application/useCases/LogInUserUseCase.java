@@ -1,7 +1,7 @@
 package com.johannag.tapup.users.application.useCases;
 
-import com.johannag.tapup.authentication.application.services.AuthenticationService;
-import com.johannag.tapup.authentication.domain.models.AuthTokenModel;
+import com.johannag.tapup.auth.application.services.AuthenticationService;
+import com.johannag.tapup.auth.domain.models.AuthTokenModel;
 import com.johannag.tapup.globals.application.utils.PasswordUtils;
 import com.johannag.tapup.globals.infrastructure.utils.Logger;
 import com.johannag.tapup.users.application.dtos.LogInUserDTO;

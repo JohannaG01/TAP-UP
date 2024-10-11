@@ -1,5 +1,6 @@
 package com.johannag.tapup.globals.infrastructure.utils;
 
+import com.johannag.tapup.auth.infrastructure.utils.SecurityContextUtils;
 import com.johannag.tapup.users.infrastructure.framework.context.UserOnContext;
 import org.apache.logging.log4j.LogManager;
 

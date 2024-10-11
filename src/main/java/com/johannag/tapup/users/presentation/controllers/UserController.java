@@ -1,5 +1,6 @@
 package com.johannag.tapup.users.presentation.controllers;
 
+import com.johannag.tapup.auth.presentation.annotations.Authorize;
 import com.johannag.tapup.users.application.dtos.AddUserFundsDTO;
 import com.johannag.tapup.users.application.dtos.CreateUserDTO;
 import com.johannag.tapup.users.application.dtos.LogInUserDTO;
@@ -18,6 +19,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -53,6 +55,8 @@ public class UserController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @Authorize
+    @PreAuthorize("hasAnyAuthority({'ADMIN', 'REGULAR'})")
     @PostMapping("/users/{userUuid}/transactions")
     public ResponseEntity<UserResponseDTO> addFunds(@PathVariable UUID userUuid,
                                                     @Valid @RequestBody AddUserFundsRequestDTO createUserRequestDTO) {

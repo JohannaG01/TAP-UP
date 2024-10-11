@@ -1,6 +1,6 @@
 package com.johannag.tapup.users.domain.models;
 
-import com.johannag.tapup.authentication.domain.models.AuthTokenModel;
+import com.johannag.tapup.auth.domain.models.AuthTokenModel;
 import lombok.Builder;
 import lombok.Data;
 

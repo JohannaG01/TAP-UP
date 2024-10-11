@@ -1,6 +1,6 @@
 package com.johannag.tapup.globals.presentation.advices;
 
-import com.johannag.tapup.authorization.infrastructure.framework.exceptions.ForbiddenException;
+import com.johannag.tapup.auth.infrastructure.framework.exceptions.ForbiddenException;
 import com.johannag.tapup.globals.application.exceptions.ApiException;
 import com.johannag.tapup.globals.application.utils.DateTimeUtils;
 import com.johannag.tapup.globals.presentation.errors.ErrorResponse;
@@ -10,6 +10,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.HandlerMethod;
@@ -34,6 +35,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ForbiddenException.class)
     public ResponseEntity<ErrorResponse> handleForbiddenException(
+            Exception ex, HandlerMethod handlerMethod, HttpServletRequest request) {
+        return handleErrorResponse(ex, handlerMethod, request, HttpStatus.FORBIDDEN, null);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ErrorResponse> handleAccessDeniedException(
             Exception ex, HandlerMethod handlerMethod, HttpServletRequest request) {
         return handleErrorResponse(ex, handlerMethod, request, HttpStatus.FORBIDDEN, null);
     }
