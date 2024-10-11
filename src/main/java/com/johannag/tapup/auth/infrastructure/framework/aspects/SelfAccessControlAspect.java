@@ -1,7 +1,7 @@
 package com.johannag.tapup.auth.infrastructure.framework.aspects;
 
-import com.johannag.tapup.auth.infrastructure.framework.exceptions.AuthorizeAspectException;
 import com.johannag.tapup.auth.infrastructure.framework.exceptions.ForbiddenException;
+import com.johannag.tapup.auth.infrastructure.framework.exceptions.UnexpectedSelfAccessControlException;
 import com.johannag.tapup.auth.infrastructure.utils.SecurityContextUtils;
 import com.johannag.tapup.globals.infrastructure.utils.Logger;
 import com.johannag.tapup.users.infrastructure.framework.context.RoleOnContext;
@@ -24,7 +24,8 @@ public class SelfAccessControlAspect {
     private final Logger logger = Logger.getLogger(this.getClass());
 
     @Before("@annotation(com.johannag.tapup.auth.presentation.annotations.SelfAccessControl) && args(userUuid,..)")
-    public void authorize(JoinPoint joinPoint, UUID userUuid) throws ForbiddenException, AuthorizeAspectException {
+    public void authorize(JoinPoint joinPoint, UUID userUuid) throws ForbiddenException,
+            UnexpectedSelfAccessControlException {
 
         logger.debug("Starting authorize process for user {}", userUuid);
 
@@ -49,15 +50,17 @@ public class SelfAccessControlAspect {
         return requiredRoles.contains(RoleOnContext.ADMIN);
     }
 
-    private void validatePreAuthorizeAnnotationIsPresentOrThrow(Method method) throws AuthorizeAspectException {
+    private void validatePreAuthorizeAnnotationIsPresentOrThrow(Method method) throws UnexpectedSelfAccessControlException {
         if (!method.isAnnotationPresent(PreAuthorize.class)) {
-            throw new AuthorizeAspectException("@Authorize must be use with @PreAuthorize and hasAnyAuthority()");
+            throw new UnexpectedSelfAccessControlException("@Authorize must be use with @PreAuthorize and " +
+                    "hasAnyAuthority()");
         }
     }
 
-    private void validateHasAnyAuthorityMethodIsPresentOrThrow(String rolesExpression) throws AuthorizeAspectException {
+    private void validateHasAnyAuthorityMethodIsPresentOrThrow(String rolesExpression) throws UnexpectedSelfAccessControlException {
         if (!rolesExpression.startsWith("hasAnyAuthority(")) {
-            throw new AuthorizeAspectException("@Authorize must be use with @PreAuthorize and hasAnyAuthority()");
+            throw new UnexpectedSelfAccessControlException("@Authorize must be use with @PreAuthorize and " +
+                    "hasAnyAuthority()");
         }
     }
 
@@ -79,16 +82,18 @@ public class SelfAccessControlAspect {
                 .toList();
     }
 
-    private boolean isUserOnContextAdmin() throws AuthorizeAspectException {
+    private boolean isUserOnContextAdmin() throws UnexpectedSelfAccessControlException {
         List<RoleOnContext> rolesOnContexts = SecurityContextUtils.maybeRolesOnContext()
-                .orElseThrow(() -> new AuthorizeAspectException("UserOnContext must be present for @Authorize"));
+                .orElseThrow(() -> new UnexpectedSelfAccessControlException("UserOnContext must be present for " +
+                        "@Authorize"));
 
         return rolesOnContexts.contains(RoleOnContext.ADMIN);
     }
 
     private UUID userOnContextUUID() {
         return SecurityContextUtils.maybeUserUuid()
-                .orElseThrow(() -> new AuthorizeAspectException("UserOnContext must be present for @Authorize"));
+                .orElseThrow(() -> new UnexpectedSelfAccessControlException("UserOnContext must be present for " +
+                        "@Authorize"));
     }
 
     private void authorizeUser(boolean isUserOnContextAdmin, boolean isAdminAllowed, UUID userUuid,
