@@ -24,5 +24,5 @@ public interface HorseDomainMapper {
      * @param entity the {@code HorseEntity} to be converted
      * @return the converted {@code HorseModel} object
      */
-    HorseModel toModel(HorseEntity entity);
+    HorseModel toModelWithoutParticipations(HorseEntity entity);
 }
