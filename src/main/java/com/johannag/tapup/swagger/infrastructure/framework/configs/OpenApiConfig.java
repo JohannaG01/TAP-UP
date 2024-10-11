@@ -1,4 +1,4 @@
-package com.johannag.tapup.configurations;
+package com.johannag.tapup.swagger.infrastructure.framework.configs;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;

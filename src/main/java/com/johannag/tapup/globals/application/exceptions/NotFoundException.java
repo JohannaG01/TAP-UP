@@ -1,9 +1,7 @@
 package com.johannag.tapup.globals.application.exceptions;
 
-import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-@Getter
 public abstract class NotFoundException extends ApiException {
 
     public NotFoundException(String message) {

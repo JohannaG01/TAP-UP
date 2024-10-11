@@ -1,6 +1,7 @@
 package com.johannag.tapup.users.infrastructure.db.adapter;
 
-import com.johannag.tapup.configurations.UserSystemConfig;
+import com.johannag.tapup.globals.utils.Logger;
+import com.johannag.tapup.users.application.configs.UserSystemConfig;
 import com.johannag.tapup.users.domain.dtos.CreateUserEntityDTO;
 import com.johannag.tapup.users.domain.mappers.UserDomainMapper;
 import com.johannag.tapup.users.domain.models.UserModel;
@@ -8,15 +9,15 @@ import com.johannag.tapup.users.infrastructure.db.entities.UserEntity;
 import com.johannag.tapup.users.infrastructure.db.repositories.JpaUserRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class UserRepositoryImpl implements UserRepository {
 
-    private static final Logger logger = LogManager.getLogger(UserRepositoryImpl.class);
+    private static final Logger logger = Logger.getLogger(UserRepositoryImpl.class);
     private final JpaUserRepository jpaUserRepository;
     private final UserDomainMapper userDomainMapper;
     private final UserSystemConfig userSystemConfig;
@@ -45,5 +46,11 @@ public class UserRepositoryImpl implements UserRepository {
         logger.info("Saved user: {}", userModel.toString());
 
         return userModel;
+    }
+
+    @Override
+    public Optional<UserModel> findMaybeByEmail(String email) {
+        return jpaUserRepository.findByEmail(email)
+                .map(userDomainMapper::toModel);
     }
 }

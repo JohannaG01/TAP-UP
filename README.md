@@ -13,6 +13,7 @@ Before starting the application, make sure to define the following environment v
 - **`POSTGRES_DB`**: The name of the database to use.
 - **`POSTGRES_PORT`**: The port on which the database is running.
 - **`POSTGRES_HOST`**: The host address of the database.
+- **`JWT_SECRET_WORD`**: The secret word in order to create JWT Tokens.
 - **`ENVIRONMENT`**: The environment in which the application is running (e.g., loca, dev, prod).
 
 You can do this in several ways, but a simple option is to create a `.env` file in the same directory as your
@@ -23,6 +24,7 @@ POSTGRES_USER=your_username
 POSTGRES_PASSWORD=your_password
 POSTGRES_DB=your_db_name
 POSTGRES_PORT=your_port
+JWT_SECRET_WORD=your_secret_word
 ENVIRONMENT=your_environment
 ```
 

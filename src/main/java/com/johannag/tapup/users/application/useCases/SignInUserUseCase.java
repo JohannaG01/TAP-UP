@@ -1,5 +1,7 @@
 package com.johannag.tapup.users.application.useCases;
 
+import com.johannag.tapup.globals.application.utils.PasswordUtils;
+import com.johannag.tapup.globals.utils.Logger;
 import com.johannag.tapup.users.application.dtos.CreateUserDTO;
 import com.johannag.tapup.users.application.exceptions.UserAlreadyExistsException;
 import com.johannag.tapup.users.application.mappers.UserApplicationMapper;
@@ -7,17 +9,13 @@ import com.johannag.tapup.users.domain.dtos.CreateUserEntityDTO;
 import com.johannag.tapup.users.domain.models.UserModel;
 import com.johannag.tapup.users.infrastructure.db.adapter.UserRepository;
 import lombok.AllArgsConstructor;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
 public class SignInUserUseCase {
 
-    private static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    private static final Logger logger = LogManager.getLogger(SignInUserUseCase.class);
+    private static final Logger logger = Logger.getLogger(SignInUserUseCase.class);
     private UserRepository userRepository;
     private UserApplicationMapper userApplicationMapper;
 
@@ -44,7 +42,7 @@ public class SignInUserUseCase {
     private CreateUserEntityDTO buildCreationDTOWithHashedPassword(CreateUserDTO dto) {
         logger.info("Creating hash for password");
 
-        String hashedPassword = passwordEncoder.encode(dto.getPassword());
+        String hashedPassword = PasswordUtils.hash(dto.getPassword());
         CreateUserEntityDTO createUserEntityDTO = userApplicationMapper.toCreateUserEntityDTO(dto, hashedPassword);
 
         return createUserEntityDTO;

@@ -1,4 +1,4 @@
-package com.johannag.tapup.globals.domain.constants;
+package com.johannag.tapup.globals.presentation.constants;
 
 public class ValidationMessages {
     public static final String EMAIL_VALIDATION_MSG = "Email format is invalid; ensure it follows the correct pattern.";
