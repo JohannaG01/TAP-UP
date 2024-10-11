@@ -66,6 +66,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 
     private UserOnContext buildUserOnContext(Claims jwtClaims) {
         return UserOnContext.builder()
+                .id(Long.valueOf(jwtClaims.get("id").toString()))
                 .uuid(UUID.fromString(jwtClaims.getSubject()))
                 .email(jwtClaims.get("email").toString())
                 .name(jwtClaims.get("firstName").toString())

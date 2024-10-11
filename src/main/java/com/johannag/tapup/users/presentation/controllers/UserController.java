@@ -15,6 +15,7 @@ import com.johannag.tapup.users.presentation.dtos.requests.LogInUserRequestDTO;
 import com.johannag.tapup.users.presentation.dtos.responses.UserResponseDTO;
 import com.johannag.tapup.users.presentation.dtos.responses.UserWithAuthTokenResponseDTO;
 import com.johannag.tapup.users.presentation.mappers.UserPresentationMapper;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -55,6 +56,7 @@ public class UserController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @SecurityRequirement(name = "bearerAuth")
     @SelfAccessControl
     @PreAuthorize("hasAnyAuthority({'REGULAR'})")
     @PostMapping("/users/{userUuid}/transactions")

@@ -9,14 +9,16 @@ import io.jsonwebtoken.Claims;
 public interface AuthenticationService {
 
     /**
-     * Generates a new {@link AuthTokenModel} for the provided {@link UserModel}.
-     * <p>
-     * This method creates a token that can be used for authentication purposes.
+     * Creates a JWT (JSON Web Token) for the specified user.
      *
-     * @param user The {@link UserModel} for which the token is being created.
-     * @return A {@link AuthTokenModel} containing the generated token and its associated metadata.
+     * <p>This method generates a new JWT based on the provided user information and user ID.
+     * The generated token can be used for authentication and authorization purposes.</p>
+     *
+     * @param id the unique identifier of the user for whom the JWT is being created
+     * @param user the {@link UserModel} containing user details to include in the token
+     * @return an {@link AuthTokenModel} representing the generated JWT
      */
-    AuthTokenModel createJwtToken(UserModel user);
+    AuthTokenModel createJwtToken(Long id, UserModel user);
 
     /**
      * Validates a JWT (JSON Web Token) and extracts its claims.

@@ -10,12 +10,13 @@ import com.johannag.tapup.users.infrastructure.db.entities.UserEntity;
 import com.johannag.tapup.users.infrastructure.db.repositories.JpaUserRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.UUID;
 
-@Service
+@Repository
 @AllArgsConstructor
 public class UserRepositoryImpl implements UserRepository {
 
@@ -43,11 +44,8 @@ public class UserRepositoryImpl implements UserRepository {
         userEntity.setUpdatedBy(userEntity.getId());
 
         jpaUserRepository.save(userEntity);
-        UserModel userModel = userDomainMapper.toModel(userEntity);
 
-        logger.info("Saved user: {}", userModel.toString());
-
-        return userModel;
+        return userDomainMapper.toModel(userEntity);
     }
 
     @Override
@@ -71,5 +69,10 @@ public class UserRepositoryImpl implements UserRepository {
         jpaUserRepository.saveAndFlush(jpaUserRepository.save(userEntity));
 
         return userDomainMapper.toModel(userEntity);
+    }
+
+    @Override
+    public Long findUserIdByEmail(String email) {
+        return jpaUserRepository.findIdByEmail(email);
     }
 }

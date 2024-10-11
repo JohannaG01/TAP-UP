@@ -21,10 +21,10 @@ public class CreateJwtTokenUseCase {
     private static final Logger logger = Logger.getLogger(CreateJwtTokenUseCase.class);
     private final JwtConfig jwtConfig;
 
-    public AuthTokenModel execute(UserModel user) {
+    public AuthTokenModel execute(Long id, UserModel user) {
         logger.info("Creating JWT Authentication Token for user [{}]", user.getEmail());
 
-        Claims claims = buildClaims(user);
+        Claims claims = buildClaims(id, user);
         String jwtToken = buildJwtToken(claims);
         AuthTokenModel authTokenModel = buildAuthTokenModel(jwtToken, claims);
 
@@ -32,7 +32,7 @@ public class CreateJwtTokenUseCase {
         return authTokenModel;
     }
 
-    private Claims buildClaims(UserModel user) {
+    private Claims buildClaims(Long id, UserModel user) {
         Date now = DateTimeUtils.nowAsDate();
         Date expirationDate = new Date(now.getTime() + jwtConfig.getExpiresInSeconds() * 1000L);
 
@@ -40,6 +40,7 @@ public class CreateJwtTokenUseCase {
                 .subject(user.getUuid().toString())
                 .issuedAt(now)
                 .expiration(expirationDate)
+                .add("id", id)
                 .add("uuid", user.getUuid())
                 .add("firstName", user.getName())
                 .add("lastName", user.getLastName())
