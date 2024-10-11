@@ -56,7 +56,7 @@ public class UserController {
     }
 
     @Authorize
-    @PreAuthorize("hasAnyAuthority({'ADMIN', 'REGULAR'})")
+    @PreAuthorize("hasAnyAuthority({'REGULAR'})")
     @PostMapping("/users/{userUuid}/transactions")
     public ResponseEntity<UserResponseDTO> addFunds(@PathVariable UUID userUuid,
                                                     @Valid @RequestBody AddUserFundsRequestDTO createUserRequestDTO) {

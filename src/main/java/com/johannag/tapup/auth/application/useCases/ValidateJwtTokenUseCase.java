@@ -43,7 +43,7 @@ public class ValidateJwtTokenUseCase {
         List<GrantedAuthority> authorities = buildAuthorities(jwtClaims);
         setAuthenticationOnContext(userOnContext, authorities);
 
-        logger.debug("Successfully authenticated user [{}]", jwtClaims.get("email"));
+        logger.info("Successfully authenticated user [{}]", jwtClaims.get("email"));
     }
 
     public Claims extractClaims(String token) throws JwtTokenInvalidException {
