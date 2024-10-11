@@ -1,6 +1,6 @@
 package com.johannag.tapup.users.application.useCases;
 
-import com.johannag.tapup.globals.utils.Logger;
+import com.johannag.tapup.globals.infrastructure.utils.Logger;
 import com.johannag.tapup.users.application.dtos.AddUserFundsDTO;
 import com.johannag.tapup.users.application.exceptions.UserNotFoundException;
 import com.johannag.tapup.users.application.mappers.UserApplicationMapper;

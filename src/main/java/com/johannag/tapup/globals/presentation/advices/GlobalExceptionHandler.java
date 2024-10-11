@@ -1,9 +1,10 @@
 package com.johannag.tapup.globals.presentation.advices;
 
+import com.johannag.tapup.authorization.infrastructure.framework.exceptions.ForbiddenException;
 import com.johannag.tapup.globals.application.exceptions.ApiException;
 import com.johannag.tapup.globals.application.utils.DateTimeUtils;
 import com.johannag.tapup.globals.presentation.errors.ErrorResponse;
-import com.johannag.tapup.globals.utils.Logger;
+import com.johannag.tapup.globals.infrastructure.utils.Logger;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -29,6 +30,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleException(
             Exception ex, HandlerMethod handlerMethod, HttpServletRequest request) {
         return handleErrorResponse(ex, handlerMethod, request, HttpStatus.INTERNAL_SERVER_ERROR, null);
+    }
+
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<ErrorResponse> handleForbiddenException(
+            Exception ex, HandlerMethod handlerMethod, HttpServletRequest request) {
+        return handleErrorResponse(ex, handlerMethod, request, HttpStatus.FORBIDDEN, null);
     }
 
     private ResponseEntity<ErrorResponse> handleErrorResponse(

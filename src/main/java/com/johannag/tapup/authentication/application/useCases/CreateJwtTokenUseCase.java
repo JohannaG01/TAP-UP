@@ -3,7 +3,7 @@ package com.johannag.tapup.authentication.application.useCases;
 import com.johannag.tapup.authentication.application.configs.JwtConfig;
 import com.johannag.tapup.authentication.domain.models.AuthTokenModel;
 import com.johannag.tapup.globals.application.utils.DateTimeUtils;
-import com.johannag.tapup.globals.utils.Logger;
+import com.johannag.tapup.globals.infrastructure.utils.Logger;
 import com.johannag.tapup.users.domain.models.UserModel;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

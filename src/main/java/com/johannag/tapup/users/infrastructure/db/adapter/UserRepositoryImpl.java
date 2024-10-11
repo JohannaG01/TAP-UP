@@ -1,6 +1,6 @@
 package com.johannag.tapup.users.infrastructure.db.adapter;
 
-import com.johannag.tapup.globals.utils.Logger;
+import com.johannag.tapup.globals.infrastructure.utils.Logger;
 import com.johannag.tapup.users.application.configs.UserSystemConfig;
 import com.johannag.tapup.users.domain.dtos.AddUserFundsToEntityDTO;
 import com.johannag.tapup.users.domain.dtos.CreateUserEntityDTO;

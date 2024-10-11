@@ -2,7 +2,7 @@ package com.johannag.tapup.authentication.application.useCases;
 
 import com.johannag.tapup.authentication.application.configs.JwtConfig;
 import com.johannag.tapup.authentication.application.exceptions.JwtTokenInvalidException;
-import com.johannag.tapup.globals.utils.Logger;
+import com.johannag.tapup.globals.infrastructure.utils.Logger;
 import com.johannag.tapup.users.application.exceptions.UserNotFoundException;
 import com.johannag.tapup.users.application.services.UserService;
 import com.johannag.tapup.users.infrastructure.framework.context.UserOnContext;
@@ -33,6 +33,7 @@ public class ValidateJwtTokenUseCase {
     private final UserService userService;
     private final JwtConfig jwtConfig;
 
+    //TODO Should only extract claims, object should e made by filter
     public void execute(String bearerToken) throws JwtTokenInvalidException {
         logger.debug("Authenticating JWT token {}", bearerToken);
 
