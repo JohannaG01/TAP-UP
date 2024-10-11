@@ -1,11 +1,9 @@
 package com.johannag.tapup.horses.presentation.dtos.requests;
 
 import com.johannag.tapup.globals.presentation.dtos.SexDTO;
+import com.johannag.tapup.globals.presentation.validations.annotations.NullOrNotBlank;
 import com.johannag.tapup.horses.presentation.dtos.HorseStateDTO;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
-import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.*;
 import lombok.Builder;
 import lombok.Value;
 
@@ -13,24 +11,15 @@ import java.time.LocalDate;
 
 @Value
 @Builder(builderClassName = "Builder")
-public class CreateHorseRequestDTO {
-    @Null
-    @NotBlank
-    String code;
-    @Null
-    @NotBlank
+public class UpdateHorseRequestDTO {
+    @NullOrNotBlank
     String name;
-    @Null
-    @NotBlank
+    @NullOrNotBlank
     String breed;
-    @Null
     @PastOrPresent
     LocalDate birthDate;
-    @Null
     SexDTO sex;
-    @Null
-    @NotBlank
+    @NullOrNotBlank
     String color;
-    @Null
     HorseStateDTO state;
 }

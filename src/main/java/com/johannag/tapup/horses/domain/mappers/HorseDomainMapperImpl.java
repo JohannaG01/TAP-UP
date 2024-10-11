@@ -8,6 +8,7 @@ import com.johannag.tapup.horses.domain.models.HorseModelState;
 import com.johannag.tapup.horses.infrastructure.db.entities.HorseEntity;
 import com.johannag.tapup.horses.infrastructure.db.entities.HorseEntityState;
 import com.johannag.tapup.horses.presentation.dtos.requests.CreateHorseRequestDTO;
+import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 import org.springframework.stereotype.Component;
 
@@ -23,6 +24,7 @@ public class HorseDomainMapperImpl implements HorseDomainMapper {
     public HorseDomainMapperImpl() {
         horseEntityMapper = builderTypeMapper(CreateHorseEntityDTO.class, HorseEntity.Builder.class);
         horseModelMapper = builderTypeMapper(HorseEntity.class, HorseModel.Builder.class);
+        horseModelMapper.addMappings(mapper -> mapper.skip(HorseModel.Builder::participations));
     }
 
     @Override
@@ -35,7 +37,7 @@ public class HorseDomainMapperImpl implements HorseDomainMapper {
     }
 
     @Override
-    public HorseModel toModel(HorseEntity entity) {
+    public HorseModel toModelWithoutParticipations(HorseEntity entity) {
         return horseModelMapper
                 .map(entity)
                 .build();
