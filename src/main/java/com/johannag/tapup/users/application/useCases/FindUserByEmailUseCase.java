@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class FindUserByEmailUseCase {
 
     private static final Logger logger = Logger.getLogger(FindUserByEmailUseCase.class);
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public UserModel execute(String email) throws UserNotFoundException {
         logger.debug("Starting FindUserByEmail process for email: [{}]", email);
@@ -22,7 +22,6 @@ public class FindUserByEmailUseCase {
                 .orElseThrow(() -> new UserNotFoundException(email));
 
         logger.debug("Finished FindUserByEmail process for email: [{}]", email);
-
         return user;
     }
 }

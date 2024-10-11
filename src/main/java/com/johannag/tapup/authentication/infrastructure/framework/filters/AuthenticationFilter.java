@@ -1,12 +1,13 @@
 package com.johannag.tapup.authentication.infrastructure.framework.filters;
 
 import com.johannag.tapup.authentication.application.services.AuthenticationService;
-import com.johannag.tapup.globals.utils.Logger;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
@@ -20,9 +21,8 @@ import java.util.Optional;
 @AllArgsConstructor
 public class AuthenticationFilter extends OncePerRequestFilter {
 
-    private static final Logger logger = Logger.getLogger(AuthenticationFilter.class);
+    private static final Logger logger = LogManager.getLogger(AuthenticationFilter.class);
     private static final List<String> AUTH_HEADER_NAMES = List.of("Authorization", "authorization");
-    private final RequestMappingHandlerMapping requestMappingHandlerMapping;
     private final AuthenticationService authenticationService;
 
     @Override

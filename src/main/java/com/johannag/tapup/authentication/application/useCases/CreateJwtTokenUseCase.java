@@ -29,7 +29,6 @@ public class CreateJwtTokenUseCase {
         AuthTokenModel authTokenModel = buildAuthTokenModel(jwtToken, claims);
 
         logger.info("JWT Authentication Token has been created successfully");
-
         return authTokenModel;
     }
 

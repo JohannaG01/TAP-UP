@@ -1,5 +1,6 @@
 package com.johannag.tapup.users.application.services;
 
+import com.johannag.tapup.users.application.dtos.AddUserFundsDTO;
 import com.johannag.tapup.users.application.dtos.CreateUserDTO;
 import com.johannag.tapup.users.application.dtos.LogInUserDTO;
 import com.johannag.tapup.users.application.exceptions.InvalidLoginCredentialsException;
@@ -44,4 +45,18 @@ public interface UserService {
      * @throws UserNotFoundException if no user is found with the specified email address.
      */
     UserModel findByEmail(String email) throws UserNotFoundException;
+
+    /**
+     * Adds funds to a user account.
+     *
+     * This method updates the user's balance by adding the specified amount
+     * from the provided {@link AddUserFundsDTO}. It retrieves the user based
+     * on the information contained in the DTO and throws a {@link UserNotFoundException}
+     * if the user does not exist.
+     *
+     * @param dto the data transfer object containing the user and amount information
+     * @return the updated {@link UserModel} instance after funds have been added
+     * @throws UserNotFoundException if the user cannot be found in the system
+     */
+    UserModel addFunds(AddUserFundsDTO dto) throws UserNotFoundException;
 }

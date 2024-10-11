@@ -1,9 +1,11 @@
 package com.johannag.tapup.users.infrastructure.db.adapter;
 
+import com.johannag.tapup.users.domain.dtos.AddUserFundsToEntityDTO;
 import com.johannag.tapup.users.domain.dtos.CreateUserEntityDTO;
 import com.johannag.tapup.users.domain.models.UserModel;
 
 import java.util.Optional;
+import java.util.UUID;
 
 public interface UserRepository {
 
@@ -30,4 +32,29 @@ public interface UserRepository {
      * if no user exists with the given email.
      */
     Optional<UserModel> findMaybeByEmail(String email);
+
+    /**
+     * Retrieves a {@link UserModel} based on the provided UUID, if present.
+     * This method attempts to find a user by their unique identifier (UUID).
+     * If no user is found, it returns an empty {@link Optional}.
+     *
+     * @param uuid the UUID of the user to search for
+     * @return an {@link Optional} containing the {@link UserModel} if found, otherwise empty
+     */
+    Optional<UserModel> findMaybeByUUID(UUID uuid);
+
+    /**
+     * Adds funds to the specified entity.
+     * <p>
+     * This method processes the addition of funds to an entity using the
+     * amount specified in the {@link AddUserFundsToEntityDTO}. It updates the
+     * entity's balance and returns the updated {@link UserModel} after the operation
+     * is successfully completed.
+     * </p>
+     *
+     * @param dto The {@link AddUserFundsToEntityDTO} containing the amount to be added
+     *            to the entity's balance.
+     * @return The updated {@link UserModel} after the funds have been added.
+     */
+    UserModel addFunds(AddUserFundsToEntityDTO dto);
 }

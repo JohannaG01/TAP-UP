@@ -16,8 +16,8 @@ import org.springframework.stereotype.Service;
 public class SignInUserUseCase {
 
     private static final Logger logger = Logger.getLogger(SignInUserUseCase.class);
-    private UserRepository userRepository;
-    private UserApplicationMapper userApplicationMapper;
+    private final UserRepository userRepository;
+    private final UserApplicationMapper userApplicationMapper;
 
     public UserModel execute(CreateUserDTO dto) throws UserAlreadyExistsException {
         logger.info("Starting SignIn process for user {}", dto.getEmail());
@@ -27,7 +27,6 @@ public class SignInUserUseCase {
         UserModel user = userRepository.create(createUserEntityDTO);
 
         logger.info("SignIn process for user {} has finished", dto.getEmail());
-
         return user;
     }
 
