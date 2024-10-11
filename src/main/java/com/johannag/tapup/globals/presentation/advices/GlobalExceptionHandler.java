@@ -1,14 +1,16 @@
 package com.johannag.tapup.globals.presentation.advices;
 
+import com.johannag.tapup.auth.infrastructure.framework.exceptions.ForbiddenException;
 import com.johannag.tapup.globals.application.exceptions.ApiException;
 import com.johannag.tapup.globals.application.utils.DateTimeUtils;
+import com.johannag.tapup.globals.infrastructure.utils.Logger;
 import com.johannag.tapup.globals.presentation.errors.ErrorResponse;
-import com.johannag.tapup.globals.utils.Logger;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.HandlerMethod;
@@ -29,6 +31,21 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleException(
             Exception ex, HandlerMethod handlerMethod, HttpServletRequest request) {
         return handleErrorResponse(ex, handlerMethod, request, HttpStatus.INTERNAL_SERVER_ERROR, null);
+    }
+
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<ErrorResponse> handleForbiddenException(
+            ForbiddenException ex, HandlerMethod handlerMethod, HttpServletRequest request) {
+        return handleErrorResponse(ex, handlerMethod, request, HttpStatus.FORBIDDEN, null);
+    }
+
+    @ExceptionHandler(AuthorizationDeniedException.class)
+    public ResponseEntity<ErrorResponse> handleAccessDeniedException(
+            AuthorizationDeniedException ex, HandlerMethod handlerMethod, HttpServletRequest request) {
+
+        logger.error("Access denied: User attempted to execute method without required privileges. {}",
+                ex.getAuthorizationResult());
+        return handleErrorResponse(ex, handlerMethod, request, HttpStatus.FORBIDDEN, null);
     }
 
     private ResponseEntity<ErrorResponse> handleErrorResponse(

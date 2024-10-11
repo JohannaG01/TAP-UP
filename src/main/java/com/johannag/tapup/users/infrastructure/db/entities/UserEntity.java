@@ -58,4 +58,7 @@ public class UserEntity {
     @Column(name = "updated_by", nullable = false)
     private Long updatedBy;
 
+    public void addBalance(BigDecimal amount) {
+        this.balance = this.balance.add(amount);
+    }
 }

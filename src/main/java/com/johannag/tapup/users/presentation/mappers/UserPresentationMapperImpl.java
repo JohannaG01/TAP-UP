@@ -1,7 +1,7 @@
 package com.johannag.tapup.users.presentation.mappers;
 
-import com.johannag.tapup.authentication.presentation.dtos.responses.TokenResponseDTO;
-import com.johannag.tapup.authentication.presentation.mappers.TokenPresentationMapper;
+import com.johannag.tapup.auth.presentation.dtos.responses.AuthTokenResponseDTO;
+import com.johannag.tapup.auth.presentation.mappers.AuthTokenPresentationMapper;
 import com.johannag.tapup.users.domain.models.UserModel;
 import com.johannag.tapup.users.domain.models.UserWithAuthTokenModel;
 import com.johannag.tapup.users.presentation.dtos.responses.UserResponseDTO;
@@ -17,12 +17,12 @@ import static com.johannag.tapup.globals.application.utils.ModelMapperUtils.buil
 @AllArgsConstructor
 public class UserPresentationMapperImpl implements UserPresentationMapper {
 
-    private final TokenPresentationMapper tokenPresentationMapper;
+    private final AuthTokenPresentationMapper authTokenPresentationMapper;
     private final TypeMap<UserModel, UserResponseDTO.Builder> userResponseDTOMapper;
 
     @Autowired
-    public UserPresentationMapperImpl(TokenPresentationMapper tokenPresentationMapper) {
-        this.tokenPresentationMapper = tokenPresentationMapper;
+    public UserPresentationMapperImpl(AuthTokenPresentationMapper authTokenPresentationMapper) {
+        this.authTokenPresentationMapper = authTokenPresentationMapper;
         userResponseDTOMapper = builderTypeMapper(UserModel.class, UserResponseDTO.Builder.class);
     }
 
@@ -35,12 +35,12 @@ public class UserPresentationMapperImpl implements UserPresentationMapper {
 
     @Override
     public UserWithAuthTokenResponseDTO toUserWithTokenResponseDTO(UserWithAuthTokenModel userWithAuthTokenModel) {
-        TokenResponseDTO tokenResponseDTO =
-                tokenPresentationMapper.toTokenResponseDTO(userWithAuthTokenModel.getToken());
+        AuthTokenResponseDTO authTokenResponseDTO =
+                authTokenPresentationMapper.toAuthTokenResponseDTO(userWithAuthTokenModel.getToken());
         UserResponseDTO userResponseDTO = toUserResponseDTO(userWithAuthTokenModel.getUser());
 
         return UserWithAuthTokenResponseDTO.builder()
-                .token(tokenResponseDTO)
+                .token(authTokenResponseDTO)
                 .user(userResponseDTO)
                 .build();
     }

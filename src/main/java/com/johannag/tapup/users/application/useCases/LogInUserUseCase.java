@@ -1,9 +1,9 @@
 package com.johannag.tapup.users.application.useCases;
 
-import com.johannag.tapup.authentication.application.services.AuthenticationService;
-import com.johannag.tapup.authentication.domain.models.AuthTokenModel;
+import com.johannag.tapup.auth.application.services.AuthenticationService;
+import com.johannag.tapup.auth.domain.models.AuthTokenModel;
 import com.johannag.tapup.globals.application.utils.PasswordUtils;
-import com.johannag.tapup.globals.utils.Logger;
+import com.johannag.tapup.globals.infrastructure.utils.Logger;
 import com.johannag.tapup.users.application.dtos.LogInUserDTO;
 import com.johannag.tapup.users.application.exceptions.InvalidLoginCredentialsException;
 import com.johannag.tapup.users.application.exceptions.UserNotFoundException;
@@ -17,8 +17,8 @@ import org.springframework.stereotype.Service;
 public class LogInUserUseCase {
 
     private static final Logger logger = Logger.getLogger(LogInUserUseCase.class);
-    private AuthenticationService authenticationService;
-    private FindUserByEmailUseCase findUserByEmailUseCase;
+    private final AuthenticationService authenticationService;
+    private final FindUserByEmailUseCase findUserByEmailUseCase;
 
     public UserWithAuthTokenModel execute(LogInUserDTO dto) throws InvalidLoginCredentialsException {
         logger.info("Starting LogIn process for user [{}]", dto.getEmail());
@@ -28,7 +28,6 @@ public class LogInUserUseCase {
         UserWithAuthTokenModel userWithToken = buildUserWithToken(user, token);
 
         logger.info("Finished LogIn process for user [{}]", dto.getEmail());
-
         return userWithToken;
     }
 
