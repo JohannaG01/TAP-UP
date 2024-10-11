@@ -5,6 +5,7 @@ import com.johannag.tapup.auth.application.useCases.CreateJwtTokenUseCase;
 import com.johannag.tapup.auth.application.useCases.ValidateJwtTokenUseCase;
 import com.johannag.tapup.auth.domain.models.AuthTokenModel;
 import com.johannag.tapup.users.domain.models.UserModel;
+import io.jsonwebtoken.Claims;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public void validateJwtToken(String jwt) throws JwtTokenInvalidException {
-        validateJwtTokenUseCase.execute(jwt);
+    public Claims validateJwtToken(String jwt) throws JwtTokenInvalidException {
+        return validateJwtTokenUseCase.execute(jwt);
     }
 }

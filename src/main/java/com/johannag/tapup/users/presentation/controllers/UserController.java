@@ -1,6 +1,6 @@
 package com.johannag.tapup.users.presentation.controllers;
 
-import com.johannag.tapup.auth.presentation.annotations.Authorize;
+import com.johannag.tapup.auth.presentation.annotations.SelfAccessControl;
 import com.johannag.tapup.users.application.dtos.AddUserFundsDTO;
 import com.johannag.tapup.users.application.dtos.CreateUserDTO;
 import com.johannag.tapup.users.application.dtos.LogInUserDTO;
@@ -55,7 +55,7 @@ public class UserController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @Authorize
+    @SelfAccessControl
     @PreAuthorize("hasAnyAuthority({'REGULAR'})")
     @PostMapping("/users/{userUuid}/transactions")
     public ResponseEntity<UserResponseDTO> addFunds(@PathVariable UUID userUuid,

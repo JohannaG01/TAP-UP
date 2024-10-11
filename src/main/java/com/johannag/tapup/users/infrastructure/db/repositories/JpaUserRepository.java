@@ -51,7 +51,7 @@ public interface JpaUserRepository extends JpaRepository<UserEntity, Long> {
      *
      * @param uuid the UUID of the user to retrieve
      * @return the {@link UserEntity} associated with the given UUID, or {@code null}
-     *         if no such user exists
+     * if no such user exists
      */
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT u FROM UserEntity u WHERE u.uuid = :uuid")

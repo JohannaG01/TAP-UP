@@ -40,7 +40,7 @@ public interface UserApplicationMapper {
     /**
      * Converts an {@link AddUserFundsRequestDTO} to an {@link AddUserFundsDTO}
      * associated with the specified user UUID.
-     *
+     * <p>
      * This method transforms the data contained in the provided
      * {@link AddUserFundsRequestDTO} into an instance of {@link AddUserFundsDTO},
      * linking it to the user identified by the given UUID. This is typically used
@@ -48,7 +48,7 @@ public interface UserApplicationMapper {
      * core logic for a specific user.
      *
      * @param userUuid the UUID of the user to which the funds are being added
-     * @param dto the data transfer object containing the user funds request information
+     * @param dto      the data transfer object containing the user funds request information
      * @return an {@link AddUserFundsDTO} instance populated with the data from the input DTO
      */
     AddUserFundsDTO toAddUserFundsDTO(UUID userUuid, AddUserFundsRequestDTO dto);

@@ -19,11 +19,11 @@ import java.util.UUID;
 
 @Aspect
 @Component
-public class AuthorizeAspect {
+public class SelfAccessControlAspect {
 
     private final Logger logger = Logger.getLogger(this.getClass());
 
-    @Before("@annotation(com.johannag.tapup.auth.presentation.annotations.Authorize) && args(userUuid,..)")
+    @Before("@annotation(com.johannag.tapup.auth.presentation.annotations.SelfAccessControl) && args(userUuid,..)")
     public void authorize(JoinPoint joinPoint, UUID userUuid) throws ForbiddenException, AuthorizeAspectException {
 
         logger.debug("Starting authorize process for user {}", userUuid);

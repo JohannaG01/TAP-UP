@@ -48,7 +48,7 @@ public interface UserService {
 
     /**
      * Adds funds to a user account.
-     *
+     * <p>
      * This method updates the user's balance by adding the specified amount
      * from the provided {@link AddUserFundsDTO}. It retrieves the user based
      * on the information contained in the DTO and throws a {@link UserNotFoundException}

@@ -3,6 +3,7 @@ package com.johannag.tapup.auth.application.services;
 import com.johannag.tapup.auth.application.exceptions.JwtTokenInvalidException;
 import com.johannag.tapup.auth.domain.models.AuthTokenModel;
 import com.johannag.tapup.users.domain.models.UserModel;
+import io.jsonwebtoken.Claims;
 
 
 public interface AuthenticationService {
@@ -18,14 +19,11 @@ public interface AuthenticationService {
     AuthTokenModel createJwtToken(UserModel user);
 
     /**
-     * Validates the provided JSON Web Token (JWT).
-     * <p>
-     * This method checks the integrity and validity of the given JWT. It verifies
-     * whether the token is well-formed, has not expired, and is signed correctly.
-     * If the token is invalid or expired, an appropriate exception will be thrown.
+     * Validates a JWT (JSON Web Token) and extracts its claims.
      *
-     * @param jwt the JSON Web Token to validate
-     * @throws JwtTokenInvalidException if the token is invalid or expired
+     * @param jwt The JWT string to validate.
+     * @return A {@link Claims} object containing the claims extracted from the validated JWT.
+     * @throws JwtTokenInvalidException if the JWT is invalid or cannot be parsed.
      */
-    void validateJwtToken(String jwt) throws JwtTokenInvalidException;
+    Claims validateJwtToken(String jwt) throws JwtTokenInvalidException;
 }

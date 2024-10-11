@@ -1,8 +1,8 @@
 package com.johannag.tapup.globals.presentation.advices;
 
 import com.johannag.tapup.globals.application.utils.DateTimeUtils;
-import com.johannag.tapup.globals.presentation.errors.ValidationErrorResponse;
 import com.johannag.tapup.globals.infrastructure.utils.Logger;
+import com.johannag.tapup.globals.presentation.errors.ValidationErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
