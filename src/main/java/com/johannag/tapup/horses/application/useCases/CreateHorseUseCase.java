@@ -22,7 +22,7 @@ public class CreateHorseUseCase {
         logger.info("Starting CreateHorse process for horse [{}]", dto.getCode());
 
         validateHorseDoesNotExistsOrThrow(dto.getCode());
-        CreateHorseEntityDTO createHorseEntityDTO = horseApplicationMapper.toCreateHorseEntityDTO(dto);
+        CreateHorseEntityDTO createHorseEntityDTO = horseApplicationMapper.toCreateEntityDTO(dto);
         HorseModel horseModel = horseRepository.upsert(createHorseEntityDTO);
 
         logger.info("CreateHorse process for horse {} has finished", dto.getCode());

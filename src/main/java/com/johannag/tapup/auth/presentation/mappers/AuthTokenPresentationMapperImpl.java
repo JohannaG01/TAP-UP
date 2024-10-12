@@ -10,15 +10,15 @@ import static com.johannag.tapup.globals.application.utils.ModelMapperUtils.buil
 @Component
 public class AuthTokenPresentationMapperImpl implements AuthTokenPresentationMapper {
 
-    private final TypeMap<AuthTokenModel, AuthTokenResponseDTO.Builder> authTokenResponseDTOMapper;
+    private final TypeMap<AuthTokenModel, AuthTokenResponseDTO.Builder> responseDTOMapper;
 
     public AuthTokenPresentationMapperImpl() {
-        authTokenResponseDTOMapper = builderTypeMapper(AuthTokenModel.class, AuthTokenResponseDTO.Builder.class);
+        responseDTOMapper = builderTypeMapper(AuthTokenModel.class, AuthTokenResponseDTO.Builder.class);
     }
 
     @Override
-    public AuthTokenResponseDTO toAuthTokenResponseDTO(AuthTokenModel token) {
-        return authTokenResponseDTOMapper
+    public AuthTokenResponseDTO toResponseDTO(AuthTokenModel token) {
+        return responseDTOMapper
                 .map(token)
                 .build();
     }

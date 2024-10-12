@@ -11,5 +11,5 @@ public interface AuthTokenPresentationMapper {
      * @param token the {@link AuthTokenModel} to be converted
      * @return the converted {@link AuthTokenResponseDTO} instance
      */
-    AuthTokenResponseDTO toAuthTokenResponseDTO(AuthTokenModel token);
+    AuthTokenResponseDTO toResponseDTO(AuthTokenModel token);
 }

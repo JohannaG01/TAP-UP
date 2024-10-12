@@ -1,5 +1,6 @@
 package com.johannag.tapup.horses.application.dtos;
 
+import com.johannag.tapup.globals.domain.models.SexModel;
 import com.johannag.tapup.globals.presentation.dtos.SexDTO;
 import com.johannag.tapup.horses.application.exceptions.InvalidHorseStateException;
 import com.johannag.tapup.horses.domain.models.HorseModelState;
@@ -21,14 +22,14 @@ public class UpdateHorseDTO {
     @Nullable
     LocalDate birthDate;
     @Nullable
-    SexDTO sex;
+    SexModel sex;
     @Nullable
     String color;
     @Nullable
     HorseModelState state;
 
     public boolean isStateTemporallyInactive() {
-        return this.state != null && this.state == HorseModelState.TEMPORARILY_INACTIVE;
+        return this.state != null && this.state == HorseModelState.TEMPORALLY_INACTIVE;
     }
 
     public void validate() {

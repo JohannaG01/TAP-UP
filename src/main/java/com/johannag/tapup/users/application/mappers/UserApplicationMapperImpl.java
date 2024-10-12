@@ -19,30 +19,30 @@ import static com.johannag.tapup.globals.application.utils.ModelMapperUtils.buil
 @Component
 public class UserApplicationMapperImpl implements UserApplicationMapper {
 
-    private final TypeMap<CreateUserRequestDTO, CreateUserDTO.Builder> createUserDTOMapper;
-    private final TypeMap<CreateUserDTO, CreateUserEntityDTO.Builder> createUserEntityDTOMapper;
-    private final TypeMap<LogInUserRequestDTO, LogInUserDTO.Builder> logInUserRequestDTOMapper;
-    private final TypeMap<AddUserFundsRequestDTO, AddUserFundsDTO.Builder> addUserFundsDTOMapper;
-    private final TypeMap<AddUserFundsDTO, AddUserFundsToEntityDTO.Builder> addUserFundsToEntityDTOMapper;
+    private final TypeMap<CreateUserRequestDTO, CreateUserDTO.Builder> createDTOMapper;
+    private final TypeMap<CreateUserDTO, CreateUserEntityDTO.Builder> createEntityDTOMapper;
+    private final TypeMap<LogInUserRequestDTO, LogInUserDTO.Builder> logInRequestDTOMapper;
+    private final TypeMap<AddUserFundsRequestDTO, AddUserFundsDTO.Builder> addFundsDTOMapper;
+    private final TypeMap<AddUserFundsDTO, AddUserFundsToEntityDTO.Builder> addFundsToEntityDTOMapper;
 
     public UserApplicationMapperImpl() {
-        createUserDTOMapper = builderTypeMapper(CreateUserRequestDTO.class, CreateUserDTO.Builder.class);
-        createUserEntityDTOMapper = builderTypeMapper(CreateUserDTO.class, CreateUserEntityDTO.Builder.class);
-        logInUserRequestDTOMapper = builderTypeMapper(LogInUserRequestDTO.class, LogInUserDTO.Builder.class);
-        addUserFundsDTOMapper = builderTypeMapper(AddUserFundsRequestDTO.class, AddUserFundsDTO.Builder.class);
-        addUserFundsToEntityDTOMapper = builderTypeMapper(AddUserFundsDTO.class, AddUserFundsToEntityDTO.Builder.class);
+        createDTOMapper = builderTypeMapper(CreateUserRequestDTO.class, CreateUserDTO.Builder.class);
+        createEntityDTOMapper = builderTypeMapper(CreateUserDTO.class, CreateUserEntityDTO.Builder.class);
+        logInRequestDTOMapper = builderTypeMapper(LogInUserRequestDTO.class, LogInUserDTO.Builder.class);
+        addFundsDTOMapper = builderTypeMapper(AddUserFundsRequestDTO.class, AddUserFundsDTO.Builder.class);
+        addFundsToEntityDTOMapper = builderTypeMapper(AddUserFundsDTO.class, AddUserFundsToEntityDTO.Builder.class);
     }
 
     @Override
-    public CreateUserDTO toCreateUserDTO(CreateUserRequestDTO dto) {
-        return createUserDTOMapper
+    public CreateUserDTO toCreateDTO(CreateUserRequestDTO dto) {
+        return createDTOMapper
                 .map(dto)
                 .build();
     }
 
     @Override
-    public CreateUserEntityDTO toCreateUserEntityDTO(CreateUserDTO dto, String hashedPassword) {
-        return createUserEntityDTOMapper
+    public CreateUserEntityDTO toCreateEntityDTO(CreateUserDTO dto, String hashedPassword) {
+        return createEntityDTOMapper
                 .map(dto)
                 .uuid(UUID.randomUUID())
                 .isAdmin(false)
@@ -52,23 +52,23 @@ public class UserApplicationMapperImpl implements UserApplicationMapper {
     }
 
     @Override
-    public LogInUserDTO toLogInUserDTO(LogInUserRequestDTO dto) {
-        return logInUserRequestDTOMapper
+    public LogInUserDTO toLogInDTO(LogInUserRequestDTO dto) {
+        return logInRequestDTOMapper
                 .map(dto)
                 .build();
     }
 
     @Override
-    public AddUserFundsDTO toAddUserFundsDTO(UUID userUuid, AddUserFundsRequestDTO dto) {
-        return addUserFundsDTOMapper
+    public AddUserFundsDTO toAddFundsDTO(UUID userUuid, AddUserFundsRequestDTO dto) {
+        return addFundsDTOMapper
                 .map(dto)
                 .userUuid(userUuid)
                 .build();
     }
 
     @Override
-    public AddUserFundsToEntityDTO toAddUserFundsToEntityDTO(AddUserFundsDTO dto) {
-        return addUserFundsToEntityDTOMapper
+    public AddUserFundsToEntityDTO toAddFundsToEntityDTO(AddUserFundsDTO dto) {
+        return addFundsToEntityDTOMapper
                 .map(dto)
                 .build();
     }

@@ -60,9 +60,9 @@ public class UserController {
     public ResponseEntity<UserResponseDTO> signIn(@Valid @RequestBody CreateUserRequestDTO createUserRequestDTO)
             throws UserAlreadyExistsException {
 
-        CreateUserDTO createUserDTO = userApplicationMapper.toCreateUserDTO(createUserRequestDTO);
+        CreateUserDTO createUserDTO = userApplicationMapper.toCreateDTO(createUserRequestDTO);
         UserModel user = userService.signIn(createUserDTO);
-        UserResponseDTO response = userPresentationMapper.toUserResponseDTO(user);
+        UserResponseDTO response = userPresentationMapper.toResponseDTO(user);
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
@@ -84,9 +84,9 @@ public class UserController {
     public ResponseEntity<UserWithAuthTokenResponseDTO> logIn(@Valid @RequestBody LogInUserRequestDTO createUserRequestDTO)
             throws InvalidLoginCredentialsException {
 
-        LogInUserDTO logInUserDTO = userApplicationMapper.toLogInUserDTO(createUserRequestDTO);
+        LogInUserDTO logInUserDTO = userApplicationMapper.toLogInDTO(createUserRequestDTO);
         UserWithAuthTokenModel userWithToken = userService.logIn(logInUserDTO);
-        UserWithAuthTokenResponseDTO response = userPresentationMapper.toUserWithTokenResponseDTO(userWithToken);
+        UserWithAuthTokenResponseDTO response = userPresentationMapper.toResponseDTO(userWithToken);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -118,9 +118,9 @@ public class UserController {
                                                     @Valid @RequestBody AddUserFundsRequestDTO createUserRequestDTO)
             throws UserNotFoundException {
 
-        AddUserFundsDTO addUserFundsDTO = userApplicationMapper.toAddUserFundsDTO(userUuid, createUserRequestDTO);
+        AddUserFundsDTO addUserFundsDTO = userApplicationMapper.toAddFundsDTO(userUuid, createUserRequestDTO);
         UserModel user = userService.addFunds(addUserFundsDTO);
-        UserResponseDTO response = userPresentationMapper.toUserResponseDTO(user);
+        UserResponseDTO response = userPresentationMapper.toResponseDTO(user);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

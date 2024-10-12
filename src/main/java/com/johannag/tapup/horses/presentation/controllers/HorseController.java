@@ -2,6 +2,7 @@ package com.johannag.tapup.horses.presentation.controllers;
 
 import com.johannag.tapup.globals.presentation.errors.ErrorResponse;
 import com.johannag.tapup.horses.application.dtos.CreateHorseDTO;
+import com.johannag.tapup.horses.application.dtos.FindHorsesDTO;
 import com.johannag.tapup.horses.application.dtos.UpdateHorseDTO;
 import com.johannag.tapup.horses.application.exceptions.CannotTransitionHorseStateException;
 import com.johannag.tapup.horses.application.exceptions.HorseAlreadyExistsException;
@@ -10,6 +11,7 @@ import com.johannag.tapup.horses.application.exceptions.InvalidHorseStateExcepti
 import com.johannag.tapup.horses.application.mappers.HorseApplicationMapper;
 import com.johannag.tapup.horses.application.services.HorseService;
 import com.johannag.tapup.horses.domain.models.HorseModel;
+import com.johannag.tapup.horses.presentation.dtos.HorseStateDTO;
 import com.johannag.tapup.horses.presentation.dtos.requests.CreateHorseRequestDTO;
 import com.johannag.tapup.horses.presentation.dtos.requests.UpdateHorseRequestDTO;
 import com.johannag.tapup.horses.presentation.dtos.responses.HorseResponseDTO;
@@ -22,11 +24,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.Set;
 import java.util.UUID;
 
 @ResponseBody
@@ -64,9 +69,9 @@ public class HorseController {
     public ResponseEntity<HorseResponseDTO> create(@Valid @RequestBody CreateHorseRequestDTO createHorseRequestDTO)
             throws HorseAlreadyExistsException {
 
-        CreateHorseDTO createHorseDTO = horseApplicationMapper.toCreateHorseDTO(createHorseRequestDTO);
+        CreateHorseDTO createHorseDTO = horseApplicationMapper.toCreateDTO(createHorseRequestDTO);
         HorseModel horse = horseService.create(createHorseDTO);
-        HorseResponseDTO response = horsePresentationMapper.toHorseResponseDTO(horse);
+        HorseResponseDTO response = horsePresentationMapper.toResponseDTO(horse);
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
@@ -99,9 +104,9 @@ public class HorseController {
                                                    @Valid @RequestBody UpdateHorseRequestDTO updateHorseRequestDTO)
             throws HorseNotFoundException, CannotTransitionHorseStateException, InvalidHorseStateException {
 
-        UpdateHorseDTO updateHorseDTO = horseApplicationMapper.toUpdateHorseDTO(horseUuid, updateHorseRequestDTO);
+        UpdateHorseDTO updateHorseDTO = horseApplicationMapper.toUpdateDTO(horseUuid, updateHorseRequestDTO);
         HorseModel horse = horseService.update(updateHorseDTO);
-        HorseResponseDTO response = horsePresentationMapper.toHorseResponseDTO(horse);
+        HorseResponseDTO response = horsePresentationMapper.toResponseDTO(horse);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -134,7 +139,38 @@ public class HorseController {
             throws HorseNotFoundException, CannotTransitionHorseStateException {
 
         HorseModel horse = horseService.delete(horseUuid);
-        HorseResponseDTO response = horsePresentationMapper.toHorseResponseDTO(horse);
+        HorseResponseDTO response = horsePresentationMapper.toResponseDTO(horse);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Find all horses")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Horses found successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid request", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "401", description = "Unauthorized: Invalid credentials", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))})
+    })
+    @PreAuthorize("hasAnyAuthority({'ADMIN','REGULAR'})")
+    @GetMapping("/horses")
+    public ResponseEntity<Page<HorseResponseDTO>> findAll(@RequestParam(defaultValue = "10") int size,
+                                                         @RequestParam(defaultValue = "0") int page,
+                                                         @RequestParam(name = "state", required = false) Set<HorseStateDTO> states) {
+
+        FindHorsesDTO dto = FindHorsesDTO.builder()
+                .size(size)
+                .page(page)
+                .states(states != null ? horseApplicationMapper.toModel(states) : Collections.emptyList())
+                .build();
+
+        Page<HorseModel> horses = horseService.findAll(dto);
+        Page<HorseResponseDTO> response = horsePresentationMapper.toResponseDTO(horses);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

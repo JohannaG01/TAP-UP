@@ -1,6 +1,7 @@
 package com.johannag.tapup.horses.application.services;
 
 import com.johannag.tapup.horses.application.dtos.CreateHorseDTO;
+import com.johannag.tapup.horses.application.dtos.FindHorsesDTO;
 import com.johannag.tapup.horses.application.dtos.UpdateHorseDTO;
 import com.johannag.tapup.horses.application.exceptions.CannotTransitionHorseStateException;
 import com.johannag.tapup.horses.application.exceptions.HorseAlreadyExistsException;
@@ -8,9 +9,11 @@ import com.johannag.tapup.horses.application.exceptions.HorseNotFoundException;
 import com.johannag.tapup.horses.application.exceptions.InvalidHorseStateException;
 import com.johannag.tapup.horses.application.useCases.CreateHorseUseCase;
 import com.johannag.tapup.horses.application.useCases.DeactivateHorseUseCase;
+import com.johannag.tapup.horses.application.useCases.FindHorsesUseCase;
 import com.johannag.tapup.horses.application.useCases.UpdateHorseUseCase;
 import com.johannag.tapup.horses.domain.models.HorseModel;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -22,6 +25,7 @@ public class HorseServiceImpl implements HorseService {
     private final CreateHorseUseCase createHorseUseCase;
     private final UpdateHorseUseCase updateHorseUseCase;
     private final DeactivateHorseUseCase deactivateHorseUseCase;
+    private final FindHorsesUseCase findHorsesUseCase;
 
     @Override
     public HorseModel create(CreateHorseDTO dto) throws HorseAlreadyExistsException {
@@ -37,5 +41,10 @@ public class HorseServiceImpl implements HorseService {
     @Override
     public HorseModel delete(UUID uuid) throws HorseNotFoundException, CannotTransitionHorseStateException {
         return deactivateHorseUseCase.execute(uuid);
+    }
+
+    @Override
+    public Page<HorseModel> findAll(FindHorsesDTO dto) {
+        return findHorsesUseCase.execute(dto);
     }
 }

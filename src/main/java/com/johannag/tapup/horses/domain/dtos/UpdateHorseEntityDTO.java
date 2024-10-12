@@ -1,6 +1,7 @@
 package com.johannag.tapup.horses.domain.dtos;
 
 
+import com.johannag.tapup.globals.domain.models.SexModel;
 import com.johannag.tapup.globals.presentation.dtos.SexDTO;
 import com.johannag.tapup.horses.domain.models.HorseModelState;
 import lombok.Builder;
@@ -21,7 +22,7 @@ public class UpdateHorseEntityDTO {
     @Nullable
     LocalDate birthDate;
     @Nullable
-    SexDTO sex;
+    SexModel sex;
     @Nullable
     String color;
     @Nullable

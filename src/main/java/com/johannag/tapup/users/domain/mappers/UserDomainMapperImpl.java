@@ -11,17 +11,17 @@ import static com.johannag.tapup.globals.application.utils.ModelMapperUtils.buil
 @Component
 public class UserDomainMapperImpl implements UserDomainMapper {
 
-    private final TypeMap<CreateUserEntityDTO, UserEntity.Builder> createUserEntityDTOMapper;
+    private final TypeMap<CreateUserEntityDTO, UserEntity.Builder> entityMapper;
     private final TypeMap<UserEntity, UserModel.Builder> modelMapper;
 
     public UserDomainMapperImpl() {
-        createUserEntityDTOMapper = builderTypeMapper(CreateUserEntityDTO.class, UserEntity.Builder.class);
+        entityMapper = builderTypeMapper(CreateUserEntityDTO.class, UserEntity.Builder.class);
         modelMapper = builderTypeMapper(UserEntity.class, UserModel.Builder.class);
     }
 
     @Override
     public UserEntity toEntity(CreateUserEntityDTO userModel) {
-        return createUserEntityDTOMapper
+        return entityMapper
                 .map(userModel)
                 .build();
     }
