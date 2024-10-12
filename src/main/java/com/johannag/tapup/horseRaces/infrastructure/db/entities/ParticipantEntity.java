@@ -40,7 +40,7 @@ public class ParticipantEntity {
     private HorseEntity horse;
 
     @lombok.Builder.Default
-    @OneToMany(mappedBy = "participant", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "participant", fetch = FetchType.LAZY)
     private List<BetEntity> bets = new ArrayList<>();
 
     @Nullable
