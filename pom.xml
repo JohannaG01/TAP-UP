@@ -118,7 +118,7 @@
         <dependency>
             <groupId>com.github.spotbugs</groupId>
             <artifactId>spotbugs-annotations</artifactId>
-            <version>${sportbugs.version}}</version>
+            <version>${sportbugs.version}</version>
         </dependency>
 
 

@@ -27,7 +27,7 @@ public class UpdateHorseDTO {
     @Nullable
     HorseModelState state;
 
-    public boolean willTemporallyInactivateHorse() {
+    public boolean isStateTemporallyInactive() {
         return this.state != null && this.state == HorseModelState.TEMPORARILY_INACTIVE;
     }
 
