@@ -15,16 +15,16 @@ public class CreateUserRequestDTO {
 
     @NotBlank
     @Pattern(regexp = EMAIL_RGX, message = EMAIL_VALIDATION_MSG)
-    @Schema( example = "usuario@ejemplo.com")
+    @Schema(example = "usuario@ejemplo.com")
     String email;
     @NotBlank
-    @Schema( example = "Juan")
+    @Schema(example = "Juan")
     String name;
     @NotBlank
-    @Schema( example = "Perez")
+    @Schema(example = "Perez")
     String lastName;
     @NotBlank
     @Pattern(regexp = PASSWORD_RGX, message = PASSWORD_VALIDATION_MSG)
-    @Schema( example = "PasswordSecure123$")
+    @Schema(example = "PasswordSecure123$")
     String password;
 }

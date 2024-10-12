@@ -1,5 +1,6 @@
 package com.johannag.tapup.horses.presentation.controllers;
 
+import com.johannag.tapup.globals.presentation.errors.ErrorResponse;
 import com.johannag.tapup.horses.application.dtos.CreateHorseDTO;
 import com.johannag.tapup.horses.application.dtos.UpdateHorseDTO;
 import com.johannag.tapup.horses.application.exceptions.CannotTransitionHorseStateException;
@@ -13,6 +14,11 @@ import com.johannag.tapup.horses.presentation.dtos.requests.CreateHorseRequestDT
 import com.johannag.tapup.horses.presentation.dtos.requests.UpdateHorseRequestDTO;
 import com.johannag.tapup.horses.presentation.dtos.responses.HorseResponseDTO;
 import com.johannag.tapup.horses.presentation.mappers.HorsePresentationMapper;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +40,25 @@ public class HorseController {
     private final HorseService horseService;
     private final HorsePresentationMapper horsePresentationMapper;
 
+    @Operation(summary = "Creates horse")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Horse created successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid request", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "401", description = "Unauthorized: Invalid credentials", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "403", description = "Forbidden: Not enough privileges", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "409", description = "Conflict: Horse already exists", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))})
+    })
     @PreAuthorize("hasAnyAuthority({'ADMIN'})")
     @PostMapping("/horses")
     public ResponseEntity<HorseResponseDTO> create(@Valid @RequestBody CreateHorseRequestDTO createHorseRequestDTO)
@@ -46,6 +71,28 @@ public class HorseController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Updates horse")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Horse updated successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid request", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "401", description = "Unauthorized: Invalid credentials", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "403", description = "Forbidden: Not enough privileges", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "404", description = "Not Found: Horse not found", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "422", description = "Unprocessable Entity: Invalid state", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))})
+    })
     @PreAuthorize("hasAnyAuthority({'ADMIN'})")
     @PatchMapping("/horses/{horseUuid}")
     public ResponseEntity<HorseResponseDTO> update(@PathVariable UUID horseUuid,
@@ -59,6 +106,28 @@ public class HorseController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @Operation(summary = "Deletes horse")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Horse deleted successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid request", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "401", description = "Unauthorized: Invalid credentials", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "403", description = "Forbidden: Not enough privileges", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "404", description = "Not Found: Horse Not Found", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "422", description = "Unprocessable Entity: Invalid state", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))})
+    })
     @PreAuthorize("hasAnyAuthority({'ADMIN'})")
     @DeleteMapping("/horses/{horseUuid}")
     public ResponseEntity<HorseResponseDTO> delete(@PathVariable UUID horseUuid)

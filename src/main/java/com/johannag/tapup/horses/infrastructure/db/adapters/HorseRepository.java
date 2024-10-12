@@ -59,7 +59,7 @@ public interface HorseRepository {
      * <p>This method sets the state of the horse entity to inactive.
      *
      * @param uuid the UUID of the horse entity to be deactivated
-     * due to its current state
+     *             due to its current state
      */
     HorseModel deactivateByUuid(UUID uuid);
 }

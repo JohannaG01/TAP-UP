@@ -16,6 +16,6 @@ import java.math.BigDecimal;
 public class AddUserFundsRequestDTO {
     @NotNull
     @Positive
-    @Schema( example = "15412.18")
+    @Schema(example = "15412.18")
     BigDecimal amount;
 }

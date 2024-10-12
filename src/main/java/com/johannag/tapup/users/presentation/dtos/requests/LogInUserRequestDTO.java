@@ -14,9 +14,9 @@ import static com.johannag.tapup.globals.presentation.validations.constants.Rege
 public class LogInUserRequestDTO {
     @NotBlank
     @Pattern(regexp = EMAIL_RGX, message = EMAIL_VALIDATION_MSG)
-    @Schema( example = "usuario@ejemplo.com")
+    @Schema(example = "usuario@ejemplo.com")
     String email;
     @NotBlank
-    @Schema( example = "PasswordSecure123$")
+    @Schema(example = "PasswordSecure123$")
     String password;
 }

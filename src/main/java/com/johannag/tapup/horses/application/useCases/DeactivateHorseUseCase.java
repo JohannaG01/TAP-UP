@@ -1,7 +1,6 @@
 package com.johannag.tapup.horses.application.useCases;
 
 import com.johannag.tapup.globals.infrastructure.utils.Logger;
-import com.johannag.tapup.horses.application.mappers.HorseApplicationMapper;
 import com.johannag.tapup.horses.domain.models.HorseModel;
 import com.johannag.tapup.horses.infrastructure.db.adapters.HorseRepository;
 import lombok.AllArgsConstructor;
@@ -17,7 +16,7 @@ public class DeactivateHorseUseCase {
     private final HorseRepository horseRepository;
     private final FindHorseByUuidUseCase findHorseByUuidUseCase;
 
-    public HorseModel execute(UUID uuid){
+    public HorseModel execute(UUID uuid) {
         logger.info("Starting DeactivateHorse process for horse UUID %s", uuid.toString());
 
         findHorseByUuidUseCase.execute(uuid);
