@@ -3,7 +3,6 @@ package com.johannag.tapup.horses.application.dtos;
 import com.johannag.tapup.globals.presentation.dtos.SexDTO;
 import com.johannag.tapup.horses.application.exceptions.InvalidHorseStateException;
 import com.johannag.tapup.horses.domain.models.HorseModelState;
-import com.johannag.tapup.horses.presentation.dtos.HorseStateDTO;
 import lombok.Builder;
 import lombok.Value;
 import org.springframework.lang.Nullable;
@@ -28,12 +27,12 @@ public class UpdateHorseDTO {
     @Nullable
     HorseModelState state;
 
-    public boolean willTemporallyInactivateHorse(){
+    public boolean willTemporallyInactivateHorse() {
         return this.state != null && this.state == HorseModelState.TEMPORARILY_INACTIVE;
     }
 
-    public void validate(){
-        if (state == HorseModelState.INACTIVE){
+    public void validate() {
+        if (state == HorseModelState.INACTIVE) {
             throw new InvalidHorseStateException(state);
         }
     }

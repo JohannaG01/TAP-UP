@@ -2,7 +2,6 @@ package com.johannag.tapup.horses.application.useCases;
 
 import com.johannag.tapup.globals.infrastructure.utils.Logger;
 import com.johannag.tapup.horses.application.exceptions.HorseNotFoundException;
-import com.johannag.tapup.horses.application.mappers.HorseApplicationMapper;
 import com.johannag.tapup.horses.domain.models.HorseModel;
 import com.johannag.tapup.horses.infrastructure.db.adapters.HorseRepository;
 import lombok.AllArgsConstructor;
@@ -17,10 +16,10 @@ public class FindHorseByUuidUseCase {
     private static final Logger logger = Logger.getLogger(FindHorseByUuidUseCase.class);
     private final HorseRepository horseRepository;
 
-    public HorseModel execute (UUID uuid) {
+    public HorseModel execute(UUID uuid) {
         logger.info("Find horse by uuid: " + uuid);
 
-       return horseRepository.findMaybeByUuid(uuid)
+        return horseRepository.findMaybeByUuid(uuid)
                 .orElseThrow(() -> new HorseNotFoundException(uuid));
     }
 }

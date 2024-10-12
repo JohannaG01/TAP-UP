@@ -2,9 +2,9 @@ package com.johannag.tapup.horses.domain.models;
 
 import com.johannag.tapup.globals.domain.models.SexModel;
 import com.johannag.tapup.horseRaces.domain.models.ParticipantModel;
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @Data
 @Builder(builderClassName = "Builder")
-public class HorseModel{
+public class HorseModel {
     private UUID uuid;
     private List<ParticipantModel> participations;
     private String code;

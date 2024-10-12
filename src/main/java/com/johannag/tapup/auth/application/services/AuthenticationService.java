@@ -14,7 +14,7 @@ public interface AuthenticationService {
      * <p>This method generates a new JWT based on the provided user information and user ID.
      * The generated token can be used for authentication and authorization purposes.</p>
      *
-     * @param id the unique identifier of the user for whom the JWT is being created
+     * @param id   the unique identifier of the user for whom the JWT is being created
      * @param user the {@link UserModel} containing user details to include in the token
      * @return an {@link AuthTokenModel} representing the generated JWT
      */

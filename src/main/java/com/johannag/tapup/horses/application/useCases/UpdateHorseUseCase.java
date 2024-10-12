@@ -1,10 +1,11 @@
 package com.johannag.tapup.horses.application.useCases;
 
 import com.johannag.tapup.globals.infrastructure.utils.Logger;
-import com.johannag.tapup.horses.application.exceptions.CannotTemporallyInactivateHorseException;
-import com.johannag.tapup.horses.application.exceptions.HorseNotFoundException;
-import com.johannag.tapup.horses.application.mappers.HorseApplicationMapper;
 import com.johannag.tapup.horses.application.dtos.UpdateHorseDTO;
+import com.johannag.tapup.horses.application.exceptions.CannotTransitionHorseStateException;
+import com.johannag.tapup.horses.application.exceptions.HorseNotFoundException;
+import com.johannag.tapup.horses.application.exceptions.InvalidHorseStateException;
+import com.johannag.tapup.horses.application.mappers.HorseApplicationMapper;
 import com.johannag.tapup.horses.domain.dtos.UpdateHorseEntityDTO;
 import com.johannag.tapup.horses.domain.models.HorseModel;
 import com.johannag.tapup.horses.infrastructure.db.adapters.HorseRepository;
@@ -23,7 +24,7 @@ public class UpdateHorseUseCase {
     private final FindHorseByUuidUseCase findHorseByUuidUseCase;
 
     public HorseModel execute(UpdateHorseDTO dto) throws HorseNotFoundException,
-            CannotTemporallyInactivateHorseException {
+            CannotTransitionHorseStateException, InvalidHorseStateException {
         logger.info("Starting UpdateHorse process for horse with UUID [{}]", dto.getUuid());
 
         dto.validate();
@@ -38,7 +39,7 @@ public class UpdateHorseUseCase {
 
     public void validateCanUpdateHorseOrThrow(UpdateHorseDTO dto) {
         if (dto.willTemporallyInactivateHorse() && horseRepository.isHorseInScheduledMatch(dto.getUuid())) {
-            throw new CannotTemporallyInactivateHorseException(String.format(
+            throw new CannotTransitionHorseStateException(String.format(
                     "Unable to update state to [TEMPORALLY_INACTIVE]. The horse with UUID %s is currently in a " +
                             "scheduled race. Please cancel the corresponding race and try again.", dto.getUuid()),
                     HORSE_IN_SCHEDULED_MATCH.toString());

@@ -13,10 +13,12 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Documented
 @Retention(RUNTIME)
-@Target( {ElementType.FIELD})
+@Target({ElementType.FIELD})
 @Constraint(validatedBy = NullOrNotBlankConstraint.class)
 public @interface NullOrNotBlank {
     String message() default "Field cannot be blank";
-    Class<?>[] groups() default { };
+
+    Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
 }

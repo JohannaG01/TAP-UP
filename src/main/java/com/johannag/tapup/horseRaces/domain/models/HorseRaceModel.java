@@ -1,9 +1,7 @@
 package com.johannag.tapup.horseRaces.domain.models;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

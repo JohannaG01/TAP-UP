@@ -1,6 +1,5 @@
 package com.johannag.tapup.globals.application.utils;
 
-import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 import org.modelmapper.config.Configuration;

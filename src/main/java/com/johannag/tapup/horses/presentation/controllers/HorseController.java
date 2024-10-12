@@ -1,11 +1,13 @@
 package com.johannag.tapup.horses.presentation.controllers;
 
 import com.johannag.tapup.horses.application.dtos.CreateHorseDTO;
+import com.johannag.tapup.horses.application.dtos.UpdateHorseDTO;
+import com.johannag.tapup.horses.application.exceptions.CannotTransitionHorseStateException;
 import com.johannag.tapup.horses.application.exceptions.HorseAlreadyExistsException;
 import com.johannag.tapup.horses.application.exceptions.HorseNotFoundException;
+import com.johannag.tapup.horses.application.exceptions.InvalidHorseStateException;
 import com.johannag.tapup.horses.application.mappers.HorseApplicationMapper;
 import com.johannag.tapup.horses.application.services.HorseService;
-import com.johannag.tapup.horses.application.dtos.UpdateHorseDTO;
 import com.johannag.tapup.horses.domain.models.HorseModel;
 import com.johannag.tapup.horses.presentation.dtos.requests.CreateHorseRequestDTO;
 import com.johannag.tapup.horses.presentation.dtos.requests.UpdateHorseRequestDTO;
@@ -48,10 +50,21 @@ public class HorseController {
     @PatchMapping("/horses/{horseUuid}")
     public ResponseEntity<HorseResponseDTO> update(@PathVariable UUID horseUuid,
                                                    @Valid @RequestBody UpdateHorseRequestDTO updateHorseRequestDTO)
-            throws HorseNotFoundException, HorseAlreadyExistsException {
+            throws HorseNotFoundException, CannotTransitionHorseStateException, InvalidHorseStateException {
 
         UpdateHorseDTO updateHorseDTO = horseApplicationMapper.toUpdateHorseDTO(horseUuid, updateHorseRequestDTO);
         HorseModel horse = horseService.update(updateHorseDTO);
+        HorseResponseDTO response = horsePresentationMapper.toHorseResponseDTO(horse);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAnyAuthority({'ADMIN'})")
+    @DeleteMapping("/horses/{horseUuid}")
+    public ResponseEntity<HorseResponseDTO> delete(@PathVariable UUID horseUuid)
+            throws HorseNotFoundException, CannotTransitionHorseStateException {
+
+        HorseModel horse = horseService.delete(horseUuid);
         HorseResponseDTO response = horsePresentationMapper.toHorseResponseDTO(horse);
 
         return new ResponseEntity<>(response, HttpStatus.OK);

@@ -28,6 +28,7 @@ public class HorseRaceEntity {
     @Column(name = "uuid", nullable = false, updatable = false)
     private UUID uuid;
 
+    @lombok.Builder.Default
     @OneToMany(mappedBy = "horseRace", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<ParticipantEntity> participants = new ArrayList<>();
 

@@ -29,6 +29,7 @@
         <project.version>${project.version}</project.version>
         <lomkok.version>1.18.34</lomkok.version>
         <modelmapper.version>3.2.1</modelmapper.version>
+        <sportbugs.version>4.8.6</sportbugs.version>
     </properties>
 
     <dependencies>
@@ -113,6 +114,13 @@
             <artifactId>modelmapper</artifactId>
             <version>${modelmapper.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.github.spotbugs</groupId>
+            <artifactId>spotbugs-annotations</artifactId>
+            <version>${sportbugs.version}}</version>
+        </dependency>
+
 
     </dependencies>
 
