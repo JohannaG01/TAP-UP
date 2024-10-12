@@ -34,7 +34,7 @@ public class BetEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "participant_id", nullable = false, updatable = false)
-    private ParticipantEntity horseRace;
+    private ParticipantEntity participant;
 
     @Column(name = "amount", nullable = false, updatable = false)
     private BigDecimal amount;

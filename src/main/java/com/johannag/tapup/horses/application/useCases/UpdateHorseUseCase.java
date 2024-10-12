@@ -38,7 +38,7 @@ public class UpdateHorseUseCase {
     }
 
     public void validateCanUpdateHorseOrThrow(UpdateHorseDTO dto) {
-        if (dto.willTemporallyInactivateHorse() && horseRepository.isHorseInScheduledMatch(dto.getUuid())) {
+        if (dto.isStateTemporallyInactive() && horseRepository.isHorseInScheduledMatch(dto.getUuid())) {
             throw new CannotTransitionHorseStateException(String.format(
                     "Unable to update state to [TEMPORALLY_INACTIVE]. The horse with UUID %s is currently in a " +
                             "scheduled race. Please cancel the corresponding race and try again.", dto.getUuid()),
