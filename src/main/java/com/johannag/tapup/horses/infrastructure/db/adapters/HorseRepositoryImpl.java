@@ -22,9 +22,9 @@ import java.util.UUID;
 @AllArgsConstructor
 public class HorseRepositoryImpl implements HorseRepository {
 
+    private static final Logger logger = Logger.getLogger(HorseRepositoryImpl.class);
     private final JpaHorseRepository jpaHorseRepository;
     private final HorseDomainMapper horseDomainMapper;
-    private static final Logger logger = Logger.getLogger(HorseRepositoryImpl.class);
 
     @Override
     public boolean existsHorseByCode(String code) {
@@ -83,6 +83,17 @@ public class HorseRepositoryImpl implements HorseRepository {
         Optional.ofNullable(dto.getSex()).ifPresent(sex -> SexEntity.valueOf(sex.name()));
         Optional.ofNullable(dto.getColor()).ifPresent(horse::setColor);
         Optional.ofNullable(dto.getState()).ifPresent(state -> HorseEntityState.valueOf(state.name()));
+
+        jpaHorseRepository.saveAndFlush(horse);
+
+        return horseDomainMapper.toModelWithoutParticipations(horse);
+    }
+
+    @Override
+    @Transactional
+    public HorseModel deactivateByUuid(UUID uuid) {
+        HorseEntity horse = jpaHorseRepository.findOneByUuidForUpdate(uuid);
+        horse.setState(HorseEntityState.INACTIVE);
 
         jpaHorseRepository.saveAndFlush(horse);
 

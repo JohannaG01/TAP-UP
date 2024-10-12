@@ -63,7 +63,7 @@ public class SecurityContextUtils {
      *
      * @return the unique identifier of the user in context, or {@code null} if no user is present
      */
-    public static Long userOnContextId(){
+    public static Long userOnContextId() {
         return maybeUserOnContext()
                 .map(UserOnContext::getId)
                 .orElse(null);

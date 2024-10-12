@@ -11,7 +11,6 @@ import com.johannag.tapup.users.infrastructure.db.repositories.JpaUserRepository
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.UUID;

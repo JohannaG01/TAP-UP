@@ -30,9 +30,11 @@ public class UserEntity {
     @Column(name = "uuid", nullable = false, updatable = false)
     private UUID uuid;
 
+    @lombok.Builder.Default
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     private List<NotificationEntity> notifications = new ArrayList<>();
 
+    @lombok.Builder.Default
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     private List<BetEntity> bets = new ArrayList<>();
 

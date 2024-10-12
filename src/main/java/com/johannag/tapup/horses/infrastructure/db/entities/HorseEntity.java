@@ -30,6 +30,7 @@ public class HorseEntity {
     @Column(name = "uuid", nullable = false, updatable = false)
     private UUID uuid;
 
+    @lombok.Builder.Default
     @OneToMany(mappedBy = "horse", fetch = FetchType.LAZY)
     private List<ParticipantEntity> participations = new ArrayList<>();
 

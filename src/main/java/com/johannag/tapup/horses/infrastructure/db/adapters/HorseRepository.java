@@ -41,7 +41,7 @@ public interface HorseRepository {
      *
      * @param uuid the unique identifier of the horse to check
      * @return {@code true} if the horse is scheduled for a match;
-     *         {@code false} otherwise
+     * {@code false} otherwise
      */
     boolean isHorseInScheduledMatch(UUID uuid);
 
@@ -52,4 +52,14 @@ public interface HorseRepository {
      * @return an instance of {@link HorseModel} representing the updated horse
      */
     HorseModel update(UpdateHorseEntityDTO dto);
+
+    /**
+     * Deactivates the horse entity associated with the given UUID.
+     *
+     * <p>This method sets the state of the horse entity to inactive.
+     *
+     * @param uuid the UUID of the horse entity to be deactivated
+     *             due to its current state
+     */
+    HorseModel deactivateByUuid(UUID uuid);
 }

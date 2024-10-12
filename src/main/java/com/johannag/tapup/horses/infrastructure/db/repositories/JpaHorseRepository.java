@@ -39,10 +39,10 @@ public interface JpaHorseRepository extends JpaRepository<HorseEntity, Long> {
     /**
      * Retrieves an optional {@link HorseEntity} by its unique identifier (UUID) and a list of allowed states.
      *
-     * @param uuid the unique identifier of the horse to retrieve
+     * @param uuid   the unique identifier of the horse to retrieve
      * @param states a list of {@link HorseEntityState} representing the valid states of the horse
      * @return an {@link Optional} containing the {@link HorseEntity} if found with the specified UUID and state,
-     *         or an empty {@link Optional} if no horse exists with the given UUID in the specified states
+     * or an empty {@link Optional} if no horse exists with the given UUID in the specified states
      */
     Optional<HorseEntity> findMaybeOneByUuidAndStateIn(UUID uuid, List<HorseEntityState> states);
 
@@ -50,10 +50,10 @@ public interface JpaHorseRepository extends JpaRepository<HorseEntity, Long> {
      * Checks if a {@link HorseEntity} exists with the specified UUID and is participating
      * in a horse race that has the given state.
      *
-     * @param uuid the UUID of the horse entity to check
+     * @param uuid  the UUID of the horse entity to check
      * @param state the state of the horse race to match
      * @return {@code true} if a horse with the specified UUID exists and is participating
-     *         in a race with the given state, {@code false} otherwise
+     * in a race with the given state, {@code false} otherwise
      */
     boolean existsByUuidAndParticipations_HorseRace_State(UUID uuid, HorseRaceEntityState state);
 
@@ -63,7 +63,7 @@ public interface JpaHorseRepository extends JpaRepository<HorseEntity, Long> {
      *
      * @param uuid the UUID of the horse entity to retrieve
      * @return the {@link HorseEntity} associated with the specified UUID, or {@code null}
-     *         if no such entity exists
+     * if no such entity exists
      */
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT h FROM HorseEntity h WHERE h.uuid = :uuid")

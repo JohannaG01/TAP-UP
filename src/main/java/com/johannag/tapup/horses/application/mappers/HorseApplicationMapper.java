@@ -1,8 +1,8 @@
 package com.johannag.tapup.horses.application.mappers;
 
 import com.johannag.tapup.horses.application.dtos.CreateHorseDTO;
-import com.johannag.tapup.horses.domain.dtos.CreateHorseEntityDTO;
 import com.johannag.tapup.horses.application.dtos.UpdateHorseDTO;
+import com.johannag.tapup.horses.domain.dtos.CreateHorseEntityDTO;
 import com.johannag.tapup.horses.domain.dtos.UpdateHorseEntityDTO;
 import com.johannag.tapup.horses.presentation.dtos.requests.CreateHorseRequestDTO;
 import com.johannag.tapup.horses.presentation.dtos.requests.UpdateHorseRequestDTO;
@@ -34,7 +34,7 @@ public interface HorseApplicationMapper {
      * Converts a {@link UpdateHorseRequestDTO} to a {@link UpdateHorseDTO} using the specified horse UUID.
      *
      * @param horseUuid the UUID of the horse to which the patch request applies
-     * @param dto the source {@link UpdateHorseRequestDTO} object to be converted
+     * @param dto       the source {@link UpdateHorseRequestDTO} object to be converted
      * @return a {@link UpdateHorseDTO} object representing the converted data, associated with the given horse UUID
      */
     UpdateHorseDTO toUpdateHorseDTO(UUID horseUuid, UpdateHorseRequestDTO dto);

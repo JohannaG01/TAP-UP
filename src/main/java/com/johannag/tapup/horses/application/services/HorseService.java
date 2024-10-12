@@ -1,11 +1,14 @@
 package com.johannag.tapup.horses.application.services;
 
 import com.johannag.tapup.horses.application.dtos.CreateHorseDTO;
-import com.johannag.tapup.horses.application.exceptions.CannotTemporallyInactivateHorseException;
+import com.johannag.tapup.horses.application.dtos.UpdateHorseDTO;
+import com.johannag.tapup.horses.application.exceptions.CannotTransitionHorseStateException;
 import com.johannag.tapup.horses.application.exceptions.HorseAlreadyExistsException;
 import com.johannag.tapup.horses.application.exceptions.HorseNotFoundException;
-import com.johannag.tapup.horses.application.dtos.UpdateHorseDTO;
+import com.johannag.tapup.horses.application.exceptions.InvalidHorseStateException;
 import com.johannag.tapup.horses.domain.models.HorseModel;
+
+import java.util.UUID;
 
 public interface HorseService {
 
@@ -27,9 +30,21 @@ public interface HorseService {
      *
      * @param dto the {@link UpdateHorseDTO} containing the data to update
      * @return the updated {@link HorseModel} object
-     * @throws HorseNotFoundException                   if no horse entity is found for the provided identifier
-     * @throws CannotTemporallyInactivateHorseException if horse is in schedule match and operation will temporally
-     * inactivate it
+     * @throws HorseNotFoundException              if no horse entity is found for the provided identifier
+     * @throws CannotTransitionHorseStateException if horse is in schedule race and operation will temporally
+     *                                             inactivate it
+     * @throws InvalidHorseStateException          if attempted to modify horse state to INACTIVE
      */
-    HorseModel update(UpdateHorseDTO dto) throws HorseNotFoundException, CannotTemporallyInactivateHorseException;
+    HorseModel update(UpdateHorseDTO dto) throws HorseNotFoundException, CannotTransitionHorseStateException,
+            InvalidHorseStateException;
+
+    /**
+     * Deletes a horse entity by its UUID.
+     *
+     * @param uuid the UUID of the horse to be deleted.
+     * @return the {@link HorseModel} representing the deleted horse.
+     * @throws HorseNotFoundException              if no horse with the given UUID is found.
+     * @throws CannotTransitionHorseStateException if horse is in schedule race
+     */
+    HorseModel delete(UUID uuid) throws HorseNotFoundException, CannotTransitionHorseStateException;
 }

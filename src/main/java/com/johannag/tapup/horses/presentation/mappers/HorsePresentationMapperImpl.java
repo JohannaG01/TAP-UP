@@ -1,11 +1,8 @@
 package com.johannag.tapup.horses.presentation.mappers;
 
-import com.johannag.tapup.auth.presentation.mappers.AuthTokenPresentationMapper;
 import com.johannag.tapup.horses.domain.models.HorseModel;
 import com.johannag.tapup.horses.presentation.dtos.HorseStateDTO;
 import com.johannag.tapup.horses.presentation.dtos.responses.HorseResponseDTO;
-import com.johannag.tapup.users.domain.models.UserModel;
-import com.johannag.tapup.users.presentation.dtos.responses.UserResponseDTO;
 import org.modelmapper.TypeMap;
 import org.springframework.stereotype.Component;
 

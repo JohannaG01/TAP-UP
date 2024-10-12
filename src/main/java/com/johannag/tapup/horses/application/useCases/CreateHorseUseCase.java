@@ -29,9 +29,9 @@ public class CreateHorseUseCase {
         return horseModel;
     }
 
-    private void validateHorseDoesNotExistsOrThrow(String code){
+    private void validateHorseDoesNotExistsOrThrow(String code) {
         logger.info("Validating weather or not horse with code [{}] exists", code);
-        if (horseRepository.existsHorseByCode(code)){
+        if (horseRepository.existsHorseByCode(code)) {
             throw new HorseAlreadyExistsException(code);
         }
     }
