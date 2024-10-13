@@ -4,6 +4,7 @@ import com.johannag.tapup.horses.domain.models.HorseModel;
 import com.johannag.tapup.horses.presentation.dtos.responses.HorseResponseDTO;
 import org.modelmapper.TypeMap;
 import org.springframework.data.domain.Page;
+import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.stereotype.Component;
 
 import static com.johannag.tapup.globals.application.utils.ModelMapperUtils.builderTypeMapper;
