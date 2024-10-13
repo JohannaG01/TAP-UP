@@ -1,12 +1,14 @@
 package com.johannag.tapup.horses.application.services;
 
 import com.johannag.tapup.horses.application.dtos.CreateHorseDTO;
+import com.johannag.tapup.horses.application.dtos.FindHorsesDTO;
 import com.johannag.tapup.horses.application.dtos.UpdateHorseDTO;
 import com.johannag.tapup.horses.application.exceptions.CannotTransitionHorseStateException;
 import com.johannag.tapup.horses.application.exceptions.HorseAlreadyExistsException;
 import com.johannag.tapup.horses.application.exceptions.HorseNotFoundException;
 import com.johannag.tapup.horses.application.exceptions.InvalidHorseStateException;
 import com.johannag.tapup.horses.domain.models.HorseModel;
+import org.springframework.data.domain.Page;
 
 import java.util.UUID;
 
@@ -47,4 +49,26 @@ public interface HorseService {
      * @throws CannotTransitionHorseStateException if horse is in schedule race
      */
     HorseModel delete(UUID uuid) throws HorseNotFoundException, CannotTransitionHorseStateException;
+
+    /**
+     * Retrieves a paginated list of {@link HorseModel} based on the specified
+     * criteria in the {@link FindHorsesDTO}. The results can be filtered by
+     * horse states and paginated according to the requested page number and size.
+     *
+     * @param dto The data transfer object containing pagination and filtering criteria,
+     *            including page number, size, and an optional list of horse states.
+     * @return A {@link Page} containing a list of {@link HorseModel} that match the
+     * specified criteria. The page includes metadata about the total number of
+     * items, total pages, and whether there are more pages available.
+     */
+    Page<HorseModel> findAll(FindHorsesDTO dto);
+
+    /**
+     * Finds a horse by its unique identifier (UUID).
+     *
+     * @param uuid the unique identifier of the horse
+     * @return the {@link HorseModel} associated with the given UUID
+     * @throws HorseNotFoundException if no horse is found with the provided UUID
+     */
+    HorseModel findByUuid(UUID uuid) throws HorseNotFoundException;
 }

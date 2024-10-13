@@ -30,7 +30,7 @@ public class UpdateHorseUseCase {
         dto.validate();
         findHorseByUuidUseCase.execute(dto.getUuid());
         validateCanUpdateHorseOrThrow(dto);
-        UpdateHorseEntityDTO updateHorseEntityDTO = horseApplicationMapper.toUpdateHorseEntityDTO(dto);
+        UpdateHorseEntityDTO updateHorseEntityDTO = horseApplicationMapper.toUpdateEntityDTO(dto);
         HorseModel horseModel = horseRepository.update(updateHorseEntityDTO);
 
         logger.info("Finished UpdateHorse process for horse with UUID [{}]", dto.getUuid());

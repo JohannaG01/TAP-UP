@@ -28,4 +28,11 @@ public interface AuthenticationService {
      * @throws JwtTokenInvalidException if the JWT is invalid or cannot be parsed.
      */
     Claims validateJwtToken(String jwt) throws JwtTokenInvalidException;
+
+    /**
+     * Checks if the current user has the role of an admin user.
+     *
+     * @return {@code true} if the current user is an admin user; {@code false} otherwise.
+     */
+    boolean isAdminUser();
 }

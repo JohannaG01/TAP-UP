@@ -5,9 +5,9 @@ import java.util.List;
 public enum HorseEntityState {
     ACTIVE,
     INACTIVE,
-    TEMPORARILY_INACTIVE;
+    TEMPORALLY_INACTIVE;
 
     public static List<HorseEntityState> existenceStates() {
-        return List.of(ACTIVE, TEMPORARILY_INACTIVE);
+        return List.of(ACTIVE, TEMPORALLY_INACTIVE);
     }
 }

@@ -19,7 +19,7 @@ public interface UserApplicationMapper {
      * @param dto the CreateUserRequestDTO object to be converted
      * @return a CreateUserDTO representation of the provided CreateUserRequestDTO
      */
-    CreateUserDTO toCreateUserDTO(CreateUserRequestDTO dto);
+    CreateUserDTO toCreateDTO(CreateUserRequestDTO dto);
 
     /**
      * Converts a {@link CreateUserDTO} to a {@link CreateUserEntityDTO}.
@@ -27,7 +27,7 @@ public interface UserApplicationMapper {
      * @param dto the {@link CreateUserDTO} to be converted
      * @return the corresponding {@link CreateUserEntityDTO} representation of the provided DTO
      */
-    CreateUserEntityDTO toCreateUserEntityDTO(CreateUserDTO dto, String hashedPassword);
+    CreateUserEntityDTO toCreateEntityDTO(CreateUserDTO dto, String hashedPassword);
 
     /**
      * Converts a {@link LogInUserRequestDTO} object into a {@link LogInUserDTO} object.
@@ -35,7 +35,7 @@ public interface UserApplicationMapper {
      * @param dto The {@link LogInUserRequestDTO} object containing the login data.
      * @return A {@link LogInUserDTO} object representing the user data ready for authentication.
      */
-    LogInUserDTO toLogInUserDTO(LogInUserRequestDTO dto);
+    LogInUserDTO toLogInDTO(LogInUserRequestDTO dto);
 
     /**
      * Converts an {@link AddUserFundsRequestDTO} to an {@link AddUserFundsDTO}
@@ -51,15 +51,14 @@ public interface UserApplicationMapper {
      * @param dto      the data transfer object containing the user funds request information
      * @return an {@link AddUserFundsDTO} instance populated with the data from the input DTO
      */
-    AddUserFundsDTO toAddUserFundsDTO(UUID userUuid, AddUserFundsRequestDTO dto);
+    AddUserFundsDTO toAddFundsDTO(UUID userUuid, AddUserFundsRequestDTO dto);
 
     /**
      * Converts an {@link AddUserFundsDTO} to an {@link AddUserFundsToEntityDTO}.
      *
      * @param dto the {@link AddUserFundsDTO} object to be converted. Must not be null.
      * @return the converted {@link AddUserFundsToEntityDTO} object.
-     * @throws IllegalArgumentException if the provided {@code dto} is null.
      */
-    AddUserFundsToEntityDTO toAddUserFundsToEntityDTO(AddUserFundsDTO dto);
+    AddUserFundsToEntityDTO toAddFundsToEntityDTO(AddUserFundsDTO dto);
 
 }

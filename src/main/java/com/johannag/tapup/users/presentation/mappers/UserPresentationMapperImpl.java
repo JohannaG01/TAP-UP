@@ -18,26 +18,26 @@ import static com.johannag.tapup.globals.application.utils.ModelMapperUtils.buil
 public class UserPresentationMapperImpl implements UserPresentationMapper {
 
     private final AuthTokenPresentationMapper authTokenPresentationMapper;
-    private final TypeMap<UserModel, UserResponseDTO.Builder> userResponseDTOMapper;
+    private final TypeMap<UserModel, UserResponseDTO.Builder> responseDTOMapper;
 
     @Autowired
     public UserPresentationMapperImpl(AuthTokenPresentationMapper authTokenPresentationMapper) {
         this.authTokenPresentationMapper = authTokenPresentationMapper;
-        userResponseDTOMapper = builderTypeMapper(UserModel.class, UserResponseDTO.Builder.class);
+        responseDTOMapper = builderTypeMapper(UserModel.class, UserResponseDTO.Builder.class);
     }
 
     @Override
-    public UserResponseDTO toUserResponseDTO(UserModel userModel) {
-        return userResponseDTOMapper
+    public UserResponseDTO toResponseDTO(UserModel userModel) {
+        return responseDTOMapper
                 .map(userModel)
                 .build();
     }
 
     @Override
-    public UserWithAuthTokenResponseDTO toUserWithTokenResponseDTO(UserWithAuthTokenModel userWithAuthTokenModel) {
+    public UserWithAuthTokenResponseDTO toResponseDTO(UserWithAuthTokenModel userWithAuthTokenModel) {
         AuthTokenResponseDTO authTokenResponseDTO =
-                authTokenPresentationMapper.toAuthTokenResponseDTO(userWithAuthTokenModel.getToken());
-        UserResponseDTO userResponseDTO = toUserResponseDTO(userWithAuthTokenModel.getUser());
+                authTokenPresentationMapper.toResponseDTO(userWithAuthTokenModel.getToken());
+        UserResponseDTO userResponseDTO = toResponseDTO(userWithAuthTokenModel.getUser());
 
         return UserWithAuthTokenResponseDTO.builder()
                 .token(authTokenResponseDTO)

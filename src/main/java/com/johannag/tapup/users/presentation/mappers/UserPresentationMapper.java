@@ -13,7 +13,7 @@ public interface UserPresentationMapper {
      * @param userModel the UserModel object to be converted
      * @return a UserResponseDTO representation of the provided UserModel
      */
-    UserResponseDTO toUserResponseDTO(UserModel userModel);
+    UserResponseDTO toResponseDTO(UserModel userModel);
 
     /**
      * Converts a {@link UserWithAuthTokenModel} object into a {@link UserWithAuthTokenResponseDTO} object.
@@ -22,5 +22,5 @@ public interface UserPresentationMapper {
      * @return A {@link UserWithAuthTokenResponseDTO} object representing the user data and token formatted for the
      * response.
      */
-    UserWithAuthTokenResponseDTO toUserWithTokenResponseDTO(UserWithAuthTokenModel userWithAuthTokenModel);
+    UserWithAuthTokenResponseDTO toResponseDTO(UserWithAuthTokenModel userWithAuthTokenModel);
 }

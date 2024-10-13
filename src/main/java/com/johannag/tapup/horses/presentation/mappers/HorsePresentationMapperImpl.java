@@ -1,9 +1,9 @@
 package com.johannag.tapup.horses.presentation.mappers;
 
 import com.johannag.tapup.horses.domain.models.HorseModel;
-import com.johannag.tapup.horses.presentation.dtos.HorseStateDTO;
 import com.johannag.tapup.horses.presentation.dtos.responses.HorseResponseDTO;
 import org.modelmapper.TypeMap;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import static com.johannag.tapup.globals.application.utils.ModelMapperUtils.builderTypeMapper;
@@ -11,17 +11,21 @@ import static com.johannag.tapup.globals.application.utils.ModelMapperUtils.buil
 @Component
 public class HorsePresentationMapperImpl implements HorsePresentationMapper {
 
-    private final TypeMap<HorseModel, HorseResponseDTO.Builder> horseResponseDTOMapper;
+    private final TypeMap<HorseModel, HorseResponseDTO.Builder> responseDTOMapper;
 
     public HorsePresentationMapperImpl() {
-        horseResponseDTOMapper = builderTypeMapper(HorseModel.class, HorseResponseDTO.Builder.class);
+        responseDTOMapper = builderTypeMapper(HorseModel.class, HorseResponseDTO.Builder.class);
     }
 
     @Override
-    public HorseResponseDTO toHorseResponseDTO(HorseModel horse) {
-        return horseResponseDTOMapper
+    public HorseResponseDTO toResponseDTO(HorseModel horse) {
+        return responseDTOMapper
                 .map(horse)
-                .state(HorseStateDTO.valueOf(horse.getState().name()))
                 .build();
+    }
+
+    @Override
+    public Page<HorseResponseDTO> toResponseDTO(Page<HorseModel> horses) {
+        return horses.map(this::toResponseDTO);
     }
 }

@@ -42,7 +42,7 @@ public class SignInUserUseCase {
         logger.info("Creating hash for password");
 
         String hashedPassword = PasswordUtils.hash(dto.getPassword());
-        CreateUserEntityDTO createUserEntityDTO = userApplicationMapper.toCreateUserEntityDTO(dto, hashedPassword);
+        CreateUserEntityDTO createUserEntityDTO = userApplicationMapper.toCreateEntityDTO(dto, hashedPassword);
 
         return createUserEntityDTO;
     }

@@ -1,6 +1,6 @@
 package com.johannag.tapup.horses.application.dtos;
 
-import com.johannag.tapup.globals.presentation.dtos.SexDTO;
+import com.johannag.tapup.globals.domain.models.SexModel;
 import lombok.Builder;
 import lombok.Value;
 
@@ -13,6 +13,6 @@ public class CreateHorseDTO {
     String name;
     String breed;
     LocalDate birthDate;
-    SexDTO sex;
+    SexModel sex;
     String color;
 }

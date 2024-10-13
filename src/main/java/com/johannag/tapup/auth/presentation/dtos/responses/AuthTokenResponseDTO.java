@@ -11,8 +11,6 @@ import java.time.LocalDateTime;
 @Builder(builderClassName = "Builder")
 public class AuthTokenResponseDTO {
     @NotNull
-    String token;
-    @NotNull
     String value;
     @Schema(example = "Bearer")
     @NotNull

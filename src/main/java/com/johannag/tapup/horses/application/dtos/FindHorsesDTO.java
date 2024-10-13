@@ -1,29 +1,32 @@
-package com.johannag.tapup.horses.domain.dtos;
-
+package com.johannag.tapup.horses.application.dtos;
 
 import com.johannag.tapup.globals.domain.models.SexModel;
 import com.johannag.tapup.horses.domain.models.HorseModelState;
 import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
 import org.springframework.lang.Nullable;
 
 import java.time.LocalDate;
-import java.util.UUID;
+import java.util.List;
 
-@Value
+@Data
 @Builder(builderClassName = "Builder")
-public class UpdateHorseEntityDTO {
-    UUID uuid;
+public class FindHorsesDTO {
+    int size;
+    int page;
+    List<HorseModelState> states;
     @Nullable
     String name;
     @Nullable
-    String breed;
+    String code;
     @Nullable
-    LocalDate birthDate;
+    String breed;
     @Nullable
     SexModel sex;
     @Nullable
-    String color;
+    LocalDate birthDateFrom;
     @Nullable
-    HorseModelState state;
+    LocalDate birthDateTo;
+    @Nullable
+    String color;
 }

@@ -2,6 +2,7 @@ package com.johannag.tapup.horses.presentation.controllers;
 
 import com.johannag.tapup.globals.presentation.errors.ErrorResponse;
 import com.johannag.tapup.horses.application.dtos.CreateHorseDTO;
+import com.johannag.tapup.horses.application.dtos.FindHorsesDTO;
 import com.johannag.tapup.horses.application.dtos.UpdateHorseDTO;
 import com.johannag.tapup.horses.application.exceptions.CannotTransitionHorseStateException;
 import com.johannag.tapup.horses.application.exceptions.HorseAlreadyExistsException;
@@ -10,10 +11,12 @@ import com.johannag.tapup.horses.application.exceptions.InvalidHorseStateExcepti
 import com.johannag.tapup.horses.application.mappers.HorseApplicationMapper;
 import com.johannag.tapup.horses.application.services.HorseService;
 import com.johannag.tapup.horses.domain.models.HorseModel;
+import com.johannag.tapup.horses.presentation.dtos.query.FindHorsesQuery;
 import com.johannag.tapup.horses.presentation.dtos.requests.CreateHorseRequestDTO;
 import com.johannag.tapup.horses.presentation.dtos.requests.UpdateHorseRequestDTO;
 import com.johannag.tapup.horses.presentation.dtos.responses.HorseResponseDTO;
 import com.johannag.tapup.horses.presentation.mappers.HorsePresentationMapper;
+import com.johannag.tapup.users.presentation.schema.PageHorseResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -22,6 +25,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -42,7 +47,8 @@ public class HorseController {
 
     @Operation(summary = "Creates horse")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Horse created successfully"),
+            @ApiResponse(responseCode = "201", description = "Horse created successfully", content = {
+                    @Content(mediaType = "application/json")}),
             @ApiResponse(responseCode = "400", description = "Invalid request", content = {
                     @Content(mediaType = "application/json", schema =
                     @Schema(implementation = ErrorResponse.class))}),
@@ -64,16 +70,17 @@ public class HorseController {
     public ResponseEntity<HorseResponseDTO> create(@Valid @RequestBody CreateHorseRequestDTO createHorseRequestDTO)
             throws HorseAlreadyExistsException {
 
-        CreateHorseDTO createHorseDTO = horseApplicationMapper.toCreateHorseDTO(createHorseRequestDTO);
+        CreateHorseDTO createHorseDTO = horseApplicationMapper.toCreateDTO(createHorseRequestDTO);
         HorseModel horse = horseService.create(createHorseDTO);
-        HorseResponseDTO response = horsePresentationMapper.toHorseResponseDTO(horse);
+        HorseResponseDTO response = horsePresentationMapper.toResponseDTO(horse);
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @Operation(summary = "Updates horse")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Horse updated successfully"),
+            @ApiResponse(responseCode = "201", description = "Horse updated successfully", content = {
+                    @Content(mediaType = "application/json")}),
             @ApiResponse(responseCode = "400", description = "Invalid request", content = {
                     @Content(mediaType = "application/json", schema =
                     @Schema(implementation = ErrorResponse.class))}),
@@ -99,16 +106,17 @@ public class HorseController {
                                                    @Valid @RequestBody UpdateHorseRequestDTO updateHorseRequestDTO)
             throws HorseNotFoundException, CannotTransitionHorseStateException, InvalidHorseStateException {
 
-        UpdateHorseDTO updateHorseDTO = horseApplicationMapper.toUpdateHorseDTO(horseUuid, updateHorseRequestDTO);
+        UpdateHorseDTO updateHorseDTO = horseApplicationMapper.toUpdateDTO(horseUuid, updateHorseRequestDTO);
         HorseModel horse = horseService.update(updateHorseDTO);
-        HorseResponseDTO response = horsePresentationMapper.toHorseResponseDTO(horse);
+        HorseResponseDTO response = horsePresentationMapper.toResponseDTO(horse);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @Operation(summary = "Deletes horse")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Horse deleted successfully"),
+            @ApiResponse(responseCode = "200", description = "Horse deleted successfully", content = {
+                    @Content(mediaType = "application/json")}),
             @ApiResponse(responseCode = "400", description = "Invalid request", content = {
                     @Content(mediaType = "application/json", schema =
                     @Schema(implementation = ErrorResponse.class))}),
@@ -134,8 +142,63 @@ public class HorseController {
             throws HorseNotFoundException, CannotTransitionHorseStateException {
 
         HorseModel horse = horseService.delete(horseUuid);
-        HorseResponseDTO response = horsePresentationMapper.toHorseResponseDTO(horse);
+        HorseResponseDTO response = horsePresentationMapper.toResponseDTO(horse);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Find all horses")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Horses found successfully", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation =
+                            PageHorseResponseDTO.class))
+            }),
+            @ApiResponse(responseCode = "400", description = "Invalid request", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "401", description = "Unauthorized: Invalid credentials", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))})
+    })
+    @PreAuthorize("hasAnyAuthority({'ADMIN','REGULAR'})")
+    @GetMapping("/horses")
+    public ResponseEntity<Page<HorseResponseDTO>> findAll(@Valid @ParameterObject @ModelAttribute FindHorsesQuery findHorsesQuery) {
+
+        FindHorsesDTO dto = horseApplicationMapper.toFindDTO(findHorsesQuery);
+        Page<HorseModel> horses = horseService.findAll(dto);
+        Page<HorseResponseDTO> response = horsePresentationMapper.toResponseDTO(horses);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Find horse by Uuid")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Horse found successfully", content = {
+                    @Content(mediaType = "application/json")}),
+            @ApiResponse(responseCode = "400", description = "Invalid request", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "401", description = "Unauthorized: Invalid credentials", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "404", description = "Not Found: Horse Not Found", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))})
+    })
+    @PreAuthorize("hasAnyAuthority({'ADMIN','REGULAR'})")
+    @GetMapping("/horses/{horseUuid}")
+    public ResponseEntity<HorseResponseDTO> findByUuid(@PathVariable UUID horseUuid) throws HorseNotFoundException {
+
+        HorseModel horses = horseService.findByUuid(horseUuid);
+        HorseResponseDTO response = horsePresentationMapper.toResponseDTO(horses);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
+

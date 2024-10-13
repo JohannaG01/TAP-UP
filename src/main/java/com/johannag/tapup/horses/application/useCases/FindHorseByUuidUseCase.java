@@ -17,9 +17,12 @@ public class FindHorseByUuidUseCase {
     private final HorseRepository horseRepository;
 
     public HorseModel execute(UUID uuid) {
-        logger.info("Find horse by uuid: " + uuid);
+        logger.info("Starting findHorse process for uuid: [{}]", uuid);
 
-        return horseRepository.findMaybeByUuid(uuid)
+        HorseModel horse = horseRepository.findMaybeByUuid(uuid)
                 .orElseThrow(() -> new HorseNotFoundException(uuid));
+
+        logger.info("Finished findHorse process for uuid: [{}]", uuid);
+        return horse;
     }
 }

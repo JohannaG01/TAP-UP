@@ -5,6 +5,7 @@ import com.johannag.tapup.horses.infrastructure.db.entities.HorseEntity;
 import com.johannag.tapup.horses.infrastructure.db.entities.HorseEntityState;
 import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -14,7 +15,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface JpaHorseRepository extends JpaRepository<HorseEntity, Long> {
+public interface JpaHorseRepository extends JpaRepository<HorseEntity, Long>, JpaSpecificationExecutor<HorseEntity> {
 
     /**
      * Checks if a horse entity exists with the specified code and state.

@@ -45,7 +45,8 @@ public class UserController {
 
     @Operation(summary = "Creates user")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "User created successfully"),
+            @ApiResponse(responseCode = "201", description = "User created successfully", content = {
+                    @Content(mediaType = "application/json")}),
             @ApiResponse(responseCode = "400", description = "Invalid request", content = {
                     @Content(mediaType = "application/json", schema =
                     @Schema(implementation = ErrorResponse.class))}),
@@ -60,16 +61,17 @@ public class UserController {
     public ResponseEntity<UserResponseDTO> signIn(@Valid @RequestBody CreateUserRequestDTO createUserRequestDTO)
             throws UserAlreadyExistsException {
 
-        CreateUserDTO createUserDTO = userApplicationMapper.toCreateUserDTO(createUserRequestDTO);
+        CreateUserDTO createUserDTO = userApplicationMapper.toCreateDTO(createUserRequestDTO);
         UserModel user = userService.signIn(createUserDTO);
-        UserResponseDTO response = userPresentationMapper.toUserResponseDTO(user);
+        UserResponseDTO response = userPresentationMapper.toResponseDTO(user);
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @Operation(summary = "LogIn user")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "User logIn successfully"),
+            @ApiResponse(responseCode = "200", description = "User logIn successfully", content = {
+                    @Content(mediaType = "application/json")}),
             @ApiResponse(responseCode = "400", description = "Invalid request", content = {
                     @Content(mediaType = "application/json", schema =
                     @Schema(implementation = ErrorResponse.class))}),
@@ -84,16 +86,17 @@ public class UserController {
     public ResponseEntity<UserWithAuthTokenResponseDTO> logIn(@Valid @RequestBody LogInUserRequestDTO createUserRequestDTO)
             throws InvalidLoginCredentialsException {
 
-        LogInUserDTO logInUserDTO = userApplicationMapper.toLogInUserDTO(createUserRequestDTO);
+        LogInUserDTO logInUserDTO = userApplicationMapper.toLogInDTO(createUserRequestDTO);
         UserWithAuthTokenModel userWithToken = userService.logIn(logInUserDTO);
-        UserWithAuthTokenResponseDTO response = userPresentationMapper.toUserWithTokenResponseDTO(userWithToken);
+        UserWithAuthTokenResponseDTO response = userPresentationMapper.toResponseDTO(userWithToken);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @Operation(summary = "Add funds to user")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Add funds to user successfully"),
+            @ApiResponse(responseCode = "200", description = "Add funds to user successfully", content = {
+                    @Content(mediaType = "application/json")}),
             @ApiResponse(responseCode = "400", description = "Invalid request body", content = {
                     @Content(mediaType = "application/json", schema =
                     @Schema(implementation = ErrorResponse.class))}),
@@ -118,9 +121,9 @@ public class UserController {
                                                     @Valid @RequestBody AddUserFundsRequestDTO createUserRequestDTO)
             throws UserNotFoundException {
 
-        AddUserFundsDTO addUserFundsDTO = userApplicationMapper.toAddUserFundsDTO(userUuid, createUserRequestDTO);
+        AddUserFundsDTO addUserFundsDTO = userApplicationMapper.toAddFundsDTO(userUuid, createUserRequestDTO);
         UserModel user = userService.addFunds(addUserFundsDTO);
-        UserResponseDTO response = userPresentationMapper.toUserResponseDTO(user);
+        UserResponseDTO response = userPresentationMapper.toResponseDTO(user);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
