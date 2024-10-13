@@ -115,6 +115,13 @@ public class HorseRepositoryImpl implements HorseRepository {
 
         Specification<HorseEntity> spec = new JpaHorseSpecifications.Builder()
                 .withStates(horseDomainMapper.toEntity(dto.getStates()))
+                .withName(dto.getName())
+                .withCode(dto.getCode())
+                .withSex(globalDomainMapper.toEntity(dto.getSex()))
+                .withBirthDateFrom(dto.getBirthDateFrom())
+                .withBirthDateTo(dto.getBirthDateTo())
+                .withBreed(dto.getBreed())
+                .withColor(dto.getColor())
                 .build();
 
         return jpaHorseRepository

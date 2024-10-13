@@ -17,23 +17,29 @@ import java.util.UUID;
 public class HorseResponseDTO {
     @NotNull
     UUID uuid;
+
     @Schema(example = "1312313")
     @NotNull
     String code;
+
     @Schema(example = "Pancho")
     @NotNull
     String name;
+
     @Schema(example = "Arabic")
     @NotNull
     String breed;
+
     @NotNull
     LocalDate birthDate;
+
     @NotNull
     SexDTO sex;
+
     @Schema(example = "Black")
     @NotNull
     String color;
-    @Nullable
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+
+    @NotNull
     HorseStateDTO state;
 }

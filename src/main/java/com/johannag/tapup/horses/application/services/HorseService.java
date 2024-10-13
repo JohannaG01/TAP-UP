@@ -62,4 +62,13 @@ public interface HorseService {
      *         items, total pages, and whether there are more pages available.
      */
     Page<HorseModel> findAll(FindHorsesDTO dto);
+
+    /**
+     * Finds a horse by its unique identifier (UUID).
+     *
+     * @param uuid the unique identifier of the horse
+     * @return the {@link HorseModel} associated with the given UUID
+     * @throws HorseNotFoundException if no horse is found with the provided UUID
+     */
+    HorseModel findByUuid(UUID uuid) throws HorseNotFoundException;
 }

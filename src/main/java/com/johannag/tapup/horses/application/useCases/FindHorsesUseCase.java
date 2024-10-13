@@ -23,28 +23,16 @@ public class FindHorsesUseCase {
     public Page<HorseModel> execute(FindHorsesDTO dto){
         logger.info("Starting findHorses process");
 
-        boolean isAdminUser = isAdminUser();
-        applyDefaultStateToDTOIfUserIsNotAdmin(dto, isAdminUser);
+        applyDefaultStateToDTOIfUserIsNotAdmin(dto);
         Page<HorseModel> horses = horseRepository.findAll(dto);
-        removeStateFromModelIfUserIsNotAdmin(horses, isAdminUser);
 
         logger.info("Finished findHorses process");
         return horses;
     }
 
-    private boolean isAdminUser(){
-        return authenticationService.isAdminUser();
-    }
-
-    private void applyDefaultStateToDTOIfUserIsNotAdmin(FindHorsesDTO dto, boolean isAdminUser){
-        if (!isAdminUser){
+    private void applyDefaultStateToDTOIfUserIsNotAdmin(FindHorsesDTO dto){
+        if (!authenticationService.isAdminUser()){
             dto.setStates(List.of(HorseModelState.ACTIVE));
-        }
-    }
-
-    private void removeStateFromModelIfUserIsNotAdmin(Page<HorseModel> horses, boolean isAdminUser){
-        if (!isAdminUser){
-            horses.forEach(horse -> horse.setState(null));
         }
     }
 }
