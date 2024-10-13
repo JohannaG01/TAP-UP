@@ -1,0 +1,396 @@
+{
+	"info": {
+		"_postman_id": "a97d1cc2-f937-4130-a0ce-a6ae79daa3fa",
+		"name": "tapup",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7704261"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Transactions",
+					"item": [
+						{
+							"name": "Transactions",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{tapup_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"amount\": 909\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{localhost}}/api/v1/users/:userUuid/transactions",
+									"host": [
+										"{{localhost}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users",
+										":userUuid",
+										"transactions"
+									],
+									"variable": [
+										{
+											"key": "userUuid",
+											"value": "c55ec13a-d7ba-437d-a700-e44649366218"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Users",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"j.gendler.g+test3@gmail.com\",\r\n    \"name\": \"Johanna\",\r\n    \"lastName\": \"Gendler\",\r\n    \"password\": \"Password123$\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost}}/api/v1/users",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LogIn",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"j.gendler.g+test1@gmail.com\",\r\n    \"password\": \"Password123$\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost}}/api/v1/login",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Horses",
+			"item": [
+				{
+					"name": "Horses",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZWU3NjAxMi01NzcyLTQ3MmItODRiNy0yODE2MzRlNjM5NDgiLCJpYXQiOjE3Mjg2NzY4ODIsImV4cCI6MTcyOTM5Njg4MiwiaWQiOjEsInV1aWQiOiJhZWU3NjAxMi01NzcyLTQ3MmItODRiNy0yODE2MzRlNjM5NDgiLCJmaXJzdE5hbWUiOiJTeXN0ZW0iLCJsYXN0TmFtZSI6IkFkbWluIiwiZW1haWwiOiJ0YXB1cCtzeXN0ZW1fYWRtaW5AdGFwdXAuY29tIiwiaXNBZG1pbiI6dHJ1ZX0.GORMExXNoa27c7Gxq6nHoNOiXd-OYGv51Y8P6HihsJwcj7NzRwMPy_0hpD7ydlnRaloY8Zqg5RyLoAQjJxY_HA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"code\": \"42747\",\r\n    \"name\": \"Juancho\",\r\n    \"breed\": \"Horse\",\r\n    \"birthDate\": \"2020-05-06\",\r\n    \"sex\": \"MALE\",\r\n    \"color\": \"Black\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost}}/api/v1/horses",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"horses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Horse",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tapup_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Mancho\",\r\n    \"breed\": \"Dog\",\r\n    \"birthDate\": \"2021-05-06\",\r\n    \"sex\": \"FEMALE\",\r\n    \"color\": \"Brown\",\r\n    \"state\": \"TEMPORALLY_INACTIVE\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost}}/api/v1/horses/:uuid",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"horses",
+								":uuid"
+							],
+							"variable": [
+								{
+									"key": "uuid",
+									"value": "05568fd8-5251-4531-9d84-299daf77eff9"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Horse",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tapup_regular_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}/api/v1/horses/:uuid",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"horses",
+								":uuid"
+							],
+							"variable": [
+								{
+									"key": "uuid",
+									"value": "757c1401-b7c3-4b8e-afe2-21f7167b38ea"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Horses",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tapup_admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}/api/v1/horses",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"horses"
+							],
+							"query": [
+								{
+									"key": "state",
+									"value": "TEMPORALLY_INACTIVE",
+									"disabled": true
+								},
+								{
+									"key": "size",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "birthDateFrom",
+									"value": "2021-05-06",
+									"disabled": true
+								},
+								{
+									"key": "birthDateTo",
+									"value": "2020-05-05",
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": "Mancho",
+									"disabled": true
+								},
+								{
+									"key": "sex",
+									"value": "MALE",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Horse",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tapup_admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}/api/v1/horses/:uuid",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"horses",
+								":uuid"
+							],
+							"variable": [
+								{
+									"key": "uuid",
+									"value": "16ebb0f7-f8f2-45e0-9348-50d5d87f89be"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Healthcheck",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{localhost}}/api/v1/healthcheck",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"healthcheck"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Version",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{localhost}}/api/v1/version",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"version"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
