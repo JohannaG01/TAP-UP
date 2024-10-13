@@ -58,8 +58,8 @@ public interface HorseService {
      * @param dto The data transfer object containing pagination and filtering criteria,
      *            including page number, size, and an optional list of horse states.
      * @return A {@link Page} containing a list of {@link HorseModel} that match the
-     *         specified criteria. The page includes metadata about the total number of
-     *         items, total pages, and whether there are more pages available.
+     * specified criteria. The page includes metadata about the total number of
+     * items, total pages, and whether there are more pages available.
      */
     Page<HorseModel> findAll(FindHorsesDTO dto);
 

@@ -1,18 +1,12 @@
 package com.johannag.tapup.horses.application.dtos;
 
 import com.johannag.tapup.globals.domain.models.SexModel;
-import com.johannag.tapup.globals.presentation.dtos.SexDTO;
-import com.johannag.tapup.globals.presentation.validations.annotations.NullOrNotBlank;
 import com.johannag.tapup.horses.domain.models.HorseModelState;
-import com.johannag.tapup.horses.presentation.dtos.HorseStateDTO;
-import jakarta.validation.constraints.PastOrPresent;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Value;
 import org.springframework.lang.Nullable;
 
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.List;
 
 @Data

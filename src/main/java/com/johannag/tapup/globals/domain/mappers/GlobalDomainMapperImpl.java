@@ -10,7 +10,7 @@ public class GlobalDomainMapperImpl implements GlobalDomainMapper {
 
     @Override
     public SexEntity toEntity(@Nullable SexModel sex) {
-        if(sex == null) return null;
+        if (sex == null) return null;
         return SexEntity.valueOf(sex.name());
     }
 }

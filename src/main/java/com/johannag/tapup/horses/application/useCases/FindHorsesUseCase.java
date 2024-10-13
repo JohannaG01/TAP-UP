@@ -20,7 +20,7 @@ public class FindHorsesUseCase {
     private final HorseRepository horseRepository;
     private final AuthenticationService authenticationService;
 
-    public Page<HorseModel> execute(FindHorsesDTO dto){
+    public Page<HorseModel> execute(FindHorsesDTO dto) {
         logger.info("Starting findHorses process");
 
         applyDefaultStateToDTOIfUserIsNotAdmin(dto);
@@ -30,8 +30,8 @@ public class FindHorsesUseCase {
         return horses;
     }
 
-    private void applyDefaultStateToDTOIfUserIsNotAdmin(FindHorsesDTO dto){
-        if (!authenticationService.isAdminUser()){
+    private void applyDefaultStateToDTOIfUserIsNotAdmin(FindHorsesDTO dto) {
+        if (!authenticationService.isAdminUser()) {
             dto.setStates(List.of(HorseModelState.ACTIVE));
         }
     }

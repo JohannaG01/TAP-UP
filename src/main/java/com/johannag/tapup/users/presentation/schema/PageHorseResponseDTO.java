@@ -10,17 +10,17 @@ import java.util.List;
 @Schema(description = "Pageable response containing horses")
 public class PageHorseResponseDTO {
     @Schema(description = "List of horse responses")
-     List<HorseResponseDTO> content;
+    List<HorseResponseDTO> content;
 
     @Schema(description = "Total number of elements available")
-     long totalElements;
+    long totalElements;
 
     @Schema(description = "Total number of pages available")
-     int totalPages;
+    int totalPages;
 
     @Schema(description = "Current page number")
-     int number;
+    int number;
 
     @Schema(description = "Size of the page")
-     int size;
+    int size;
 }

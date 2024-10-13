@@ -1,13 +1,11 @@
 package com.johannag.tapup.horses.presentation.dtos.responses;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.johannag.tapup.globals.presentation.dtos.SexDTO;
 import com.johannag.tapup.horses.presentation.dtos.HorseStateDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Value;
-import org.springframework.lang.Nullable;
 
 import java.time.LocalDate;
 import java.util.UUID;

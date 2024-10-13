@@ -21,8 +21,8 @@ public interface HorsePresentationMapper {
      * @param horses The page of horse models to convert, containing the horse data to be
      *               transformed into response DTOs.
      * @return A {@link Page} of {@link HorseResponseDTO} containing the converted horse
-     *         data. The returned page will have the same pagination information as the input
-     *         page.
+     * data. The returned page will have the same pagination information as the input
+     * page.
      */
     Page<HorseResponseDTO> toResponseDTO(Page<HorseModel> horses);
 }

@@ -47,7 +47,7 @@ public class HorseController {
 
     @Operation(summary = "Creates horse")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Horse created successfully",  content = {
+            @ApiResponse(responseCode = "201", description = "Horse created successfully", content = {
                     @Content(mediaType = "application/json")}),
             @ApiResponse(responseCode = "400", description = "Invalid request", content = {
                     @Content(mediaType = "application/json", schema =
@@ -115,7 +115,7 @@ public class HorseController {
 
     @Operation(summary = "Deletes horse")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Horse deleted successfully",  content = {
+            @ApiResponse(responseCode = "200", description = "Horse deleted successfully", content = {
                     @Content(mediaType = "application/json")}),
             @ApiResponse(responseCode = "400", description = "Invalid request", content = {
                     @Content(mediaType = "application/json", schema =
@@ -150,7 +150,8 @@ public class HorseController {
     @Operation(summary = "Find all horses")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Horses found successfully", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = PageHorseResponseDTO.class))
+                    @Content(mediaType = "application/json", schema = @Schema(implementation =
+                            PageHorseResponseDTO.class))
             }),
             @ApiResponse(responseCode = "400", description = "Invalid request", content = {
                     @Content(mediaType = "application/json", schema =
@@ -175,7 +176,7 @@ public class HorseController {
 
     @Operation(summary = "Find horse by Uuid")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Horse found successfully",  content = {
+            @ApiResponse(responseCode = "200", description = "Horse found successfully", content = {
                     @Content(mediaType = "application/json")}),
             @ApiResponse(responseCode = "400", description = "Invalid request", content = {
                     @Content(mediaType = "application/json", schema =
