@@ -1,7 +1,6 @@
 package com.johannag.tapup.horses.presentation.dtos.responses;
 
 import com.johannag.tapup.globals.presentation.dtos.SexDTO;
-import com.johannag.tapup.horses.presentation.dtos.HorseStateDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -15,30 +14,30 @@ import java.util.UUID;
 @NoArgsConstructor
 public class HorseResponseDTO {
     @NotNull
-    UUID uuid;
+    private UUID uuid;
 
     @Schema(example = "1312313")
     @NotNull
-    String code;
+    private String code;
 
     @Schema(example = "Pancho")
     @NotNull
-    String name;
+    private String name;
 
     @Schema(example = "Arabic")
     @NotNull
-    String breed;
+    private String breed;
 
     @NotNull
-    LocalDate birthDate;
+    private LocalDate birthDate;
 
     @NotNull
-    SexDTO sex;
+    private SexDTO sex;
 
     @Schema(example = "Black")
     @NotNull
-    String color;
+    private String color;
 
     @NotNull
-    HorseStateDTO state;
+    private HorseStateDTO state;
 }

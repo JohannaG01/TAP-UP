@@ -15,16 +15,16 @@ import java.util.UUID;
 @NoArgsConstructor
 public class ParticipantResponseDTO {
     @NotNull
-    UUID uuid;
+    private UUID uuid;
 
     @Nullable
     @Schema(example = "1")
-    Integer placement;
+    private Integer placement;
 
     @Nullable
     @Schema(example = "2:31:54")
-    LocalTime time;
+    private LocalTime time;
 
     @NotNull
-    HorseResponseDTO horse;
+    private HorseResponseDTO horse;
 }

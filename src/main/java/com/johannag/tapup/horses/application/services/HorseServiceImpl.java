@@ -32,7 +32,7 @@ public class HorseServiceImpl implements HorseService {
 
     @Override
     public HorseModel update(UpdateHorseDTO dto) throws HorseNotFoundException,
-            CannotTransitionHorseStateException, InvalidHorseStateException {
+            CannotTransitionHorseStateException {
         return updateHorseUseCase.execute(dto);
     }
 

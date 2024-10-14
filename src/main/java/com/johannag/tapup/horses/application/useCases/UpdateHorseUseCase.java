@@ -4,7 +4,6 @@ import com.johannag.tapup.globals.infrastructure.utils.Logger;
 import com.johannag.tapup.horses.application.dtos.UpdateHorseDTO;
 import com.johannag.tapup.horses.application.exceptions.CannotTransitionHorseStateException;
 import com.johannag.tapup.horses.application.exceptions.HorseNotFoundException;
-import com.johannag.tapup.horses.application.exceptions.InvalidHorseStateException;
 import com.johannag.tapup.horses.application.mappers.HorseApplicationMapper;
 import com.johannag.tapup.horses.domain.dtos.UpdateHorseEntityDTO;
 import com.johannag.tapup.horses.domain.models.HorseModel;
@@ -24,10 +23,9 @@ public class UpdateHorseUseCase {
     private final FindOneHorseByUuidUseCase findOneHorseByUuidUseCase;
 
     public HorseModel execute(UpdateHorseDTO dto) throws HorseNotFoundException,
-            CannotTransitionHorseStateException, InvalidHorseStateException {
+            CannotTransitionHorseStateException {
         logger.info("Starting UpdateHorse process for horse with UUID [{}]", dto.getUuid());
 
-        dto.validate();
         findOneHorseByUuidUseCase.execute(dto.getUuid());
         validateCanUpdateHorseOrThrow(dto);
         UpdateHorseEntityDTO updateHorseEntityDTO = horseApplicationMapper.toUpdateEntityDTO(dto);

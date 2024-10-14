@@ -2,7 +2,6 @@ package com.johannag.tapup.horses.presentation.dtos.requests;
 
 import com.johannag.tapup.globals.presentation.dtos.SexDTO;
 import com.johannag.tapup.globals.presentation.validations.annotations.NullOrNotBlank;
-import com.johannag.tapup.horses.presentation.dtos.HorseStateDTO;
 import jakarta.validation.constraints.PastOrPresent;
 import lombok.Builder;
 import lombok.Value;

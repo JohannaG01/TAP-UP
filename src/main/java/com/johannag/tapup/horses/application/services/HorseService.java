@@ -34,10 +34,8 @@ public interface HorseService {
      * @throws HorseNotFoundException              if no horse entity is found for the provided identifier
      * @throws CannotTransitionHorseStateException if horse is in schedule race and operation will temporally
      *                                             inactivate it
-     * @throws InvalidHorseStateException          if attempted to modify horse state to INACTIVE
      */
-    HorseModel update(UpdateHorseDTO dto) throws HorseNotFoundException, CannotTransitionHorseStateException,
-            InvalidHorseStateException;
+    HorseModel update(UpdateHorseDTO dto) throws HorseNotFoundException, CannotTransitionHorseStateException;
 
     /**
      * Deletes a horse entity by its UUID.

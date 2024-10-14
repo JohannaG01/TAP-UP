@@ -1,7 +1,6 @@
 package com.johannag.tapup.horses.application.dtos;
 
 import com.johannag.tapup.globals.domain.models.SexModel;
-import com.johannag.tapup.horses.application.exceptions.InvalidHorseStateException;
 import com.johannag.tapup.horses.domain.models.HorseModelState;
 import lombok.Builder;
 import lombok.Value;
@@ -31,9 +30,4 @@ public class UpdateHorseDTO {
         return this.state != null && this.state == HorseModelState.TEMPORALLY_INACTIVE;
     }
 
-    public void validate() {
-        if (state == HorseModelState.INACTIVE) {
-            throw new InvalidHorseStateException(state);
-        }
-    }
 }

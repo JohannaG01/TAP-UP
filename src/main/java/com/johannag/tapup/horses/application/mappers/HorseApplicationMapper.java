@@ -6,7 +6,7 @@ import com.johannag.tapup.horses.application.dtos.UpdateHorseDTO;
 import com.johannag.tapup.horses.domain.dtos.CreateHorseEntityDTO;
 import com.johannag.tapup.horses.domain.dtos.UpdateHorseEntityDTO;
 import com.johannag.tapup.horses.domain.models.HorseModelState;
-import com.johannag.tapup.horses.presentation.dtos.HorseStateDTO;
+import com.johannag.tapup.horses.presentation.dtos.responses.HorseStateDTO;
 import com.johannag.tapup.horses.presentation.dtos.query.FindHorsesQuery;
 import com.johannag.tapup.horses.presentation.dtos.requests.CreateHorseRequestDTO;
 import com.johannag.tapup.horses.presentation.dtos.requests.UpdateHorseRequestDTO;

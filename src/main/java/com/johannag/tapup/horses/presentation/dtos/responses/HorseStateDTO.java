@@ -1,4 +1,4 @@
-package com.johannag.tapup.horses.presentation.dtos;
+package com.johannag.tapup.horses.presentation.dtos.responses;
 
 public enum HorseStateDTO {
     ACTIVE,
