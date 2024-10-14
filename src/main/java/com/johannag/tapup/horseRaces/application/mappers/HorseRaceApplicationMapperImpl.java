@@ -1,10 +1,13 @@
 package com.johannag.tapup.horseRaces.application.mappers;
 
 import com.johannag.tapup.horseRaces.application.dtos.CreateHorseRaceDTO;
+import com.johannag.tapup.horseRaces.application.dtos.UpdateHorseRaceDTO;
+import com.johannag.tapup.horseRaces.domain.UpdateHorseRaceEntityDTO;
 import com.johannag.tapup.horseRaces.domain.dtos.CreateHorseRaceEntityDTO;
 import com.johannag.tapup.horseRaces.domain.dtos.CreateParticipantEntityDTO;
 import com.johannag.tapup.horseRaces.domain.models.HorseRaceModelState;
 import com.johannag.tapup.horseRaces.presentation.dtos.requests.CreateHorseRaceRequestDTO;
+import com.johannag.tapup.horseRaces.presentation.dtos.requests.UpdateHorseRaceRequestDTO;
 import org.modelmapper.TypeMap;
 import org.springframework.stereotype.Component;
 
@@ -17,9 +20,13 @@ import static com.johannag.tapup.globals.application.utils.ModelMapperUtils.buil
 public class HorseRaceApplicationMapperImpl implements HorseRaceApplicationMapper {
 
     private final TypeMap<CreateHorseRaceRequestDTO, CreateHorseRaceDTO.Builder> createDTOMapper;
+    private final TypeMap<UpdateHorseRaceRequestDTO, UpdateHorseRaceDTO.Builder> updateDTOMapper;
+    private final TypeMap<UpdateHorseRaceDTO, UpdateHorseRaceEntityDTO.Builder> updateEntityDTOMapper;
 
     public HorseRaceApplicationMapperImpl() {
         createDTOMapper = builderTypeMapper(CreateHorseRaceRequestDTO.class, CreateHorseRaceDTO.Builder.class);
+        updateDTOMapper = builderTypeMapper(UpdateHorseRaceRequestDTO.class, UpdateHorseRaceDTO.Builder.class);
+        updateEntityDTOMapper = builderTypeMapper(UpdateHorseRaceDTO.class, UpdateHorseRaceEntityDTO.Builder.class);
     }
 
     @Override
@@ -40,6 +47,21 @@ public class HorseRaceApplicationMapperImpl implements HorseRaceApplicationMappe
                 .participants(createParticipantEntityDTOS)
                 .startTime(dto.getStartTime())
                 .state(HorseRaceModelState.SCHEDULED)
+                .build();
+    }
+
+    @Override
+    public UpdateHorseRaceDTO toUpdateDTO(UUID horseRaceUuid, UpdateHorseRaceRequestDTO dto) {
+        return updateDTOMapper
+                .map(dto)
+                .horseRaceUuid(horseRaceUuid)
+                .build();
+    }
+
+    @Override
+    public UpdateHorseRaceEntityDTO toUpdateEntityDTO(UpdateHorseRaceDTO dto) {
+        return updateEntityDTOMapper
+                .map(dto)
                 .build();
     }
 

@@ -2,10 +2,14 @@ package com.johannag.tapup.horseRaces.presentation.controllers;
 
 import com.johannag.tapup.globals.presentation.errors.ErrorResponse;
 import com.johannag.tapup.horseRaces.application.dtos.CreateHorseRaceDTO;
+import com.johannag.tapup.horseRaces.application.dtos.UpdateHorseRaceDTO;
 import com.johannag.tapup.horseRaces.application.mappers.HorseRaceApplicationMapper;
 import com.johannag.tapup.horseRaces.application.services.HorseRaceService;
 import com.johannag.tapup.horseRaces.domain.models.HorseRaceModel;
+import com.johannag.tapup.horseRaces.exceptions.HorseRaceNotFoundException;
+import com.johannag.tapup.horseRaces.exceptions.InvalidHorseRaceStateException;
 import com.johannag.tapup.horseRaces.presentation.dtos.requests.CreateHorseRaceRequestDTO;
+import com.johannag.tapup.horseRaces.presentation.dtos.requests.UpdateHorseRaceRequestDTO;
 import com.johannag.tapup.horseRaces.presentation.dtos.responses.HorseRaceResponseDTO;
 import com.johannag.tapup.horseRaces.presentation.mappers.HorseRacePresentationMapper;
 import com.johannag.tapup.horses.application.exceptions.HorseNotAvailableException;
@@ -22,6 +26,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @ResponseBody
 @RestController
@@ -63,5 +69,41 @@ public class HorseRaceController {
         HorseRaceResponseDTO response = horseRacePresentationMapper.toResponseDTO(horseRace);
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    @Operation(summary = "Updates horse race")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Horse Race created successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid request", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "401", description = "Unauthorized: Invalid credentials", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "403", description = "Forbidden: Not enough privileges", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "404", description = "Not Found: Horse Race Not Found", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "409", description = "Conflict", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))})
+    })
+    @PreAuthorize("hasAnyAuthority({'ADMIN'})")
+    @PatchMapping("/horse-races/{horseRaceUuid}")
+    public ResponseEntity<HorseRaceResponseDTO> update(@PathVariable UUID horseRaceUuid,
+                                                       @Valid @RequestBody UpdateHorseRaceRequestDTO updateHorseRaceRequestDTO)
+            throws HorseRaceNotFoundException, InvalidHorseRaceStateException, HorseNotAvailableException {
+
+        UpdateHorseRaceDTO updateHorseRaceDTo = horseRaceApplicationMapper
+                .toUpdateDTO(horseRaceUuid, updateHorseRaceRequestDTO);
+        HorseRaceModel horseRace = horseRaceService.update(updateHorseRaceDTo);
+        HorseRaceResponseDTO response = horseRacePresentationMapper.toResponseDTO(horseRace);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

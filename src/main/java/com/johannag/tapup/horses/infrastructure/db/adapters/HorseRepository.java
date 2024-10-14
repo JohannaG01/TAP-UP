@@ -4,10 +4,10 @@ import com.johannag.tapup.horses.application.dtos.FindHorsesDTO;
 import com.johannag.tapup.horses.domain.dtos.CreateHorseEntityDTO;
 import com.johannag.tapup.horses.domain.dtos.UpdateHorseEntityDTO;
 import com.johannag.tapup.horses.domain.models.HorseModel;
+import com.johannag.tapup.horses.infrastructure.db.dtos.FindByUuidStatesAndDatesDTO;
 import com.johannag.tapup.horses.infrastructure.db.entities.HorseEntity;
 import org.springframework.data.domain.Page;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -91,17 +91,13 @@ public interface HorseRepository {
     List<HorseModel> findActiveByUuidIn(List<UUID> uuid);
 
     /**
-     * Finds a list of horse models based on their UUIDs that are either scheduled for a race
-     * before a specified date and time or have participated in a finished race after a specified date and time.
+     * Finds and returns a list of {@link HorseModel} instances that match the given criteria. The horses
+     * must either be participating in a scheduled race before a specified date or have finished a race after
+     * another specified date. The criteria for the search are provided in the {@link FindByUuidStatesAndDatesDTO}.
      *
-     * @param uuids          A list of UUIDs representing the horses to be searched.
-     * @param pastDateTime   The date and time before which the horses are scheduled for a race.
-     * @param futureDateTime The date and time after which the horses have participated in a finished race.
-     * @param raceDateTime   The specific date and time of the race to consider for scheduling.
-     * @return A list of {@link HorseModel} objects that match the specified criteria.
+     * @param dto a {@link FindByUuidStatesAndDatesDTO} object containing the UUIDs of the horses and the
+     *            date conditions for the race state
+     * @return a list of {@link HorseModel} objects that meet the criteria specified in the DTO
      */
-    List<HorseModel> findByUuidsInScheduledRaceBeforeOrInFinishedRaceAfter(List<UUID> uuids,
-                                                                           LocalDateTime pastDateTime,
-                                                                           LocalDateTime futureDateTime,
-                                                                           LocalDateTime raceDateTime);
+    List<HorseModel> findByUuidsInScheduledRaceBeforeOrInFinishedRaceAfter(FindByUuidStatesAndDatesDTO dto);
 }

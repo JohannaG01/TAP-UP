@@ -73,17 +73,18 @@ public interface HorseService {
     HorseModel findOneByUuid(UUID uuid) throws HorseNotFoundException;
 
     /**
-     * Validates the availability of horses for a race based on their UUIDs and the race's start time.
+     * Validates the availability of the horses identified by the given UUIDs for a specified race start time.
+     * This method checks if the horses are available and not already participating in other races at the
+     * provided time. Optionally, it can exclude certain horse races from the validation.
      *
-     * <p>This method checks if each horse identified by the provided UUIDs is available to participate in a race
-     * that is scheduled to start at the specified time. If any horse is not found or is unavailable, appropriate
-     * exceptions are thrown.</p>
-     *
-     * @param uuids         a list of UUIDs representing the horses to be validated
-     * @param raceStartTime the scheduled start time of the race
-     * @throws HorseNotFoundException     if one or more horses identified by the provided UUIDs cannot be found
-     * @throws HorseNotAvailableException if one or more horses are not available for the scheduled race
+     * @param uuids                   the list of UUIDs of the horses to be validated
+     * @param raceStartTime           the start time of the race for which availability is being checked
+     * @param horseRaceUuidsToExclude a list of horse race UUIDs to be excluded from the validation,
+     *                                typically used when updating an existing race to avoid conflicts
+     * @throws HorseNotFoundException     if any of the horses identified by the UUIDs cannot be found
+     * @throws HorseNotAvailableException if any of the horses are not available due to participation in
+     *                                    another race at the given time
      */
-    void validateHorsesAvailability(List<UUID> uuids, LocalDateTime raceStartTime) throws HorseNotFoundException,
-            HorseNotAvailableException;
+    void validateHorsesAvailability(List<UUID> uuids, LocalDateTime raceStartTime, List<UUID> horseRaceUuidsToExclude)
+            throws HorseNotFoundException, HorseNotAvailableException;
 }

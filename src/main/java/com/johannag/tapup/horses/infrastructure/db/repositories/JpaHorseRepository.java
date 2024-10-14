@@ -2,7 +2,7 @@ package com.johannag.tapup.horses.infrastructure.db.repositories;
 
 import com.johannag.tapup.horseRaces.infrastructure.db.entities.HorseRaceEntityState;
 import com.johannag.tapup.horses.domain.models.HorseModel;
-import com.johannag.tapup.horses.infrastructure.db.dtos.FindByUuidsStateAnDatesDTO;
+import com.johannag.tapup.horses.infrastructure.db.dtos.FindByUuidsStateAndDatesQuery;
 import com.johannag.tapup.horses.infrastructure.db.entities.HorseEntity;
 import com.johannag.tapup.horses.infrastructure.db.entities.HorseEntityState;
 import jakarta.persistence.LockModeType;
@@ -110,6 +110,7 @@ public interface JpaHorseRepository extends JpaRepository<HorseEntity, Long>, Jp
      *              <li>startTimeTo: The end time for filtering future races.</li>
      *              <li>futureState: The state of the horse races that are scheduled for the future.</li>
      *              <li>raceDateTime: The date and time of the race to compare against.</li>
+     *              <li>horseRaceUuidsToExclude: Horse Race uuids to exclude from search</li>
      *            </ul>
      * @return a list of {@link HorseEntity} objects that match the specified criteria.
      */
@@ -121,7 +122,8 @@ public interface JpaHorseRepository extends JpaRepository<HorseEntity, Long>, Jp
             "AND p.horseRace.startTime >= :#{#dto.startTimeFrom}) " +
             "OR (p.horseRace.state = :#{#dto.futureState} " +
             "AND p.horseRace.startTime >= :#{#dto.raceDateTime} " +
-            "AND p.horseRace.startTime <= :#{#dto.startTimeTo}))")
-    List<HorseEntity> findByUuidsWithRaceInStatesBetweenDates(FindByUuidsStateAnDatesDTO dto);
+            "AND p.horseRace.startTime <= :#{#dto.startTimeTo}))" +
+            "AND p.horseRace.uuid NOT IN :#{#dto.horseRaceUuidsToExclude}")
+    List<HorseEntity> findByUuidsWithRaceInStatesBetweenDates(FindByUuidsStateAndDatesQuery dto);
 
 }

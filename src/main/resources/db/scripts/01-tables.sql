@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS horse_races
     updated_by BIGINT    NOT NULL REFERENCES users (id),
     CONSTRAINT cck_start_time_not_past CHECK (start_time > (NOW() AT TIME ZONE 'UTC' AT TIME ZONE 'America/Buenos_Aires')),
     CONSTRAINT cck_end_time_not_future CHECK (end_time <= (NOW() AT TIME ZONE 'UTC' AT TIME ZONE 'America/Buenos_Aires')),
-    CONSTRAINT cck_state CHECK (state in ('SCHEDULED', 'FINISHED', 'CANCELED'))
+    CONSTRAINT cck_state CHECK (state in ('SCHEDULED', 'FINISHED', 'CANCELLED'))
 );
 
 CREATE TABLE IF NOT EXISTS horses
