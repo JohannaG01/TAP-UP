@@ -19,4 +19,8 @@ public class ParticipantModel {
     private HorseRaceModel horseRace;
     private Integer placement;
     private LocalTime time;
+
+    public UUID getHorseUuid() {
+        return horse.getUuid();
+    }
 }

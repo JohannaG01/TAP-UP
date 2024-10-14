@@ -55,9 +55,11 @@ public class HorseServiceImpl implements HorseService {
     }
 
     @Override
-    public void validateHorsesAvailability(List<UUID> uuids, LocalDateTime raceStartTime) throws HorseNotFoundException,
+    public void validateHorsesAvailability(List<UUID> uuids, LocalDateTime raceStartTime,
+                                           List<UUID> horseRaceUuidsToExclude) throws HorseNotFoundException,
             HorseNotAvailableException {
-        validateHorsesAvailabilityUseCase.execute(uuids, raceStartTime);
+        validateHorsesAvailabilityUseCase.execute(uuids, raceStartTime, horseRaceUuidsToExclude);
     }
+
 
 }

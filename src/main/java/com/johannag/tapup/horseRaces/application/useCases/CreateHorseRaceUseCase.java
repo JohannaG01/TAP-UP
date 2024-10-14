@@ -12,6 +12,8 @@ import com.johannag.tapup.horses.application.services.HorseService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class CreateHorseRaceUseCase {
@@ -24,12 +26,12 @@ public class CreateHorseRaceUseCase {
     public HorseRaceModel execute(CreateHorseRaceDTO dto) throws HorseNotFoundException, HorseNotAvailableException {
         logger.info("Starting CreateHorseRace process");
 
-        horseService.validateHorsesAvailability(dto.getHorsesUuids(), dto.getStartTime());
+        horseService.validateHorsesAvailability(dto.getHorsesUuids(), dto.getStartTime(), List.of());
         CreateHorseRaceEntityDTO createHorseRaceEntityDTO = horseRaceApplicationMapper.toCreateEntityDTO(dto);
-        HorseRaceModel horseRaceModel = horseRaceRepository.create(createHorseRaceEntityDTO);
+        HorseRaceModel horseRace = horseRaceRepository.create(createHorseRaceEntityDTO);
 
         logger.info("CreateHorseRace process for horse has finished");
-        return horseRaceModel;
+        return horseRace;
     }
 
 

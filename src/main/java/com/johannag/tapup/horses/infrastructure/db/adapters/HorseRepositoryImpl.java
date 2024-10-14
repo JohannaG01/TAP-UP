@@ -8,7 +8,8 @@ import com.johannag.tapup.horses.domain.dtos.CreateHorseEntityDTO;
 import com.johannag.tapup.horses.domain.dtos.UpdateHorseEntityDTO;
 import com.johannag.tapup.horses.domain.mappers.HorseDomainMapper;
 import com.johannag.tapup.horses.domain.models.HorseModel;
-import com.johannag.tapup.horses.infrastructure.db.dtos.FindByUuidsStateAnDatesDTO;
+import com.johannag.tapup.horses.infrastructure.db.dtos.FindByUuidStatesAndDatesDTO;
+import com.johannag.tapup.horses.infrastructure.db.dtos.FindByUuidsStateAndDatesQuery;
 import com.johannag.tapup.horses.infrastructure.db.entities.HorseEntity;
 import com.johannag.tapup.horses.infrastructure.db.entities.HorseEntityState;
 import com.johannag.tapup.horses.infrastructure.db.repositories.JpaHorseRepository;
@@ -21,7 +22,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -142,22 +142,20 @@ public class HorseRepositoryImpl implements HorseRepository {
     }
 
     @Override
-    public List<HorseModel> findByUuidsInScheduledRaceBeforeOrInFinishedRaceAfter(List<UUID> uuids,
-                                                                                  LocalDateTime pastDateTime,
-                                                                                  LocalDateTime futureDateTime,
-                                                                                  LocalDateTime raceDateTime) {
+    public List<HorseModel> findByUuidsInScheduledRaceBeforeOrInFinishedRaceAfter(FindByUuidStatesAndDatesDTO dto) {
 
-        FindByUuidsStateAnDatesDTO dto = FindByUuidsStateAnDatesDTO.builder()
-                .uuids(uuids)
+        FindByUuidsStateAndDatesQuery query = FindByUuidsStateAndDatesQuery.builder()
+                .uuids(dto.getUuids())
                 .pastStates(List.of(SCHEDULED, FINISHED))
-                .startTimeFrom(pastDateTime)
+                .startTimeFrom(dto.getPastDateTime())
                 .futureState(SCHEDULED)
-                .startTimeTo(futureDateTime)
-                .raceDateTime(raceDateTime)
+                .startTimeTo(dto.getFutureDateTime())
+                .raceDateTime(dto.getRaceDateTime())
+                .horseRaceUuidsToExclude(dto.getHorseRaceUuidsToExclude())
                 .build();
 
         return jpaHorseRepository
-                .findByUuidsWithRaceInStatesBetweenDates(dto)
+                .findByUuidsWithRaceInStatesBetweenDates(query)
                 .stream()
                 .map(horseDomainMapper::toModelWithoutParticipations)
                 .toList();

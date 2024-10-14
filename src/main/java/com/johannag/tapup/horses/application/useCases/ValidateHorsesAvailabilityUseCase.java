@@ -6,6 +6,7 @@ import com.johannag.tapup.horses.application.exceptions.HorseNotAvailableExcepti
 import com.johannag.tapup.horses.application.exceptions.HorseNotFoundException;
 import com.johannag.tapup.horses.domain.models.HorseModel;
 import com.johannag.tapup.horses.infrastructure.db.adapters.HorseRepository;
+import com.johannag.tapup.horses.infrastructure.db.dtos.FindByUuidStatesAndDatesDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,12 +22,13 @@ public class ValidateHorsesAvailabilityUseCase {
     private final HorseRepository horseRepository;
     private final HorseConfig horseConfig;
 
-    public void execute(List<UUID> uuid, LocalDateTime raceStartTime) throws HorseNotFoundException,
-            HorseNotAvailableException {
+    public void execute(List<UUID> uuid, LocalDateTime raceStartTime, List<UUID> horseRaceUuidsToExclude)
+            throws HorseNotFoundException, HorseNotAvailableException {
         logger.info("Starting VerifyHorsesAvailability process for uuid {}", uuid);
 
         validateExistHorsesOrThrow(uuid);
-        validateHorseAreAvailable(uuid, raceStartTime);
+        validateHorseAreAvailable(uuid, raceStartTime, horseRaceUuidsToExclude);
+
         logger.info("Finished VerifyHorsesAvailability process for uuid {}", uuid);
     }
 
@@ -46,21 +48,38 @@ public class ValidateHorsesAvailabilityUseCase {
         }
     }
 
-    private void validateHorseAreAvailable(List<UUID> uuids, LocalDateTime raceStartTime) throws HorseNotAvailableException {
+    private void validateHorseAreAvailable(List<UUID> uuids, LocalDateTime raceStartTime,
+                                           List<UUID> horseRaceUuidsToExclude)
+            throws HorseNotAvailableException {
 
         long daysToRecover = horseConfig.getRecoveryTimeInDays();
 
         LocalDateTime fromDateTime = raceStartTime.minusDays(daysToRecover);
         LocalDateTime toDateTime = raceStartTime.plusDays(daysToRecover);
 
-        List<UUID> unAvailableHorsesUuids = horseRepository
-                .findByUuidsInScheduledRaceBeforeOrInFinishedRaceAfter(uuids, fromDateTime, toDateTime, raceStartTime)
-                .stream()
-                .map(HorseModel::getUuid)
-                .toList();
+        List<UUID> unAvailableHorsesUuids =
+                obtainUnavailableHorsesUuids(uuids, fromDateTime, toDateTime, raceStartTime, horseRaceUuidsToExclude);
 
         if (!unAvailableHorsesUuids.isEmpty()) {
             throw new HorseNotAvailableException(unAvailableHorsesUuids, daysToRecover, raceStartTime);
         }
+    }
+
+    private List<UUID> obtainUnavailableHorsesUuids(List<UUID> uuids, LocalDateTime fromDateTime,
+                                                    LocalDateTime toDateTime, LocalDateTime raceStartTime,
+                                                    List<UUID> horseRaceUuidsToExclude) {
+        FindByUuidStatesAndDatesDTO dto = FindByUuidStatesAndDatesDTO.builder()
+                .uuids(uuids)
+                .pastDateTime(fromDateTime)
+                .futureDateTime(toDateTime)
+                .raceDateTime(raceStartTime)
+                .horseRaceUuidsToExclude(horseRaceUuidsToExclude)
+                .build();
+
+        return horseRepository
+                .findByUuidsInScheduledRaceBeforeOrInFinishedRaceAfter(dto)
+                .stream()
+                .map(HorseModel::getUuid)
+                .toList();
     }
 }

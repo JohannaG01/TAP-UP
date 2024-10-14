@@ -1,7 +1,11 @@
 package com.johannag.tapup.horseRaces.infrastructure.db.adapters;
 
+import com.johannag.tapup.horseRaces.domain.UpdateHorseRaceEntityDTO;
 import com.johannag.tapup.horseRaces.domain.dtos.CreateHorseRaceEntityDTO;
 import com.johannag.tapup.horseRaces.domain.models.HorseRaceModel;
+
+import java.util.Optional;
+import java.util.UUID;
 
 public interface HorseRaceRepository {
 
@@ -16,4 +20,25 @@ public interface HorseRaceRepository {
      * @return a {@link HorseRaceModel} representing the newly created horse race
      */
     HorseRaceModel create(CreateHorseRaceEntityDTO dto);
+
+    /**
+     * Retrieves an optional horse race model by its UUID.
+     *
+     * @param uuid the UUID of the horse race to retrieve
+     * @return an {@link Optional} containing the {@link HorseRaceModel} associated with the given UUID,
+     * or an empty {@link Optional} if no such horse race exists
+     */
+    Optional<HorseRaceModel> findOneMaybeByUuid(UUID uuid);
+
+    /**
+     * Updates the horse race using the provided {@link UpdateHorseRaceEntityDTO}.
+     * <p>
+     * This method takes an {@link UpdateHorseRaceEntityDTO} as input, which contains the new
+     * values for the horse race. It retrieves the corresponding horse race entity, updates its
+     * properties based on the values in the DTO, and then persists the changes to the database.
+     *
+     * @param dto the DTO containing the updated information for the horse race
+     * @return the updated {@link HorseRaceModel} representing the state of the horse race after the update
+     */
+    HorseRaceModel update(UpdateHorseRaceEntityDTO dto);
 }
