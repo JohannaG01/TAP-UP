@@ -2,9 +2,8 @@ package com.johannag.tapup.horses.presentation.dtos.query;
 
 import com.johannag.tapup.globals.presentation.dtos.SexDTO;
 import com.johannag.tapup.globals.presentation.validations.annotations.NullOrNotBlank;
-import com.johannag.tapup.horses.presentation.dtos.HorseStateDTO;
+import com.johannag.tapup.horses.presentation.dtos.responses.HorseStateDTO;
 import io.swagger.v3.oas.annotations.Hidden;
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.AssertFalse;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.PastOrPresent;
@@ -20,6 +19,7 @@ import java.util.Set;
 @Value
 @Builder(builderClassName = "Builder")
 public class FindHorsesQuery {
+
     @Min(value = 1, message = "Size must be at least 1")
     Integer size;
 

@@ -3,7 +3,10 @@ package com.johannag.tapup.horseRaces.presentation.dtos.responses;
 import com.johannag.tapup.horses.presentation.dtos.responses.HorseResponseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.lang.Nullable;
 
 import java.time.LocalTime;
@@ -14,17 +17,18 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ParticipantResponseDTO {
+
     @NotNull
-    UUID uuid;
+    private UUID uuid;
 
     @Nullable
     @Schema(example = "1")
-    Integer placement;
+    private Integer placement;
 
     @Nullable
     @Schema(example = "2:31:54")
-    LocalTime time;
+    private LocalTime time;
 
     @NotNull
-    HorseResponseDTO horse;
+    private HorseResponseDTO horse;
 }

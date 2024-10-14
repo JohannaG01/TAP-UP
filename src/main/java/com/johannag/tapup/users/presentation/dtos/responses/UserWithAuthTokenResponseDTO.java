@@ -8,8 +8,10 @@ import lombok.Value;
 @Value
 @Builder(builderClassName = "Builder")
 public class UserWithAuthTokenResponseDTO {
+
     @NotNull
     AuthTokenResponseDTO token;
+
     @NotNull
     UserResponseDTO user;
 }

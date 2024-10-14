@@ -17,7 +17,7 @@ public class CreateHorseRaceEntityDTO {
     LocalDateTime startTime;
     HorseRaceModelState state;
 
-    public List<UUID> getHorseUuids(){
+    public List<UUID> getHorseUuids() {
         return this.participants.stream()
                 .map(CreateParticipantEntityDTO::getHorseUuid)
                 .toList();

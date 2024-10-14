@@ -7,7 +7,6 @@ import com.johannag.tapup.horses.application.dtos.UpdateHorseDTO;
 import com.johannag.tapup.horses.application.exceptions.CannotTransitionHorseStateException;
 import com.johannag.tapup.horses.application.exceptions.HorseAlreadyExistsException;
 import com.johannag.tapup.horses.application.exceptions.HorseNotFoundException;
-import com.johannag.tapup.horses.application.exceptions.InvalidHorseStateException;
 import com.johannag.tapup.horses.application.mappers.HorseApplicationMapper;
 import com.johannag.tapup.horses.application.services.HorseService;
 import com.johannag.tapup.horses.domain.models.HorseModel;
@@ -102,7 +101,7 @@ public class HorseController {
     @PatchMapping("/horses/{horseUuid}")
     public ResponseEntity<HorseResponseDTO> update(@PathVariable UUID horseUuid,
                                                    @Valid @RequestBody UpdateHorseRequestDTO updateHorseRequestDTO)
-            throws HorseNotFoundException, CannotTransitionHorseStateException, InvalidHorseStateException {
+            throws HorseNotFoundException, CannotTransitionHorseStateException {
 
         UpdateHorseDTO updateHorseDTO = horseApplicationMapper.toUpdateDTO(horseUuid, updateHorseRequestDTO);
         HorseModel horse = horseService.update(updateHorseDTO);

@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 @Builder(builderClassName = "Builder")
 @AllArgsConstructor(onConstructor = @__(@JsonCreator))
 public class AddUserFundsRequestDTO {
+
     @NotNull
     @Positive
     @Schema(example = "15412.18")

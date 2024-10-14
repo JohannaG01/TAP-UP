@@ -3,7 +3,10 @@ package com.johannag.tapup.horses.application.services;
 import com.johannag.tapup.horses.application.dtos.CreateHorseDTO;
 import com.johannag.tapup.horses.application.dtos.FindHorsesDTO;
 import com.johannag.tapup.horses.application.dtos.UpdateHorseDTO;
-import com.johannag.tapup.horses.application.exceptions.*;
+import com.johannag.tapup.horses.application.exceptions.CannotTransitionHorseStateException;
+import com.johannag.tapup.horses.application.exceptions.HorseAlreadyExistsException;
+import com.johannag.tapup.horses.application.exceptions.HorseNotAvailableException;
+import com.johannag.tapup.horses.application.exceptions.HorseNotFoundException;
 import com.johannag.tapup.horses.application.useCases.*;
 import com.johannag.tapup.horses.domain.models.HorseModel;
 import lombok.AllArgsConstructor;
@@ -32,7 +35,7 @@ public class HorseServiceImpl implements HorseService {
 
     @Override
     public HorseModel update(UpdateHorseDTO dto) throws HorseNotFoundException,
-            CannotTransitionHorseStateException, InvalidHorseStateException {
+            CannotTransitionHorseStateException {
         return updateHorseUseCase.execute(dto);
     }
 

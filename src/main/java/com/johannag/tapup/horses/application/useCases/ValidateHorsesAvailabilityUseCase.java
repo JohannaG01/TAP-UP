@@ -1,6 +1,5 @@
 package com.johannag.tapup.horses.application.useCases;
 
-import com.johannag.tapup.globals.application.utils.DateTimeUtils;
 import com.johannag.tapup.globals.infrastructure.utils.Logger;
 import com.johannag.tapup.horses.application.configs.HorseConfig;
 import com.johannag.tapup.horses.application.exceptions.HorseNotAvailableException;

@@ -1,7 +1,6 @@
 package com.johannag.tapup.horseRaces.presentation.dtos.responses;
 
 import com.johannag.tapup.horseRaces.domain.models.HorseRaceModelState;
-import com.johannag.tapup.horseRaces.domain.models.ParticipantModel;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
@@ -15,8 +14,9 @@ import java.util.UUID;
 @Value
 @Builder(builderClassName = "Builder")
 public class HorseRaceResponseDTO {
+
     @NotNull
-     UUID uuid;
+    UUID uuid;
 
     @NotNull
     LocalDateTime startTime;

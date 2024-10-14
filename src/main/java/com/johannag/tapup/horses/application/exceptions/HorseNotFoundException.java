@@ -1,7 +1,6 @@
 package com.johannag.tapup.horses.application.exceptions;
 
 import com.johannag.tapup.globals.application.exceptions.ApiException;
-import com.johannag.tapup.globals.application.exceptions.NotFoundException;
 import org.springframework.http.HttpStatus;
 
 import java.util.List;

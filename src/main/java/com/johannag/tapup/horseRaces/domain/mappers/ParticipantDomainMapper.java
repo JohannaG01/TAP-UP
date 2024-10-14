@@ -11,7 +11,7 @@ public interface ParticipantDomainMapper {
      *
      * @param entity the {@link ParticipantEntity} to convert
      * @return a {@link ParticipantModel} representation of the given entity without
-     *         the horse race information
+     * the horse race information
      */
     ParticipantModel toModelWithoutRace(ParticipantEntity entity);
 }
