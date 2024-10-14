@@ -7,8 +7,10 @@ import lombok.*;
 @Value
 @Builder(builderClassName = "Builder")
 public class UserWithAuthTokenResponseDTO {
+
     @NotNull
     AuthTokenResponseDTO token;
+
     @NotNull
     UserResponseDTO user;
 }

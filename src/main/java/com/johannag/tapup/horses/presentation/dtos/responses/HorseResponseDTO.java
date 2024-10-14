@@ -13,6 +13,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class HorseResponseDTO {
+
     @NotNull
     private UUID uuid;
 

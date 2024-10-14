@@ -15,6 +15,7 @@ import java.util.UUID;
 @Value
 @Builder(builderClassName = "Builder")
 public class HorseRaceResponseDTO {
+
     @NotNull
      UUID uuid;
 

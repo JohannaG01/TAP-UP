@@ -19,6 +19,7 @@ import java.util.Set;
 @Value
 @Builder(builderClassName = "Builder")
 public class FindHorsesQuery {
+
     @Min(value = 1, message = "Size must be at least 1")
     Integer size;
 

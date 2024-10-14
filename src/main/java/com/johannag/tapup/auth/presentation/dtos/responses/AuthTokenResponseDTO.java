@@ -10,13 +10,17 @@ import java.time.LocalDateTime;
 @Value
 @Builder(builderClassName = "Builder")
 public class AuthTokenResponseDTO {
+
     @NotNull
     String value;
+
     @Schema(example = "Bearer")
     @NotNull
     String type;
+
     @NotNull
     LocalDateTime issuedAt;
+
     @NotNull
     LocalDateTime expiresAt;
 }

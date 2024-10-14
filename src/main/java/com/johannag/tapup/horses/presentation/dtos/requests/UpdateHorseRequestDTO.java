@@ -11,14 +11,20 @@ import java.time.LocalDate;
 @Value
 @Builder(builderClassName = "Builder")
 public class UpdateHorseRequestDTO {
+
     @NullOrNotBlank
     String name;
+
     @NullOrNotBlank
     String breed;
+
     @PastOrPresent
     LocalDate birthDate;
+
     SexDTO sex;
+
     @NullOrNotBlank
     String color;
+
     HorseStateDTO state;
 }

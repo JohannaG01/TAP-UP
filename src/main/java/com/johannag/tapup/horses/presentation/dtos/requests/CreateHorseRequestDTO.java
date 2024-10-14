@@ -14,23 +14,30 @@ import java.time.LocalDate;
 @Value
 @Builder(builderClassName = "Builder")
 public class CreateHorseRequestDTO {
+
     @NotBlank
     @Schema(example = "234234")
     String code;
+
     @NotBlank
     @Schema(example = "Pancho")
     String name;
+
     @NotBlank
     @Schema(example = "Arabic")
     String breed;
+
     @PastOrPresent
     @NotNull
     LocalDate birthDate;
+
     @NotNull
     SexDTO sex;
+
     @NotBlank
     @Schema(example = "Black")
     String color;
+
     @NotNull
     HorseStateDTO state;
 }
