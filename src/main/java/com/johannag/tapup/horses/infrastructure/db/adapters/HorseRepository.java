@@ -94,10 +94,10 @@ public interface HorseRepository {
      * Finds a list of horse models based on their UUIDs that are either scheduled for a race
      * before a specified date and time or have participated in a finished race after a specified date and time.
      *
-     * @param uuids            A list of UUIDs representing the horses to be searched.
-     * @param pastDateTime     The date and time before which the horses are scheduled for a race.
-     * @param futureDateTime   The date and time after which the horses have participated in a finished race.
-     * @param raceDateTime     The specific date and time of the race to consider for scheduling.
+     * @param uuids          A list of UUIDs representing the horses to be searched.
+     * @param pastDateTime   The date and time before which the horses are scheduled for a race.
+     * @param futureDateTime The date and time after which the horses have participated in a finished race.
+     * @param raceDateTime   The specific date and time of the race to consider for scheduling.
      * @return A list of {@link HorseModel} objects that match the specified criteria.
      */
     List<HorseModel> findByUuidsInScheduledRaceBeforeOrInFinishedRaceAfter(List<UUID> uuids,

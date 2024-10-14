@@ -2,8 +2,6 @@ package com.johannag.tapup.horseRaces.presentation.mappers;
 
 import com.johannag.tapup.horseRaces.domain.models.HorseRaceModel;
 import com.johannag.tapup.horseRaces.presentation.dtos.responses.HorseRaceResponseDTO;
-import com.johannag.tapup.horses.presentation.dtos.responses.HorseResponseDTO;
-import com.johannag.tapup.horses.presentation.mappers.HorsePresentationMapper;
 import org.modelmapper.TypeMap;
 import org.springframework.stereotype.Component;
 

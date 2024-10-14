@@ -11,10 +11,10 @@ import java.util.UUID;
 @Value
 @Builder(builderClassName = "Builder")
 public class FindByUuidsStateAnDatesDTO {
-     List<UUID> uuids;
-     List<HorseRaceEntityState> pastStates;
-     LocalDateTime startTimeFrom;
-     HorseRaceEntityState futureState;
-     LocalDateTime startTimeTo;
-     LocalDateTime raceDateTime;
+    List<UUID> uuids;
+    List<HorseRaceEntityState> pastStates;
+    LocalDateTime startTimeFrom;
+    HorseRaceEntityState futureState;
+    LocalDateTime startTimeTo;
+    LocalDateTime raceDateTime;
 }

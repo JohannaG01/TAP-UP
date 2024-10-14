@@ -3,7 +3,6 @@ package com.johannag.tapup.horses.application.exceptions;
 import com.johannag.tapup.globals.application.exceptions.ConflictException;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 

@@ -12,13 +12,14 @@ import java.util.List;
 public interface HorseRaceDomainMapper {
 
     /**
-     * Converts a {@link CreateHorseRaceEntityDTO} and a list of {@link HorseEntity} objects into a {@link HorseRaceEntity}.
+     * Converts a {@link CreateHorseRaceEntityDTO} and a list of {@link HorseEntity} objects into a
+     * {@link HorseRaceEntity}.
      *
      * <p>This method takes a data transfer object (DTO) representing the details of a horse race entity
      * and a list of associated {@link HorseEntity} objects, and converts them into a {@link HorseRaceEntity}
      * that can be persisted in the system.
      *
-     * @param dto the {@link CreateHorseRaceEntityDTO} containing the input data for the horse race entity
+     * @param dto    the {@link CreateHorseRaceEntityDTO} containing the input data for the horse race entity
      * @param horses the list of {@link HorseEntity} objects representing the horses participating in the race
      * @return a {@link HorseRaceEntity} populated with the data from the provided DTO and horse entities
      */

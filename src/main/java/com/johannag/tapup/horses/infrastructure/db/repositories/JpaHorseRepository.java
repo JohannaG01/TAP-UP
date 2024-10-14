@@ -12,7 +12,6 @@ import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -113,7 +112,6 @@ public interface JpaHorseRepository extends JpaRepository<HorseEntity, Long>, Jp
      *              <li>raceDateTime: The date and time of the race to compare against.</li>
      *            </ul>
      * @return a list of {@link HorseEntity} objects that match the specified criteria.
-     *
      */
     @Query("SELECT h FROM HorseEntity h " +
             "JOIN h.participations p " +

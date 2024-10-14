@@ -3,7 +3,6 @@ package com.johannag.tapup.horses.infrastructure.db.adapters;
 import com.johannag.tapup.auth.infrastructure.utils.SecurityContextUtils;
 import com.johannag.tapup.globals.domain.mappers.GlobalDomainMapper;
 import com.johannag.tapup.globals.infrastructure.utils.Logger;
-import com.johannag.tapup.horseRaces.infrastructure.db.entities.HorseRaceEntityState;
 import com.johannag.tapup.horses.application.dtos.FindHorsesDTO;
 import com.johannag.tapup.horses.domain.dtos.CreateHorseEntityDTO;
 import com.johannag.tapup.horses.domain.dtos.UpdateHorseEntityDTO;
