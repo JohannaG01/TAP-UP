@@ -7,6 +7,8 @@ import com.johannag.tapup.horses.domain.models.HorseModel;
 import com.johannag.tapup.horses.infrastructure.db.entities.HorseEntity;
 import org.springframework.data.domain.Page;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -35,7 +37,7 @@ public interface HorseRepository {
      * @return an {@link Optional} containing the {@link HorseModel} if found, or an empty {@link Optional} if no
      * horse exists with the given UUID
      */
-    Optional<HorseModel> findMaybeByUuid(UUID uuid);
+    Optional<HorseModel> findOneMaybeByUuid(UUID uuid);
 
     /**
      * Checks if a horse with the specified UUID is currently scheduled
@@ -76,4 +78,30 @@ public interface HorseRepository {
      * @return a {@link Page} of {@link HorseModel} objects that match the given criteria
      */
     Page<HorseModel> findAll(FindHorsesDTO dto);
+
+    /**
+     * Retrieves a list of active horse models based on a list of horse UUIDs.
+     * <p>
+     * This method allows for the retrieval of multiple horse entities by their unique identifiers.
+     *
+     * @param uuid a list of UUIDs representing the unique identifiers of the horses to retrieve
+     * @return a list of {@link HorseModel} instances corresponding to the provided UUIDs.
+     * If no horses are found, an empty list is returned.
+     */
+    List<HorseModel> findActiveByUuidIn(List<UUID> uuid);
+
+    /**
+     * Finds a list of horse models based on their UUIDs that are either scheduled for a race
+     * before a specified date and time or have participated in a finished race after a specified date and time.
+     *
+     * @param uuids            A list of UUIDs representing the horses to be searched.
+     * @param pastDateTime     The date and time before which the horses are scheduled for a race.
+     * @param futureDateTime   The date and time after which the horses have participated in a finished race.
+     * @param raceDateTime     The specific date and time of the race to consider for scheduling.
+     * @return A list of {@link HorseModel} objects that match the specified criteria.
+     */
+    List<HorseModel> findByUuidsInScheduledRaceBeforeOrInFinishedRaceAfter(List<UUID> uuids,
+                                                                           LocalDateTime pastDateTime,
+                                                                           LocalDateTime futureDateTime,
+                                                                           LocalDateTime raceDateTime);
 }

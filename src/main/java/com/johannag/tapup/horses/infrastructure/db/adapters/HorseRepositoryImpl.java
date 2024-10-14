@@ -9,6 +9,7 @@ import com.johannag.tapup.horses.domain.dtos.CreateHorseEntityDTO;
 import com.johannag.tapup.horses.domain.dtos.UpdateHorseEntityDTO;
 import com.johannag.tapup.horses.domain.mappers.HorseDomainMapper;
 import com.johannag.tapup.horses.domain.models.HorseModel;
+import com.johannag.tapup.horses.infrastructure.db.dtos.FindByUuidsStateAnDatesDTO;
 import com.johannag.tapup.horses.infrastructure.db.entities.HorseEntity;
 import com.johannag.tapup.horses.infrastructure.db.entities.HorseEntityState;
 import com.johannag.tapup.horses.infrastructure.db.repositories.JpaHorseRepository;
@@ -21,8 +22,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import static com.johannag.tapup.horseRaces.infrastructure.db.entities.HorseRaceEntityState.FINISHED;
+import static com.johannag.tapup.horseRaces.infrastructure.db.entities.HorseRaceEntityState.SCHEDULED;
 
 @Repository
 @AllArgsConstructor
@@ -69,15 +75,15 @@ public class HorseRepositoryImpl implements HorseRepository {
     }
 
     @Override
-    public Optional<HorseModel> findMaybeByUuid(UUID uuid) {
-        return jpaHorseRepository.findMaybeOneByUuidAndStateIn(uuid, HorseEntityState.existenceStates())
+    public Optional<HorseModel> findOneMaybeByUuid(UUID uuid) {
+        return jpaHorseRepository.findOneMaybeByUuidAndStateIn(uuid, HorseEntityState.existenceStates())
                 .map(horseDomainMapper::toModelWithoutParticipations);
 
     }
 
     @Override
     public boolean isHorseInScheduledMatch(UUID uuid) {
-        return jpaHorseRepository.existsByUuidAndParticipations_HorseRace_State(uuid, HorseRaceEntityState.SCHEDULED);
+        return jpaHorseRepository.existsByUuidAndParticipations_HorseRace_State(uuid, SCHEDULED);
     }
 
     @Override
@@ -128,5 +134,36 @@ public class HorseRepositoryImpl implements HorseRepository {
                 .findAll(spec, pageable)
                 .map(horseDomainMapper::toModelWithoutParticipations);
     }
+
+    @Override
+    public List<HorseModel> findActiveByUuidIn(List<UUID> uuid) {
+        return jpaHorseRepository.findByUuidInAndState(uuid, HorseEntityState.ACTIVE).stream()
+                .map(horseDomainMapper::toModelWithoutParticipations)
+                .toList();
+    }
+
+    @Override
+    public List<HorseModel> findByUuidsInScheduledRaceBeforeOrInFinishedRaceAfter(List<UUID> uuids,
+                                                                                  LocalDateTime pastDateTime,
+                                                                                  LocalDateTime futureDateTime,
+                                                                                  LocalDateTime raceDateTime) {
+
+        FindByUuidsStateAnDatesDTO dto = FindByUuidsStateAnDatesDTO.builder()
+                .uuids(uuids)
+                .pastStates(List.of(SCHEDULED, FINISHED))
+                .startTimeFrom(pastDateTime)
+                .futureState(SCHEDULED)
+                .startTimeTo(futureDateTime)
+                .raceDateTime(raceDateTime)
+                .build();
+
+        return jpaHorseRepository
+                .findByUuidsWithRaceInStatesBetweenDates(dto)
+                .stream()
+                .map(horseDomainMapper::toModelWithoutParticipations)
+                .toList();
+
+    }
+
 
 }

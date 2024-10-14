@@ -70,4 +70,8 @@ public class HorseEntity {
 
     @Column(name = "updated_by", nullable = false)
     private Long updatedBy;
+
+    public void addParticipation(ParticipantEntity participation) {
+        this.participations.add(participation);
+    }
 }

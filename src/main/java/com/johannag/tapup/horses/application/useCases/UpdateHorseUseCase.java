@@ -21,14 +21,14 @@ public class UpdateHorseUseCase {
     private static final Logger logger = Logger.getLogger(UpdateHorseUseCase.class);
     private final HorseRepository horseRepository;
     private final HorseApplicationMapper horseApplicationMapper;
-    private final FindHorseByUuidUseCase findHorseByUuidUseCase;
+    private final FindOneHorseByUuidUseCase findOneHorseByUuidUseCase;
 
     public HorseModel execute(UpdateHorseDTO dto) throws HorseNotFoundException,
             CannotTransitionHorseStateException, InvalidHorseStateException {
         logger.info("Starting UpdateHorse process for horse with UUID [{}]", dto.getUuid());
 
         dto.validate();
-        findHorseByUuidUseCase.execute(dto.getUuid());
+        findOneHorseByUuidUseCase.execute(dto.getUuid());
         validateCanUpdateHorseOrThrow(dto);
         UpdateHorseEntityDTO updateHorseEntityDTO = horseApplicationMapper.toUpdateEntityDTO(dto);
         HorseModel horseModel = horseRepository.update(updateHorseEntityDTO);

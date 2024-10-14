@@ -11,15 +11,15 @@ import java.util.UUID;
 
 @Service
 @AllArgsConstructor
-public class FindHorseByUuidUseCase {
+public class FindOneHorseByUuidUseCase {
 
-    private static final Logger logger = Logger.getLogger(FindHorseByUuidUseCase.class);
+    private static final Logger logger = Logger.getLogger(FindOneHorseByUuidUseCase.class);
     private final HorseRepository horseRepository;
 
     public HorseModel execute(UUID uuid) {
         logger.info("Starting findHorse process for uuid: [{}]", uuid);
 
-        HorseModel horse = horseRepository.findMaybeByUuid(uuid)
+        HorseModel horse = horseRepository.findOneMaybeByUuid(uuid)
                 .orElseThrow(() -> new HorseNotFoundException(uuid));
 
         logger.info("Finished findHorse process for uuid: [{}]", uuid);

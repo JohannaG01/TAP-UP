@@ -4,14 +4,15 @@ import com.johannag.tapup.globals.presentation.dtos.SexDTO;
 import com.johannag.tapup.horses.presentation.dtos.HorseStateDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
-import lombok.Value;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
-@Value
+@Data
 @Builder(builderClassName = "Builder")
+@AllArgsConstructor
+@NoArgsConstructor
 public class HorseResponseDTO {
     @NotNull
     UUID uuid;

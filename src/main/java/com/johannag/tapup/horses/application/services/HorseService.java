@@ -3,13 +3,12 @@ package com.johannag.tapup.horses.application.services;
 import com.johannag.tapup.horses.application.dtos.CreateHorseDTO;
 import com.johannag.tapup.horses.application.dtos.FindHorsesDTO;
 import com.johannag.tapup.horses.application.dtos.UpdateHorseDTO;
-import com.johannag.tapup.horses.application.exceptions.CannotTransitionHorseStateException;
-import com.johannag.tapup.horses.application.exceptions.HorseAlreadyExistsException;
-import com.johannag.tapup.horses.application.exceptions.HorseNotFoundException;
-import com.johannag.tapup.horses.application.exceptions.InvalidHorseStateException;
+import com.johannag.tapup.horses.application.exceptions.*;
 import com.johannag.tapup.horses.domain.models.HorseModel;
 import org.springframework.data.domain.Page;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 public interface HorseService {
@@ -70,5 +69,20 @@ public interface HorseService {
      * @return the {@link HorseModel} associated with the given UUID
      * @throws HorseNotFoundException if no horse is found with the provided UUID
      */
-    HorseModel findByUuid(UUID uuid) throws HorseNotFoundException;
+    HorseModel findOneByUuid(UUID uuid) throws HorseNotFoundException;
+
+    /**
+     * Validates the availability of horses for a race based on their UUIDs and the race's start time.
+     *
+     * <p>This method checks if each horse identified by the provided UUIDs is available to participate in a race
+     * that is scheduled to start at the specified time. If any horse is not found or is unavailable, appropriate
+     * exceptions are thrown.</p>
+     *
+     * @param uuids a list of UUIDs representing the horses to be validated
+     * @param raceStartTime the scheduled start time of the race
+     * @throws HorseNotFoundException if one or more horses identified by the provided UUIDs cannot be found
+     * @throws HorseNotAvailableException if one or more horses are not available for the scheduled race
+     */
+    void validateHorsesAvailability(List<UUID> uuids, LocalDateTime raceStartTime) throws HorseNotFoundException,
+            HorseNotAvailableException ;
 }

@@ -29,6 +29,15 @@ public class DateTimeUtils {
         return OffsetDateTime.now(buenosAiresZoneId());
     }
 
+    /**
+     * Returns the current date and time as an LocalDateTime in the Buenos Aires time zone.
+     *
+     * @return the current date and time as an LocalDateTime
+     */
+    public static LocalDateTime nowAsLocalDateTime() {
+        return LocalDateTime.now(buenosAiresZoneId());
+    }
+
 
     /**
      * Returns the current date and time as a Date object, using the current

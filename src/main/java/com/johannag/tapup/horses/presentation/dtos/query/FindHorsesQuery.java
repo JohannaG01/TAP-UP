@@ -4,6 +4,7 @@ import com.johannag.tapup.globals.presentation.dtos.SexDTO;
 import com.johannag.tapup.globals.presentation.validations.annotations.NullOrNotBlank;
 import com.johannag.tapup.horses.presentation.dtos.HorseStateDTO;
 import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.AssertFalse;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.PastOrPresent;

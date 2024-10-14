@@ -16,7 +16,7 @@ import com.johannag.tapup.horses.presentation.dtos.requests.CreateHorseRequestDT
 import com.johannag.tapup.horses.presentation.dtos.requests.UpdateHorseRequestDTO;
 import com.johannag.tapup.horses.presentation.dtos.responses.HorseResponseDTO;
 import com.johannag.tapup.horses.presentation.mappers.HorsePresentationMapper;
-import com.johannag.tapup.users.presentation.schema.PageHorseResponseDTO;
+import com.johannag.tapup.horses.presentation.schema.PageHorseResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -47,8 +47,7 @@ public class HorseController {
 
     @Operation(summary = "Creates horse")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Horse created successfully", content = {
-                    @Content(mediaType = "application/json")}),
+            @ApiResponse(responseCode = "201", description = "Horse created successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid request", content = {
                     @Content(mediaType = "application/json", schema =
                     @Schema(implementation = ErrorResponse.class))}),
@@ -79,8 +78,7 @@ public class HorseController {
 
     @Operation(summary = "Updates horse")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Horse updated successfully", content = {
-                    @Content(mediaType = "application/json")}),
+            @ApiResponse(responseCode = "201", description = "Horse updated successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid request", content = {
                     @Content(mediaType = "application/json", schema =
                     @Schema(implementation = ErrorResponse.class))}),
@@ -115,8 +113,7 @@ public class HorseController {
 
     @Operation(summary = "Deletes horse")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Horse deleted successfully", content = {
-                    @Content(mediaType = "application/json")}),
+            @ApiResponse(responseCode = "200", description = "Horse deleted successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid request", content = {
                     @Content(mediaType = "application/json", schema =
                     @Schema(implementation = ErrorResponse.class))}),
@@ -176,8 +173,7 @@ public class HorseController {
 
     @Operation(summary = "Find horse by Uuid")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Horse found successfully", content = {
-                    @Content(mediaType = "application/json")}),
+            @ApiResponse(responseCode = "200", description = "Horse found successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid request", content = {
                     @Content(mediaType = "application/json", schema =
                     @Schema(implementation = ErrorResponse.class))}),
@@ -195,7 +191,7 @@ public class HorseController {
     @GetMapping("/horses/{horseUuid}")
     public ResponseEntity<HorseResponseDTO> findByUuid(@PathVariable UUID horseUuid) throws HorseNotFoundException {
 
-        HorseModel horses = horseService.findByUuid(horseUuid);
+        HorseModel horses = horseService.findOneByUuid(horseUuid);
         HorseResponseDTO response = horsePresentationMapper.toResponseDTO(horses);
 
         return new ResponseEntity<>(response, HttpStatus.OK);

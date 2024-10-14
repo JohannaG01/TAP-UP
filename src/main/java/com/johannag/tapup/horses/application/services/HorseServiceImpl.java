@@ -3,16 +3,15 @@ package com.johannag.tapup.horses.application.services;
 import com.johannag.tapup.horses.application.dtos.CreateHorseDTO;
 import com.johannag.tapup.horses.application.dtos.FindHorsesDTO;
 import com.johannag.tapup.horses.application.dtos.UpdateHorseDTO;
-import com.johannag.tapup.horses.application.exceptions.CannotTransitionHorseStateException;
-import com.johannag.tapup.horses.application.exceptions.HorseAlreadyExistsException;
-import com.johannag.tapup.horses.application.exceptions.HorseNotFoundException;
-import com.johannag.tapup.horses.application.exceptions.InvalidHorseStateException;
+import com.johannag.tapup.horses.application.exceptions.*;
 import com.johannag.tapup.horses.application.useCases.*;
 import com.johannag.tapup.horses.domain.models.HorseModel;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -23,7 +22,8 @@ public class HorseServiceImpl implements HorseService {
     private final UpdateHorseUseCase updateHorseUseCase;
     private final DeactivateHorseUseCase deactivateHorseUseCase;
     private final FindHorsesUseCase findHorsesUseCase;
-    private final FindHorseByUuidUseCase findHorseByUuidUseCase;
+    private final FindOneHorseByUuidUseCase findOneHorseByUuidUseCase;
+    private final ValidateHorsesAvailabilityUseCase validateHorsesAvailabilityUseCase;
 
     @Override
     public HorseModel create(CreateHorseDTO dto) throws HorseAlreadyExistsException {
@@ -47,7 +47,14 @@ public class HorseServiceImpl implements HorseService {
     }
 
     @Override
-    public HorseModel findByUuid(UUID uuid) throws HorseNotFoundException {
-        return findHorseByUuidUseCase.execute(uuid);
+    public HorseModel findOneByUuid(UUID uuid) throws HorseNotFoundException {
+        return findOneHorseByUuidUseCase.execute(uuid);
     }
+
+    @Override
+    public void validateHorsesAvailability(List<UUID> uuids, LocalDateTime raceStartTime) throws HorseNotFoundException,
+            HorseNotAvailableException {
+        validateHorsesAvailabilityUseCase.execute(uuids, raceStartTime);
+    }
+
 }
