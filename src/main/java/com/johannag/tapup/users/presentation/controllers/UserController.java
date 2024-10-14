@@ -45,8 +45,7 @@ public class UserController {
 
     @Operation(summary = "Creates user")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "User created successfully", content = {
-                    @Content(mediaType = "application/json")}),
+            @ApiResponse(responseCode = "201", description = "User created successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid request", content = {
                     @Content(mediaType = "application/json", schema =
                     @Schema(implementation = ErrorResponse.class))}),
@@ -70,8 +69,7 @@ public class UserController {
 
     @Operation(summary = "LogIn user")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "User logIn successfully", content = {
-                    @Content(mediaType = "application/json")}),
+            @ApiResponse(responseCode = "200", description = "User logIn successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid request", content = {
                     @Content(mediaType = "application/json", schema =
                     @Schema(implementation = ErrorResponse.class))}),
@@ -95,8 +93,7 @@ public class UserController {
 
     @Operation(summary = "Add funds to user")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Add funds to user successfully", content = {
-                    @Content(mediaType = "application/json")}),
+            @ApiResponse(responseCode = "200", description = "Add funds to user successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid request body", content = {
                     @Content(mediaType = "application/json", schema =
                     @Schema(implementation = ErrorResponse.class))}),

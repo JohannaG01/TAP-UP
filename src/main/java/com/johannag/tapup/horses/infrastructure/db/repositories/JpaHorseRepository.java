@@ -1,6 +1,8 @@
 package com.johannag.tapup.horses.infrastructure.db.repositories;
 
 import com.johannag.tapup.horseRaces.infrastructure.db.entities.HorseRaceEntityState;
+import com.johannag.tapup.horses.domain.models.HorseModel;
+import com.johannag.tapup.horses.infrastructure.db.dtos.FindByUuidsStateAnDatesDTO;
 import com.johannag.tapup.horses.infrastructure.db.entities.HorseEntity;
 import com.johannag.tapup.horses.infrastructure.db.entities.HorseEntityState;
 import jakarta.persistence.LockModeType;
@@ -10,6 +12,7 @@ import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -45,7 +48,7 @@ public interface JpaHorseRepository extends JpaRepository<HorseEntity, Long>, Jp
      * @return an {@link Optional} containing the {@link HorseEntity} if found with the specified UUID and state,
      * or an empty {@link Optional} if no horse exists with the given UUID in the specified states
      */
-    Optional<HorseEntity> findMaybeOneByUuidAndStateIn(UUID uuid, List<HorseEntityState> states);
+    Optional<HorseEntity> findOneMaybeByUuidAndStateIn(UUID uuid, List<HorseEntityState> states);
 
     /**
      * Checks if a {@link HorseEntity} exists with the specified UUID and is participating
@@ -69,4 +72,58 @@ public interface JpaHorseRepository extends JpaRepository<HorseEntity, Long>, Jp
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT h FROM HorseEntity h WHERE h.uuid = :uuid")
     HorseEntity findOneByUuidForUpdate(UUID uuid);
+
+    /**
+     * Retrieves a {@code list} of a {@link HorseEntity} based on a list of horse UUIDs.
+     * <p>
+     * This method allows for the retrieval of multiple horse entities by their unique identifiers.
+     *
+     * @param uuid a list of UUIDs representing the unique identifiers of the horses to retrieve
+     * @return a list of {@link HorseModel} instances corresponding to the provided UUIDs.
+     * If no horses are found, an empty list is returned.
+     */
+    List<HorseEntity> findByUuidIn(List<UUID> uuid);
+
+    /**
+     * Finds and retrieves a list of horse entities based on their UUIDs and their state.
+     *
+     * @param uuid  a list of UUIDs representing the horses to search for.
+     * @param state the state of the horses to filter by.
+     * @return a list of {@link HorseEntity} that match the specified UUIDs and state.
+     * If no matching horses are found, an empty list is returned.
+     */
+    List<HorseEntity> findByUuidInAndState(List<UUID> uuid, HorseEntityState state);
+
+    /**
+     * Finds a list of horse entities based on their UUIDs, checking if they are
+     * scheduled for races in certain states and within specified date ranges.
+     *
+     * <p>This method will retrieve horses that are either participating in past races
+     * starting from a specified date or are scheduled for future races before a given
+     * end date.</p>
+     *
+     * @param dto the data transfer object containing the criteria for searching horses,
+     *            including:
+     *            <ul>
+     *              <li>uuids: List of UUIDs of the horses to be queried.</li>
+     *              <li>pastStates: List of states of the horse races that have already occurred.</li>
+     *              <li>startTimeFrom: The start time for filtering past races.</li>
+     *              <li>startTimeTo: The end time for filtering future races.</li>
+     *              <li>futureState: The state of the horse races that are scheduled for the future.</li>
+     *              <li>raceDateTime: The date and time of the race to compare against.</li>
+     *            </ul>
+     * @return a list of {@link HorseEntity} objects that match the specified criteria.
+     *
+     */
+    @Query("SELECT h FROM HorseEntity h " +
+            "JOIN h.participations p " +
+            "WHERE h.uuid IN :#{#dto.uuids} " +
+            "AND ((p.horseRace.state IN :#{#dto.pastStates} " +
+            "AND p.horseRace.startTime <= :#{#dto.raceDateTime} " +
+            "AND p.horseRace.startTime >= :#{#dto.startTimeFrom}) " +
+            "OR (p.horseRace.state = :#{#dto.futureState} " +
+            "AND p.horseRace.startTime >= :#{#dto.raceDateTime} " +
+            "AND p.horseRace.startTime <= :#{#dto.startTimeTo}))")
+    List<HorseEntity> findByUuidsWithRaceInStatesBetweenDates(FindByUuidsStateAnDatesDTO dto);
+
 }

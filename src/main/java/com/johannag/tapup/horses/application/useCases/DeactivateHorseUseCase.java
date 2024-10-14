@@ -14,7 +14,7 @@ public class DeactivateHorseUseCase {
 
     private static final Logger logger = Logger.getLogger(DeactivateHorseUseCase.class);
     private final HorseRepository horseRepository;
-    private final FindHorseByUuidUseCase findHorseByUuidUseCase;
+    private final FindOneHorseByUuidUseCase findHorseByUuidUseCase;
 
     public HorseModel execute(UUID uuid) {
         logger.info("Starting DeactivateHorse process for horse UUID %s", uuid.toString());
