@@ -8,6 +8,8 @@ import com.johannag.tapup.horseRaces.exceptions.InvalidHorseRaceStateException;
 import com.johannag.tapup.horses.application.exceptions.HorseNotAvailableException;
 import com.johannag.tapup.horses.application.exceptions.HorseNotFoundException;
 
+import java.util.UUID;
+
 public interface HorseRaceService {
 
     /**
@@ -31,4 +33,13 @@ public interface HorseRaceService {
      */
     HorseRaceModel update(UpdateHorseRaceDTO dto) throws HorseRaceNotFoundException, InvalidHorseRaceStateException,
             HorseNotAvailableException;
+
+    /**
+     * Finds a {@link HorseRaceModel} by its UUID.
+     *
+     * @param uuid the UUID of the horse race to be found
+     * @return the {@link HorseRaceModel} associated with the given UUID
+     * @throws HorseRaceNotFoundException if no horse race is found with the provided UUID
+     */
+    HorseRaceModel findOneByUuid(UUID uuid) throws HorseRaceNotFoundException;
 }

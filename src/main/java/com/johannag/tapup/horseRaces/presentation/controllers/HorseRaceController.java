@@ -106,4 +106,32 @@ public class HorseRaceController {
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @Operation(summary = "Find horse race by uuid")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Horse Race found successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid request", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "401", description = "Unauthorized: Invalid credentials", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "403", description = "Forbidden: Not enough privileges", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "404", description = "Not Found: Horse Race Not Found", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))})
+    })
+    @PreAuthorize("hasAnyAuthority({'ADMIN'})")
+    @GetMapping("/horse-races/{horseRaceUuid}")
+    public ResponseEntity<HorseRaceResponseDTO> update(@PathVariable UUID horseRaceUuid) throws HorseRaceNotFoundException {
+        HorseRaceModel horseRace = horseRaceService.findOneByUuid(horseRaceUuid);
+        HorseRaceResponseDTO response = horseRacePresentationMapper.toResponseDTO(horseRace);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }

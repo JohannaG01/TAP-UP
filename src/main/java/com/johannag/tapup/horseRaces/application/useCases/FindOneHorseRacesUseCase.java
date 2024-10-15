@@ -16,7 +16,7 @@ public class FindOneHorseRacesUseCase {
     private static final Logger logger = Logger.getLogger(FindOneHorseRacesUseCase.class);
     private final HorseRaceRepository horseRaceRepository;
 
-    public HorseRaceModel execute(UUID uuid) {
+    public HorseRaceModel execute(UUID uuid) throws HorseRaceNotFoundException {
         logger.info("Starting FindHorseRace process for race UUID {}", uuid.toString());
 
         HorseRaceModel horseRace = horseRaceRepository.findOneMaybeByUuid(uuid)
