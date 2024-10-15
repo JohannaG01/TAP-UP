@@ -3,32 +3,28 @@ package com.johannag.tapup.horseRaces.presentation.dtos.responses;
 import com.johannag.tapup.horses.presentation.dtos.responses.HorseResponseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Value;
 import org.springframework.lang.Nullable;
 
 import java.time.LocalTime;
 import java.util.UUID;
 
-@Data
+@Value
 @Builder(builderClassName = "Builder")
-@AllArgsConstructor
-@NoArgsConstructor
 public class ParticipantResponseDTO {
 
     @NotNull
-    private UUID uuid;
+    UUID uuid;
 
     @Nullable
     @Schema(example = "1")
-    private Integer placement;
+    Integer placement;
 
     @Nullable
     @Schema(example = "2:31:54")
-    private LocalTime time;
+    LocalTime time;
 
     @NotNull
-    private HorseResponseDTO horse;
+    HorseResponseDTO horse;
 }
