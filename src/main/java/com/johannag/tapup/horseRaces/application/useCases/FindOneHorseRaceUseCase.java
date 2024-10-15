@@ -11,9 +11,9 @@ import java.util.UUID;
 
 @Service
 @AllArgsConstructor
-public class FindOneHorseRacesUseCase {
+public class FindOneHorseRaceUseCase {
 
-    private static final Logger logger = Logger.getLogger(FindOneHorseRacesUseCase.class);
+    private static final Logger logger = Logger.getLogger(FindOneHorseRaceUseCase.class);
     private final HorseRaceRepository horseRaceRepository;
 
     public HorseRaceModel execute(UUID uuid) throws HorseRaceNotFoundException {

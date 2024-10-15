@@ -7,6 +7,7 @@ import com.johannag.tapup.horseRaces.infrastructure.db.entities.HorseRaceEntity;
 import com.johannag.tapup.horseRaces.infrastructure.db.entities.HorseRaceEntityState;
 import com.johannag.tapup.horses.infrastructure.db.entities.HorseEntity;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface HorseRaceDomainMapper {
@@ -32,6 +33,18 @@ public interface HorseRaceDomainMapper {
      * @return a horse race entity state object corresponding to the provided model.
      */
     HorseRaceEntityState toEntity(HorseRaceModelState model);
+
+    /**
+     * Converts a collection of {@link HorseRaceModelState} instances to a list of {@link HorseRaceEntityState} entities.
+     *
+     * <p>This method is useful for transforming model states used in business logic into
+     * entity states that can be persisted in the database.</p>
+     *
+     * @param model a collection of {@link HorseRaceModelState} objects to be converted
+     * @return a list of {@link HorseRaceEntityState} corresponding to the provided model states
+     *         or an empty list if the input collection is null or empty
+     */
+    List<HorseRaceEntityState> toEntity(Collection<HorseRaceModelState> models);
 
     /**
      * Converts a {@link HorseRaceEntity} to a {@link HorseRaceModel}.

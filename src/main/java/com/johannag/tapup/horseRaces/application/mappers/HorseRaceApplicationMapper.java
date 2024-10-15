@@ -1,9 +1,12 @@
 package com.johannag.tapup.horseRaces.application.mappers;
 
 import com.johannag.tapup.horseRaces.application.dtos.CreateHorseRaceDTO;
+import com.johannag.tapup.horseRaces.application.dtos.FindHorseRacesDTO;
 import com.johannag.tapup.horseRaces.application.dtos.UpdateHorseRaceDTO;
 import com.johannag.tapup.horseRaces.domain.UpdateHorseRaceEntityDTO;
 import com.johannag.tapup.horseRaces.domain.dtos.CreateHorseRaceEntityDTO;
+import com.johannag.tapup.horseRaces.domain.dtos.FindHorseRacesEntityDTO;
+import com.johannag.tapup.horseRaces.presentation.dtos.query.FindHorseRacesQuery;
 import com.johannag.tapup.horseRaces.presentation.dtos.requests.CreateHorseRaceRequestDTO;
 import com.johannag.tapup.horseRaces.presentation.dtos.requests.UpdateHorseRaceRequestDTO;
 
@@ -50,4 +53,27 @@ public interface HorseRaceApplicationMapper {
      * @return an instance of {@link UpdateHorseRaceEntityDTO} populated with values from the provided DTO
      */
     UpdateHorseRaceEntityDTO toUpdateEntityDTO(UpdateHorseRaceDTO dto);
+
+    /**
+     * Converts a {@link FindHorseRacesQuery} to a {@link FindHorseRacesDTO}.
+     * This method maps the fields from the query object, which is typically used for
+     * filtering and searching horse races, into a DTO that is suitable for further
+     * processing or response purposes.
+     *
+     * @param dto the {@link FindHorseRacesQuery} used for specifying filter criteria.
+     * @return a {@link FindHorseRacesDTO} representing the search filters,
+     *         ready for further processing.
+     */
+    FindHorseRacesDTO toFindDTO(FindHorseRacesQuery dto);
+
+    /**
+     * Converts a {@link FindHorseRacesDTO} to a {@link FindHorseRacesEntityDTO}.
+     * This method maps the fields from the DTO used for filtering and searching horse races
+     * into an entity DTO suitable for data access or persistence operations.
+     *
+     * @param dto the {@link FindHorseRacesDTO} containing the filter criteria.
+     * @return a {@link FindHorseRacesEntityDTO} that represents the same data as the
+     *         provided DTO, formatted for use in entity operations.
+     */
+    FindHorseRacesEntityDTO toFindEntityDTO(FindHorseRacesDTO dto);
 }

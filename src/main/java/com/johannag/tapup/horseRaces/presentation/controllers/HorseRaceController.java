@@ -2,18 +2,23 @@ package com.johannag.tapup.horseRaces.presentation.controllers;
 
 import com.johannag.tapup.globals.presentation.errors.ErrorResponse;
 import com.johannag.tapup.horseRaces.application.dtos.CreateHorseRaceDTO;
+import com.johannag.tapup.horseRaces.application.dtos.FindHorseRacesDTO;
 import com.johannag.tapup.horseRaces.application.dtos.UpdateHorseRaceDTO;
 import com.johannag.tapup.horseRaces.application.mappers.HorseRaceApplicationMapper;
 import com.johannag.tapup.horseRaces.application.services.HorseRaceService;
 import com.johannag.tapup.horseRaces.domain.models.HorseRaceModel;
 import com.johannag.tapup.horseRaces.exceptions.HorseRaceNotFoundException;
 import com.johannag.tapup.horseRaces.exceptions.InvalidHorseRaceStateException;
+import com.johannag.tapup.horseRaces.presentation.dtos.query.FindHorseRacesQuery;
 import com.johannag.tapup.horseRaces.presentation.dtos.requests.CreateHorseRaceRequestDTO;
 import com.johannag.tapup.horseRaces.presentation.dtos.requests.UpdateHorseRaceRequestDTO;
 import com.johannag.tapup.horseRaces.presentation.dtos.responses.HorseRaceResponseDTO;
 import com.johannag.tapup.horseRaces.presentation.mappers.HorseRacePresentationMapper;
+import com.johannag.tapup.horseRaces.presentation.schema.PageHorseRaceResponseDTO;
+import com.johannag.tapup.horses.application.dtos.FindHorsesDTO;
 import com.johannag.tapup.horses.application.exceptions.HorseNotAvailableException;
 import com.johannag.tapup.horses.application.exceptions.HorseNotFoundException;
+import com.johannag.tapup.horses.presentation.schema.PageHorseResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -22,6 +27,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -128,9 +135,38 @@ public class HorseRaceController {
     })
     @PreAuthorize("hasAnyAuthority({'ADMIN'})")
     @GetMapping("/horse-races/{horseRaceUuid}")
-    public ResponseEntity<HorseRaceResponseDTO> update(@PathVariable UUID horseRaceUuid) throws HorseRaceNotFoundException {
+    public ResponseEntity<HorseRaceResponseDTO> find(@PathVariable UUID horseRaceUuid) throws HorseRaceNotFoundException {
         HorseRaceModel horseRace = horseRaceService.findOneByUuid(horseRaceUuid);
         HorseRaceResponseDTO response = horseRacePresentationMapper.toResponseDTO(horseRace);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Find all horse races")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Horse Races found successfully", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = PageHorseRaceResponseDTO.class))
+            }),
+            @ApiResponse(responseCode = "400", description = "Invalid request", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "401", description = "Unauthorized: Invalid credentials", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "403", description = "Forbidden: Not enough privileges", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))})
+    })
+    @PreAuthorize("hasAnyAuthority({'ADMIN'})")
+    @GetMapping("/horse-races")
+    public ResponseEntity<Page<HorseRaceResponseDTO>> findAll(@Valid @ParameterObject @ModelAttribute FindHorseRacesQuery findHorsesRaceQuery) {
+        FindHorseRacesDTO dto = horseRaceApplicationMapper.toFindDTO(findHorsesRaceQuery);
+        Page<HorseRaceModel> horseRaces = horseRaceService.findAll(dto);
+        Page<HorseRaceResponseDTO> response = horseRacePresentationMapper.toResponseDTO(horseRaces);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

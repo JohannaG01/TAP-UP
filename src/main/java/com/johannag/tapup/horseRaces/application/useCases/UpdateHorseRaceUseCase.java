@@ -24,14 +24,14 @@ public class UpdateHorseRaceUseCase {
     private final HorseRaceApplicationMapper horseRaceApplicationMapper;
     private final HorseService horseService;
     private final HorseRaceRepository horseRaceRepository;
-    private final FindOneHorseRacesUseCase findOneHorseRacesUseCase;
+    private final FindOneHorseRaceUseCase findOneHorseRaceUseCase;
 
     public HorseRaceModel execute(UpdateHorseRaceDTO dto)
             throws HorseNotFoundException, InvalidHorseRaceStateException, HorseNotAvailableException {
         logger.info("Starting UpdateHorseRace process for race UUID {}", dto.getHorseRaceUuid());
 
         UUID horseRaceUuid = dto.getHorseRaceUuid();
-        HorseRaceModel horseRace = findOneHorseRacesUseCase.execute(horseRaceUuid);
+        HorseRaceModel horseRace = findOneHorseRaceUseCase.execute(horseRaceUuid);
         validateHorseRaceIsScheduledOrThrow(horseRace);
         horseService.validateHorsesAvailability(horseRace.getHorseUuids(), dto.getStartTime(), List.of(horseRaceUuid));
         UpdateHorseRaceEntityDTO updateHorseRaceEntityDTO = horseRaceApplicationMapper.toUpdateEntityDTO(dto);

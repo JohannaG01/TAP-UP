@@ -146,8 +146,8 @@ public class HorseController {
     @Operation(summary = "Find all horses")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Horses found successfully", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation =
-                            PageHorseResponseDTO.class))
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = PageHorseResponseDTO.class))
             }),
             @ApiResponse(responseCode = "400", description = "Invalid request", content = {
                     @Content(mediaType = "application/json", schema =
