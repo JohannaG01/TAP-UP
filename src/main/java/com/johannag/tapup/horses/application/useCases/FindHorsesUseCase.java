@@ -26,7 +26,6 @@ public class FindHorsesUseCase {
     public Page<HorseModel> execute(FindHorsesDTO dto) {
         logger.info("Starting findHorses process");
 
-        //TODO change this
         FindHorsesEntityDTO findHorsesEntityDTO = mapAndEnforceDefaultStateForNonAdmin(dto);
         Page<HorseModel> horses = horseRepository.findAll(findHorsesEntityDTO);
 
