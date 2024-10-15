@@ -12,6 +12,7 @@ import com.johannag.tapup.horses.infrastructure.db.entities.HorseEntity;
 import org.modelmapper.TypeMap;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -43,6 +44,13 @@ public class HorseRaceDomainMapperImpl implements HorseRaceDomainMapper {
     @Override
     public HorseRaceEntityState toEntity(HorseRaceModelState model) {
         return HorseRaceEntityState.valueOf(model.name());
+    }
+
+    @Override
+    public List<HorseRaceEntityState> toEntity(Collection<HorseRaceModelState> models) {
+        return models.stream()
+                .map(this::toEntity)
+                .toList();
     }
 
     @Override

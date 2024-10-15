@@ -1,9 +1,8 @@
-package com.johannag.tapup.horses.application.dtos;
+package com.johannag.tapup.horses.domain.dtos;
 
 import com.johannag.tapup.globals.domain.models.SexModel;
 import com.johannag.tapup.horses.domain.models.HorseModelState;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Value;
 import org.springframework.lang.Nullable;
 
@@ -12,7 +11,7 @@ import java.util.List;
 
 @Value
 @Builder(builderClassName = "Builder")
-public class FindHorsesDTO {
+public class FindHorsesEntityDTO {
     int size;
     int page;
     List<HorseModelState> states;

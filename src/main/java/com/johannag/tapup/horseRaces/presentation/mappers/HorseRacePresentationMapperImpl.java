@@ -4,6 +4,7 @@ import com.johannag.tapup.horseRaces.domain.models.HorseRaceModel;
 import com.johannag.tapup.horseRaces.presentation.dtos.responses.HorseRaceResponseDTO;
 import com.johannag.tapup.horseRaces.presentation.dtos.responses.ParticipantResponseDTO;
 import org.modelmapper.TypeMap;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -32,5 +33,10 @@ public class HorseRacePresentationMapperImpl implements HorseRacePresentationMap
                 .map(model)
                 .participants(participants)
                 .build();
+    }
+
+    @Override
+    public Page<HorseRaceResponseDTO> toResponseDTO(Page<HorseRaceModel> models) {
+        return models.map(this::toResponseDTO);
     }
 }

@@ -4,15 +4,16 @@ import com.johannag.tapup.horseRaces.infrastructure.db.entities.HorseRaceEntity;
 import com.johannag.tapup.horseRaces.infrastructure.db.entities.ParticipantEntity;
 import com.johannag.tapup.horses.infrastructure.db.entities.HorseEntity;
 import jakarta.persistence.LockModeType;
-import org.springframework.data.jpa.repository.EntityGraph;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Lock;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.repository.*;
+import org.springframework.lang.NonNull;
 
 import java.util.Optional;
 import java.util.UUID;
 
-public interface JpaHorseRaceRepository extends JpaRepository<HorseRaceEntity, Long> {
+public interface JpaHorseRaceRepository extends JpaRepository<HorseRaceEntity, Long>, JpaSpecificationExecutor<HorseRaceEntity> {
 
     /**
      * Retrieves a {@link HorseRaceEntity} by its UUID, including its participants
@@ -52,4 +53,22 @@ public interface JpaHorseRaceRepository extends JpaRepository<HorseRaceEntity, L
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT h FROM HorseRaceEntity h WHERE h.uuid = :uuid")
     HorseRaceEntity findOneByUuidForUpdate(UUID uuid);
+
+    /**
+     * Retrieves a paginated list of {@link HorseRaceEntity} based on the specified criteria.
+     *
+     * <p>This method utilizes a {@link Specification} to filter the results and applies an
+     * {@link EntityGraph} to fetch associated participants and their horses eagerly. This helps to
+     * optimize performance by minimizing the number of database queries required to retrieve related data.</p>
+     *
+     * @param spec    the {@link Specification} used to filter the horse race entities.
+     *                If null, all entities will be returned.
+     * @param pageable the pagination information, must not be null. This object contains the details
+     *                 for the requested page, such as page number and size.
+     * @return a {@link Page} containing the matching {@link HorseRaceEntity} instances.
+     *         This page will be empty if no entities match the specification.
+     */
+    @NonNull
+    @EntityGraph(attributePaths = {"participants", "participants.horse"})
+    Page<HorseRaceEntity> findAll(Specification<HorseRaceEntity> spec, @NonNull Pageable pageable);
 }
