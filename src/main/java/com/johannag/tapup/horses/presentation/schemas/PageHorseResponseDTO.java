@@ -1,5 +1,6 @@
 package com.johannag.tapup.horses.presentation.schemas;
 
+import com.johannag.tapup.globals.presentation.dtos.responses.PageResponse;
 import com.johannag.tapup.horses.presentation.dtos.responses.HorseResponseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Value;
@@ -8,19 +9,7 @@ import java.util.List;
 
 @Value
 @Schema(description = "Pageable response containing horses")
-public class PageHorseResponseDTO {
+public class PageHorseResponseDTO extends PageResponse {
     @Schema(description = "List of horse responses")
     List<HorseResponseDTO> content;
-
-    @Schema(description = "Total number of elements available")
-    long totalElements;
-
-    @Schema(description = "Total number of pages available")
-    int totalPages;
-
-    @Schema(description = "Current page number")
-    int number;
-
-    @Schema(description = "Size of the page")
-    int size;
 }

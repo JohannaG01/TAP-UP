@@ -1,12 +1,12 @@
 package com.johannag.tapup.horseRaces.presentation.dtos.queries;
 
+import com.johannag.tapup.globals.presentation.dtos.query.PageQuery;
 import com.johannag.tapup.globals.presentation.validations.annotations.NullOrNotBlank;
 import com.johannag.tapup.horseRaces.presentation.dtos.HorseRaceStateDTO;
 import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.validation.constraints.AssertFalse;
-import jakarta.validation.constraints.Min;
-import lombok.Builder;
 import lombok.Value;
+import lombok.experimental.SuperBuilder;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.BindParam;
 
@@ -16,14 +16,8 @@ import java.util.Set;
 import java.util.UUID;
 
 @Value
-@Builder(builderClassName = "Builder")
-public class FindHorseRacesQuery {
-
-    @Min(value = 1, message = "Size must be at least 1")
-    Integer size;
-
-    @Min(value = 0, message = "Page must be at least 0")
-    Integer page;
+@SuperBuilder
+public class FindHorseRacesQuery extends PageQuery {
 
     @Nullable
     LocalDateTime startTimeFrom;
@@ -57,8 +51,7 @@ public class FindHorseRacesQuery {
                                @Nullable String horseCode,
                                @Nullable String horseName,
                                @Nullable String horseBreed) {
-        this.size = (size != null) ? size : 10;
-        this.page = (page != null) ? page : 0;
+        super(size, page);
         this.startTimeFrom = startTimeFrom;
         this.startTimeTo = startTimeTo;
         this.states = states != null ? states : new HashSet<>();
