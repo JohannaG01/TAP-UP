@@ -54,7 +54,7 @@ public class HorseRaceDomainMapperImpl implements HorseRaceDomainMapper {
     }
 
     @Override
-    public HorseRaceModel toModelWithoutBidirectional(HorseRaceEntity entity) {
+    public HorseRaceModel toModel(HorseRaceEntity entity) {
         List<ParticipantModel> participants = entity.getParticipants().stream()
                 .map(participantDomainMapper::toModelWithoutRace)
                 .toList();
@@ -62,6 +62,13 @@ public class HorseRaceDomainMapperImpl implements HorseRaceDomainMapper {
         return modelMapper
                 .map(entity)
                 .participants(participants)
+                .build();
+    }
+
+    @Override
+    public HorseRaceModel toModelWithoutHorseAndParticipants(HorseRaceEntity entity) {
+        return modelMapper
+                .map(entity)
                 .build();
     }
 
@@ -78,13 +85,10 @@ public class HorseRaceDomainMapperImpl implements HorseRaceDomainMapper {
     }
 
     private ParticipantEntity toEntity(CreateParticipantEntityDTO dto, HorseEntity horse) {
-        ParticipantEntity participant = ParticipantEntity.builder()
+        return ParticipantEntity.builder()
                 .uuid(dto.getUuid())
                 .horse(horse)
                 .build();
-
-        horse.addParticipation(participant);
-        return participant;
     }
 
     private HorseRaceEntity buildHorseRace(CreateHorseRaceEntityDTO dto, List<ParticipantEntity> participants) {

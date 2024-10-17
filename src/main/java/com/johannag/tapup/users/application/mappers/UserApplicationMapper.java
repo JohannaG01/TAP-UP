@@ -3,8 +3,10 @@ package com.johannag.tapup.users.application.mappers;
 import com.johannag.tapup.users.application.dtos.AddUserFundsDTO;
 import com.johannag.tapup.users.application.dtos.CreateUserDTO;
 import com.johannag.tapup.users.application.dtos.LogInUserDTO;
+import com.johannag.tapup.users.application.dtos.SubtractUserFundsDTO;
 import com.johannag.tapup.users.domain.dtos.AddUserFundsToEntityDTO;
 import com.johannag.tapup.users.domain.dtos.CreateUserEntityDTO;
+import com.johannag.tapup.users.domain.dtos.SubtractUserFundsToEntityDTO;
 import com.johannag.tapup.users.presentation.dtos.requests.AddUserFundsRequestDTO;
 import com.johannag.tapup.users.presentation.dtos.requests.CreateUserRequestDTO;
 import com.johannag.tapup.users.presentation.dtos.requests.LogInUserRequestDTO;
@@ -60,5 +62,13 @@ public interface UserApplicationMapper {
      * @return the converted {@link AddUserFundsToEntityDTO} object.
      */
     AddUserFundsToEntityDTO toAddFundsToEntityDTO(AddUserFundsDTO dto);
+
+    /**
+     * Converts a {@link SubtractUserFundsDTO} to a {@link SubtractUserFundsToEntityDTO}.
+     *
+     * @param dto the {@link SubtractUserFundsDTO} containing the fund subtraction details.
+     * @return a {@link SubtractUserFundsToEntityDTO} populated with the data from the given {@link SubtractUserFundsDTO}.
+     */
+    SubtractUserFundsToEntityDTO toSubtractFundsToEntityDTO(SubtractUserFundsDTO dto);
 
 }

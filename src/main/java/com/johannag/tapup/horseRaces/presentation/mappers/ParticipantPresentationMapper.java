@@ -6,6 +6,14 @@ import com.johannag.tapup.horseRaces.presentation.dtos.responses.ParticipantResp
 public interface ParticipantPresentationMapper {
 
     /**
+     * Converts a {@link ParticipantModel} to a {@link ParticipantResponseDTO} excluding the race information.
+     *
+     * @param model the {@link ParticipantModel} to convert.
+     * @return a {@link ParticipantResponseDTO} without race-related information.
+     */
+    ParticipantResponseDTO toResponseDTOWithoutRace(ParticipantModel model);
+
+    /**
      * Converts a {@link ParticipantModel} to a {@link ParticipantResponseDTO}.
      * <p>
      * This method transforms the data from the domain model {@link ParticipantModel}
@@ -16,4 +24,5 @@ public interface ParticipantPresentationMapper {
      * @return a {@link ParticipantResponseDTO} containing the participant data for the client
      */
     ParticipantResponseDTO toResponseDTO(ParticipantModel model);
+
 }

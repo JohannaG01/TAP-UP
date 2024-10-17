@@ -26,12 +26,19 @@ public class HorseRacePresentationMapperImpl implements HorseRacePresentationMap
     @Override
     public HorseRaceResponseDTO toResponseDTO(HorseRaceModel model) {
         List<ParticipantResponseDTO> participants = model.getParticipants().stream()
-                .map(participantPresentationMapper::toResponseDTO)
+                .map(participantPresentationMapper::toResponseDTOWithoutRace)
                 .toList();
 
         return responseDTOMapper
                 .map(model)
                 .participants(participants)
+                .build();
+    }
+
+    @Override
+    public HorseRaceResponseDTO toResponseDTOWithoutParticipants(HorseRaceModel model) {
+        return responseDTOMapper
+                .map(model)
                 .build();
     }
 

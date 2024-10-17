@@ -40,7 +40,7 @@ public interface HorseRaceDomainMapper {
      * <p>This method is useful for transforming model states used in business logic into
      * entity states that can be persisted in the database.</p>
      *
-     * @param model a collection of {@link HorseRaceModelState} objects to be converted
+     * @param models a collection of {@link HorseRaceModelState} objects to be converted
      * @return a list of {@link HorseRaceEntityState} corresponding to the provided model states
      *         or an empty list if the input collection is null or empty
      */
@@ -52,5 +52,17 @@ public interface HorseRaceDomainMapper {
      * @param entity the {@link HorseRaceEntity} to be converted
      * @return a {@link HorseRaceModel} representation of the given entity
      */
-    HorseRaceModel toModelWithoutBidirectional(HorseRaceEntity entity);
+    HorseRaceModel toModel(HorseRaceEntity entity);
+
+    /**
+     * Converts a {@link HorseRaceEntity} to a {@link HorseRaceModel} without including horses and participants.
+     *
+     * <p>This method is useful for creating a model representation of a horse race
+     * while excluding the details of associated horses and participants, thereby simplifying the model.</p>
+     *
+     * @param entity the entity containing the details of the horse race to be converted
+     * @return a {@link HorseRaceModel} representing the converted horse race model without horses and participants
+     * @throws IllegalArgumentException if the provided entity is null
+     */
+    HorseRaceModel toModelWithoutHorseAndParticipants(HorseRaceEntity entity);
 }

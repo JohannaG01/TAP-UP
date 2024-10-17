@@ -1,4 +1,4 @@
-package com.johannag.tapup.horses.presentation.dtos.query;
+package com.johannag.tapup.horses.presentation.dtos.queries;
 
 import com.johannag.tapup.globals.presentation.dtos.SexDTO;
 import com.johannag.tapup.globals.presentation.validations.annotations.NullOrNotBlank;

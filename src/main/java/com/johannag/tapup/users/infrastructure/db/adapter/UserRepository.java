@@ -2,6 +2,7 @@ package com.johannag.tapup.users.infrastructure.db.adapter;
 
 import com.johannag.tapup.users.domain.dtos.AddUserFundsToEntityDTO;
 import com.johannag.tapup.users.domain.dtos.CreateUserEntityDTO;
+import com.johannag.tapup.users.domain.dtos.SubtractUserFundsToEntityDTO;
 import com.johannag.tapup.users.domain.models.UserModel;
 
 import java.util.Optional;
@@ -57,6 +58,14 @@ public interface UserRepository {
      * @return The updated {@link UserModel} after the funds have been added.
      */
     UserModel addFunds(AddUserFundsToEntityDTO dto);
+
+    /**
+     * Subtracts funds from a user based on the provided {@link SubtractUserFundsToEntityDTO}.
+     *
+     * @param dto the {@link SubtractUserFundsToEntityDTO} containing the fund subtraction details.
+     * @return the updated {@link UserModel} after subtracting the specified funds.
+     */
+    UserModel subtractFunds(SubtractUserFundsToEntityDTO dto);
 
     /**
      * Retrieves the user ID associated with the specified email address.

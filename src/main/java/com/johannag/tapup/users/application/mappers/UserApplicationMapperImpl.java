@@ -3,8 +3,10 @@ package com.johannag.tapup.users.application.mappers;
 import com.johannag.tapup.users.application.dtos.AddUserFundsDTO;
 import com.johannag.tapup.users.application.dtos.CreateUserDTO;
 import com.johannag.tapup.users.application.dtos.LogInUserDTO;
+import com.johannag.tapup.users.application.dtos.SubtractUserFundsDTO;
 import com.johannag.tapup.users.domain.dtos.AddUserFundsToEntityDTO;
 import com.johannag.tapup.users.domain.dtos.CreateUserEntityDTO;
+import com.johannag.tapup.users.domain.dtos.SubtractUserFundsToEntityDTO;
 import com.johannag.tapup.users.presentation.dtos.requests.AddUserFundsRequestDTO;
 import com.johannag.tapup.users.presentation.dtos.requests.CreateUserRequestDTO;
 import com.johannag.tapup.users.presentation.dtos.requests.LogInUserRequestDTO;
@@ -24,6 +26,8 @@ public class UserApplicationMapperImpl implements UserApplicationMapper {
     private final TypeMap<LogInUserRequestDTO, LogInUserDTO.Builder> logInRequestDTOMapper;
     private final TypeMap<AddUserFundsRequestDTO, AddUserFundsDTO.Builder> addFundsDTOMapper;
     private final TypeMap<AddUserFundsDTO, AddUserFundsToEntityDTO.Builder> addFundsToEntityDTOMapper;
+    private final TypeMap<SubtractUserFundsDTO, SubtractUserFundsToEntityDTO.Builder> subtractFundsToEntityDTOMapper;
+
 
     public UserApplicationMapperImpl() {
         createDTOMapper = builderTypeMapper(CreateUserRequestDTO.class, CreateUserDTO.Builder.class);
@@ -31,6 +35,8 @@ public class UserApplicationMapperImpl implements UserApplicationMapper {
         logInRequestDTOMapper = builderTypeMapper(LogInUserRequestDTO.class, LogInUserDTO.Builder.class);
         addFundsDTOMapper = builderTypeMapper(AddUserFundsRequestDTO.class, AddUserFundsDTO.Builder.class);
         addFundsToEntityDTOMapper = builderTypeMapper(AddUserFundsDTO.class, AddUserFundsToEntityDTO.Builder.class);
+        subtractFundsToEntityDTOMapper =
+                builderTypeMapper(SubtractUserFundsDTO.class, SubtractUserFundsToEntityDTO.Builder.class);
     }
 
     @Override
@@ -69,6 +75,13 @@ public class UserApplicationMapperImpl implements UserApplicationMapper {
     @Override
     public AddUserFundsToEntityDTO toAddFundsToEntityDTO(AddUserFundsDTO dto) {
         return addFundsToEntityDTOMapper
+                .map(dto)
+                .build();
+    }
+
+    @Override
+    public SubtractUserFundsToEntityDTO toSubtractFundsToEntityDTO(SubtractUserFundsDTO dto) {
+        return subtractFundsToEntityDTOMapper
                 .map(dto)
                 .build();
     }

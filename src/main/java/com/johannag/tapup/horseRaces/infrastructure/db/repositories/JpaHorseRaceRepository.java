@@ -71,4 +71,19 @@ public interface JpaHorseRaceRepository extends JpaRepository<HorseRaceEntity, L
     @NonNull
     @EntityGraph(attributePaths = {"participants", "participants.horse"})
     Page<HorseRaceEntity> findAll(Specification<HorseRaceEntity> spec, @NonNull Pageable pageable);
+
+    /**
+     * Finds a horse race entity by the given participant UUID.
+     *
+     * <p>This method retrieves an optional {@link HorseRaceEntity} associated with the specified
+     * participant UUID. If a horse race entity with the specified participant UUID is found,
+     * the method returns an {@link Optional} containing the horse race entity; otherwise,
+     * it returns an empty {@link Optional}.The results and applies an
+     * {@link EntityGraph} to fetch associated participants and their horses eagerly.</p>
+     *
+     * @param uuid the UUID of the participant whose horse race entity is to be found.
+     * @return an {@link Optional} containing the {@link HorseRaceEntity} if found, or an empty {@link Optional} if not.
+     */
+    @EntityGraph(attributePaths = {"participants", "participants.horse"})
+    Optional<HorseRaceEntity> findOneMaybeByParticipants_Uuid(UUID uuid);
 }

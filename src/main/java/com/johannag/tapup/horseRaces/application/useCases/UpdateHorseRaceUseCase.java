@@ -5,7 +5,7 @@ import com.johannag.tapup.horseRaces.application.dtos.UpdateHorseRaceDTO;
 import com.johannag.tapup.horseRaces.application.mappers.HorseRaceApplicationMapper;
 import com.johannag.tapup.horseRaces.domain.UpdateHorseRaceEntityDTO;
 import com.johannag.tapup.horseRaces.domain.models.HorseRaceModel;
-import com.johannag.tapup.horseRaces.exceptions.InvalidHorseRaceStateException;
+import com.johannag.tapup.horseRaces.application.exceptions.InvalidHorseRaceStateException;
 import com.johannag.tapup.horseRaces.infrastructure.db.adapters.HorseRaceRepository;
 import com.johannag.tapup.horses.application.exceptions.HorseNotAvailableException;
 import com.johannag.tapup.horses.application.exceptions.HorseNotFoundException;
@@ -24,14 +24,14 @@ public class UpdateHorseRaceUseCase {
     private final HorseRaceApplicationMapper horseRaceApplicationMapper;
     private final HorseService horseService;
     private final HorseRaceRepository horseRaceRepository;
-    private final FindOneHorseRaceUseCase findOneHorseRaceUseCase;
+    private final FindOneHorseRaceByUuidUseCase findOneHorseRaceByUuidUseCase;
 
     public HorseRaceModel execute(UpdateHorseRaceDTO dto)
             throws HorseNotFoundException, InvalidHorseRaceStateException, HorseNotAvailableException {
         logger.info("Starting UpdateHorseRace process for race UUID {}", dto.getHorseRaceUuid());
 
         UUID horseRaceUuid = dto.getHorseRaceUuid();
-        HorseRaceModel horseRace = findOneHorseRaceUseCase.execute(horseRaceUuid);
+        HorseRaceModel horseRace = findOneHorseRaceByUuidUseCase.execute(horseRaceUuid);
         validateHorseRaceIsScheduledOrThrow(horseRace);
         horseService.validateHorsesAvailability(horseRace.getHorseUuids(), dto.getStartTime(), List.of(horseRaceUuid));
         UpdateHorseRaceEntityDTO updateHorseRaceEntityDTO = horseRaceApplicationMapper.toUpdateEntityDTO(dto);

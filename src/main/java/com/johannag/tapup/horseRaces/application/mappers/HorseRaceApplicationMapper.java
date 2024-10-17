@@ -6,7 +6,7 @@ import com.johannag.tapup.horseRaces.application.dtos.UpdateHorseRaceDTO;
 import com.johannag.tapup.horseRaces.domain.UpdateHorseRaceEntityDTO;
 import com.johannag.tapup.horseRaces.domain.dtos.CreateHorseRaceEntityDTO;
 import com.johannag.tapup.horseRaces.domain.dtos.FindHorseRacesEntityDTO;
-import com.johannag.tapup.horseRaces.presentation.dtos.query.FindHorseRacesQuery;
+import com.johannag.tapup.horseRaces.presentation.dtos.queries.FindHorseRacesQuery;
 import com.johannag.tapup.horseRaces.presentation.dtos.requests.CreateHorseRaceRequestDTO;
 import com.johannag.tapup.horseRaces.presentation.dtos.requests.UpdateHorseRaceRequestDTO;
 

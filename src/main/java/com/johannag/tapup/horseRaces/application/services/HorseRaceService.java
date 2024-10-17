@@ -3,9 +3,10 @@ package com.johannag.tapup.horseRaces.application.services;
 import com.johannag.tapup.horseRaces.application.dtos.CreateHorseRaceDTO;
 import com.johannag.tapup.horseRaces.application.dtos.FindHorseRacesDTO;
 import com.johannag.tapup.horseRaces.application.dtos.UpdateHorseRaceDTO;
+import com.johannag.tapup.horseRaces.application.exceptions.ParticipantNotFoundException;
 import com.johannag.tapup.horseRaces.domain.models.HorseRaceModel;
-import com.johannag.tapup.horseRaces.exceptions.HorseRaceNotFoundException;
-import com.johannag.tapup.horseRaces.exceptions.InvalidHorseRaceStateException;
+import com.johannag.tapup.horseRaces.application.exceptions.HorseRaceNotFoundException;
+import com.johannag.tapup.horseRaces.application.exceptions.InvalidHorseRaceStateException;
 import com.johannag.tapup.horses.application.exceptions.HorseNotAvailableException;
 import com.johannag.tapup.horses.application.exceptions.HorseNotFoundException;
 import org.springframework.data.domain.Page;
@@ -59,4 +60,17 @@ public interface HorseRaceService {
      * @throws IllegalArgumentException if the provided {@code dto} is null.
      */
     Page<HorseRaceModel> findAll(FindHorseRacesDTO dto);
+
+    /**
+     * Finds a horse race model by the specified participant UUID.
+     *
+     * <p>This method retrieves the {@link HorseRaceModel} associated with the given participant UUID.
+     * If no horse race model is found for the specified UUID, a {@link ParticipantNotFoundException}
+     * is thrown.</p>
+     *
+     * @param participantUuid the UUID of the participant whose horse race model is to be retrieved.
+     * @return the {@link HorseRaceModel} associated with the specified participant UUID.
+     * @throws ParticipantNotFoundException if no horse race model is found for the specified participant UUID.
+     */
+    HorseRaceModel findByParticipantUuid(UUID participantUuid) throws ParticipantNotFoundException;
 }

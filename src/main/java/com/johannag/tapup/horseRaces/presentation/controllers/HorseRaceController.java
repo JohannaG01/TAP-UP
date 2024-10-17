@@ -1,5 +1,6 @@
 package com.johannag.tapup.horseRaces.presentation.controllers;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.johannag.tapup.globals.presentation.errors.ErrorResponse;
 import com.johannag.tapup.horseRaces.application.dtos.CreateHorseRaceDTO;
 import com.johannag.tapup.horseRaces.application.dtos.FindHorseRacesDTO;
@@ -7,18 +8,17 @@ import com.johannag.tapup.horseRaces.application.dtos.UpdateHorseRaceDTO;
 import com.johannag.tapup.horseRaces.application.mappers.HorseRaceApplicationMapper;
 import com.johannag.tapup.horseRaces.application.services.HorseRaceService;
 import com.johannag.tapup.horseRaces.domain.models.HorseRaceModel;
-import com.johannag.tapup.horseRaces.exceptions.HorseRaceNotFoundException;
-import com.johannag.tapup.horseRaces.exceptions.InvalidHorseRaceStateException;
-import com.johannag.tapup.horseRaces.presentation.dtos.query.FindHorseRacesQuery;
+import com.johannag.tapup.horseRaces.application.exceptions.HorseRaceNotFoundException;
+import com.johannag.tapup.horseRaces.application.exceptions.InvalidHorseRaceStateException;
+import com.johannag.tapup.horseRaces.presentation.dtos.queries.FindHorseRacesQuery;
 import com.johannag.tapup.horseRaces.presentation.dtos.requests.CreateHorseRaceRequestDTO;
 import com.johannag.tapup.horseRaces.presentation.dtos.requests.UpdateHorseRaceRequestDTO;
 import com.johannag.tapup.horseRaces.presentation.dtos.responses.HorseRaceResponseDTO;
+import com.johannag.tapup.horseRaces.presentation.dtos.responses.views.ParticipantView;
 import com.johannag.tapup.horseRaces.presentation.mappers.HorseRacePresentationMapper;
-import com.johannag.tapup.horseRaces.presentation.schema.PageHorseRaceResponseDTO;
-import com.johannag.tapup.horses.application.dtos.FindHorsesDTO;
+import com.johannag.tapup.horseRaces.presentation.schemas.PageHorseRaceResponseDTO;
 import com.johannag.tapup.horses.application.exceptions.HorseNotAvailableException;
 import com.johannag.tapup.horses.application.exceptions.HorseNotFoundException;
-import com.johannag.tapup.horses.presentation.schema.PageHorseResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -67,6 +67,7 @@ public class HorseRaceController {
                     @Schema(implementation = ErrorResponse.class))})
     })
     @PreAuthorize("hasAnyAuthority({'ADMIN'})")
+    @JsonView(ParticipantView.ParticipantWithoutRace.class)
     @PostMapping("/horse-races")
     public ResponseEntity<HorseRaceResponseDTO> create(@Valid @RequestBody CreateHorseRaceRequestDTO createHorseRaceRequestDTO) throws
             HorseNotAvailableException, HorseNotFoundException {
@@ -101,6 +102,7 @@ public class HorseRaceController {
                     @Schema(implementation = ErrorResponse.class))})
     })
     @PreAuthorize("hasAnyAuthority({'ADMIN'})")
+    @JsonView(ParticipantView.ParticipantWithoutRace.class)
     @PatchMapping("/horse-races/{horseRaceUuid}")
     public ResponseEntity<HorseRaceResponseDTO> update(@PathVariable UUID horseRaceUuid,
                                                        @Valid @RequestBody UpdateHorseRaceRequestDTO updateHorseRaceRequestDTO)
@@ -133,7 +135,8 @@ public class HorseRaceController {
                     @Content(mediaType = "application/json", schema =
                     @Schema(implementation = ErrorResponse.class))})
     })
-    @PreAuthorize("hasAnyAuthority({'ADMIN'})")
+    @PreAuthorize("hasAnyAuthority({'ADMIN','REGULAR'})")
+    @JsonView(ParticipantView.ParticipantWithoutRace.class)
     @GetMapping("/horse-races/{horseRaceUuid}")
     public ResponseEntity<HorseRaceResponseDTO> find(@PathVariable UUID horseRaceUuid) throws HorseRaceNotFoundException {
         HorseRaceModel horseRace = horseRaceService.findOneByUuid(horseRaceUuid);
@@ -161,7 +164,8 @@ public class HorseRaceController {
                     @Content(mediaType = "application/json", schema =
                     @Schema(implementation = ErrorResponse.class))})
     })
-    @PreAuthorize("hasAnyAuthority({'ADMIN'})")
+    @PreAuthorize("hasAnyAuthority({'ADMIN','REGULAR'})")
+    @JsonView(ParticipantView.ParticipantWithoutRace.class)
     @GetMapping("/horse-races")
     public ResponseEntity<Page<HorseRaceResponseDTO>> findAll(@Valid @ParameterObject @ModelAttribute FindHorseRacesQuery findHorsesRaceQuery) {
         FindHorseRacesDTO dto = horseRaceApplicationMapper.toFindDTO(findHorsesRaceQuery);

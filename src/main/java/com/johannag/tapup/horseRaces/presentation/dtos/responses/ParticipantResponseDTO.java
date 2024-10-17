@@ -1,6 +1,7 @@
 package com.johannag.tapup.horseRaces.presentation.dtos.responses;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.johannag.tapup.horseRaces.presentation.dtos.responses.views.ParticipantView;
 import com.johannag.tapup.horses.presentation.dtos.responses.HorseResponseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
@@ -27,4 +28,8 @@ public class ParticipantResponseDTO {
 
     @NotNull
     HorseResponseDTO horse;
+
+    @NotNull
+    @JsonView(ParticipantView.ParticipantWithRace.class)
+    HorseRaceResponseDTO horseRace;
 }

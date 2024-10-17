@@ -11,9 +11,9 @@ import java.util.UUID;
 
 @Service
 @AllArgsConstructor
-public class FindUserByUuidUseCase {
+public class FindOneUserByUuidUseCase {
 
-    private static final Logger logger = Logger.getLogger(FindUserByUuidUseCase.class);
+    private static final Logger logger = Logger.getLogger(FindOneUserByUuidUseCase.class);
     private final UserRepository userRepository;
 
     public UserModel execute(UUID uuid) throws UserNotFoundException {

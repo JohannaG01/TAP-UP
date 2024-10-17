@@ -12,7 +12,6 @@ import com.johannag.tapup.horseRaces.infrastructure.db.repositories.JpaHorseRace
 import com.johannag.tapup.horseRaces.infrastructure.db.repositories.JpaHorseRaceSpecifications;
 import com.johannag.tapup.horses.infrastructure.db.entities.HorseEntity;
 import com.johannag.tapup.horses.infrastructure.db.repositories.JpaHorseRepository;
-import com.johannag.tapup.horses.infrastructure.db.repositories.JpaHorseSpecifications;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -51,14 +50,14 @@ public class HorseRaceRepositoryImpl implements HorseRaceRepository {
                 });
 
         jpaHorseRaceRepository.saveAndFlush(horseRace);
-        return horseRaceDomainMapper.toModelWithoutBidirectional(horseRace);
+        return horseRaceDomainMapper.toModel(horseRace);
     }
 
     @Override
     public Optional<HorseRaceModel> findOneMaybeByUuid(UUID uuid) {
         return jpaHorseRaceRepository
                 .findOneMaybeByUuid(uuid)
-                .map(horseRaceDomainMapper::toModelWithoutBidirectional);
+                .map(horseRaceDomainMapper::toModel);
     }
 
     @Override
@@ -71,7 +70,7 @@ public class HorseRaceRepositoryImpl implements HorseRaceRepository {
 
         jpaHorseRaceRepository.save(horseRace);
         HorseRaceEntity updatedHorseRace = jpaHorseRaceRepository.findOneByUuid(dto.getRaceUuid());
-        return horseRaceDomainMapper.toModelWithoutBidirectional(updatedHorseRace);
+        return horseRaceDomainMapper.toModel(updatedHorseRace);
     }
 
     @Override
@@ -90,6 +89,13 @@ public class HorseRaceRepositoryImpl implements HorseRaceRepository {
 
         return jpaHorseRaceRepository
                 .findAll(spec, pageable)
-                .map(horseRaceDomainMapper::toModelWithoutBidirectional);
+                .map(horseRaceDomainMapper::toModel);
+    }
+
+    @Override
+    public Optional<HorseRaceModel> findOneMaybeByParticipantUuid(UUID participantUuid) {
+        return jpaHorseRaceRepository
+                .findOneMaybeByParticipants_Uuid(participantUuid)
+                .map(horseRaceDomainMapper::toModel);
     }
 }
