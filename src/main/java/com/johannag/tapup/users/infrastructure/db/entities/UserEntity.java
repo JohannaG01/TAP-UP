@@ -73,4 +73,8 @@ public class UserEntity {
     public void addBalance(BigDecimal amount) {
         this.balance = this.balance.add(amount);
     }
+
+    public void subtractBalance(BigDecimal amount) {
+        this.balance = this.balance.subtract(amount);
+    }
 }

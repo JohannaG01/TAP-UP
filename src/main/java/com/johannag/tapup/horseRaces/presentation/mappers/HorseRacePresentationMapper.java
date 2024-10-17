@@ -15,6 +15,14 @@ public interface HorseRacePresentationMapper {
     HorseRaceResponseDTO toResponseDTO(HorseRaceModel model);
 
     /**
+     * Converts a {@link HorseRaceModel} to a {@link HorseRaceResponseDTO} excluding participant information.
+     *
+     * @param model the {@link HorseRaceModel} to convert.
+     * @return a {@link HorseRaceResponseDTO} without participant-related information.
+     */
+    HorseRaceResponseDTO toResponseDTOWithoutParticipants(HorseRaceModel model);
+
+    /**
      * Converts a page of {@link HorseRaceModel} instances to a page of {@link HorseRaceResponseDTO}.
      *
      * <p>This method is designed to facilitate the transformation of data models used in business logic

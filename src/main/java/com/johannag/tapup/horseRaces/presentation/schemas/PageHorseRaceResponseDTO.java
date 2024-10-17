@@ -1,7 +1,6 @@
-package com.johannag.tapup.horseRaces.presentation.schema;
+package com.johannag.tapup.horseRaces.presentation.schemas;
 
 import com.johannag.tapup.horseRaces.presentation.dtos.responses.HorseRaceResponseDTO;
-import com.johannag.tapup.horses.presentation.dtos.responses.HorseResponseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Value;
 

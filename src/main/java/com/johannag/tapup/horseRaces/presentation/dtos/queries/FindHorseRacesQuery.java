@@ -1,11 +1,10 @@
-package com.johannag.tapup.horseRaces.presentation.dtos.query;
+package com.johannag.tapup.horseRaces.presentation.dtos.queries;
 
 import com.johannag.tapup.globals.presentation.validations.annotations.NullOrNotBlank;
 import com.johannag.tapup.horseRaces.presentation.dtos.HorseRaceStateDTO;
 import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.validation.constraints.AssertFalse;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.PastOrPresent;
 import lombok.Builder;
 import lombok.Value;
 import org.springframework.lang.Nullable;

@@ -1,4 +1,4 @@
-package com.johannag.tapup.horses.presentation.schema;
+package com.johannag.tapup.horses.presentation.schemas;
 
 import com.johannag.tapup.horses.presentation.dtos.responses.HorseResponseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;

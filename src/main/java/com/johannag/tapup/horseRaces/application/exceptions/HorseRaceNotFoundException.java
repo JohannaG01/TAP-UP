@@ -1,10 +1,10 @@
-package com.johannag.tapup.horseRaces.exceptions;
+package com.johannag.tapup.horseRaces.application.exceptions;
 
 import com.johannag.tapup.globals.application.exceptions.NotFoundException;
 
 import java.util.UUID;
 
-import static com.johannag.tapup.horseRaces.exceptions.HorseRaceExceptionCode.HORSE_RACE_NOT_FOUND;
+import static com.johannag.tapup.horseRaces.application.exceptions.HorseRaceExceptionCode.HORSE_RACE_NOT_FOUND;
 
 public class HorseRaceNotFoundException extends NotFoundException {
 

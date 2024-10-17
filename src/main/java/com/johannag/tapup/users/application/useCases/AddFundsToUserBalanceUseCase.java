@@ -15,15 +15,14 @@ import org.springframework.stereotype.Service;
 public class AddFundsToUserBalanceUseCase {
 
     private static final Logger logger = Logger.getLogger(AddFundsToUserBalanceUseCase.class);
-    private final FindUserByUuidUseCase findUserByUuidUseCase;
+    private final FindOneUserByUuidUseCase findOneUserByUuidUseCase;
     private final UserRepository userRepository;
     private final UserApplicationMapper userApplicationMapper;
-
 
     public UserModel execute(AddUserFundsDTO dto) throws UserNotFoundException {
         logger.info("Starting addFunds process for user {}", dto.getUserUuid());
 
-        findUserByUuidUseCase.execute(dto.getUserUuid());
+        findOneUserByUuidUseCase.execute(dto.getUserUuid());
         AddUserFundsToEntityDTO addUserFundsToEntityDTO = userApplicationMapper.toAddFundsToEntityDTO(dto);
         UserModel userModel = userRepository.addFunds(addUserFundsToEntityDTO);
 

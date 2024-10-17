@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Value;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Value
@@ -25,4 +26,7 @@ public class UserResponseDTO {
     @Schema(example = "Perez")
     @NotNull
     String lastName;
+
+    @NotNull
+    BigDecimal balance;
 }

@@ -3,11 +3,15 @@ package com.johannag.tapup.users.application.services;
 import com.johannag.tapup.users.application.dtos.AddUserFundsDTO;
 import com.johannag.tapup.users.application.dtos.CreateUserDTO;
 import com.johannag.tapup.users.application.dtos.LogInUserDTO;
+import com.johannag.tapup.users.application.dtos.SubtractUserFundsDTO;
 import com.johannag.tapup.users.application.exceptions.InvalidLoginCredentialsException;
 import com.johannag.tapup.users.application.exceptions.UserAlreadyExistsException;
 import com.johannag.tapup.users.application.exceptions.UserNotFoundException;
 import com.johannag.tapup.users.domain.models.UserModel;
 import com.johannag.tapup.users.domain.models.UserWithAuthTokenModel;
+
+import java.math.BigDecimal;
+import java.util.UUID;
 
 public interface UserService {
 
@@ -47,6 +51,15 @@ public interface UserService {
     UserModel findByEmail(String email) throws UserNotFoundException;
 
     /**
+     * Finds a {@link UserModel} by its UUID.
+     *
+     * @param uuid the UUID of the user to find
+     * @return the {@link UserModel} associated with the given UUID
+     * @throws UserNotFoundException if no user is found with the provided UUID
+     */
+    UserModel findOneByUuid(UUID uuid) throws UserNotFoundException;
+
+    /**
      * Adds funds to a user account.
      * <p>
      * This method updates the user's balance by adding the specified amount
@@ -59,4 +72,13 @@ public interface UserService {
      * @throws UserNotFoundException if the user cannot be found in the system
      */
     UserModel addFunds(AddUserFundsDTO dto) throws UserNotFoundException;
+
+    /**
+     * Subtracts funds from a user account based on the provided {@link SubtractUserFundsDTO}.
+     *
+     * @param dto the {@link SubtractUserFundsDTO} containing the details of the funds to be subtracted.
+     * @return the updated {@link UserModel} after funds have been subtracted.
+     * @throws UserNotFoundException if the user associated with the provided details is not found.
+     */
+    UserModel subtractFunds(SubtractUserFundsDTO dto) throws UserNotFoundException;
 }

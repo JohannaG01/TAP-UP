@@ -1,6 +1,8 @@
 package com.johannag.tapup.horseRaces.presentation.dtos.responses;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.johannag.tapup.horseRaces.domain.models.HorseRaceModelState;
+import com.johannag.tapup.horseRaces.presentation.dtos.responses.views.ParticipantView;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
@@ -28,5 +30,6 @@ public class HorseRaceResponseDTO {
     HorseRaceModelState state;
 
     @NotEmpty
+    @JsonView(ParticipantView.ParticipantWithoutRace.class)
     List<ParticipantResponseDTO> participants;
 }

@@ -1,5 +1,6 @@
 package com.johannag.tapup.users.domain.mappers;
 
+import com.johannag.tapup.bets.domain.models.BetModel;
 import com.johannag.tapup.users.domain.dtos.CreateUserEntityDTO;
 import com.johannag.tapup.users.domain.models.UserModel;
 import com.johannag.tapup.users.infrastructure.db.entities.UserEntity;
@@ -17,6 +18,7 @@ public class UserDomainMapperImpl implements UserDomainMapper {
     public UserDomainMapperImpl() {
         entityMapper = builderTypeMapper(CreateUserEntityDTO.class, UserEntity.Builder.class);
         modelMapper = builderTypeMapper(UserEntity.class, UserModel.Builder.class);
+        modelMapper.addMappings(mapper -> mapper.skip(UserModel.Builder::bets));
     }
 
     @Override
@@ -27,7 +29,7 @@ public class UserDomainMapperImpl implements UserDomainMapper {
     }
 
     @Override
-    public UserModel toModel(UserEntity userEntity) {
+    public UserModel toModelWithoutBets(UserEntity userEntity) {
         return modelMapper
                 .map(userEntity)
                 .build();

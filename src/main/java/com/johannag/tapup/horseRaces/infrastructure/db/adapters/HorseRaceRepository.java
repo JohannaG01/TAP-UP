@@ -55,4 +55,16 @@ public interface HorseRaceRepository {
      *         The page will contain the filtered horse races and pagination information.
      */
     Page<HorseRaceModel> findAll(FindHorseRacesEntityDTO dto);
+
+    /**
+     * Finds a horse race model by the given participant UUID.
+     *
+     * <p>This method retrieves an optional {@link HorseRaceModel} instance associated with the specified
+     * participant UUID. If a horse race with the specified participant is found, the method returns an
+     * {@link Optional} containing the horse race model; otherwise, it returns an empty {@link Optional}.</p>
+     *
+     * @param participantUuid the UUID of the participant whose horse race is to be found.
+     * @return an {@link Optional} containing the {@link HorseRaceModel} if found, or an empty {@link Optional} if not.
+     */
+    Optional<HorseRaceModel> findOneMaybeByParticipantUuid(UUID participantUuid);
 }

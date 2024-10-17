@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 import java.util.UUID;
 
-@Repository
 public interface JpaUserRepository extends JpaRepository<UserEntity, Long> {
 
     /**
@@ -56,6 +55,16 @@ public interface JpaUserRepository extends JpaRepository<UserEntity, Long> {
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT u FROM UserEntity u WHERE u.uuid = :uuid")
     UserEntity findOneByUuidForUpdate(UUID uuid);
+
+    /**
+     * Retrieves a {@link UserEntity} by its unique identifier (UUID).
+     *
+     * <p>This method is used to fetch a user entity from the database based on the provided UUID.</p>
+     *
+     * @param uuid the unique identifier of the user to be retrieved
+     * @return the {@link UserEntity} associated with the given UUID, or null if not found
+     */
+    UserEntity findOneByUuid(UUID uuid);
 
     /**
      * Retrieves the user ID associated with the specified email address.

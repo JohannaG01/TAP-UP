@@ -4,6 +4,7 @@ import com.johannag.tapup.globals.infrastructure.utils.Logger;
 import com.johannag.tapup.users.application.configs.UserSystemConfig;
 import com.johannag.tapup.users.domain.dtos.AddUserFundsToEntityDTO;
 import com.johannag.tapup.users.domain.dtos.CreateUserEntityDTO;
+import com.johannag.tapup.users.domain.dtos.SubtractUserFundsToEntityDTO;
 import com.johannag.tapup.users.domain.mappers.UserDomainMapper;
 import com.johannag.tapup.users.domain.models.UserModel;
 import com.johannag.tapup.users.infrastructure.db.entities.UserEntity;
@@ -44,19 +45,19 @@ public class UserRepositoryImpl implements UserRepository {
 
         jpaUserRepository.save(userEntity);
 
-        return userDomainMapper.toModel(userEntity);
+        return userDomainMapper.toModelWithoutBets(userEntity);
     }
 
     @Override
     public Optional<UserModel> findMaybeByEmail(String email) {
         return jpaUserRepository.findMaybeOneByEmail(email)
-                .map(userDomainMapper::toModel);
+                .map(userDomainMapper::toModelWithoutBets);
     }
 
     @Override
     public Optional<UserModel> findMaybeByUUID(UUID uuid) {
         return jpaUserRepository.findMaybeOneByUuid(uuid)
-                .map(userDomainMapper::toModel);
+                .map(userDomainMapper::toModelWithoutBets);
     }
 
     @Override
@@ -67,7 +68,18 @@ public class UserRepositoryImpl implements UserRepository {
         userEntity.addBalance(dto.getAmount());
         jpaUserRepository.saveAndFlush(jpaUserRepository.save(userEntity));
 
-        return userDomainMapper.toModel(userEntity);
+        return userDomainMapper.toModelWithoutBets(userEntity);
+    }
+
+    @Override
+    public UserModel subtractFunds(SubtractUserFundsToEntityDTO dto) {
+        logger.info("Subtracting funds from user: {}", dto.getUserUuid());
+
+        UserEntity userEntity = jpaUserRepository.findOneByUuidForUpdate(dto.getUserUuid());
+        userEntity.subtractBalance(dto.getAmount());
+        jpaUserRepository.saveAndFlush(jpaUserRepository.save(userEntity));
+
+        return userDomainMapper.toModelWithoutBets(userEntity);
     }
 
     @Override
