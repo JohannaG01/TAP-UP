@@ -6,8 +6,10 @@ import com.johannag.tapup.bets.domain.models.BetModelState;
 import com.johannag.tapup.bets.infrastructure.db.entities.BetEntity;
 import com.johannag.tapup.bets.infrastructure.db.entities.BetEntityState;
 import com.johannag.tapup.horseRaces.domain.mappers.ParticipantDomainMapper;
+import com.johannag.tapup.horseRaces.domain.models.ParticipantModel;
 import com.johannag.tapup.horseRaces.infrastructure.db.entities.ParticipantEntity;
 import com.johannag.tapup.users.domain.mappers.UserDomainMapper;
+import com.johannag.tapup.users.domain.models.UserModel;
 import com.johannag.tapup.users.infrastructure.db.entities.UserEntity;
 import org.modelmapper.TypeMap;
 import org.springframework.stereotype.Component;
@@ -34,10 +36,13 @@ public class BetDomainMapperImpl implements BetDomainMapper {
 
     @Override
     public BetModel toModel(BetEntity entity) {
+        UserModel user = userDomainMapper.toModel(entity.getUser());
+        ParticipantModel participant = participantDomainMapper.toModel(entity.getParticipant());
+
         return modelMapper
                 .map(entity)
-                .user(userDomainMapper.toModelWithoutBets(entity.getUser()))
-                .participant(participantDomainMapper.toModel(entity.getParticipant()))
+                .user(user)
+                .participant(participant)
                 .build();
     }
 

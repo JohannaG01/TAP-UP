@@ -25,11 +25,12 @@ public class ParticipantDomainMapperImpl implements ParticipantDomainMapper {
         modelMapper = builderTypeMapper(ParticipantEntity.class, ParticipantModel.Builder.class);
         modelMapper.addMappings(mapper -> mapper.skip(ParticipantModel.Builder::horseRace));
         modelMapper.addMappings(mapper -> mapper.skip(ParticipantModel.Builder::horse));
+        modelMapper.addMappings(mapper -> mapper.skip(ParticipantModel.Builder::bets));
     }
 
     @Override
     public ParticipantModel toModelWithoutRace(ParticipantEntity entity) {
-        HorseModel horse = horseDomainMapper.toModelWithoutParticipations(entity.getHorse());
+        HorseModel horse = horseDomainMapper.toModel(entity.getHorse());
         return modelMapper
                 .map(entity)
                 .horse(horse)
@@ -38,7 +39,7 @@ public class ParticipantDomainMapperImpl implements ParticipantDomainMapper {
 
     @Override
     public ParticipantModel toModel(ParticipantEntity entity) {
-        HorseModel horse = horseDomainMapper.toModelWithoutParticipations(entity.getHorse());
+        HorseModel horse = horseDomainMapper.toModel(entity.getHorse());
         HorseRaceModel horseRace = horseRaceDomainMapper.toModelWithoutHorseAndParticipants(entity.getHorseRace());
         return modelMapper
                 .map(entity)

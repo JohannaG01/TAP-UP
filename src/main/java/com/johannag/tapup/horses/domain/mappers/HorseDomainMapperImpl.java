@@ -34,7 +34,7 @@ public class HorseDomainMapperImpl implements HorseDomainMapper {
     }
 
     @Override
-    public HorseModel toModelWithoutParticipations(HorseEntity entity) {
+    public HorseModel toModel(HorseEntity entity) {
         return modelMapper
                 .map(entity)
                 .build();

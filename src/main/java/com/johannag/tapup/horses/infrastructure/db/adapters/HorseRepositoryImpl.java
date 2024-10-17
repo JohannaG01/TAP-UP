@@ -61,14 +61,14 @@ public class HorseRepositoryImpl implements HorseRepository {
             savedHorseEntity.setUpdatedBy(SecurityContextUtils.userOnContextId());
             jpaHorseRepository.saveAndFlush(savedHorseEntity);
 
-            return horseDomainMapper.toModelWithoutParticipations(savedHorseEntity);
+            return horseDomainMapper.toModel(savedHorseEntity);
         } else {
             HorseEntity newHorseEntity = horseDomainMapper.toEntity(dto);
             newHorseEntity.setCreatedBy(SecurityContextUtils.userOnContextId());
             newHorseEntity.setUpdatedBy(SecurityContextUtils.userOnContextId());
             jpaHorseRepository.saveAndFlush(newHorseEntity);
 
-            return horseDomainMapper.toModelWithoutParticipations(newHorseEntity);
+            return horseDomainMapper.toModel(newHorseEntity);
         }
 
     }
@@ -76,7 +76,7 @@ public class HorseRepositoryImpl implements HorseRepository {
     @Override
     public Optional<HorseModel> findOneMaybeByUuid(UUID uuid) {
         return jpaHorseRepository.findOneMaybeByUuidAndStateIn(uuid, HorseEntityState.existenceStates())
-                .map(horseDomainMapper::toModelWithoutParticipations);
+                .map(horseDomainMapper::toModel);
 
     }
 
@@ -99,7 +99,7 @@ public class HorseRepositoryImpl implements HorseRepository {
 
         jpaHorseRepository.saveAndFlush(horse);
 
-        return horseDomainMapper.toModelWithoutParticipations(horse);
+        return horseDomainMapper.toModel(horse);
     }
 
     @Override
@@ -111,7 +111,7 @@ public class HorseRepositoryImpl implements HorseRepository {
 
         jpaHorseRepository.saveAndFlush(horse);
 
-        return horseDomainMapper.toModelWithoutParticipations(horse);
+        return horseDomainMapper.toModel(horse);
     }
 
     @Override
@@ -131,13 +131,13 @@ public class HorseRepositoryImpl implements HorseRepository {
 
         return jpaHorseRepository
                 .findAll(spec, pageable)
-                .map(horseDomainMapper::toModelWithoutParticipations);
+                .map(horseDomainMapper::toModel);
     }
 
     @Override
     public List<HorseModel> findActiveByUuidIn(List<UUID> uuid) {
         return jpaHorseRepository.findByUuidInAndState(uuid, HorseEntityState.ACTIVE).stream()
-                .map(horseDomainMapper::toModelWithoutParticipations)
+                .map(horseDomainMapper::toModel)
                 .toList();
     }
 
@@ -157,7 +157,7 @@ public class HorseRepositoryImpl implements HorseRepository {
         return jpaHorseRepository
                 .findByUuidsWithRaceInStatesBetweenDates(query)
                 .stream()
-                .map(horseDomainMapper::toModelWithoutParticipations)
+                .map(horseDomainMapper::toModel)
                 .toList();
 
     }
