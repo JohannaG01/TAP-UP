@@ -30,7 +30,7 @@ public class ParticipantDomainMapperImpl implements ParticipantDomainMapper {
 
     @Override
     public ParticipantModel toModelWithoutRace(ParticipantEntity entity) {
-        HorseModel horse = horseDomainMapper.toModelWithoutParticipations(entity.getHorse());
+        HorseModel horse = horseDomainMapper.toModel(entity.getHorse());
         return modelMapper
                 .map(entity)
                 .horse(horse)
@@ -39,7 +39,7 @@ public class ParticipantDomainMapperImpl implements ParticipantDomainMapper {
 
     @Override
     public ParticipantModel toModel(ParticipantEntity entity) {
-        HorseModel horse = horseDomainMapper.toModelWithoutParticipations(entity.getHorse());
+        HorseModel horse = horseDomainMapper.toModel(entity.getHorse());
         HorseRaceModel horseRace = horseRaceDomainMapper.toModelWithoutHorseAndParticipants(entity.getHorseRace());
         return modelMapper
                 .map(entity)

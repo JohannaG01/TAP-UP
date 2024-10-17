@@ -9,6 +9,7 @@ import com.johannag.tapup.horseRaces.infrastructure.db.entities.HorseRaceEntity;
 import com.johannag.tapup.horseRaces.infrastructure.db.entities.HorseRaceEntityState;
 import com.johannag.tapup.horseRaces.infrastructure.db.entities.ParticipantEntity;
 import com.johannag.tapup.horses.infrastructure.db.entities.HorseEntity;
+import org.hibernate.Hibernate;
 import org.modelmapper.TypeMap;
 import org.springframework.stereotype.Component;
 
