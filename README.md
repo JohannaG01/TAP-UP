@@ -47,7 +47,8 @@ docker-compose -f docker-compose-local.yml up -d
 ### 4. Create Admin User
 
 To initialize your database with an admin user, you can execute the following SQL script. This script will create a new
-user with the ID of 1, ensuring that the user has administrative privileges.
+user with the ID of 1, ensuring that the user has administrative privileges. Remember to replace `hashed_password` for
+the corresponding value.
 
 ```
 -- Drop NOT NULL constraints temporarily

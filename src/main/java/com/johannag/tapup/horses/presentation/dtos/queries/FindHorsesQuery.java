@@ -26,7 +26,6 @@ public class FindHorsesQuery {
     @Min(value = 0, message = "Page must be at least 0")
     Integer page;
 
-    @Nullable
     Set<HorseStateDTO> states;
 
     @Nullable

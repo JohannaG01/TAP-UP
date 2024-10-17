@@ -6,7 +6,7 @@ import com.johannag.tapup.horseRaces.application.dtos.UpdateHorseRaceDTO;
 import com.johannag.tapup.horseRaces.domain.UpdateHorseRaceEntityDTO;
 import com.johannag.tapup.horseRaces.domain.dtos.CreateHorseRaceEntityDTO;
 import com.johannag.tapup.horseRaces.domain.dtos.CreateParticipantEntityDTO;
-import com.johannag.tapup.horseRaces.domain.dtos.FindHorseRacesEntityDTO;
+import com.johannag.tapup.horseRaces.domain.dtos.FindHorseRaceEntitiesDTO;
 import com.johannag.tapup.horseRaces.domain.models.HorseRaceModelState;
 import com.johannag.tapup.horseRaces.presentation.dtos.queries.FindHorseRacesQuery;
 import com.johannag.tapup.horseRaces.presentation.dtos.requests.CreateHorseRaceRequestDTO;
@@ -26,7 +26,7 @@ public class HorseRaceApplicationMapperImpl implements HorseRaceApplicationMappe
     private final TypeMap<UpdateHorseRaceRequestDTO, UpdateHorseRaceDTO.Builder> updateDTOMapper;
     private final TypeMap<UpdateHorseRaceDTO, UpdateHorseRaceEntityDTO.Builder> updateEntityDTOMapper;
     private final TypeMap<FindHorseRacesQuery, FindHorseRacesDTO.Builder> findDTOMapper;
-    private final TypeMap<FindHorseRacesDTO, FindHorseRacesEntityDTO.Builder> findEntityDTOMapper;
+    private final TypeMap<FindHorseRacesDTO, FindHorseRaceEntitiesDTO.Builder> findEntityDTOMapper;
 
 
     public HorseRaceApplicationMapperImpl() {
@@ -34,7 +34,7 @@ public class HorseRaceApplicationMapperImpl implements HorseRaceApplicationMappe
         updateDTOMapper = builderTypeMapper(UpdateHorseRaceRequestDTO.class, UpdateHorseRaceDTO.Builder.class);
         updateEntityDTOMapper = builderTypeMapper(UpdateHorseRaceDTO.class, UpdateHorseRaceEntityDTO.Builder.class);
         findDTOMapper = builderTypeMapper(FindHorseRacesQuery.class, FindHorseRacesDTO.Builder.class);
-        findEntityDTOMapper = builderTypeMapper(FindHorseRacesDTO.class, FindHorseRacesEntityDTO.Builder.class);
+        findEntityDTOMapper = builderTypeMapper(FindHorseRacesDTO.class, FindHorseRaceEntitiesDTO.Builder.class);
     }
 
     @Override
@@ -81,7 +81,7 @@ public class HorseRaceApplicationMapperImpl implements HorseRaceApplicationMappe
     }
 
     @Override
-    public FindHorseRacesEntityDTO toFindEntityDTO(FindHorseRacesDTO dto) {
+    public FindHorseRaceEntitiesDTO toFindEntitiesDTO(FindHorseRacesDTO dto) {
         return findEntityDTOMapper
                 .map(dto)
                 .build();

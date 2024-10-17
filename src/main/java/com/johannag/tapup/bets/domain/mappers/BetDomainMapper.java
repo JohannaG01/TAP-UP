@@ -8,6 +8,9 @@ import com.johannag.tapup.bets.infrastructure.db.entities.BetEntityState;
 import com.johannag.tapup.horseRaces.infrastructure.db.entities.ParticipantEntity;
 import com.johannag.tapup.users.infrastructure.db.entities.UserEntity;
 
+import java.util.Collection;
+import java.util.List;
+
 public interface BetDomainMapper {
 
     /**
@@ -21,9 +24,9 @@ public interface BetDomainMapper {
     /**
      * Converts a {@link CreateBetEntityDTO} to a {@link BetEntity} using the specified user and participant.
      *
-     * @param dto          the DTO containing the details of the bet to be converted
-     * @param user         the user associated with the bet
-     * @param participant   the participant involved in the bet
+     * @param dto         the DTO containing the details of the bet to be converted
+     * @param user        the user associated with the bet
+     * @param participant the participant involved in the bet
      * @return a {@link BetEntity} representing the created bet entity
      */
     BetEntity toEntity(CreateBetEntityDTO dto, UserEntity user, ParticipantEntity participant);
@@ -38,4 +41,16 @@ public interface BetDomainMapper {
      * @return a {@link BetEntityState} representing the converted entity state
      */
     BetEntityState toEntity(BetModelState state);
+
+    /**
+     * Converts a collection of {@link BetModelState} to a list of {@link BetEntityState}.
+     *
+     * <p>This method takes a collection of bet model states and maps them to their corresponding
+     * entity states, which can be used for persistence in the database.</p>
+     *
+     * @param states the collection of {@link BetModelState} objects to convert
+     * @return a list of {@link BetEntityState} representing the converted states
+     * or an empty list if the input collection is null or empty
+     */
+    List<BetEntityState> toEntity(Collection<BetModelState> states);
 }

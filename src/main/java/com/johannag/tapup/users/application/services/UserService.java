@@ -10,7 +10,6 @@ import com.johannag.tapup.users.application.exceptions.UserNotFoundException;
 import com.johannag.tapup.users.domain.models.UserModel;
 import com.johannag.tapup.users.domain.models.UserWithAuthTokenModel;
 
-import java.math.BigDecimal;
 import java.util.UUID;
 
 public interface UserService {

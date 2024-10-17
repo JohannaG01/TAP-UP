@@ -4,7 +4,6 @@ import com.johannag.tapup.bets.presentation.dtos.BetStateDTO;
 import com.johannag.tapup.horseRaces.presentation.dtos.responses.ParticipantResponseDTO;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
-import lombok.NonNull;
 import lombok.Value;
 
 import java.math.BigDecimal;

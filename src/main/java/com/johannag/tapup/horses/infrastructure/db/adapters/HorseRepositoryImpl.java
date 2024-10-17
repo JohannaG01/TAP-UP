@@ -3,9 +3,8 @@ package com.johannag.tapup.horses.infrastructure.db.adapters;
 import com.johannag.tapup.auth.infrastructure.utils.SecurityContextUtils;
 import com.johannag.tapup.globals.domain.mappers.GlobalDomainMapper;
 import com.johannag.tapup.globals.infrastructure.utils.Logger;
-import com.johannag.tapup.horses.application.dtos.FindHorsesDTO;
 import com.johannag.tapup.horses.domain.dtos.CreateHorseEntityDTO;
-import com.johannag.tapup.horses.domain.dtos.FindHorsesEntityDTO;
+import com.johannag.tapup.horses.domain.dtos.FindHorseEntitiesDTO;
 import com.johannag.tapup.horses.domain.dtos.UpdateHorseEntityDTO;
 import com.johannag.tapup.horses.domain.mappers.HorseDomainMapper;
 import com.johannag.tapup.horses.domain.models.HorseModel;
@@ -116,7 +115,7 @@ public class HorseRepositoryImpl implements HorseRepository {
     }
 
     @Override
-    public Page<HorseModel> findAll(FindHorsesEntityDTO dto) {
+    public Page<HorseModel> findAll(FindHorseEntitiesDTO dto) {
         Pageable pageable = PageRequest.of(dto.getPage(), dto.getSize());
 
         Specification<HorseEntity> spec = new JpaHorseSpecifications.Builder()

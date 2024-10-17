@@ -5,7 +5,7 @@ import com.johannag.tapup.horseRaces.application.dtos.FindHorseRacesDTO;
 import com.johannag.tapup.horseRaces.application.dtos.UpdateHorseRaceDTO;
 import com.johannag.tapup.horseRaces.domain.UpdateHorseRaceEntityDTO;
 import com.johannag.tapup.horseRaces.domain.dtos.CreateHorseRaceEntityDTO;
-import com.johannag.tapup.horseRaces.domain.dtos.FindHorseRacesEntityDTO;
+import com.johannag.tapup.horseRaces.domain.dtos.FindHorseRaceEntitiesDTO;
 import com.johannag.tapup.horseRaces.presentation.dtos.queries.FindHorseRacesQuery;
 import com.johannag.tapup.horseRaces.presentation.dtos.requests.CreateHorseRaceRequestDTO;
 import com.johannag.tapup.horseRaces.presentation.dtos.requests.UpdateHorseRaceRequestDTO;
@@ -62,18 +62,18 @@ public interface HorseRaceApplicationMapper {
      *
      * @param dto the {@link FindHorseRacesQuery} used for specifying filter criteria.
      * @return a {@link FindHorseRacesDTO} representing the search filters,
-     *         ready for further processing.
+     * ready for further processing.
      */
     FindHorseRacesDTO toFindDTO(FindHorseRacesQuery dto);
 
     /**
-     * Converts a {@link FindHorseRacesDTO} to a {@link FindHorseRacesEntityDTO}.
+     * Converts a {@link FindHorseRacesDTO} to a {@link FindHorseRaceEntitiesDTO}.
      * This method maps the fields from the DTO used for filtering and searching horse races
      * into an entity DTO suitable for data access or persistence operations.
      *
      * @param dto the {@link FindHorseRacesDTO} containing the filter criteria.
-     * @return a {@link FindHorseRacesEntityDTO} that represents the same data as the
-     *         provided DTO, formatted for use in entity operations.
+     * @return a {@link FindHorseRaceEntitiesDTO} that represents the same data as the
+     * provided DTO, formatted for use in entity operations.
      */
-    FindHorseRacesEntityDTO toFindEntityDTO(FindHorseRacesDTO dto);
+    FindHorseRaceEntitiesDTO toFindEntitiesDTO(FindHorseRacesDTO dto);
 }

@@ -1,8 +1,7 @@
 package com.johannag.tapup.horses.infrastructure.db.adapters;
 
-import com.johannag.tapup.horses.application.dtos.FindHorsesDTO;
 import com.johannag.tapup.horses.domain.dtos.CreateHorseEntityDTO;
-import com.johannag.tapup.horses.domain.dtos.FindHorsesEntityDTO;
+import com.johannag.tapup.horses.domain.dtos.FindHorseEntitiesDTO;
 import com.johannag.tapup.horses.domain.dtos.UpdateHorseEntityDTO;
 import com.johannag.tapup.horses.domain.models.HorseModel;
 import com.johannag.tapup.horses.infrastructure.db.dtos.FindByUuidStatesAndDatesDTO;
@@ -71,14 +70,14 @@ public interface HorseRepository {
     /**
      * Retrieves a paginated list of horses based on the given search criteria.
      *
-     * <p>This method accepts a {@link FindHorsesEntityDTO} object, which contains the filters and
+     * <p>This method accepts a {@link FindHorseEntitiesDTO} object, which contains the filters and
      * search parameters needed to query the list of horses. The results are returned
      * as a paginated {@link Page} of {@link HorseModel} objects.
      *
-     * @param dto the {@link FindHorsesEntityDTO} object that contains the search criteria
+     * @param dto the {@link FindHorseEntitiesDTO} object that contains the search criteria
      * @return a {@link Page} of {@link HorseModel} objects that match the given criteria
      */
-    Page<HorseModel> findAll(FindHorsesEntityDTO dto);
+    Page<HorseModel> findAll(FindHorseEntitiesDTO dto);
 
     /**
      * Retrieves a list of active horse models based on a list of horse UUIDs.

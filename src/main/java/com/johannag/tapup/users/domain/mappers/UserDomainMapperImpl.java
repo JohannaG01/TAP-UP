@@ -1,6 +1,5 @@
 package com.johannag.tapup.users.domain.mappers;
 
-import com.johannag.tapup.bets.domain.models.BetModel;
 import com.johannag.tapup.users.domain.dtos.CreateUserEntityDTO;
 import com.johannag.tapup.users.domain.models.UserModel;
 import com.johannag.tapup.users.infrastructure.db.entities.UserEntity;

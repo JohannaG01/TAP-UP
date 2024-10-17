@@ -11,7 +11,7 @@ import java.util.List;
 
 @Value
 @Builder(builderClassName = "Builder")
-public class FindHorsesEntityDTO {
+public class FindHorseEntitiesDTO {
     int size;
     int page;
     List<HorseModelState> states;

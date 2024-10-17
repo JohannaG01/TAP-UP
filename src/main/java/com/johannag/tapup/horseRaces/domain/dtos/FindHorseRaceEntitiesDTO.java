@@ -1,19 +1,17 @@
 package com.johannag.tapup.horseRaces.domain.dtos;
 
 import com.johannag.tapup.horseRaces.domain.models.HorseRaceModelState;
-import com.johannag.tapup.horseRaces.presentation.dtos.HorseRaceStateDTO;
 import lombok.Builder;
 import lombok.Value;
 import org.springframework.lang.Nullable;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 @Value
 @Builder(builderClassName = "Builder")
-public class FindHorseRacesEntityDTO {
+public class FindHorseRaceEntitiesDTO {
     Integer size;
 
     Integer page;

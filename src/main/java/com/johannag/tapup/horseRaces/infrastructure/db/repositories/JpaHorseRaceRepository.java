@@ -13,7 +13,8 @@ import org.springframework.lang.NonNull;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface JpaHorseRaceRepository extends JpaRepository<HorseRaceEntity, Long>, JpaSpecificationExecutor<HorseRaceEntity> {
+public interface JpaHorseRaceRepository extends JpaRepository<HorseRaceEntity, Long>,
+        JpaSpecificationExecutor<HorseRaceEntity> {
 
     /**
      * Retrieves a {@link HorseRaceEntity} by its UUID, including its participants
@@ -61,12 +62,12 @@ public interface JpaHorseRaceRepository extends JpaRepository<HorseRaceEntity, L
      * {@link EntityGraph} to fetch associated participants and their horses eagerly. This helps to
      * optimize performance by minimizing the number of database queries required to retrieve related data.</p>
      *
-     * @param spec    the {@link Specification} used to filter the horse race entities.
-     *                If null, all entities will be returned.
+     * @param spec     the {@link Specification} used to filter the horse race entities.
+     *                 If null, all entities will be returned.
      * @param pageable the pagination information, must not be null. This object contains the details
      *                 for the requested page, such as page number and size.
      * @return a {@link Page} containing the matching {@link HorseRaceEntity} instances.
-     *         This page will be empty if no entities match the specification.
+     * This page will be empty if no entities match the specification.
      */
     @NonNull
     @EntityGraph(attributePaths = {"participants", "participants.horse"})

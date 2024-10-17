@@ -9,6 +9,7 @@ import static com.johannag.tapup.horseRaces.application.exceptions.HorseRaceExce
 public class ParticipantNotFoundException extends ConflictException {
 
     public ParticipantNotFoundException(UUID uuid) {
-        super(String.format("Participant with uuid %s not found for any horse race", uuid), PARTICIPANT_NOT_FOUND.toString());
+        super(String.format("Participant with uuid %s not found for any horse race", uuid),
+                PARTICIPANT_NOT_FOUND.toString());
     }
 }

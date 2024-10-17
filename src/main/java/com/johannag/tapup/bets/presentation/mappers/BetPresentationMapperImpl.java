@@ -4,6 +4,7 @@ import com.johannag.tapup.bets.domain.models.BetModel;
 import com.johannag.tapup.bets.presentation.dtos.responses.BetResponseDTO;
 import com.johannag.tapup.horseRaces.presentation.mappers.ParticipantPresentationMapper;
 import org.modelmapper.TypeMap;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import static com.johannag.tapup.globals.application.utils.ModelMapperUtils.builderTypeMapper;
@@ -26,5 +27,10 @@ public class BetPresentationMapperImpl implements BetPresentationMapper {
                 .map(model)
                 .participant(participantPresentationMapper.toResponseDTO(model.getParticipant()))
                 .build();
+    }
+
+    @Override
+    public Page<BetResponseDTO> toResponseDTO(Page<BetModel> models) {
+        return models.map(this::toResponseDTO);
     }
 }
