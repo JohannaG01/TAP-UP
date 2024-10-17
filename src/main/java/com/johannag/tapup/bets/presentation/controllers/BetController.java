@@ -12,7 +12,7 @@ import com.johannag.tapup.bets.presentation.dtos.queries.FindBetsQuery;
 import com.johannag.tapup.bets.presentation.dtos.requests.CreateBetRequestDTO;
 import com.johannag.tapup.bets.presentation.dtos.responses.BetResponseDTO;
 import com.johannag.tapup.bets.presentation.mappers.BetPresentationMapper;
-import com.johannag.tapup.globals.presentation.dtos.responses.PageResponse;
+import com.johannag.tapup.bets.presentation.schemas.PageBetResponseDTO;
 import com.johannag.tapup.globals.presentation.errors.ErrorResponse;
 import com.johannag.tapup.horseRaces.application.exceptions.InvalidHorseRaceStateException;
 import com.johannag.tapup.horseRaces.application.exceptions.ParticipantNotFoundException;
@@ -88,7 +88,7 @@ public class BetController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Bets found successfully", content = {
                     @Content(mediaType = "application/json", schema =
-                    @Schema(implementation = PageResponse.class))
+                    @Schema(implementation = PageBetResponseDTO.class))
             }),
             @ApiResponse(responseCode = "400", description = "Invalid request", content = {
                     @Content(mediaType = "application/json", schema =
