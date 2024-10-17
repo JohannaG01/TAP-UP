@@ -71,9 +71,6 @@ public class FindHorseRacesQuery {
     @Hidden
     @AssertFalse(message = "startTimeFrom must not be after startTimeTo")
     public boolean isStartDateRangeInvalid() {
-        if (startTimeFrom == null || startTimeTo == null) {
-            return false;
-        }
-        return startTimeFrom.isAfter(startTimeTo);
+        return startTimeFrom != null && startTimeTo != null && startTimeFrom.isAfter(startTimeTo);
     }
 }

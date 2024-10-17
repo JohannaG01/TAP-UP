@@ -4,7 +4,7 @@ import com.johannag.tapup.horses.application.dtos.CreateHorseDTO;
 import com.johannag.tapup.horses.application.dtos.FindHorsesDTO;
 import com.johannag.tapup.horses.application.dtos.UpdateHorseDTO;
 import com.johannag.tapup.horses.domain.dtos.CreateHorseEntityDTO;
-import com.johannag.tapup.horses.domain.dtos.FindHorsesEntityDTO;
+import com.johannag.tapup.horses.domain.dtos.FindHorseEntitiesDTO;
 import com.johannag.tapup.horses.domain.dtos.UpdateHorseEntityDTO;
 import com.johannag.tapup.horses.domain.models.HorseModelState;
 import com.johannag.tapup.horses.presentation.dtos.queries.FindHorsesQuery;
@@ -63,12 +63,12 @@ public interface HorseApplicationMapper {
     FindHorsesDTO toFindDTO(FindHorsesQuery dto);
 
     /**
-     * Converts a {@link FindHorsesDTO} to a {@link FindHorsesEntityDTO.Builder}.
+     * Converts a {@link FindHorsesDTO} to a {@link FindHorseEntitiesDTO.Builder}.
      *
      * @param dto the Data Transfer Object containing search criteria for horses
-     * @return a {@link FindHorsesEntityDTO.Builder} that represents the entity filters based on the provided DTO
+     * @return a {@link FindHorseEntitiesDTO.Builder} that represents the entity filters based on the provided DTO
      */
-    FindHorsesEntityDTO.Builder toFindEntityDTO(FindHorsesDTO dto);
+    FindHorseEntitiesDTO.Builder toFindEntitiesDTO(FindHorsesDTO dto);
 
     /**
      * Converts a {@link HorseStateDTO} to a {@link HorseModelState}.

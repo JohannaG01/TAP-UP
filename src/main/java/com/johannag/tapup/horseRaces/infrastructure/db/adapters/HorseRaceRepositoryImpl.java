@@ -4,7 +4,7 @@ import com.johannag.tapup.auth.infrastructure.utils.SecurityContextUtils;
 import com.johannag.tapup.globals.infrastructure.utils.Logger;
 import com.johannag.tapup.horseRaces.domain.UpdateHorseRaceEntityDTO;
 import com.johannag.tapup.horseRaces.domain.dtos.CreateHorseRaceEntityDTO;
-import com.johannag.tapup.horseRaces.domain.dtos.FindHorseRacesEntityDTO;
+import com.johannag.tapup.horseRaces.domain.dtos.FindHorseRaceEntitiesDTO;
 import com.johannag.tapup.horseRaces.domain.mappers.HorseRaceDomainMapper;
 import com.johannag.tapup.horseRaces.domain.models.HorseRaceModel;
 import com.johannag.tapup.horseRaces.infrastructure.db.entities.HorseRaceEntity;
@@ -74,7 +74,7 @@ public class HorseRaceRepositoryImpl implements HorseRaceRepository {
     }
 
     @Override
-    public Page<HorseRaceModel> findAll(FindHorseRacesEntityDTO dto) {
+    public Page<HorseRaceModel> findAll(FindHorseRaceEntitiesDTO dto) {
         Pageable pageable = PageRequest.of(dto.getPage(), dto.getSize());
 
         Specification<HorseRaceEntity> spec = new JpaHorseRaceSpecifications.Builder()

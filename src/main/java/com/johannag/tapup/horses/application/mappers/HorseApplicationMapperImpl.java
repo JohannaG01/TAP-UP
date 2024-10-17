@@ -4,7 +4,7 @@ import com.johannag.tapup.horses.application.dtos.CreateHorseDTO;
 import com.johannag.tapup.horses.application.dtos.FindHorsesDTO;
 import com.johannag.tapup.horses.application.dtos.UpdateHorseDTO;
 import com.johannag.tapup.horses.domain.dtos.CreateHorseEntityDTO;
-import com.johannag.tapup.horses.domain.dtos.FindHorsesEntityDTO;
+import com.johannag.tapup.horses.domain.dtos.FindHorseEntitiesDTO;
 import com.johannag.tapup.horses.domain.dtos.UpdateHorseEntityDTO;
 import com.johannag.tapup.horses.domain.models.HorseModelState;
 import com.johannag.tapup.horses.presentation.dtos.queries.FindHorsesQuery;
@@ -28,7 +28,7 @@ public class HorseApplicationMapperImpl implements HorseApplicationMapper {
     private final TypeMap<UpdateHorseRequestDTO, UpdateHorseDTO.Builder> updateDTOMapper;
     private final TypeMap<UpdateHorseDTO, UpdateHorseEntityDTO.Builder> updateEntityDTOMapper;
     private final TypeMap<FindHorsesQuery, FindHorsesDTO.Builder> findDTOMapper;
-    private final TypeMap<FindHorsesDTO, FindHorsesEntityDTO.Builder> findEntityDTOMapper;
+    private final TypeMap<FindHorsesDTO, FindHorseEntitiesDTO.Builder> findEntityDTOMapper;
 
 
     public HorseApplicationMapperImpl() {
@@ -37,7 +37,7 @@ public class HorseApplicationMapperImpl implements HorseApplicationMapper {
         updateDTOMapper = builderTypeMapper(UpdateHorseRequestDTO.class, UpdateHorseDTO.Builder.class);
         updateEntityDTOMapper = builderTypeMapper(UpdateHorseDTO.class, UpdateHorseEntityDTO.Builder.class);
         findDTOMapper = builderTypeMapper(FindHorsesQuery.class, FindHorsesDTO.Builder.class);
-        findEntityDTOMapper = builderTypeMapper(FindHorsesDTO.class, FindHorsesEntityDTO.Builder.class);
+        findEntityDTOMapper = builderTypeMapper(FindHorsesDTO.class, FindHorseEntitiesDTO.Builder.class);
     }
 
     @Override
@@ -79,7 +79,7 @@ public class HorseApplicationMapperImpl implements HorseApplicationMapper {
     }
 
     @Override
-    public FindHorsesEntityDTO.Builder toFindEntityDTO(FindHorsesDTO dto) {
+    public FindHorseEntitiesDTO.Builder toFindEntitiesDTO(FindHorsesDTO dto) {
         return findEntityDTOMapper.map(dto);
     }
 

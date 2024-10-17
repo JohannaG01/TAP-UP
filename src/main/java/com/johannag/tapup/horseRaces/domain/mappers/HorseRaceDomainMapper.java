@@ -35,14 +35,15 @@ public interface HorseRaceDomainMapper {
     HorseRaceEntityState toEntity(HorseRaceModelState model);
 
     /**
-     * Converts a collection of {@link HorseRaceModelState} instances to a list of {@link HorseRaceEntityState} entities.
+     * Converts a collection of {@link HorseRaceModelState} instances to a list of {@link HorseRaceEntityState}
+     * entities.
      *
      * <p>This method is useful for transforming model states used in business logic into
      * entity states that can be persisted in the database.</p>
      *
      * @param models a collection of {@link HorseRaceModelState} objects to be converted
      * @return a list of {@link HorseRaceEntityState} corresponding to the provided model states
-     *         or an empty list if the input collection is null or empty
+     * or an empty list if the input collection is null or empty
      */
     List<HorseRaceEntityState> toEntity(Collection<HorseRaceModelState> models);
 

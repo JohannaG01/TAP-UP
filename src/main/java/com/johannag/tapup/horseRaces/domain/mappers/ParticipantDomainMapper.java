@@ -16,7 +16,8 @@ public interface ParticipantDomainMapper {
     ParticipantModel toModelWithoutRace(ParticipantEntity entity);
 
     /**
-     * Converts a {@link ParticipantEntity} to a {@link ParticipantModel} without establishing bidirectional relationships.
+     * Converts a {@link ParticipantEntity} to a {@link ParticipantModel} without establishing bidirectional
+     * relationships.
      *
      * <p>This method is useful for creating a model representation of a participant
      * while avoiding the complexities of bidirectional associations, which can lead to circular references.</p>

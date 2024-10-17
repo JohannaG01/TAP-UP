@@ -67,7 +67,8 @@ public interface UserApplicationMapper {
      * Converts a {@link SubtractUserFundsDTO} to a {@link SubtractUserFundsToEntityDTO}.
      *
      * @param dto the {@link SubtractUserFundsDTO} containing the fund subtraction details.
-     * @return a {@link SubtractUserFundsToEntityDTO} populated with the data from the given {@link SubtractUserFundsDTO}.
+     * @return a {@link SubtractUserFundsToEntityDTO} populated with the data from the given
+     * {@link SubtractUserFundsDTO}.
      */
     SubtractUserFundsToEntityDTO toSubtractFundsToEntityDTO(SubtractUserFundsDTO dto);
 

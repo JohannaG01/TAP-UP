@@ -3,7 +3,6 @@ package com.johannag.tapup.horses.application.dtos;
 import com.johannag.tapup.globals.domain.models.SexModel;
 import com.johannag.tapup.horses.domain.models.HorseModelState;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Value;
 import org.springframework.lang.Nullable;
 

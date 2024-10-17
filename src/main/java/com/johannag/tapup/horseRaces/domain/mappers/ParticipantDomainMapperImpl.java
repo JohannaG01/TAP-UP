@@ -5,7 +5,6 @@ import com.johannag.tapup.horseRaces.domain.models.ParticipantModel;
 import com.johannag.tapup.horseRaces.infrastructure.db.entities.ParticipantEntity;
 import com.johannag.tapup.horses.domain.mappers.HorseDomainMapper;
 import com.johannag.tapup.horses.domain.models.HorseModel;
-import lombok.RequiredArgsConstructor;
 import org.modelmapper.TypeMap;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
@@ -19,7 +18,8 @@ public class ParticipantDomainMapperImpl implements ParticipantDomainMapper {
     private final HorseRaceDomainMapper horseRaceDomainMapper;
     private final TypeMap<ParticipantEntity, ParticipantModel.Builder> modelMapper;
 
-    public ParticipantDomainMapperImpl(HorseDomainMapper horseDomainMapper, @Lazy HorseRaceDomainMapper horseRaceDomainMapper) {
+    public ParticipantDomainMapperImpl(HorseDomainMapper horseDomainMapper,
+                                       @Lazy HorseRaceDomainMapper horseRaceDomainMapper) {
         this.horseDomainMapper = horseDomainMapper;
         this.horseRaceDomainMapper = horseRaceDomainMapper;
         modelMapper = builderTypeMapper(ParticipantEntity.class, ParticipantModel.Builder.class);

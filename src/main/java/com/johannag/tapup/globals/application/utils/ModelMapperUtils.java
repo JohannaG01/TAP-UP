@@ -3,7 +3,6 @@ package com.johannag.tapup.globals.application.utils;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 import org.modelmapper.config.Configuration;
-import org.modelmapper.convention.MatchingStrategies;
 import org.modelmapper.convention.NameTransformers;
 import org.modelmapper.convention.NamingConventions;
 

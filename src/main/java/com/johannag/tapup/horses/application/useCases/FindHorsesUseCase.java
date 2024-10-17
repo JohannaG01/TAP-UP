@@ -4,7 +4,7 @@ import com.johannag.tapup.auth.application.services.AuthenticationService;
 import com.johannag.tapup.globals.infrastructure.utils.Logger;
 import com.johannag.tapup.horses.application.dtos.FindHorsesDTO;
 import com.johannag.tapup.horses.application.mappers.HorseApplicationMapper;
-import com.johannag.tapup.horses.domain.dtos.FindHorsesEntityDTO;
+import com.johannag.tapup.horses.domain.dtos.FindHorseEntitiesDTO;
 import com.johannag.tapup.horses.domain.models.HorseModel;
 import com.johannag.tapup.horses.domain.models.HorseModelState;
 import com.johannag.tapup.horses.infrastructure.db.adapters.HorseRepository;
@@ -26,16 +26,16 @@ public class FindHorsesUseCase {
     public Page<HorseModel> execute(FindHorsesDTO dto) {
         logger.info("Starting findHorses process");
 
-        FindHorsesEntityDTO findHorsesEntityDTO = mapAndEnforceDefaultStateForNonAdmin(dto);
-        Page<HorseModel> horses = horseRepository.findAll(findHorsesEntityDTO);
+        FindHorseEntitiesDTO findHorseEntitiesDTO = mapAndEnforceDefaultStateForNonAdmin(dto);
+        Page<HorseModel> horses = horseRepository.findAll(findHorseEntitiesDTO);
 
         logger.info("Finished findHorses process");
         return horses;
     }
 
-    private FindHorsesEntityDTO mapAndEnforceDefaultStateForNonAdmin(FindHorsesDTO dto) {
+    private FindHorseEntitiesDTO mapAndEnforceDefaultStateForNonAdmin(FindHorsesDTO dto) {
 
-        FindHorsesEntityDTO.Builder findHorsesEntityDTOBuilder =  horseApplicationMapper.toFindEntityDTO(dto);
+        FindHorseEntitiesDTO.Builder findHorsesEntityDTOBuilder = horseApplicationMapper.toFindEntitiesDTO(dto);
 
         if (!authenticationService.isAdminUser()) {
             findHorsesEntityDTOBuilder.states(List.of(HorseModelState.ACTIVE));

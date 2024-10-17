@@ -8,9 +8,11 @@ import com.johannag.tapup.bets.domain.models.BetModel;
 import com.johannag.tapup.bets.infrastructure.db.adapters.BetRepository;
 import com.johannag.tapup.globals.infrastructure.utils.Logger;
 import com.johannag.tapup.horseRaces.application.exceptions.InvalidHorseRaceStateException;
+import com.johannag.tapup.horseRaces.application.exceptions.ParticipantNotFoundException;
 import com.johannag.tapup.horseRaces.application.services.HorseRaceService;
 import com.johannag.tapup.horseRaces.domain.models.HorseRaceModel;
 import com.johannag.tapup.users.application.dtos.SubtractUserFundsDTO;
+import com.johannag.tapup.users.application.exceptions.UserNotFoundException;
 import com.johannag.tapup.users.application.services.UserService;
 import com.johannag.tapup.users.domain.models.UserModel;
 import jakarta.transaction.Transactional;
@@ -30,7 +32,8 @@ public class CreateBetForUserUseCase {
     private final BetRepository betRepository;
 
     @Transactional
-    public BetModel execute(CreateBetDTO dto) {
+    public BetModel execute(CreateBetDTO dto) throws UserNotFoundException, ParticipantNotFoundException,
+            InvalidHorseRaceStateException, InsufficientBalanceException {
         logger.info("Starting createBet process for User Uuid {}", dto.getUserUuid());
 
         UserModel user = userService.findOneByUuid(dto.getUserUuid());
@@ -39,7 +42,8 @@ public class CreateBetForUserUseCase {
         validateHorseRaceStateIsValidOrThrow(horseRace);
         CreateBetEntityDTO createBetEntityDTO = betApplicationMapper.toCreateEntityDTO(dto);
         BetModel bet = betRepository.create(createBetEntityDTO);
-        userService.subtractFunds(new SubtractUserFundsDTO(dto.getUserUuid(), dto.getAmount()));
+        SubtractUserFundsDTO subtractUserFundsDTO = new SubtractUserFundsDTO(dto.getUserUuid(), dto.getAmount());
+        userService.subtractFunds(subtractUserFundsDTO);
 
         logger.info("Finishing createBet process for User Uuid {}", dto.getUserUuid());
         return bet;

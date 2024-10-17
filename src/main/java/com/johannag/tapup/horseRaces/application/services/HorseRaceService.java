@@ -3,10 +3,10 @@ package com.johannag.tapup.horseRaces.application.services;
 import com.johannag.tapup.horseRaces.application.dtos.CreateHorseRaceDTO;
 import com.johannag.tapup.horseRaces.application.dtos.FindHorseRacesDTO;
 import com.johannag.tapup.horseRaces.application.dtos.UpdateHorseRaceDTO;
-import com.johannag.tapup.horseRaces.application.exceptions.ParticipantNotFoundException;
-import com.johannag.tapup.horseRaces.domain.models.HorseRaceModel;
 import com.johannag.tapup.horseRaces.application.exceptions.HorseRaceNotFoundException;
 import com.johannag.tapup.horseRaces.application.exceptions.InvalidHorseRaceStateException;
+import com.johannag.tapup.horseRaces.application.exceptions.ParticipantNotFoundException;
+import com.johannag.tapup.horseRaces.domain.models.HorseRaceModel;
 import com.johannag.tapup.horses.application.exceptions.HorseNotAvailableException;
 import com.johannag.tapup.horses.application.exceptions.HorseNotFoundException;
 import org.springframework.data.domain.Page;
@@ -56,7 +56,7 @@ public interface HorseRaceService {
      *            such as race state, start and end times, horse UUID, and pagination details (page, size).
      *            It must not be null.
      * @return a {@link Page} of {@link HorseRaceModel} that matches the search criteria.
-     *         The page will contain the filtered horse races and pagination information.
+     * The page will contain the filtered horse races and pagination information.
      * @throws IllegalArgumentException if the provided {@code dto} is null.
      */
     Page<HorseRaceModel> findAll(FindHorseRacesDTO dto);

@@ -2,7 +2,7 @@ package com.johannag.tapup.horseRaces.infrastructure.db.adapters;
 
 import com.johannag.tapup.horseRaces.domain.UpdateHorseRaceEntityDTO;
 import com.johannag.tapup.horseRaces.domain.dtos.CreateHorseRaceEntityDTO;
-import com.johannag.tapup.horseRaces.domain.dtos.FindHorseRacesEntityDTO;
+import com.johannag.tapup.horseRaces.domain.dtos.FindHorseRaceEntitiesDTO;
 import com.johannag.tapup.horseRaces.domain.models.HorseRaceModel;
 import org.springframework.data.domain.Page;
 
@@ -46,15 +46,15 @@ public interface HorseRaceRepository {
 
     /**
      * Finds and returns a paginated list of {@link HorseRaceModel} entities based on the provided
-     * search criteria in the {@link FindHorseRacesEntityDTO}.
+     * search criteria in the {@link FindHorseRaceEntitiesDTO}.
      * This method applies filters such as horse UUID, race state, and time ranges to retrieve
      * horse races matching the specified conditions, with support for pagination.
      *
-     * @param dto the {@link FindHorseRacesEntityDTO} containing filter criteria.
+     * @param dto the {@link FindHorseRaceEntitiesDTO} containing filter criteria.
      * @return a {@link Page} of {@link HorseRaceModel} that matches the search criteria.
-     *         The page will contain the filtered horse races and pagination information.
+     * The page will contain the filtered horse races and pagination information.
      */
-    Page<HorseRaceModel> findAll(FindHorseRacesEntityDTO dto);
+    Page<HorseRaceModel> findAll(FindHorseRaceEntitiesDTO dto);
 
     /**
      * Finds a horse race model by the given participant UUID.
