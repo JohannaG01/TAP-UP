@@ -14,7 +14,8 @@ import com.johannag.tapup.users.infrastructure.db.entities.UserEntity;
 import org.modelmapper.TypeMap;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
 
 import static com.johannag.tapup.globals.application.utils.ModelMapperUtils.builderTypeMapper;
 
