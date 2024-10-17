@@ -25,5 +25,5 @@ public interface UserDomainMapper {
      * @param userEntity the {@link UserEntity} instance to be converted
      * @return the corresponding {@link UserModel} representing the user; never null
      */
-    UserModel toModelWithoutBets(UserEntity userEntity);
+    UserModel toModel(UserEntity userEntity);
 }

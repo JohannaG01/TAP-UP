@@ -45,19 +45,19 @@ public class UserRepositoryImpl implements UserRepository {
 
         jpaUserRepository.save(userEntity);
 
-        return userDomainMapper.toModelWithoutBets(userEntity);
+        return userDomainMapper.toModel(userEntity);
     }
 
     @Override
     public Optional<UserModel> findMaybeByEmail(String email) {
         return jpaUserRepository.findMaybeOneByEmail(email)
-                .map(userDomainMapper::toModelWithoutBets);
+                .map(userDomainMapper::toModel);
     }
 
     @Override
     public Optional<UserModel> findMaybeByUUID(UUID uuid) {
         return jpaUserRepository.findMaybeOneByUuid(uuid)
-                .map(userDomainMapper::toModelWithoutBets);
+                .map(userDomainMapper::toModel);
     }
 
     @Override
@@ -68,7 +68,7 @@ public class UserRepositoryImpl implements UserRepository {
         userEntity.addBalance(dto.getAmount());
         jpaUserRepository.saveAndFlush(jpaUserRepository.save(userEntity));
 
-        return userDomainMapper.toModelWithoutBets(userEntity);
+        return userDomainMapper.toModel(userEntity);
     }
 
     @Override
@@ -79,7 +79,7 @@ public class UserRepositoryImpl implements UserRepository {
         userEntity.subtractBalance(dto.getAmount());
         jpaUserRepository.saveAndFlush(jpaUserRepository.save(userEntity));
 
-        return userDomainMapper.toModelWithoutBets(userEntity);
+        return userDomainMapper.toModel(userEntity);
     }
 
     @Override

@@ -25,6 +25,7 @@ public class ParticipantDomainMapperImpl implements ParticipantDomainMapper {
         modelMapper = builderTypeMapper(ParticipantEntity.class, ParticipantModel.Builder.class);
         modelMapper.addMappings(mapper -> mapper.skip(ParticipantModel.Builder::horseRace));
         modelMapper.addMappings(mapper -> mapper.skip(ParticipantModel.Builder::horse));
+        modelMapper.addMappings(mapper -> mapper.skip(ParticipantModel.Builder::bets));
     }
 
     @Override

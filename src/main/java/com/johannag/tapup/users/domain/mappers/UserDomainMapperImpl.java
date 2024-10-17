@@ -28,7 +28,7 @@ public class UserDomainMapperImpl implements UserDomainMapper {
     }
 
     @Override
-    public UserModel toModelWithoutBets(UserEntity userEntity) {
+    public UserModel toModel(UserEntity userEntity) {
         return modelMapper
                 .map(userEntity)
                 .build();
