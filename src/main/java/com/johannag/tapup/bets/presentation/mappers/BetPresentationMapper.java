@@ -1,8 +1,12 @@
 package com.johannag.tapup.bets.presentation.mappers;
 
 import com.johannag.tapup.bets.domain.models.BetModel;
+import com.johannag.tapup.bets.domain.models.BetSummaryModel;
 import com.johannag.tapup.bets.presentation.dtos.responses.BetResponseDTO;
+import com.johannag.tapup.bets.presentation.dtos.responses.BetSummaryDTO;
 import org.springframework.data.domain.Page;
+
+import java.util.List;
 
 public interface BetPresentationMapper {
 
@@ -25,4 +29,12 @@ public interface BetPresentationMapper {
      * or an empty page if the input page is null or empty
      */
     Page<BetResponseDTO> toResponseDTO(Page<BetModel> models);
+
+    /**
+     * Converts a list of {@link BetSummaryModel} instances to a list of {@link BetSummaryDTO} instances.
+     *
+     * @param models the list of {@link BetSummaryModel} to convert
+     * @return a list of {@link BetSummaryDTO} instances representing the corresponding models
+     */
+    List<BetSummaryDTO> toResponseDTO(List<BetSummaryModel> models);
 }

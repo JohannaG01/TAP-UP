@@ -5,7 +5,10 @@ import com.johannag.tapup.bets.domain.dtos.CreateBetEntityDTO;
 import com.johannag.tapup.bets.domain.dtos.FindBetEntitiesDTO;
 import com.johannag.tapup.bets.domain.mappers.BetDomainMapper;
 import com.johannag.tapup.bets.domain.models.BetModel;
+import com.johannag.tapup.bets.domain.models.BetSummaryModel;
 import com.johannag.tapup.bets.infrastructure.db.entities.BetEntity;
+import com.johannag.tapup.bets.infrastructure.db.entities.BetEntityState;
+import com.johannag.tapup.bets.infrastructure.db.projections.BetSummaryProjection;
 import com.johannag.tapup.bets.infrastructure.db.repositories.JpaBetRepository;
 import com.johannag.tapup.bets.infrastructure.db.repositories.JpaBetSpecifications;
 import com.johannag.tapup.globals.infrastructure.utils.Logger;
@@ -20,6 +23,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.UUID;
 
 @Repository
 @AllArgsConstructor
@@ -64,5 +70,13 @@ public class BetRepositoryImpl implements BetRepository {
         return jpaBetRepository
                 .findAll(spec, pageable)
                 .map(betDomainMapper::toModel);
+    }
+
+    @Override
+    public List<BetSummaryModel> findBetDetails(UUID horseRaceUuid) {
+        List<BetSummaryProjection> projections = jpaBetRepository.findBetDetails(horseRaceUuid);
+        List<Object[]> payouts = jpaBetRepository.findAmountForBetsInState(horseRaceUuid, List.of(BetEntityState.PAID));
+        List<Object[]> amountWagered = jpaBetRepository.findAmountForBetsInState(horseRaceUuid, BetEntityState.valuesAsList());
+        return betDomainMapper.toModel(projections, payouts, amountWagered);
     }
 }

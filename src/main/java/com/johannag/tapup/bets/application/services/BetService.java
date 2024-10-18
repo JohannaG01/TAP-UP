@@ -4,10 +4,15 @@ import com.johannag.tapup.bets.application.dtos.CreateBetDTO;
 import com.johannag.tapup.bets.application.dtos.FindBetsDTO;
 import com.johannag.tapup.bets.application.exceptions.InsufficientBalanceException;
 import com.johannag.tapup.bets.domain.models.BetModel;
+import com.johannag.tapup.bets.domain.models.BetSummaryModel;
+import com.johannag.tapup.horseRaces.application.exceptions.HorseRaceNotFoundException;
 import com.johannag.tapup.horseRaces.application.exceptions.InvalidHorseRaceStateException;
 import com.johannag.tapup.horseRaces.application.exceptions.ParticipantNotFoundException;
 import com.johannag.tapup.users.application.exceptions.UserNotFoundException;
 import org.springframework.data.domain.Page;
+
+import java.util.List;
+import java.util.UUID;
 
 public interface BetService {
 
@@ -34,4 +39,17 @@ public interface BetService {
      * @throws UserNotFoundException if the user specified in the DTO does not exist
      */
     Page<BetModel> findUserAll(FindBetsDTO dto) throws UserNotFoundException;
+
+    /**
+     * Generates a summary of bets placed for a specific horse race.
+     * <p>
+     * This method retrieves the details of all bets associated with the given horse race
+     * identified by its unique identifier. If no horse race is found with the specified UUID,
+     * a {@link HorseRaceNotFoundException} will be thrown.
+     *
+     * @param horseRaceUuid the unique identifier of the horse race for which to generate bet details
+     * @return a list of {@link BetSummaryModel} objects containing the summary of bets
+     * @throws HorseRaceNotFoundException if no horse race is found with the specified UUID
+     */
+    List<BetSummaryModel> generateBetDetails(UUID horseRaceUuid) throws HorseRaceNotFoundException;
 }

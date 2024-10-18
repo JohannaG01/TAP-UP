@@ -3,8 +3,10 @@ package com.johannag.tapup.bets.domain.mappers;
 import com.johannag.tapup.bets.domain.dtos.CreateBetEntityDTO;
 import com.johannag.tapup.bets.domain.models.BetModel;
 import com.johannag.tapup.bets.domain.models.BetModelState;
+import com.johannag.tapup.bets.domain.models.BetSummaryModel;
 import com.johannag.tapup.bets.infrastructure.db.entities.BetEntity;
 import com.johannag.tapup.bets.infrastructure.db.entities.BetEntityState;
+import com.johannag.tapup.bets.infrastructure.db.projections.BetSummaryProjection;
 import com.johannag.tapup.horseRaces.infrastructure.db.entities.ParticipantEntity;
 import com.johannag.tapup.users.infrastructure.db.entities.UserEntity;
 
@@ -53,4 +55,22 @@ public interface BetDomainMapper {
      * or an empty list if the input collection is null or empty
      */
     List<BetEntityState> toEntity(Collection<BetModelState> states);
+
+    /**
+     * Converts lists of bet summary projections, payouts, and amounts wagered into a list of BetSummaryModel objects.
+     *
+     * <p>This method maps the provided projections and their associated payouts and amounts wagered
+     * into BetSummaryModel instances. Each BetSummaryModel will contain information about the horse,
+     * the total payouts, and the total amounts wagered for the corresponding bets.</p>
+     *
+     * @param projections a list of BetSummaryProjection objects containing the summary of bets per horse.
+     * @param payouts a list of Object arrays where each array contains the horse UUID and the total payouts
+     *                for that horse. The order should match the order of the projections.
+     * @param amountWagered a list of Object arrays where each array contains the horse UUID and the total
+     *                      amount wagered for that horse. The order should match the order of the projections.
+     * @return a list of BetSummaryModel objects that encapsulate the summarized betting information,
+     *         including horse details, total payouts, and amounts wagered.
+     */
+    List<BetSummaryModel> toModel(List<BetSummaryProjection> projections, List<Object[]> payouts,
+                                  List<Object[]> amountWagered);
 }
