@@ -8,10 +8,13 @@ import com.johannag.tapup.bets.application.exceptions.InsufficientBalanceExcepti
 import com.johannag.tapup.bets.application.mappers.BetApplicationMapper;
 import com.johannag.tapup.bets.application.services.BetService;
 import com.johannag.tapup.bets.domain.models.BetModel;
+import com.johannag.tapup.bets.domain.models.BetStatisticsModel;
 import com.johannag.tapup.bets.domain.models.BetSummaryModel;
 import com.johannag.tapup.bets.presentation.dtos.queries.FindBetsQuery;
 import com.johannag.tapup.bets.presentation.dtos.requests.CreateBetRequestDTO;
 import com.johannag.tapup.bets.presentation.dtos.responses.BetResponseDTO;
+import com.johannag.tapup.bets.presentation.dtos.responses.BetStatisticsDTO;
+import com.johannag.tapup.bets.presentation.dtos.responses.BetSummaryDTO;
 import com.johannag.tapup.bets.presentation.dtos.responses.views.BetSummaryView;
 import com.johannag.tapup.bets.presentation.mappers.BetPresentationMapper;
 import com.johannag.tapup.bets.presentation.schemas.PageBetResponseDTO;
@@ -19,7 +22,6 @@ import com.johannag.tapup.globals.presentation.errors.ErrorResponse;
 import com.johannag.tapup.horseRaces.application.exceptions.HorseRaceNotFoundException;
 import com.johannag.tapup.horseRaces.application.exceptions.InvalidHorseRaceStateException;
 import com.johannag.tapup.horseRaces.application.exceptions.ParticipantNotFoundException;
-import com.johannag.tapup.bets.presentation.dtos.responses.BetSummaryDTO;
 import com.johannag.tapup.horseRaces.presentation.dtos.responses.views.ParticipantView;
 import com.johannag.tapup.users.application.exceptions.UserNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -139,12 +141,43 @@ public class BetController {
                     @Schema(implementation = ErrorResponse.class))})
     })
     @PreAuthorize("hasAnyAuthority({'ADMIN','REGULAR'})")
-    @GetMapping("/horse-races/{horseRaceUuid}/bet-details")
+    @GetMapping("/horse-races/{horseRaceUuid}/bet-info")
     @JsonView(BetSummaryView.Limited.class)
-    public ResponseEntity<List<BetSummaryDTO>> findBetDetails(@PathVariable UUID horseRaceUuid) throws HorseRaceNotFoundException {
+    public ResponseEntity<List<BetSummaryDTO>> generateBetInfo(@PathVariable UUID horseRaceUuid)
+            throws HorseRaceNotFoundException {
 
         List<BetSummaryModel> betSummaries = betService.generateBetDetails(horseRaceUuid);
         List<BetSummaryDTO> response = betPresentationMapper.toResponseDTO(betSummaries);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Generates bet statistics for horse race", tags = {"Horse Races"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Bet statistics generated successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid request", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "401", description = "Unauthorized: Invalid credentials", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "403", description = "Forbidden: Not enough privileges", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "404", description = "Not Found: Horse Race Not Found", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))})
+    })
+    @PreAuthorize("hasAnyAuthority({'ADMIN'})")
+    @GetMapping("/horse-races/{horseRaceUuid}/bet-statistics")
+    public ResponseEntity<BetStatisticsDTO> generateBetStatistics(@PathVariable UUID horseRaceUuid)
+            throws HorseRaceNotFoundException {
+
+        BetStatisticsModel betStatistics = betService.generateBetStatistics(horseRaceUuid);
+        BetStatisticsDTO response = betPresentationMapper.toResponseDTO(betStatistics);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

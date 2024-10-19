@@ -13,11 +13,11 @@ import java.math.RoundingMode;
 @AllArgsConstructor
 @Builder(builderClassName = "Builder")
 public class BetSummaryModel {
-    HorseModel horse;
-    Long totalBets;
-    BigDecimal totalAmountWagered;
-    BigDecimal totalPayouts;
-    Double odds;
+    private HorseModel horse;
+    private Long totalBets;
+    private BigDecimal totalAmountWagered;
+    private BigDecimal totalPayouts;
+    private Double odds;
 
     public BetSummaryModel(BetSummaryDTO betSummaryDTO, int scale) {
         this.horse = betSummaryDTO.getHorse();

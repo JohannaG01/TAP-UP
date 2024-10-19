@@ -1,9 +1,7 @@
 package com.johannag.tapup.bets.infrastructure.db.repositories;
 
 import com.johannag.tapup.bets.infrastructure.db.entities.BetEntity;
-import com.johannag.tapup.bets.infrastructure.db.entities.BetEntityState;
 import com.johannag.tapup.bets.infrastructure.db.projections.BetSummaryProjection;
-import jakarta.persistence.Tuple;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -13,7 +11,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.lang.NonNull;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,7 +23,7 @@ public interface JpaBetRepository extends JpaRepository<BetEntity, Long>, JpaSpe
      * participant's horse race, and participant's horse in a single query to avoid
      * N+1 select problems and optimize performance.
      *
-     * @param spec the Specification that defines the criteria for retrieving the BetEntity objects.
+     * @param spec     the Specification that defines the criteria for retrieving the BetEntity objects.
      * @param pageable the pagination information including page number, page size, and sorting options.
      * @return a Page containing a list of BetEntity objects matching the specified criteria.
      */

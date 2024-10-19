@@ -1,11 +1,11 @@
 package com.johannag.tapup.bets.infrastructure.db.adapters;
 
 import com.johannag.tapup.auth.infrastructure.utils.SecurityContextUtils;
+import com.johannag.tapup.bets.domain.dtos.BetSummaryDTO;
 import com.johannag.tapup.bets.domain.dtos.CreateBetEntityDTO;
 import com.johannag.tapup.bets.domain.dtos.FindBetEntitiesDTO;
 import com.johannag.tapup.bets.domain.mappers.BetDomainMapper;
 import com.johannag.tapup.bets.domain.models.BetModel;
-import com.johannag.tapup.bets.domain.dtos.BetSummaryDTO;
 import com.johannag.tapup.bets.infrastructure.db.entities.BetEntity;
 import com.johannag.tapup.bets.infrastructure.db.projections.BetSummaryProjection;
 import com.johannag.tapup.bets.infrastructure.db.repositories.JpaBetRepository;

@@ -4,6 +4,7 @@ import com.johannag.tapup.bets.application.dtos.CreateBetDTO;
 import com.johannag.tapup.bets.application.dtos.FindBetsDTO;
 import com.johannag.tapup.bets.application.exceptions.InsufficientBalanceException;
 import com.johannag.tapup.bets.domain.models.BetModel;
+import com.johannag.tapup.bets.domain.models.BetStatisticsModel;
 import com.johannag.tapup.bets.domain.models.BetSummaryModel;
 import com.johannag.tapup.horseRaces.application.exceptions.HorseRaceNotFoundException;
 import com.johannag.tapup.horseRaces.application.exceptions.InvalidHorseRaceStateException;
@@ -52,4 +53,13 @@ public interface BetService {
      * @throws HorseRaceNotFoundException if no horse race is found with the specified UUID
      */
     List<BetSummaryModel> generateBetDetails(UUID horseRaceUuid) throws HorseRaceNotFoundException;
+
+    /**
+     * Generates betting statistics for a specific horse race.
+     *
+     * @param horseRaceUuid the UUID of the horse race for which to generate betting statistics
+     * @return a {@link BetStatisticsModel} containing the statistics of the bets placed on the specified horse race
+     * @throws HorseRaceNotFoundException if no horse race is found for the provided UUID
+     */
+    BetStatisticsModel generateBetStatistics(UUID horseRaceUuid) throws HorseRaceNotFoundException;
 }

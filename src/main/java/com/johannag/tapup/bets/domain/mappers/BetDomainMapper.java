@@ -1,10 +1,10 @@
 package com.johannag.tapup.bets.domain.mappers;
 
+import com.johannag.tapup.bets.domain.dtos.BetSummaryDTO;
 import com.johannag.tapup.bets.domain.dtos.CreateBetEntityDTO;
 import com.johannag.tapup.bets.domain.models.BetModel;
 import com.johannag.tapup.bets.domain.models.BetModelState;
 import com.johannag.tapup.bets.domain.models.BetSummaryModel;
-import com.johannag.tapup.bets.domain.dtos.BetSummaryDTO;
 import com.johannag.tapup.bets.infrastructure.db.entities.BetEntity;
 import com.johannag.tapup.bets.infrastructure.db.entities.BetEntityState;
 import com.johannag.tapup.bets.infrastructure.db.projections.BetSummaryProjection;
@@ -68,7 +68,7 @@ public interface BetDomainMapper {
      * @param projections a list of {@link BetSummaryProjection} objects that contain
      *                    the summarized bet data to be converted.
      * @return a list of {@link BetSummaryDTO} objects containing the transformed
-     *         partial data. If the input list is empty or null, an empty list is returned.
+     * partial data. If the input list is empty or null, an empty list is returned.
      */
     List<BetSummaryDTO> toModel(List<BetSummaryProjection> projections);
 }

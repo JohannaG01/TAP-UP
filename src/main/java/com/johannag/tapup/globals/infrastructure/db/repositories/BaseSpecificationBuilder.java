@@ -1,6 +1,5 @@
 package com.johannag.tapup.globals.infrastructure.db.repositories;
 
-import com.johannag.tapup.horses.infrastructure.db.entities.HorseEntity;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.Order;
 import jakarta.persistence.criteria.Root;
