@@ -7,6 +7,7 @@ import com.johannag.tapup.horses.presentation.dtos.responses.HorseStateDTO;
 import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.validation.constraints.AssertFalse;
 import jakarta.validation.constraints.PastOrPresent;
+import lombok.EqualsAndHashCode;
 import lombok.Value;
 import lombok.experimental.SuperBuilder;
 import org.springframework.lang.Nullable;
@@ -18,6 +19,7 @@ import java.util.Set;
 
 @Value
 @SuperBuilder
+@EqualsAndHashCode(callSuper=true)
 public class FindHorsesQuery extends PageQuery {
 
     Set<HorseStateDTO> states;
