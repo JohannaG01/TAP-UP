@@ -16,4 +16,8 @@ public class BetModel {
     private final ParticipantModel participant;
     private final BigDecimal amount;
     private final BetModelState state;
+
+    public BetModelState calculateNewStateFromParticipant(){
+        return participant.isWinner() ? BetModelState.PAID : BetModelState.LOST;
+    }
 }

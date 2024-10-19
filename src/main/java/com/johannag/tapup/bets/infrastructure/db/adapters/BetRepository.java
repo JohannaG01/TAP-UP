@@ -3,6 +3,7 @@ package com.johannag.tapup.bets.infrastructure.db.adapters;
 import com.johannag.tapup.bets.domain.dtos.BetSummaryDTO;
 import com.johannag.tapup.bets.domain.dtos.CreateBetEntityDTO;
 import com.johannag.tapup.bets.domain.dtos.FindBetEntitiesDTO;
+import com.johannag.tapup.bets.domain.dtos.UpdateBetEntityStateDTO;
 import com.johannag.tapup.bets.domain.models.BetModel;
 import org.springframework.data.domain.Page;
 
@@ -42,17 +43,20 @@ public interface BetRepository {
     List<BetSummaryDTO> findBetDetails(UUID horseRaceUuid);
 
     /**
-     * Retrieves a paginated list of bets associated with a specific participant identified by their UUID.
+     * Retrieves a paginated list of bets associated with a specific horse race.
      *
-     * <p>This method returns a {@link Page} of {@link BetModel} instances, allowing
-     * for efficient data retrieval in a paginated format. The size and page parameters
-     * allow for controlling the number of results returned and which page of results
-     * to fetch.</p>
-     *
-     * @param participantUuid the UUID of the participant whose bets are to be retrieved
-     * @param page the page number to retrieve (zero-based index)
-     * @param size the number of results to be returned per page
-     * @return a {@link Page} containing a list of {@link BetModel} instances for the specified participant
+     * @param horseRaceUuid the unique identifier of the horse race for which bets are retrieved.
+     * @param page the page number to retrieve, starting from 0.
+     * @param size the number of results per page.
+     * @return a {@link Page} containing the {@link BetModel} entities corresponding to the specified horse race.
      */
-    Page<BetModel> findBetsByParticipantUuid(UUID participantUuid, int page, int size);
+    Page<BetModel> findBetsByHorseRaceUuid(UUID horseRaceUuid, int page, int size);
+
+    /**
+     * Updates the state of multiple bets based on the provided list of data transfer objects.
+     *
+     * @param dtos a list of {@link UpdateBetEntityStateDTO} instances containing the new states and relevant information for each bet
+     * @return a list of updated {@link BetModel} instances reflecting the new states
+     */
+    List<BetModel> updateState(List<UpdateBetEntityStateDTO> dtos);
 }

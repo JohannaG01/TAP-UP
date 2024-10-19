@@ -1,5 +1,6 @@
 package com.johannag.tapup.users.infrastructure.db.adapter;
 
+import com.johannag.tapup.auth.infrastructure.utils.SecurityContextUtils;
 import com.johannag.tapup.globals.infrastructure.utils.Logger;
 import com.johannag.tapup.users.application.configs.UserSystemConfig;
 import com.johannag.tapup.users.application.dtos.AddUserFundsDTO;
@@ -78,6 +79,7 @@ public class UserRepositoryImpl implements UserRepository {
 
         UserEntity userEntity = jpaUserRepository.findOneByUuidForUpdate(dto.getUserUuid());
         userEntity.addBalance(dto.getAmount());
+        userEntity.setUpdatedBy(SecurityContextUtils.userOnContextId());
         jpaUserRepository.saveAndFlush(jpaUserRepository.save(userEntity));
 
         return userDomainMapper.toModel(userEntity);
@@ -92,7 +94,10 @@ public class UserRepositoryImpl implements UserRepository {
                 .collect(Collectors.toMap(AddUserFundsToEntityDTO::getUserUuid, AddUserFundsToEntityDTO::getAmount));
 
         List<UserEntity> users = jpaUserRepository.findByUuidForUpdate(amountByUserUuid.keySet());
-        users.forEach(user -> user.addBalance(amountByUserUuid.get(user.getUuid())));
+        users.forEach(user -> {
+            user.addBalance(amountByUserUuid.get(user.getUuid()));
+            user.setUpdatedBy(SecurityContextUtils.userOnContextId());
+        });
 
         jpaUserRepository.saveAllAndFlush(users);
 
@@ -108,6 +113,7 @@ public class UserRepositoryImpl implements UserRepository {
 
         UserEntity userEntity = jpaUserRepository.findOneByUuidForUpdate(dto.getUserUuid());
         userEntity.subtractBalance(dto.getAmount());
+        userEntity.setUpdatedBy(SecurityContextUtils.userOnContextId());
         jpaUserRepository.saveAndFlush(jpaUserRepository.save(userEntity));
 
         return userDomainMapper.toModel(userEntity);

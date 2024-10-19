@@ -25,14 +25,14 @@ public class AddFundsToUsersBalancesUseCase {
     private final UserApplicationMapper userApplicationMapper;
 
     public List<UserModel> execute(List<AddUserFundsDTO> dtos) {
-        logger.info("Starting addFunds process for users");
+        logger.info("Starting addFunds process for {} users", dtos.size());
 
         List<UUID> uuids = dtos.stream().map(AddUserFundsDTO::getUserUuid).toList();
         validateExistsAllUsersOrThrow(uuids);
         List<AddUserFundsToEntityDTO> addFundsDTOs = userApplicationMapper.toAddFundsToEntitiesDTO(dtos);
         List<UserModel> users = userRepository.addFunds(addFundsDTOs);
 
-        logger.info("Finished addFunds process for users");
+        logger.info("Finished addFunds process for {} users", dtos.size());
         return users;
     }
 

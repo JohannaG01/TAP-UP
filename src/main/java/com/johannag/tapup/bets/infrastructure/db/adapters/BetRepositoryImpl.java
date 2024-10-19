@@ -4,9 +4,12 @@ import com.johannag.tapup.auth.infrastructure.utils.SecurityContextUtils;
 import com.johannag.tapup.bets.domain.dtos.BetSummaryDTO;
 import com.johannag.tapup.bets.domain.dtos.CreateBetEntityDTO;
 import com.johannag.tapup.bets.domain.dtos.FindBetEntitiesDTO;
+import com.johannag.tapup.bets.domain.dtos.UpdateBetEntityStateDTO;
 import com.johannag.tapup.bets.domain.mappers.BetDomainMapper;
 import com.johannag.tapup.bets.domain.models.BetModel;
+import com.johannag.tapup.bets.domain.models.BetModelState;
 import com.johannag.tapup.bets.infrastructure.db.entities.BetEntity;
+import com.johannag.tapup.bets.infrastructure.db.entities.BetEntityState;
 import com.johannag.tapup.bets.infrastructure.db.projections.BetSummaryProjection;
 import com.johannag.tapup.bets.infrastructure.db.repositories.JpaBetRepository;
 import com.johannag.tapup.bets.infrastructure.db.repositories.JpaBetSpecifications;
@@ -17,17 +20,21 @@ import com.johannag.tapup.horseRaces.infrastructure.db.repositories.JpaParticipa
 import com.johannag.tapup.users.infrastructure.db.entities.UserEntity;
 import com.johannag.tapup.users.infrastructure.db.repositories.JpaUserRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+@Slf4j
 @Repository
 @AllArgsConstructor
 public class BetRepositoryImpl implements BetRepository {
@@ -80,10 +87,34 @@ public class BetRepositoryImpl implements BetRepository {
     }
 
     @Override
-    public Page<BetModel> findBetsByParticipantUuid(UUID participantUuid, int page, int size) {
+    public Page<BetModel> findBetsByHorseRaceUuid(UUID horseRaceUuid, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
 
-        return jpaBetRepository.findByParticipant_Uuid(participantUuid, pageable)
+        return jpaBetRepository.findByParticipant_HorseRace_Uuid(horseRaceUuid, pageable)
                 .map(betDomainMapper::toModel);
+    }
+
+    @Override
+    @Transactional
+    public List<BetModel> updateState(List<UpdateBetEntityStateDTO> dtos) {
+        logger.info("Updating bet states in DB");
+        Map<UUID, BetModelState> stateByBetUuid = new HashMap<>();
+
+        for (UpdateBetEntityStateDTO dto : dtos) {
+            stateByBetUuid.put(dto.getBetUuid(), dto.getState());
+        }
+
+        List<BetEntity> bets = jpaBetRepository.findAllByUuidForUpdate(stateByBetUuid.keySet());
+        bets.forEach(bet -> {
+            BetEntityState state = betDomainMapper.toEntity(stateByBetUuid.get(bet.getUuid()));
+            bet.setState(state);
+            bet.setUpdatedBy(SecurityContextUtils.userOnContextId());
+        });
+
+        jpaBetRepository.saveAllAndFlush(bets);
+
+        return bets.stream()
+                .map(betDomainMapper::toModel)
+                .toList();
     }
 }

@@ -1,16 +1,16 @@
 package com.johannag.tapup.bets.infrastructure.db.repositories;
 
 import com.johannag.tapup.bets.infrastructure.db.entities.BetEntity;
+import com.johannag.tapup.bets.infrastructure.db.entities.BetEntityState;
 import com.johannag.tapup.bets.infrastructure.db.projections.BetSummaryProjection;
+import jakarta.persistence.LockModeType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.repository.EntityGraph;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.*;
 import org.springframework.lang.NonNull;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -50,18 +50,28 @@ public interface JpaBetRepository extends JpaRepository<BetEntity, Long>, JpaSpe
     List<BetSummaryProjection> findBetDetails(UUID horseRaceUuid);
 
     /**
-     * Finds a paginated list of BetEntity by the UUID of the associated Participant,
-     * and fetches related entities like User, Participant's HorseRace, and Participant's Horse.
-     * <p>
-     * The @EntityGraph annotation is used to specify a graph of attributes to be fetched eagerly
-     * in a single query, to avoid the N+1 select problem.
+     * Retrieves a paginated list of bets where the participant is associated with a specific horse race.
+     * Utilizes an entity graph to eagerly fetch the related user, participant, horse race, and horse entities.
      *
-     * @param participantUuid the UUID of the Participant entity.
-     * @param pageable the pagination information (page number, size, sort).
-     * @return a Page of BetEntity objects that match the provided participant UUID,
-     *         with the associated User, HorseRace, and Horse eagerly fetched.
+     * @param horseRaceUuid the unique identifier of the horse race for which bets are retrieved.
+     * @param pageable the pagination information including page number and size.
+     * @return a {@link Page} containing the {@link BetEntity} entities corresponding to the specified horse race.
      */
     @EntityGraph(attributePaths = {"user", "participant.horseRace", "participant.horse"})
-    Page<BetEntity> findByParticipant_Uuid(UUID participantUuid, Pageable pageable);
+    Page<BetEntity> findByParticipant_HorseRace_Uuid(UUID horseRaceUuid, Pageable pageable);
+
+    /**
+     * Retrieves a list of {@link BetEntity} objects by their unique identifiers (UUIDs)
+     * while acquiring a pessimistic write lock on each entity to prevent concurrent
+     * modifications.
+     *
+     * @param uuids a collection of unique identifiers of the {@link BetEntity} objects
+     *              to be retrieved; must not be {@code null} or empty.
+     * @return a list of {@link BetEntity} objects corresponding to the provided UUIDs,
+     *         or an empty list if no entities are found.
+     */
+    @Lock(value = LockModeType.PESSIMISTIC_WRITE)
+    @Query("SELECT b FROM BetEntity b WHERE b.uuid IN :uuids")
+    List<BetEntity> findAllByUuidForUpdate(Collection<UUID> uuids);
 
 }

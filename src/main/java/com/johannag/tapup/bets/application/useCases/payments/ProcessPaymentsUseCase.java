@@ -1,8 +1,9 @@
-package com.johannag.tapup.bets.application.useCases;
+package com.johannag.tapup.bets.application.useCases.payments;
 
 import com.johannag.tapup.bets.application.config.BetConfig;
-import com.johannag.tapup.bets.application.config.MoneyConfig;
+import com.johannag.tapup.bets.application.dtos.ProcessPaymentBatchDTO;
 import com.johannag.tapup.bets.application.exceptions.UnexpectedPaymentException;
+import com.johannag.tapup.bets.application.useCases.GenerateBetStatisticsForHorseRacesUseCase;
 import com.johannag.tapup.bets.domain.dtos.BetPayoutsDTO;
 import com.johannag.tapup.bets.domain.models.BetModel;
 import com.johannag.tapup.bets.domain.models.BetPayouts;
@@ -14,18 +15,12 @@ import com.johannag.tapup.horseRaces.application.exceptions.InvalidHorseRaceStat
 import com.johannag.tapup.horseRaces.application.services.HorseRaceService;
 import com.johannag.tapup.horseRaces.domain.models.HorseRaceModel;
 import com.johannag.tapup.horseRaces.domain.models.ParticipantModel;
-import com.johannag.tapup.users.application.dtos.AddUserFundsDTO;
-import com.johannag.tapup.users.application.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.List;
-import java.util.Map;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -33,11 +28,10 @@ public class ProcessPaymentsUseCase {
 
     private static final Logger logger = Logger.getLogger(ProcessPaymentsUseCase.class);
     private final HorseRaceService horseRaceService;
-    private final UserService userService;
     private final BetRepository betRepository;
     private final GenerateBetStatisticsForHorseRacesUseCase generateBetStatisticsForHorseRacesUseCase;
+    private final ProcessPaymentBatchIteration processPaymentBatchIteration;
     private final BetConfig betConfig;
-    private final MoneyConfig moneyConfig;
 
     public BetPayouts execute(UUID horseRaceUuid) throws HorseRaceNotFoundException,
             InvalidHorseRaceStateException {
@@ -47,7 +41,7 @@ public class ProcessPaymentsUseCase {
         validateHorseRaceStateIsValidOrThrow(horseRace);
         ParticipantModel winner = obtainWinnerOrThrow(horseRace);
         BetStatisticsModel betStatistics = generateBetStatisticsForHorseRacesUseCase.execute(horseRaceUuid);
-        processInBatch(winner, betStatistics);
+        processPaymentsInBatch(horseRaceUuid, winner, betStatistics);
 
         logger.info("Finished processPayments process for horseRace with Uuid {}", horseRaceUuid);
         return null;
@@ -66,11 +60,11 @@ public class ProcessPaymentsUseCase {
                         "occurred while getting winner for horseRace uuid %s. No winner found", horseRace.getUuid())));
     }
 
-    private void processInBatch(ParticipantModel winner, BetStatisticsModel betStatistics) {
+    private void processPaymentsInBatch(UUID horseRaceUuid, ParticipantModel winner, BetStatisticsModel betStatistics) {
         double odds = getOddsForHorseOrThrow(winner.getHorseUuid(), betStatistics);
         long winningBets = getTotalBetsForHorseOrThrow(winner.getHorseUuid(), betStatistics);
 
-        BetPayoutsDTO betPayoutsDTO = iterateBatches(winner, betConfig.getBatchSize(), odds);
+        BetPayoutsDTO betPayoutsDTO = iteratePaymentInBatches(horseRaceUuid, betConfig.getBatchSize(), odds);
 
         BetPayouts betPayouts = BetPayouts.builder()
                 .totalBets(betStatistics.getTotalBets())
@@ -94,25 +88,19 @@ public class ProcessPaymentsUseCase {
                         "getting totalBets. Cannot find horse uuid %s in statistics for horse race", horseUuid)));
     }
 
-    private BetPayoutsDTO iterateBatches(ParticipantModel winner, int batchSize, double odds) {
+    private BetPayoutsDTO iteratePaymentInBatches(UUID horseRaceUuid, int batchSize, double odds) {
         int currentPage = 0;
         long totalPayout = 0;
         BigDecimal totalAmount = new BigDecimal(0);
         Page<BetModel> betsToPay;
 
-        //TODO pasar las bets a paid
-
         try {
             do {
-                betsToPay = betRepository.findBetsByParticipantUuid(winner.getUuid(), currentPage, batchSize);
+                betsToPay = betRepository.findBetsByHorseRaceUuid(horseRaceUuid, currentPage, batchSize);
 
                 if (betsToPay.hasContent()) {
-                    List<AddUserFundsDTO> dtos = transformToAddUserFundsDTO(betsToPay, odds);
-                    BigDecimal amountProcessed = dtos.stream()
-                            .map(AddUserFundsDTO::getAmount)
-                            .reduce(BigDecimal.ZERO, BigDecimal::add);
-
-                    userService.addFunds(dtos);
+                    BigDecimal amountProcessed =
+                            processPaymentBatchIteration.execute(new ProcessPaymentBatchDTO(betsToPay, odds));
                     totalPayout += betsToPay.getContent().size();
                     totalAmount = totalAmount.add(amountProcessed);
                     currentPage++;
@@ -120,7 +108,7 @@ public class ProcessPaymentsUseCase {
 
             } while (betsToPay.hasContent());
         } catch (Exception e) {
-            logger.error("An error occurred while processing bets for participant {}. Error: {}", winner.getUuid(),
+            logger.error("An error occurred while processing bets for horseRace {}. Error: {}", horseRaceUuid,
                     e.getMessage());
         }
 
@@ -128,18 +116,6 @@ public class ProcessPaymentsUseCase {
                 .totalAmount(totalAmount)
                 .totalPayouts(totalPayout)
                 .build();
-    }
-
-    private List<AddUserFundsDTO> transformToAddUserFundsDTO(Page<BetModel> bets, double odds) {
-
-        BigDecimal oddsAsBigDecimal = BigDecimal.valueOf(odds).setScale(moneyConfig.getScale(), RoundingMode.HALF_UP);
-
-        Map<UUID, BigDecimal> amountsByUserUuidMap = bets.stream()
-                .collect(Collectors.toMap(bet -> bet.getUser().getUuid(), BetModel::getAmount, BigDecimal::add));
-
-        return amountsByUserUuidMap.entrySet().stream()
-                .map(entry -> new AddUserFundsDTO(entry.getKey(), entry.getValue().multiply(oddsAsBigDecimal)))
-                .toList();
     }
 
 }
