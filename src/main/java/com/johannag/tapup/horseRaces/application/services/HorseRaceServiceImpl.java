@@ -7,6 +7,7 @@ import com.johannag.tapup.horseRaces.application.exceptions.HorseRaceNotFoundExc
 import com.johannag.tapup.horseRaces.application.exceptions.InvalidHorseRaceStateException;
 import com.johannag.tapup.horseRaces.application.exceptions.ParticipantNotFoundException;
 import com.johannag.tapup.horseRaces.application.useCases.*;
+import com.johannag.tapup.horseRaces.application.dtos.SubmitHorseRaceResultsDTO;
 import com.johannag.tapup.horseRaces.domain.models.HorseRaceModel;
 import com.johannag.tapup.horses.application.exceptions.HorseNotAvailableException;
 import com.johannag.tapup.horses.application.exceptions.HorseNotFoundException;
@@ -25,6 +26,7 @@ public class HorseRaceServiceImpl implements HorseRaceService {
     private final FindOneHorseRaceByUuidUseCase findOneHorseRaceByUuidUseCase;
     private final FindHorseRacesUseCase findHorseRacesUseCase;
     private final FindOneHorseRaceByParticipantUuidUseCase findOneHorseRaceByParticipantUuidUseCase;
+    private final SubmitHorseRaceResultsUseCase submitHorseRaceResultsUseCase;
 
     @Override
     public HorseRaceModel create(CreateHorseRaceDTO dto) throws HorseNotAvailableException, HorseNotFoundException {
@@ -50,5 +52,11 @@ public class HorseRaceServiceImpl implements HorseRaceService {
     @Override
     public HorseRaceModel findByParticipantUuid(UUID participantUuid) throws ParticipantNotFoundException {
         return findOneHorseRaceByParticipantUuidUseCase.execute(participantUuid);
+    }
+
+    @Override
+    public HorseRaceModel submitResults(SubmitHorseRaceResultsDTO dto)
+            throws ParticipantNotFoundException, HorseRaceNotFoundException, InvalidHorseRaceStateException {
+        return submitHorseRaceResultsUseCase.execute(dto);
     }
 }

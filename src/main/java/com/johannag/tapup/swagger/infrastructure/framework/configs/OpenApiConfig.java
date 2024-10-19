@@ -40,7 +40,7 @@ public class OpenApiConfig {
         ObjectSchema schema = new ObjectSchema();
         schema.setType("string");
         schema.setFormat("time");
-        schema.setExample(LocalTime.now().format(DateTimeFormatter.ofPattern("mm:ss.SSS")));
+        schema.setExample("00:01:23");
 
         SpringDocUtils.getConfig().replaceWithSchema(LocalTime.class, schema);
     }

@@ -7,11 +7,14 @@ import com.johannag.tapup.horseRaces.application.dtos.FindHorseRacesDTO;
 import com.johannag.tapup.horseRaces.application.dtos.UpdateHorseRaceDTO;
 import com.johannag.tapup.horseRaces.application.exceptions.HorseRaceNotFoundException;
 import com.johannag.tapup.horseRaces.application.exceptions.InvalidHorseRaceStateException;
+import com.johannag.tapup.horseRaces.application.exceptions.ParticipantNotFoundException;
 import com.johannag.tapup.horseRaces.application.mappers.HorseRaceApplicationMapper;
 import com.johannag.tapup.horseRaces.application.services.HorseRaceService;
+import com.johannag.tapup.horseRaces.application.dtos.SubmitHorseRaceResultsDTO;
 import com.johannag.tapup.horseRaces.domain.models.HorseRaceModel;
 import com.johannag.tapup.horseRaces.presentation.dtos.queries.FindHorseRacesQuery;
 import com.johannag.tapup.horseRaces.presentation.dtos.requests.CreateHorseRaceRequestDTO;
+import com.johannag.tapup.horseRaces.presentation.dtos.requests.SubmitHorseRaceResultsRequestDTO;
 import com.johannag.tapup.horseRaces.presentation.dtos.requests.UpdateHorseRaceRequestDTO;
 import com.johannag.tapup.horseRaces.presentation.dtos.responses.HorseRaceResponseDTO;
 import com.johannag.tapup.horseRaces.presentation.dtos.responses.views.ParticipantView;
@@ -176,4 +179,43 @@ public class HorseRaceController {
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+
+    @Operation(summary = "Submits results for horse race")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Results for horse race submitted successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid request", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "401", description = "Unauthorized: Invalid credentials", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "403", description = "Forbidden: Not enough privileges", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "404", description = "Not Found: Horse Race Not Found", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "409", description = "Conflict", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))})
+    })
+    @PreAuthorize("hasAnyAuthority({'ADMIN'})")
+    @JsonView(ParticipantView.ParticipantWithoutRace.class)
+    @PostMapping("/horse-races/{horseRaceUuid}/results")
+    public ResponseEntity<HorseRaceResponseDTO> create(@PathVariable UUID horseRaceUuid,
+                                                       @Valid @RequestBody SubmitHorseRaceResultsRequestDTO submitResultsRequestDTO)
+            throws ParticipantNotFoundException, HorseRaceNotFoundException, InvalidHorseRaceStateException {
+
+
+        var submitResultsDTO = horseRaceApplicationMapper.toSubmitResultsDTO(horseRaceUuid, submitResultsRequestDTO);
+        HorseRaceModel horseRace = horseRaceService.submitResults(submitResultsDTO);
+        HorseRaceResponseDTO response = horseRacePresentationMapper.toResponseDTO(horseRace);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
 }

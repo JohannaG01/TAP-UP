@@ -6,6 +6,7 @@ import com.johannag.tapup.horseRaces.application.dtos.UpdateHorseRaceDTO;
 import com.johannag.tapup.horseRaces.application.exceptions.HorseRaceNotFoundException;
 import com.johannag.tapup.horseRaces.application.exceptions.InvalidHorseRaceStateException;
 import com.johannag.tapup.horseRaces.application.exceptions.ParticipantNotFoundException;
+import com.johannag.tapup.horseRaces.application.dtos.SubmitHorseRaceResultsDTO;
 import com.johannag.tapup.horseRaces.domain.models.HorseRaceModel;
 import com.johannag.tapup.horses.application.exceptions.HorseNotAvailableException;
 import com.johannag.tapup.horses.application.exceptions.HorseNotFoundException;
@@ -73,4 +74,24 @@ public interface HorseRaceService {
      * @throws ParticipantNotFoundException if no horse race model is found for the specified participant UUID.
      */
     HorseRaceModel findByParticipantUuid(UUID participantUuid) throws ParticipantNotFoundException;
+
+    /**
+     * Submits the results for a horse race based on the provided DTO.
+     * <p>
+     * This method processes the results for the horse race, including
+     * validating the state of the race and ensuring that participants
+     * exist before submitting their results.
+     *
+     * @param dto The DTO containing the results to be submitted, including
+     *            participant placements and times.
+     * @return The updated {@link HorseRaceModel} after submitting the results.
+     * @throws ParticipantNotFoundException   if any participant in the DTO
+     *                                        does not exist in the current race.
+     * @throws HorseRaceNotFoundException     if the horse race associated with
+     *                                        the results cannot be found.
+     * @throws InvalidHorseRaceStateException if the current state of the
+     *                                        horse race does not allow for results to be submitted.
+     */
+    HorseRaceModel submitResults(SubmitHorseRaceResultsDTO dto) throws ParticipantNotFoundException,
+            HorseRaceNotFoundException, InvalidHorseRaceStateException;
 }

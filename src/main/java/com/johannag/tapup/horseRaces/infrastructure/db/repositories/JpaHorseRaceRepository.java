@@ -56,6 +56,20 @@ public interface JpaHorseRaceRepository extends JpaRepository<HorseRaceEntity, L
     HorseRaceEntity findOneByUuidForUpdate(UUID uuid);
 
     /**
+     * Retrieves a {@link HorseRaceEntity} by its unique identifier, acquiring a pessimistic write lock
+     * to prevent concurrent updates.
+     *
+     * <p>This method performs an inner join with the participants of the horse race, ensuring that
+     * only horse races with participants are returned.</p>
+     *
+     * @param uuid the unique identifier of the horse race to retrieve
+     * @return the {@link HorseRaceEntity} corresponding to the provided UUID
+     */
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("SELECT h FROM HorseRaceEntity h INNER JOIN FETCH h.participants WHERE h.uuid = :uuid")
+    HorseRaceEntity findOneFetchedByUuidForUpdate(UUID uuid);
+
+    /**
      * Retrieves a paginated list of {@link HorseRaceEntity} based on the specified criteria.
      *
      * <p>This method utilizes a {@link Specification} to filter the results and applies an

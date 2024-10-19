@@ -17,5 +17,5 @@ public class UpdateHorseRaceRequestDTO {
 
     @NotNull
     @Future
-    LocalDateTime startTime;
+    private LocalDateTime startTime;
 }
