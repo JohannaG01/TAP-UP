@@ -90,19 +90,19 @@ public class ProcessPaymentsUseCase {
 
     private BetPayoutsDTO iteratePaymentInBatches(UUID horseRaceUuid, int batchSize, double odds) {
         int currentPage = 0;
-        long totalPayout = 0;
-        BigDecimal totalAmount = new BigDecimal(0);
+        BetPayoutsDTO betPayoutsDTO;
         Page<BetModel> betsToPay;
+        BigDecimal totalAmount = new BigDecimal(0);
+        long totalPayouts = 0;
 
         try {
             do {
                 betsToPay = betRepository.findBetsByHorseRaceUuid(horseRaceUuid, currentPage, batchSize);
 
                 if (betsToPay.hasContent()) {
-                    BigDecimal amountProcessed =
-                            processPaymentBatchIteration.execute(new ProcessPaymentBatchDTO(betsToPay, odds));
-                    totalPayout += betsToPay.getContent().size();
-                    totalAmount = totalAmount.add(amountProcessed);
+                    betPayoutsDTO = processPaymentBatchIteration.execute(new ProcessPaymentBatchDTO(betsToPay, odds));
+                    totalAmount = totalAmount.add(betPayoutsDTO.getTotalAmount());
+                    totalPayouts += betPayoutsDTO.getTotalPayouts();
                     currentPage++;
                 }
 
@@ -114,8 +114,7 @@ public class ProcessPaymentsUseCase {
 
         return BetPayoutsDTO.builder()
                 .totalAmount(totalAmount)
-                .totalPayouts(totalPayout)
+                .totalPayouts(totalPayouts)
                 .build();
     }
-
 }

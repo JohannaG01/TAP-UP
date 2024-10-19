@@ -20,4 +20,8 @@ public class BetModel {
     public BetModelState calculateNewStateFromParticipant(){
         return participant.isWinner() ? BetModelState.PAID : BetModelState.LOST;
     }
+
+    public boolean isWinner(){
+        return this.participant.isWinner();
+    }
 }

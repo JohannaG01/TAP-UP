@@ -3,6 +3,7 @@ package com.johannag.tapup.bets.application.useCases.payments;
 import com.johannag.tapup.bets.application.config.MoneyConfig;
 import com.johannag.tapup.bets.application.dtos.ProcessPaymentBatchDTO;
 import com.johannag.tapup.bets.application.mappers.BetApplicationMapper;
+import com.johannag.tapup.bets.domain.dtos.BetPayoutsDTO;
 import com.johannag.tapup.bets.domain.models.BetModel;
 import com.johannag.tapup.bets.infrastructure.db.adapters.BetRepository;
 import com.johannag.tapup.globals.infrastructure.utils.Logger;
@@ -41,12 +42,17 @@ class ProcessPaymentBatchIteration {
     }
 
     @Transactional
-    public BigDecimal execute(ProcessPaymentBatchDTO dto) {
+    public BetPayoutsDTO execute(ProcessPaymentBatchDTO dto) {
 
         logger.info("Starting to process batch for process payments number: {}", dto.currentPage());
 
         Page<BetModel> bets = dto.getBets();
-        List<AddUserFundsDTO> dtos = transformToAddUserFundsDTO(bets, dto.getOdds());
+
+        List<BetModel> winnerBets = bets.stream()
+                .filter(BetModel::isWinner)
+                .toList();
+
+        List<AddUserFundsDTO> dtos = mapToAddUserFundsDTO(winnerBets, dto.getOdds());
 
         BigDecimal amountProcessed = dtos.stream()
                 .map(AddUserFundsDTO::getAmount)
@@ -57,13 +63,18 @@ class ProcessPaymentBatchIteration {
 
         logger.info("Finished process batch for process payments number: {}", dto.currentPage());
 
-        return amountProcessed;
+        return BetPayoutsDTO.builder()
+                .totalAmount(amountProcessed)
+                .totalPayouts(winnerBets.size())
+                .build();
 
     }
 
-    private List<AddUserFundsDTO> transformToAddUserFundsDTO(Page<BetModel> bets, double odds) {
+    private List<AddUserFundsDTO> mapToAddUserFundsDTO(List<BetModel> bets, double odds) {
 
-        BigDecimal oddsAsBigDecimal = BigDecimal.valueOf(odds).setScale(moneyConfig.getScale(), RoundingMode.HALF_UP);
+        BigDecimal oddsAsBigDecimal = BigDecimal
+                .valueOf(odds)
+                .setScale(moneyConfig.getScale(), RoundingMode.HALF_UP);
 
         Map<UUID, BigDecimal> amountsByUserUuidMap = bets.stream()
                 .collect(Collectors.toMap(bet -> bet.getUser().getUuid(), BetModel::getAmount, BigDecimal::add));

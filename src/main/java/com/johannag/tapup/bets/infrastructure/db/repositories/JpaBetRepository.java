@@ -50,15 +50,19 @@ public interface JpaBetRepository extends JpaRepository<BetEntity, Long>, JpaSpe
     List<BetSummaryProjection> findBetDetails(UUID horseRaceUuid);
 
     /**
-     * Retrieves a paginated list of bets where the participant is associated with a specific horse race.
-     * Utilizes an entity graph to eagerly fetch the related user, participant, horse race, and horse entities.
+     * Finds all bets for a specific horse race, paginated and sorted by the user ID.
      *
-     * @param horseRaceUuid the unique identifier of the horse race for which bets are retrieved.
-     * @param pageable the pagination information including page number and size.
-     * @return a {@link Page} containing the {@link BetEntity} entities corresponding to the specified horse race.
+     * This method retrieves a paginated list of bets associated with a specific horse race UUID.
+     * The results are sorted in ascending order by the user's ID.
+     *
+     * @param horseRaceUuid the UUID of the horse race for which bets are retrieved
+     * @param page the page number to retrieve, starting from 0
+     * @param size the size of the page (number of items per page)
+     * @return a Page object containing a list of BetModel objects for the specified horse race,
+     *         sorted by the user ID
      */
     @EntityGraph(attributePaths = {"user", "participant.horseRace", "participant.horse"})
-    Page<BetEntity> findByParticipant_HorseRace_Uuid(UUID horseRaceUuid, Pageable pageable);
+    Page<BetEntity> findByParticipant_HorseRace_UuidAndState(UUID horseRaceUuid, BetEntityState state, Pageable pageable);
 
     /**
      * Retrieves a list of {@link BetEntity} objects by their unique identifiers (UUIDs)
