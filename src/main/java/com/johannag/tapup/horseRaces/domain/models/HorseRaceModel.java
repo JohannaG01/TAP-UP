@@ -6,10 +6,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Data
@@ -31,6 +28,10 @@ public class HorseRaceModel implements Serializable {
         return this.state == HorseRaceModelState.SCHEDULED;
     }
 
+    public boolean isFinished() {
+        return this.state == HorseRaceModelState.FINISHED;
+    }
+
     public boolean hasAlreadyStarted(){
         return this.startTime.isBefore(DateTimeUtils.nowAsLocalDateTime());
     }
@@ -43,5 +44,11 @@ public class HorseRaceModel implements Serializable {
         return participantUuidsToValidate.stream()
                 .filter(uuid -> !participantUuids.contains(uuid))
                 .collect(Collectors.toList());
+    }
+
+    public Optional<ParticipantModel> getWinner() {
+        return this.participants.stream()
+                .filter(ParticipantModel::isWinner)
+                .findFirst();
     }
 }

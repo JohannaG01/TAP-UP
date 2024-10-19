@@ -1,9 +1,6 @@
 package com.johannag.tapup.users.application.mappers;
 
-import com.johannag.tapup.users.application.dtos.AddUserFundsDTO;
-import com.johannag.tapup.users.application.dtos.CreateUserDTO;
-import com.johannag.tapup.users.application.dtos.LogInUserDTO;
-import com.johannag.tapup.users.application.dtos.SubtractUserFundsDTO;
+import com.johannag.tapup.users.application.dtos.*;
 import com.johannag.tapup.users.domain.dtos.AddUserFundsToEntityDTO;
 import com.johannag.tapup.users.domain.dtos.CreateUserEntityDTO;
 import com.johannag.tapup.users.domain.dtos.SubtractUserFundsToEntityDTO;
@@ -14,6 +11,7 @@ import org.modelmapper.TypeMap;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 
 import static com.johannag.tapup.globals.application.utils.ModelMapperUtils.builderTypeMapper;
@@ -73,11 +71,19 @@ public class UserApplicationMapperImpl implements UserApplicationMapper {
     }
 
     @Override
-    public AddUserFundsToEntityDTO toAddFundsToEntityDTO(AddUserFundsDTO dto) {
+    public AddUserFundsToEntityDTO toAddFundsToEntitiesDTO(AddUserFundsDTO dto) {
         return addFundsToEntityDTOMapper
                 .map(dto)
                 .build();
     }
+
+    @Override
+    public List<AddUserFundsToEntityDTO> toAddFundsToEntitiesDTO(List<AddUserFundsDTO> dtos) {
+        return dtos.stream()
+                .map(this::toAddFundsToEntitiesDTO)
+                .toList();
+    }
+
 
     @Override
     public SubtractUserFundsToEntityDTO toSubtractFundsToEntityDTO(SubtractUserFundsDTO dto) {

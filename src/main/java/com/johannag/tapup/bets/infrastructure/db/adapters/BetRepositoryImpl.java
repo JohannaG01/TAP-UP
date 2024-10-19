@@ -25,6 +25,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Repository
@@ -76,5 +77,13 @@ public class BetRepositoryImpl implements BetRepository {
     public List<BetSummaryDTO> findBetDetails(UUID horseRaceUuid) {
         List<BetSummaryProjection> projections = jpaBetRepository.findBetDetails(horseRaceUuid);
         return betDomainMapper.toModel(projections);
+    }
+
+    @Override
+    public Page<BetModel> findBetsByParticipantUuid(UUID participantUuid, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        return jpaBetRepository.findByParticipant_Uuid(participantUuid, pageable)
+                .map(betDomainMapper::toModel);
     }
 }

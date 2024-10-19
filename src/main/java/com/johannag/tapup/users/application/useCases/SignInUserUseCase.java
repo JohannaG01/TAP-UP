@@ -33,7 +33,7 @@ public class SignInUserUseCase {
     private void validateUserDoesNotExistsOrThrow(String email) throws UserAlreadyExistsException {
         logger.info("Checking if user exists with email {}", email);
 
-        if (userRepository.userExists(email)) {
+        if (userRepository.existsUser(email)) {
             throw new UserAlreadyExistsException(email);
         }
     }

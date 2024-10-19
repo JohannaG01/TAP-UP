@@ -40,4 +40,19 @@ public interface BetRepository {
      * If no bets are found for the given horse race UUID, an empty list is returned.
      */
     List<BetSummaryDTO> findBetDetails(UUID horseRaceUuid);
+
+    /**
+     * Retrieves a paginated list of bets associated with a specific participant identified by their UUID.
+     *
+     * <p>This method returns a {@link Page} of {@link BetModel} instances, allowing
+     * for efficient data retrieval in a paginated format. The size and page parameters
+     * allow for controlling the number of results returned and which page of results
+     * to fetch.</p>
+     *
+     * @param participantUuid the UUID of the participant whose bets are to be retrieved
+     * @param page the page number to retrieve (zero-based index)
+     * @param size the number of results to be returned per page
+     * @return a {@link Page} containing a list of {@link BetModel} instances for the specified participant
+     */
+    Page<BetModel> findBetsByParticipantUuid(UUID participantUuid, int page, int size);
 }

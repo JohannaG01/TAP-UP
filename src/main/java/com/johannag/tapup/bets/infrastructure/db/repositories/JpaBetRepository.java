@@ -48,4 +48,20 @@ public interface JpaBetRepository extends JpaRepository<BetEntity, Long>, JpaSpe
             "WHERE hr.uuid = :horseRaceUuid " +
             "GROUP BY h.id")
     List<BetSummaryProjection> findBetDetails(UUID horseRaceUuid);
+
+    /**
+     * Finds a paginated list of BetEntity by the UUID of the associated Participant,
+     * and fetches related entities like User, Participant's HorseRace, and Participant's Horse.
+     * <p>
+     * The @EntityGraph annotation is used to specify a graph of attributes to be fetched eagerly
+     * in a single query, to avoid the N+1 select problem.
+     *
+     * @param participantUuid the UUID of the Participant entity.
+     * @param pageable the pagination information (page number, size, sort).
+     * @return a Page of BetEntity objects that match the provided participant UUID,
+     *         with the associated User, HorseRace, and Horse eagerly fetched.
+     */
+    @EntityGraph(attributePaths = {"user", "participant.horseRace", "participant.horse"})
+    Page<BetEntity> findByParticipant_Uuid(UUID participantUuid, Pageable pageable);
+
 }

@@ -1,6 +1,7 @@
 package com.johannag.tapup.horseRaces.presentation.controllers;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.johannag.tapup.bets.application.exceptions.UnexpectedPaymentException;
 import com.johannag.tapup.globals.presentation.errors.ErrorResponse;
 import com.johannag.tapup.horseRaces.application.dtos.CreateHorseRaceDTO;
 import com.johannag.tapup.horseRaces.application.dtos.FindHorseRacesDTO;
@@ -208,7 +209,7 @@ public class HorseRaceController {
     @PostMapping("/horse-races/{horseRaceUuid}/results")
     public ResponseEntity<HorseRaceResponseDTO> create(@PathVariable UUID horseRaceUuid,
                                                        @Valid @RequestBody SubmitHorseRaceResultsRequestDTO submitResultsRequestDTO)
-            throws ParticipantNotFoundException, HorseRaceNotFoundException, InvalidHorseRaceStateException {
+            throws ParticipantNotFoundException, HorseRaceNotFoundException, InvalidHorseRaceStateException, UnexpectedPaymentException {
 
 
         var submitResultsDTO = horseRaceApplicationMapper.toSubmitResultsDTO(horseRaceUuid, submitResultsRequestDTO);

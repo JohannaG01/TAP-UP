@@ -1,5 +1,7 @@
 package com.johannag.tapup.horseRaces.application.useCases;
 
+import com.johannag.tapup.bets.application.exceptions.UnexpectedPaymentException;
+import com.johannag.tapup.bets.application.services.BetAsyncService;
 import com.johannag.tapup.globals.infrastructure.utils.Logger;
 import com.johannag.tapup.horseRaces.application.exceptions.HorseRaceNotFoundException;
 import com.johannag.tapup.horseRaces.application.exceptions.InvalidHorseRaceStateException;
@@ -11,7 +13,9 @@ import com.johannag.tapup.horseRaces.infrastructure.db.adapters.HorseRaceReposit
 import com.johannag.tapup.horses.application.exceptions.HorseNotAvailableException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.context.PropertyPlaceholderAutoConfiguration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,26 +23,27 @@ import java.util.UUID;
 
 @Slf4j
 @Service
-@AllArgsConstructor
+@AllArgsConstructor(onConstructor = @__(@Lazy))
 public class SubmitHorseRaceResultsUseCase {
 
     private static final Logger logger = Logger.getLogger(SubmitHorseRaceResultsUseCase.class);
     private final HorseRaceApplicationMapper horseRaceApplicationMapper;
     private final HorseRaceRepository horseRaceRepository;
     private final FindOneHorseRaceByUuidUseCase findOneHorseRaceByUuidUseCase;
-    private final PropertyPlaceholderAutoConfiguration propertyPlaceholderAutoConfiguration;
+    private final BetAsyncService betAsyncService;
 
     public HorseRaceModel execute(SubmitHorseRaceResultsDTO dto)
-            throws HorseRaceNotFoundException, InvalidHorseRaceStateException, HorseNotAvailableException {
+            throws HorseRaceNotFoundException, InvalidHorseRaceStateException, HorseNotAvailableException, UnexpectedPaymentException {
 
         logger.info("Starting SubmitHorseRaceResults process for horse race {}", dto.getHorseRaceUuid());
 
+        //TODO observer
         HorseRaceModel horseRace = findOneHorseRaceByUuidUseCase.execute(dto.getHorseRaceUuid());
         validateParticipantsExistsInRaceOrThrow(horseRace, dto.getParticipants());
         validateHorseRaceIsInValidStateToSubmitResultsOrThrow(horseRace);
         var submitHorseRaceResultsForEntityDTO = horseRaceApplicationMapper.toSubmitResultsForEntityDTO(dto);
         HorseRaceModel updatedHorseRace = horseRaceRepository.submitResults(submitHorseRaceResultsForEntityDTO);
-        //TODO Call use case in bet to process payment
+        betAsyncService.processPayments(dto.getHorseRaceUuid());
 
         logger.info("Finished SubmitHorseRaceResults process for horse race {}", dto.getHorseRaceUuid());
         return updatedHorseRace;

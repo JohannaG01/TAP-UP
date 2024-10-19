@@ -10,4 +10,7 @@ public class BetConfig {
 
     @Value("${bet.min-odds}")
     private Double minOdds;
+
+    @Value("${bet.batch-size}")
+    private int batchSize;
 }

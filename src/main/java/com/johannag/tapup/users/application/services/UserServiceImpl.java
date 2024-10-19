@@ -1,9 +1,6 @@
 package com.johannag.tapup.users.application.services;
 
-import com.johannag.tapup.users.application.dtos.AddUserFundsDTO;
-import com.johannag.tapup.users.application.dtos.CreateUserDTO;
-import com.johannag.tapup.users.application.dtos.LogInUserDTO;
-import com.johannag.tapup.users.application.dtos.SubtractUserFundsDTO;
+import com.johannag.tapup.users.application.dtos.*;
 import com.johannag.tapup.users.application.exceptions.InvalidLoginCredentialsException;
 import com.johannag.tapup.users.application.exceptions.UserAlreadyExistsException;
 import com.johannag.tapup.users.application.exceptions.UserNotFoundException;
@@ -13,6 +10,7 @@ import com.johannag.tapup.users.domain.models.UserWithAuthTokenModel;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -23,6 +21,7 @@ public class UserServiceImpl implements UserService {
     private final LogInUserUseCase logInUserUseCase;
     private final FindUserByEmailUseCase findUserByEmailUseCase;
     private final AddFundsToUserBalanceUseCase addFundsToUserBalanceUseCase;
+    private final AddFundsToUsersBalancesUseCase addFundsToUsersBalancesUseCase;
     private final FindOneUserByUuidUseCase findOneUserByUuidUseCase;
     private final SubtractFundsToUserBalanceUseCase subtractFundsToUserBalanceUseCase;
 
@@ -49,6 +48,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserModel addFunds(AddUserFundsDTO dto) throws UserNotFoundException {
         return addFundsToUserBalanceUseCase.execute(dto);
+    }
+
+    @Override
+    public List<UserModel> addFunds(List<AddUserFundsDTO> dtos) throws UserNotFoundException {
+        return addFundsToUsersBalancesUseCase.execute(dtos);
     }
 
     @Override

@@ -8,6 +8,7 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -23,5 +24,9 @@ public class BetSummaryModel {
         this.horse = betSummaryDTO.getHorse();
         this.totalBets = betSummaryDTO.getTotalBets();
         this.totalAmountWagered = betSummaryDTO.getTotalWagered().setScale(scale, RoundingMode.HALF_UP);
+    }
+
+    public UUID getHorseUuid(){
+        return horse.getUuid();
     }
 }

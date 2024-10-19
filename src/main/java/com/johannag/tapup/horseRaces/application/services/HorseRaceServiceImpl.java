@@ -1,5 +1,6 @@
 package com.johannag.tapup.horseRaces.application.services;
 
+import com.johannag.tapup.bets.application.exceptions.UnexpectedPaymentException;
 import com.johannag.tapup.horseRaces.application.dtos.CreateHorseRaceDTO;
 import com.johannag.tapup.horseRaces.application.dtos.FindHorseRacesDTO;
 import com.johannag.tapup.horseRaces.application.dtos.UpdateHorseRaceDTO;
@@ -56,7 +57,7 @@ public class HorseRaceServiceImpl implements HorseRaceService {
 
     @Override
     public HorseRaceModel submitResults(SubmitHorseRaceResultsDTO dto)
-            throws ParticipantNotFoundException, HorseRaceNotFoundException, InvalidHorseRaceStateException {
+            throws ParticipantNotFoundException, HorseRaceNotFoundException, InvalidHorseRaceStateException, UnexpectedPaymentException {
         return submitHorseRaceResultsUseCase.execute(dto);
     }
 }

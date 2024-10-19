@@ -1,12 +1,13 @@
 package com.johannag.tapup.horseRaces.application.services;
 
+import com.johannag.tapup.bets.application.exceptions.UnexpectedPaymentException;
 import com.johannag.tapup.horseRaces.application.dtos.CreateHorseRaceDTO;
 import com.johannag.tapup.horseRaces.application.dtos.FindHorseRacesDTO;
+import com.johannag.tapup.horseRaces.application.dtos.SubmitHorseRaceResultsDTO;
 import com.johannag.tapup.horseRaces.application.dtos.UpdateHorseRaceDTO;
 import com.johannag.tapup.horseRaces.application.exceptions.HorseRaceNotFoundException;
 import com.johannag.tapup.horseRaces.application.exceptions.InvalidHorseRaceStateException;
 import com.johannag.tapup.horseRaces.application.exceptions.ParticipantNotFoundException;
-import com.johannag.tapup.horseRaces.application.dtos.SubmitHorseRaceResultsDTO;
 import com.johannag.tapup.horseRaces.domain.models.HorseRaceModel;
 import com.johannag.tapup.horses.application.exceptions.HorseNotAvailableException;
 import com.johannag.tapup.horses.application.exceptions.HorseNotFoundException;
@@ -91,7 +92,8 @@ public interface HorseRaceService {
      *                                        the results cannot be found.
      * @throws InvalidHorseRaceStateException if the current state of the
      *                                        horse race does not allow for results to be submitted.
+     * @throws UnexpectedPaymentException     if an error occurs during the payout process.
      */
     HorseRaceModel submitResults(SubmitHorseRaceResultsDTO dto) throws ParticipantNotFoundException,
-            HorseRaceNotFoundException, InvalidHorseRaceStateException;
+            HorseRaceNotFoundException, InvalidHorseRaceStateException, UnexpectedPaymentException;
 }

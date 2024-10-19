@@ -1,15 +1,13 @@
 package com.johannag.tapup.users.application.services;
 
-import com.johannag.tapup.users.application.dtos.AddUserFundsDTO;
-import com.johannag.tapup.users.application.dtos.CreateUserDTO;
-import com.johannag.tapup.users.application.dtos.LogInUserDTO;
-import com.johannag.tapup.users.application.dtos.SubtractUserFundsDTO;
+import com.johannag.tapup.users.application.dtos.*;
 import com.johannag.tapup.users.application.exceptions.InvalidLoginCredentialsException;
 import com.johannag.tapup.users.application.exceptions.UserAlreadyExistsException;
 import com.johannag.tapup.users.application.exceptions.UserNotFoundException;
 import com.johannag.tapup.users.domain.models.UserModel;
 import com.johannag.tapup.users.domain.models.UserWithAuthTokenModel;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface UserService {
@@ -71,6 +69,15 @@ public interface UserService {
      * @throws UserNotFoundException if the user cannot be found in the system
      */
     UserModel addFunds(AddUserFundsDTO dto) throws UserNotFoundException;
+
+    /**
+     * Adds funds to the users specified in the provided list of {@link AddUserFundsDTO}.
+     *
+     * @param dtos the list of {@link AddUserFundsDTO} containing user UUIDs and corresponding amounts to be added
+     * @return a list of {@link UserModel} representing the users whose funds were successfully updated
+     * @throws UserNotFoundException if any user in the provided list does not exist
+     */
+    List<UserModel> addFunds(List<AddUserFundsDTO> dtos) throws UserNotFoundException;
 
     /**
      * Subtracts funds from a user account based on the provided {@link SubtractUserFundsDTO}.

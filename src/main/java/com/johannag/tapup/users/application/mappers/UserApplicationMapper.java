@@ -1,9 +1,6 @@
 package com.johannag.tapup.users.application.mappers;
 
-import com.johannag.tapup.users.application.dtos.AddUserFundsDTO;
-import com.johannag.tapup.users.application.dtos.CreateUserDTO;
-import com.johannag.tapup.users.application.dtos.LogInUserDTO;
-import com.johannag.tapup.users.application.dtos.SubtractUserFundsDTO;
+import com.johannag.tapup.users.application.dtos.*;
 import com.johannag.tapup.users.domain.dtos.AddUserFundsToEntityDTO;
 import com.johannag.tapup.users.domain.dtos.CreateUserEntityDTO;
 import com.johannag.tapup.users.domain.dtos.SubtractUserFundsToEntityDTO;
@@ -11,6 +8,7 @@ import com.johannag.tapup.users.presentation.dtos.requests.AddUserFundsRequestDT
 import com.johannag.tapup.users.presentation.dtos.requests.CreateUserRequestDTO;
 import com.johannag.tapup.users.presentation.dtos.requests.LogInUserRequestDTO;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface UserApplicationMapper {
@@ -61,7 +59,15 @@ public interface UserApplicationMapper {
      * @param dto the {@link AddUserFundsDTO} object to be converted. Must not be null.
      * @return the converted {@link AddUserFundsToEntityDTO} object.
      */
-    AddUserFundsToEntityDTO toAddFundsToEntityDTO(AddUserFundsDTO dto);
+    AddUserFundsToEntityDTO toAddFundsToEntitiesDTO(AddUserFundsDTO dto);
+
+    /**
+     * Converts a list of {@link AddUserFundsDTO} to a list of {@link AddUserFundsToEntityDTO}.
+     *
+     * @param dtos the list of {@link AddUserFundsDTO} objects to convert
+     * @return a list of {@link AddUserFundsToEntityDTO} representing the converted data
+     */
+    List<AddUserFundsToEntityDTO> toAddFundsToEntitiesDTO(List<AddUserFundsDTO> dtos);
 
     /**
      * Converts a {@link SubtractUserFundsDTO} to a {@link SubtractUserFundsToEntityDTO}.

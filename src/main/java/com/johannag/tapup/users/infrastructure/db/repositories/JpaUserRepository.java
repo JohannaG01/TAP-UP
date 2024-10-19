@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -18,6 +20,15 @@ public interface JpaUserRepository extends JpaRepository<UserEntity, Long> {
      * @return {@code true} if a user with the given email exists, {@code false} otherwise
      */
     boolean existsByEmail(String email);
+
+
+    /**
+     * Retrieves all users that exist in the system based on the provided UUIDs.
+     *
+     * @param userUuids a collection of UUIDs representing the users to check for existence
+     * @return a list of UserEntity objects that were found in the database
+     */
+    List<UserEntity> findAllByUuidIn(Collection<UUID> userUuids);
 
     /**
      * Retrieves an {@link Optional} containing a {@link UserEntity} based on the provided email address.
@@ -54,6 +65,24 @@ public interface JpaUserRepository extends JpaRepository<UserEntity, Long> {
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT u FROM UserEntity u WHERE u.uuid = :uuid")
     UserEntity findOneByUuidForUpdate(UUID uuid);
+
+    /**
+     * Retrieves a list of {@link UserEntity} objects with the specified UUIDs
+     * while acquiring a pessimistic write lock on the selected rows.
+     *
+     * <p>This method is used to ensure that the retrieved user entities
+     * cannot be modified by other transactions until the current transaction
+     * is completed. This is particularly useful when updating user information
+     * to prevent concurrent modifications.</p>
+     *
+     * @param uuid the UUID of the user entities to be retrieved.
+     *             The method will return all user entities that match this UUID.
+     * @return a list of {@link UserEntity} objects that match the specified UUID.
+     *         If no entities are found, an empty list is returned.
+     */
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("SELECT u FROM UserEntity u WHERE u.uuid IN :uuid")
+    List<UserEntity> findByUuidForUpdate(Collection<UUID> uuid);
 
     /**
      * Retrieves a {@link UserEntity} by its unique identifier (UUID).

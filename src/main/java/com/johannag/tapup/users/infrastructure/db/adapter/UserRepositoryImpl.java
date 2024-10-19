@@ -2,6 +2,7 @@ package com.johannag.tapup.users.infrastructure.db.adapter;
 
 import com.johannag.tapup.globals.infrastructure.utils.Logger;
 import com.johannag.tapup.users.application.configs.UserSystemConfig;
+import com.johannag.tapup.users.application.dtos.AddUserFundsDTO;
 import com.johannag.tapup.users.domain.dtos.AddUserFundsToEntityDTO;
 import com.johannag.tapup.users.domain.dtos.CreateUserEntityDTO;
 import com.johannag.tapup.users.domain.dtos.SubtractUserFundsToEntityDTO;
@@ -13,8 +14,9 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-import java.util.UUID;
+import java.math.BigDecimal;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Repository
 @AllArgsConstructor
@@ -26,8 +28,17 @@ public class UserRepositoryImpl implements UserRepository {
     private final UserSystemConfig userSystemConfig;
 
     @Override
-    public boolean userExists(String email) {
+    public boolean existsUser(String email) {
         return jpaUserRepository.existsByEmail(email);
+    }
+
+    @Override
+    public List<UserModel> findAll(Collection<UUID> userUuids) {
+        List<UserEntity> users = jpaUserRepository.findAllByUuidIn(userUuids);
+
+        return users.stream()
+                .map(userDomainMapper::toModel)
+                .toList();
     }
 
     @Override
@@ -63,13 +74,33 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     @Transactional
     public UserModel addFunds(AddUserFundsToEntityDTO dto) {
-        logger.info("Adding funds to user: {}", dto.getUserUuid());
+        logger.info("Adding funds to user in DB: {}", dto.getUserUuid());
+
         UserEntity userEntity = jpaUserRepository.findOneByUuidForUpdate(dto.getUserUuid());
         userEntity.addBalance(dto.getAmount());
         jpaUserRepository.saveAndFlush(jpaUserRepository.save(userEntity));
 
         return userDomainMapper.toModel(userEntity);
     }
+
+    @Override
+    @Transactional
+    public List<UserModel> addFunds(List<AddUserFundsToEntityDTO> dtos) {
+        logger.info("Adding funds to users in DB");
+
+        Map<UUID, BigDecimal> amountByUserUuid = dtos.stream()
+                .collect(Collectors.toMap(AddUserFundsToEntityDTO::getUserUuid, AddUserFundsToEntityDTO::getAmount));
+
+        List<UserEntity> users = jpaUserRepository.findByUuidForUpdate(amountByUserUuid.keySet());
+        users.forEach(user -> user.addBalance(amountByUserUuid.get(user.getUuid())));
+
+        jpaUserRepository.saveAllAndFlush(users);
+
+        return users.stream()
+                .map(userDomainMapper::toModel)
+                .toList();
+    }
+
 
     @Override
     public UserModel subtractFunds(SubtractUserFundsToEntityDTO dto) {
