@@ -1,8 +1,10 @@
 package com.johannag.tapup.bets.presentation.mappers;
 
 import com.johannag.tapup.bets.domain.models.BetModel;
+import com.johannag.tapup.bets.domain.models.BetStatisticsModel;
 import com.johannag.tapup.bets.domain.models.BetSummaryModel;
 import com.johannag.tapup.bets.presentation.dtos.responses.BetResponseDTO;
+import com.johannag.tapup.bets.presentation.dtos.responses.BetStatisticsDTO;
 import com.johannag.tapup.bets.presentation.dtos.responses.BetSummaryDTO;
 import org.springframework.data.domain.Page;
 
@@ -37,4 +39,17 @@ public interface BetPresentationMapper {
      * @return a list of {@link BetSummaryDTO} instances representing the corresponding models
      */
     List<BetSummaryDTO> toResponseDTO(List<BetSummaryModel> models);
+
+    /**
+     * Converts a {@link BetStatisticsModel} to a {@link BetStatisticsDTO}.
+     *
+     * <p>This method transforms the data model containing betting statistics into a
+     * Data Transfer Object (DTO) suitable for sending as a response in a web service.
+     * The DTO may contain only the relevant fields required by the client,
+     * ensuring a clean and efficient data exchange.</p>
+     *
+     * @param model the {@link BetStatisticsModel} containing the betting statistics to be converted
+     * @return a {@link BetStatisticsDTO} representing the converted betting statistics
+     */
+    BetStatisticsDTO toResponseDTO(BetStatisticsModel model);
 }

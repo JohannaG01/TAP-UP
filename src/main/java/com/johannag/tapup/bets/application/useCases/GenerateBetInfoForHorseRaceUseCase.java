@@ -2,8 +2,8 @@ package com.johannag.tapup.bets.application.useCases;
 
 import com.johannag.tapup.bets.application.config.BetConfig;
 import com.johannag.tapup.bets.application.config.MoneyConfig;
-import com.johannag.tapup.bets.domain.models.BetSummaryModel;
 import com.johannag.tapup.bets.domain.dtos.BetSummaryDTO;
+import com.johannag.tapup.bets.domain.models.BetSummaryModel;
 import com.johannag.tapup.bets.infrastructure.db.adapters.BetRepository;
 import com.johannag.tapup.globals.infrastructure.utils.Logger;
 import com.johannag.tapup.horseRaces.application.services.HorseRaceService;

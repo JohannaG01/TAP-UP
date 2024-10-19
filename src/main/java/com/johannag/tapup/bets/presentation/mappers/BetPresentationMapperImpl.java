@@ -1,12 +1,12 @@
 package com.johannag.tapup.bets.presentation.mappers;
 
 import com.johannag.tapup.bets.domain.models.BetModel;
+import com.johannag.tapup.bets.domain.models.BetStatisticsModel;
 import com.johannag.tapup.bets.domain.models.BetSummaryModel;
-import com.johannag.tapup.bets.infrastructure.db.projections.BetSummaryProjection;
 import com.johannag.tapup.bets.presentation.dtos.responses.BetResponseDTO;
+import com.johannag.tapup.bets.presentation.dtos.responses.BetStatisticsDTO;
 import com.johannag.tapup.bets.presentation.dtos.responses.BetSummaryDTO;
 import com.johannag.tapup.horseRaces.presentation.mappers.ParticipantPresentationMapper;
-import com.johannag.tapup.horses.domain.models.HorseModel;
 import com.johannag.tapup.horses.presentation.dtos.responses.HorseResponseDTO;
 import com.johannag.tapup.horses.presentation.mappers.HorsePresentationMapper;
 import org.modelmapper.TypeMap;
@@ -24,9 +24,11 @@ public class BetPresentationMapperImpl implements BetPresentationMapper {
     private final HorsePresentationMapper horsePresentationMapper;
     private final TypeMap<BetModel, BetResponseDTO.Builder> responseDTOMapper;
     private final TypeMap<BetSummaryModel, BetSummaryDTO.Builder> responseSummaryDTOMapper;
+    private final TypeMap<BetStatisticsModel, BetStatisticsDTO.Builder> responseStatisticsDTOMapper;
 
 
-    public BetPresentationMapperImpl(ParticipantPresentationMapper participantPresentationMapper, HorsePresentationMapper horsePresentationMapper) {
+    public BetPresentationMapperImpl(ParticipantPresentationMapper participantPresentationMapper,
+                                     HorsePresentationMapper horsePresentationMapper) {
         this.participantPresentationMapper = participantPresentationMapper;
         this.horsePresentationMapper = horsePresentationMapper;
 
@@ -35,6 +37,9 @@ public class BetPresentationMapperImpl implements BetPresentationMapper {
 
         responseSummaryDTOMapper = builderTypeMapper(BetSummaryModel.class, BetSummaryDTO.Builder.class);
         responseSummaryDTOMapper.addMappings(mapper -> mapper.skip(BetSummaryDTO.Builder::horse));
+
+        responseStatisticsDTOMapper = builderTypeMapper(BetStatisticsModel.class, BetStatisticsDTO.Builder.class);
+        responseStatisticsDTOMapper.addMappings(mapper -> mapper.skip(BetStatisticsDTO.Builder::bets));
     }
 
     @Override
@@ -55,6 +60,18 @@ public class BetPresentationMapperImpl implements BetPresentationMapper {
         return models.stream()
                 .map(this::toResponseDTO)
                 .toList();
+    }
+
+    @Override
+    public BetStatisticsDTO toResponseDTO(BetStatisticsModel model) {
+        List<BetSummaryDTO> betSummariesDTO = model.getBets().stream()
+                .map(this::toResponseDTO)
+                .toList();
+
+        return responseStatisticsDTOMapper
+                .map(model)
+                .bets(betSummariesDTO)
+                .build();
     }
 
     private BetSummaryDTO toResponseDTO(BetSummaryModel model) {

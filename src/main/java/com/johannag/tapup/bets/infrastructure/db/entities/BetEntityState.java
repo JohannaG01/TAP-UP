@@ -9,7 +9,7 @@ public enum BetEntityState {
     REFUND,
     LOST;
 
-    public static List<BetEntityState> valuesAsList(){
+    public static List<BetEntityState> valuesAsList() {
         return Arrays.stream(values()).toList();
     }
 }
