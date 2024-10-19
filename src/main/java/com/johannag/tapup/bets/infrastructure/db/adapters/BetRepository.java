@@ -3,7 +3,7 @@ package com.johannag.tapup.bets.infrastructure.db.adapters;
 import com.johannag.tapup.bets.domain.dtos.CreateBetEntityDTO;
 import com.johannag.tapup.bets.domain.dtos.FindBetEntitiesDTO;
 import com.johannag.tapup.bets.domain.models.BetModel;
-import com.johannag.tapup.bets.domain.models.BetSummaryModel;
+import com.johannag.tapup.bets.domain.dtos.BetSummaryDTO;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -36,8 +36,8 @@ public interface BetRepository {
      *
      * @param horseRaceUuid The unique identifier of the horse race for which bet details are to be retrieved.
      *                      This parameter must not be null.
-     * @return A list of {@link BetSummaryModel} objects containing the details of bets for the specified horse race.
+     * @return A list of {@link BetSummaryDTO} objects containing the details of bets for the specified horse race.
      *         If no bets are found for the given horse race UUID, an empty list is returned.
      */
-    List<BetSummaryModel> findBetDetails(UUID horseRaceUuid);
+    List<BetSummaryDTO> findBetDetails(UUID horseRaceUuid);
 }

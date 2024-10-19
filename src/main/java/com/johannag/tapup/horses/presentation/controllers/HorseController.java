@@ -22,6 +22,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
@@ -38,6 +39,7 @@ import java.util.UUID;
 @SecurityRequirement(name = "bearerAuth")
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
+@Tag(name = "Horses", description = "Operations related to horses")
 public class HorseController {
 
     private final HorseApplicationMapper horseApplicationMapper;

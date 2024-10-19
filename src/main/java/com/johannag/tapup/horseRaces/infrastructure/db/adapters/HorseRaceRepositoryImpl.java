@@ -17,6 +17,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 
@@ -85,7 +86,7 @@ public class HorseRaceRepositoryImpl implements HorseRaceRepository {
                 .withHorseCode(dto.getHorseCode())
                 .withHorseName(dto.getHorseName())
                 .withHorseBreed(dto.getHorseBreed())
-                .build();
+                .build(Sort.by("startTime").descending());
 
         return jpaHorseRaceRepository
                 .findAll(spec, pageable)

@@ -3,7 +3,7 @@ package com.johannag.tapup.bets.domain.mappers;
 import com.johannag.tapup.bets.domain.dtos.CreateBetEntityDTO;
 import com.johannag.tapup.bets.domain.models.BetModel;
 import com.johannag.tapup.bets.domain.models.BetModelState;
-import com.johannag.tapup.bets.domain.models.BetSummaryModel;
+import com.johannag.tapup.bets.domain.dtos.BetSummaryDTO;
 import com.johannag.tapup.bets.infrastructure.db.entities.BetEntity;
 import com.johannag.tapup.bets.infrastructure.db.entities.BetEntityState;
 import com.johannag.tapup.bets.infrastructure.db.projections.BetSummaryProjection;
@@ -18,11 +18,8 @@ import com.johannag.tapup.users.infrastructure.db.entities.UserEntity;
 import org.modelmapper.TypeMap;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static com.johannag.tapup.globals.application.utils.ModelMapperUtils.builderTypeMapper;
@@ -34,7 +31,7 @@ public class BetDomainMapperImpl implements BetDomainMapper {
     private final ParticipantDomainMapper participantDomainMapper;
     private final HorseDomainMapper horseDomainMapper;
     private final TypeMap<BetEntity, BetModel.Builder> entityModelMapper;
-    private final TypeMap<BetSummaryProjection, BetSummaryModel.Builder> proyectionModelMapper;
+    private final TypeMap<BetSummaryProjection, BetSummaryDTO.Builder> projectionModelMapper;
 
 
     public BetDomainMapperImpl(ParticipantDomainMapper participantDomainMapper, UserDomainMapper userDomainMapper,
@@ -47,8 +44,8 @@ public class BetDomainMapperImpl implements BetDomainMapper {
         entityModelMapper.addMappings(mapper -> mapper.skip(BetModel.Builder::participant));
         entityModelMapper.addMappings(mapper -> mapper.skip(BetModel.Builder::user));
 
-        proyectionModelMapper = builderTypeMapper(BetSummaryProjection.class, BetSummaryModel.Builder.class);
-        proyectionModelMapper.addMappings(mapper -> mapper.skip(BetSummaryModel.Builder::horse));
+        projectionModelMapper = builderTypeMapper(BetSummaryProjection.class, BetSummaryDTO.Builder.class);
+        projectionModelMapper.addMappings(mapper -> mapper.skip(BetSummaryDTO.Builder::horse));
     }
 
     @Override
@@ -87,30 +84,18 @@ public class BetDomainMapperImpl implements BetDomainMapper {
     }
 
     @Override
-    public List<BetSummaryModel> toModel(List<BetSummaryProjection> projections, List<Object[]> payouts,
-                                         List<Object[]> amountWagered) {
-        Map<UUID, BigDecimal> payoutMap = payouts.stream()
-                .collect(Collectors.toMap(payout -> (UUID) payout[0], payout -> (BigDecimal) payout[1]));
-
-        Map<UUID, BigDecimal> amountWageredMap = amountWagered.stream()
-                .collect(Collectors.toMap(amount -> (UUID) amount[0], amount -> (BigDecimal) amount[1]));
-
+    public List<BetSummaryDTO> toModel(List<BetSummaryProjection> projections) {
         return projections.stream()
-                .map(projection -> toModel(projection, payoutMap, amountWageredMap))
+                .map(this::toModel)
                 .collect(Collectors.toList());
     }
 
-    private BetSummaryModel toModel(BetSummaryProjection projection, Map<UUID, BigDecimal> payoutMap,
-                                    Map<UUID, BigDecimal> amountWageredMap) {
+    private BetSummaryDTO toModel(BetSummaryProjection projection) {
         HorseModel horse = horseDomainMapper.toModel(projection.getHorse());
-        BigDecimal totalPayout = payoutMap.getOrDefault(projection.getHorse().getUuid(), BigDecimal.ZERO);
-        BigDecimal totalWagered = amountWageredMap.getOrDefault(projection.getHorse().getUuid(), BigDecimal.ZERO);
 
-        return proyectionModelMapper
+        return projectionModelMapper
                 .map(projection)
                 .horse(horse)
-                .totalPayouts(totalPayout)
-                .totalAmountWagered(totalWagered)
                 .build();
     }
 

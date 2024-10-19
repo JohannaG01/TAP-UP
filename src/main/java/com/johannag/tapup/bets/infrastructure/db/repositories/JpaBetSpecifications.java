@@ -2,6 +2,7 @@ package com.johannag.tapup.bets.infrastructure.db.repositories;
 
 import com.johannag.tapup.bets.infrastructure.db.entities.BetEntity;
 import com.johannag.tapup.bets.infrastructure.db.entities.BetEntityState;
+import com.johannag.tapup.globals.infrastructure.db.repositories.BaseSpecificationBuilder;
 import com.johannag.tapup.horseRaces.infrastructure.db.entities.HorseRaceEntityState;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -100,13 +101,7 @@ public class JpaBetSpecifications {
         };
     }
 
-    public static class Builder {
-
-        private Specification<BetEntity> spec;
-
-        public Builder() {
-            this.spec = Specification.where(null);
-        }
+    public static class Builder extends BaseSpecificationBuilder<BetEntity> {
 
         public Builder withBetStates(List<BetEntityState> betStates) {
             if (betStates != null && !betStates.isEmpty()) {
@@ -171,8 +166,5 @@ public class JpaBetSpecifications {
             return this;
         }
 
-        public Specification<BetEntity> build() {
-            return spec;
-        }
     }
 }

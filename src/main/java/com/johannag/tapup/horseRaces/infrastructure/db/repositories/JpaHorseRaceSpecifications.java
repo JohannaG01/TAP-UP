@@ -1,5 +1,6 @@
 package com.johannag.tapup.horseRaces.infrastructure.db.repositories;
 
+import com.johannag.tapup.globals.infrastructure.db.repositories.BaseSpecificationBuilder;
 import com.johannag.tapup.horseRaces.infrastructure.db.entities.HorseRaceEntity;
 import com.johannag.tapup.horseRaces.infrastructure.db.entities.HorseRaceEntityState;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -76,13 +77,7 @@ public class JpaHorseRaceSpecifications {
         };
     }
 
-    public static class Builder {
-
-        private Specification<HorseRaceEntity> spec;
-
-        public Builder() {
-            this.spec = Specification.where(null);
-        }
+    public static class Builder extends BaseSpecificationBuilder<HorseRaceEntity> {
 
         public Builder withStates(List<HorseRaceEntityState> states) {
             if (states != null && !states.isEmpty()) {
@@ -133,8 +128,5 @@ public class JpaHorseRaceSpecifications {
             return this;
         }
 
-        public Specification<HorseRaceEntity> build() {
-            return spec;
-        }
     }
 }

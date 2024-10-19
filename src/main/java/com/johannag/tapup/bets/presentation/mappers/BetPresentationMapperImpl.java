@@ -57,11 +57,11 @@ public class BetPresentationMapperImpl implements BetPresentationMapper {
                 .toList();
     }
 
-    private BetSummaryDTO toResponseDTO(BetSummaryModel projection) {
-        HorseResponseDTO horse = horsePresentationMapper.toResponseDTO(projection.getHorse());
+    private BetSummaryDTO toResponseDTO(BetSummaryModel model) {
+        HorseResponseDTO horse = horsePresentationMapper.toResponseDTO(model.getHorse());
 
         return responseSummaryDTOMapper
-                .map(projection)
+                .map(model)
                 .horse(horse)
                 .build();
     }

@@ -3,6 +3,7 @@ package com.johannag.tapup.bets.infrastructure.db.repositories;
 import com.johannag.tapup.bets.infrastructure.db.entities.BetEntity;
 import com.johannag.tapup.bets.infrastructure.db.entities.BetEntityState;
 import com.johannag.tapup.bets.infrastructure.db.projections.BetSummaryProjection;
+import jakarta.persistence.Tuple;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -40,32 +41,14 @@ public interface JpaBetRepository extends JpaRepository<BetEntity, Long>, JpaSpe
      * @param horseRaceUuid the UUID of the horse race for which bet details are to be retrieved.
      * @return a list of BetSummaryProjection objects containing the summary of bets per horse.
      */
-    @Query("SELECT NEW com.johannag.tapup.bets.infrastructure.db.projections.BetSummaryProjection(p.horse, COUNT(b)) " +
-            "FROM ParticipantEntity p " +
-            "LEFT JOIN BetEntity b ON b.participant = p " +
-            "WHERE p.horseRace.uuid = :horseRaceUuid " +
-            "GROUP BY p.horse")
+    @Query("SELECT new com.johannag.tapup.bets.infrastructure.db.projections.BetSummaryProjection(h, COUNT(b.id), " +
+            "COALESCE(SUM(b.amount), 0), " +
+            "COALESCE(SUM(CASE WHEN b.state = 'PAID' THEN b.amount ELSE 0 END), 0)) " +
+            "FROM HorseEntity h " +
+            "LEFT JOIN h.participations p " +
+            "LEFT JOIN p.bets b " +
+            "LEFT JOIN p.horseRace hr " +
+            "WHERE hr.uuid = :horseRaceUuid " +
+            "GROUP BY h.id")
     List<BetSummaryProjection> findBetDetails(UUID horseRaceUuid);
-
-    /**
-     * Retrieves the total payouts for bets in specific states for each horse in a horse race.
-     *
-     * <p>This method calculates the total payouts by summing the amounts of bets that
-     * are in the specified states for a given horse race. The results are returned as
-     * an array of objects, where each array contains the horse UUID and the corresponding
-     * total payout. If no bets exist in the specified states, the total payout will be zero.</p>
-     *
-     * @param horseRaceUuid the UUID of the horse race for which the payouts are to be retrieved.
-     * @param states a list of BetEntityState representing the states of the bets to include in the calculation.
-     * @return a list of Object arrays, where each array contains two elements:
-     *         - The first element is the UUID of the horse (UUID).
-     *         - The second element is the total payouts for that horse (BigDecimal).
-     *         The list is ordered by horse UUID.
-     */
-    @Query("SELECT p.horse.uuid AS horseUuid, COALESCE(SUM(b.amount), 0) AS totalPayouts " +
-            "FROM BetEntity b " +
-            "JOIN b.participant p " +
-            "WHERE b.state in :states AND p.horseRace.uuid = :horseRaceUuid " +
-            "GROUP BY p.horse.uuid")
-    List<Object[]> findAmountForBetsInState(UUID horseRaceUuid, List<BetEntityState> states);
 }

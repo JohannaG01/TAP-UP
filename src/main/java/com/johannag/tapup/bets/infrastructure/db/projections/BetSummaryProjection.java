@@ -13,4 +13,6 @@ import java.util.UUID;
 public class BetSummaryProjection {
      private HorseEntity horse;
      private Long totalBets;
+     private BigDecimal totalWagered;
+     private BigDecimal paidBaseAmount;
 }

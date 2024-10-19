@@ -12,6 +12,7 @@ import com.johannag.tapup.bets.domain.models.BetSummaryModel;
 import com.johannag.tapup.bets.presentation.dtos.queries.FindBetsQuery;
 import com.johannag.tapup.bets.presentation.dtos.requests.CreateBetRequestDTO;
 import com.johannag.tapup.bets.presentation.dtos.responses.BetResponseDTO;
+import com.johannag.tapup.bets.presentation.dtos.responses.views.BetSummaryView;
 import com.johannag.tapup.bets.presentation.mappers.BetPresentationMapper;
 import com.johannag.tapup.bets.presentation.schemas.PageBetResponseDTO;
 import com.johannag.tapup.globals.presentation.errors.ErrorResponse;
@@ -50,7 +51,7 @@ public class BetController {
     private final BetPresentationMapper betPresentationMapper;
     private final BetService betService;
 
-    @Operation(summary = "Creates bet for user")
+    @Operation(summary = "Creates bet for user", tags = {"Users"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Bet created successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid request", content = {
@@ -88,7 +89,7 @@ public class BetController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @Operation(summary = "Find all bets for user")
+    @Operation(summary = "Find all bets for user", tags = {"Users"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Bets found successfully", content = {
                     @Content(mediaType = "application/json", schema =
@@ -121,9 +122,9 @@ public class BetController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @Operation(summary = "Generates bet details for horse race")
+    @Operation(summary = "Generates bet information for horse race", tags = {"Horse Races"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Bet details generated successfully"),
+            @ApiResponse(responseCode = "200", description = "Bet information generated successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid request", content = {
                     @Content(mediaType = "application/json", schema =
                     @Schema(implementation = ErrorResponse.class))}),
@@ -139,6 +140,7 @@ public class BetController {
     })
     @PreAuthorize("hasAnyAuthority({'ADMIN','REGULAR'})")
     @GetMapping("/horse-races/{horseRaceUuid}/bet-details")
+    @JsonView(BetSummaryView.Limited.class)
     public ResponseEntity<List<BetSummaryDTO>> findBetDetails(@PathVariable UUID horseRaceUuid) throws HorseRaceNotFoundException {
 
         List<BetSummaryModel> betSummaries = betService.generateBetDetails(horseRaceUuid);
