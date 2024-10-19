@@ -70,24 +70,6 @@ public interface JpaHorseRaceRepository extends JpaRepository<HorseRaceEntity, L
     HorseRaceEntity findOneFetchedByUuidForUpdate(UUID uuid);
 
     /**
-     * Retrieves a paginated list of {@link HorseRaceEntity} based on the specified criteria.
-     *
-     * <p>This method utilizes a {@link Specification} to filter the results and applies an
-     * {@link EntityGraph} to fetch associated participants and their horses eagerly. This helps to
-     * optimize performance by minimizing the number of database queries required to retrieve related data.</p>
-     *
-     * @param spec     the {@link Specification} used to filter the horse race entities.
-     *                 If null, all entities will be returned.
-     * @param pageable the pagination information, must not be null. This object contains the details
-     *                 for the requested page, such as page number and size.
-     * @return a {@link Page} containing the matching {@link HorseRaceEntity} instances.
-     * This page will be empty if no entities match the specification.
-     */
-    @NonNull
-    @EntityGraph(attributePaths = {"participants", "participants.horse"})
-    Page<HorseRaceEntity> findAll(Specification<HorseRaceEntity> spec, @NonNull Pageable pageable);
-
-    /**
      * Finds a horse race entity by the given participant UUID.
      *
      * <p>This method retrieves an optional {@link HorseRaceEntity} associated with the specified
