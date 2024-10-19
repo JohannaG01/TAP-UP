@@ -5,7 +5,9 @@ import com.johannag.tapup.bets.domain.dtos.CreateBetEntityDTO;
 import com.johannag.tapup.bets.domain.dtos.FindBetEntitiesDTO;
 import com.johannag.tapup.bets.domain.mappers.BetDomainMapper;
 import com.johannag.tapup.bets.domain.models.BetModel;
+import com.johannag.tapup.bets.domain.dtos.BetSummaryDTO;
 import com.johannag.tapup.bets.infrastructure.db.entities.BetEntity;
+import com.johannag.tapup.bets.infrastructure.db.projections.BetSummaryProjection;
 import com.johannag.tapup.bets.infrastructure.db.repositories.JpaBetRepository;
 import com.johannag.tapup.bets.infrastructure.db.repositories.JpaBetSpecifications;
 import com.johannag.tapup.globals.infrastructure.utils.Logger;
@@ -18,8 +20,12 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.UUID;
 
 @Repository
 @AllArgsConstructor
@@ -59,10 +65,16 @@ public class BetRepositoryImpl implements BetRepository {
                 .withHorseUuid(dto.getHorseUuid())
                 .withStartTimeFrom(dto.getStartTimeFrom())
                 .withStartTimeTo(dto.getStartTimeTo())
-                .build();
+                .build(Sort.by("createdAt").descending());
 
         return jpaBetRepository
                 .findAll(spec, pageable)
                 .map(betDomainMapper::toModel);
+    }
+
+    @Override
+    public List<BetSummaryDTO> findBetDetails(UUID horseRaceUuid) {
+        List<BetSummaryProjection> projections = jpaBetRepository.findBetDetails(horseRaceUuid);
+        return betDomainMapper.toModel(projections);
     }
 }

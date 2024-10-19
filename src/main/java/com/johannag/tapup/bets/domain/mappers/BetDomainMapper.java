@@ -3,8 +3,11 @@ package com.johannag.tapup.bets.domain.mappers;
 import com.johannag.tapup.bets.domain.dtos.CreateBetEntityDTO;
 import com.johannag.tapup.bets.domain.models.BetModel;
 import com.johannag.tapup.bets.domain.models.BetModelState;
+import com.johannag.tapup.bets.domain.models.BetSummaryModel;
+import com.johannag.tapup.bets.domain.dtos.BetSummaryDTO;
 import com.johannag.tapup.bets.infrastructure.db.entities.BetEntity;
 import com.johannag.tapup.bets.infrastructure.db.entities.BetEntityState;
+import com.johannag.tapup.bets.infrastructure.db.projections.BetSummaryProjection;
 import com.johannag.tapup.horseRaces.infrastructure.db.entities.ParticipantEntity;
 import com.johannag.tapup.users.infrastructure.db.entities.UserEntity;
 
@@ -53,4 +56,19 @@ public interface BetDomainMapper {
      * or an empty list if the input collection is null or empty
      */
     List<BetEntityState> toEntity(Collection<BetModelState> states);
+
+    /**
+     * Converts a list of {@link BetSummaryProjection} to a list of {@link BetSummaryDTO}.
+     * <p>
+     * This method takes a collection of projections representing summary data of bets
+     * and transforms them into corresponding partial model objects for further processing
+     * or presentation in the application. This partial model contains only essential
+     * information compared to the complete {@link BetSummaryModel}.
+     *
+     * @param projections a list of {@link BetSummaryProjection} objects that contain
+     *                    the summarized bet data to be converted.
+     * @return a list of {@link BetSummaryDTO} objects containing the transformed
+     *         partial data. If the input list is empty or null, an empty list is returned.
+     */
+    List<BetSummaryDTO> toModel(List<BetSummaryProjection> projections);
 }

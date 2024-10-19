@@ -8,14 +8,18 @@ import com.johannag.tapup.bets.application.exceptions.InsufficientBalanceExcepti
 import com.johannag.tapup.bets.application.mappers.BetApplicationMapper;
 import com.johannag.tapup.bets.application.services.BetService;
 import com.johannag.tapup.bets.domain.models.BetModel;
+import com.johannag.tapup.bets.domain.models.BetSummaryModel;
 import com.johannag.tapup.bets.presentation.dtos.queries.FindBetsQuery;
 import com.johannag.tapup.bets.presentation.dtos.requests.CreateBetRequestDTO;
 import com.johannag.tapup.bets.presentation.dtos.responses.BetResponseDTO;
+import com.johannag.tapup.bets.presentation.dtos.responses.views.BetSummaryView;
 import com.johannag.tapup.bets.presentation.mappers.BetPresentationMapper;
 import com.johannag.tapup.bets.presentation.schemas.PageBetResponseDTO;
 import com.johannag.tapup.globals.presentation.errors.ErrorResponse;
+import com.johannag.tapup.horseRaces.application.exceptions.HorseRaceNotFoundException;
 import com.johannag.tapup.horseRaces.application.exceptions.InvalidHorseRaceStateException;
 import com.johannag.tapup.horseRaces.application.exceptions.ParticipantNotFoundException;
+import com.johannag.tapup.bets.presentation.dtos.responses.BetSummaryDTO;
 import com.johannag.tapup.horseRaces.presentation.dtos.responses.views.ParticipantView;
 import com.johannag.tapup.users.application.exceptions.UserNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,6 +37,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @ResponseBody
@@ -46,7 +51,7 @@ public class BetController {
     private final BetPresentationMapper betPresentationMapper;
     private final BetService betService;
 
-    @Operation(summary = "Creates bet for user")
+    @Operation(summary = "Creates bet for user", tags = {"Users"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Bet created successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid request", content = {
@@ -84,7 +89,7 @@ public class BetController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @Operation(summary = "Find all bets for user")
+    @Operation(summary = "Find all bets for user", tags = {"Users"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Bets found successfully", content = {
                     @Content(mediaType = "application/json", schema =
@@ -113,6 +118,33 @@ public class BetController {
         FindBetsDTO dto = betApplicationMapper.toFindDTO(userUuid, findBetsQuery);
         Page<BetModel> bets = betService.findUserAll(dto);
         Page<BetResponseDTO> response = betPresentationMapper.toResponseDTO(bets);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Generates bet information for horse race", tags = {"Horse Races"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Bet information generated successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid request", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "401", description = "Unauthorized: Invalid credentials", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "404", description = "Not Found: Horse Race Not Found", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))})
+    })
+    @PreAuthorize("hasAnyAuthority({'ADMIN','REGULAR'})")
+    @GetMapping("/horse-races/{horseRaceUuid}/bet-details")
+    @JsonView(BetSummaryView.Limited.class)
+    public ResponseEntity<List<BetSummaryDTO>> findBetDetails(@PathVariable UUID horseRaceUuid) throws HorseRaceNotFoundException {
+
+        List<BetSummaryModel> betSummaries = betService.generateBetDetails(horseRaceUuid);
+        List<BetSummaryDTO> response = betPresentationMapper.toResponseDTO(betSummaries);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

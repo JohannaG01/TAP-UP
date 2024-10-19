@@ -19,6 +19,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 
@@ -127,7 +128,7 @@ public class HorseRepositoryImpl implements HorseRepository {
                 .withBirthDateTo(dto.getBirthDateTo())
                 .withBreed(dto.getBreed())
                 .withColor(dto.getColor())
-                .build();
+                .build(Sort.by("createdAt").descending());
 
         return jpaHorseRepository
                 .findAll(spec, pageable)

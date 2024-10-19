@@ -1,14 +1,18 @@
 package com.johannag.tapup.horses.infrastructure.db.repositories;
 
 import com.johannag.tapup.globals.infrastructure.db.entities.SexEntity;
+import com.johannag.tapup.globals.infrastructure.db.repositories.BaseSpecificationBuilder;
 import com.johannag.tapup.horses.infrastructure.db.entities.HorseEntity;
 import com.johannag.tapup.horses.infrastructure.db.entities.HorseEntityState;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Order;
 import jakarta.persistence.criteria.Root;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class JpaHorseSpecifications {
@@ -85,13 +89,7 @@ public class JpaHorseSpecifications {
         };
     }
 
-    public static class Builder {
-
-        private Specification<HorseEntity> spec;
-
-        public Builder() {
-            this.spec = Specification.where(null);
-        }
+    public static class Builder extends BaseSpecificationBuilder<HorseEntity> {
 
         public Builder withStates(List<HorseEntityState> states) {
             if (states != null && !states.isEmpty()) {
@@ -149,8 +147,5 @@ public class JpaHorseSpecifications {
             return this;
         }
 
-        public Specification<HorseEntity> build() {
-            return spec;
-        }
     }
 }
