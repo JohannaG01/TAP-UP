@@ -41,10 +41,10 @@ public class ProcessPaymentsUseCase {
         validateHorseRaceStateIsValidOrThrow(horseRace);
         ParticipantModel winner = obtainWinnerOrThrow(horseRace);
         BetStatisticsModel betStatistics = generateBetStatisticsForHorseRacesUseCase.execute(horseRaceUuid);
-        processPaymentsInBatch(horseRaceUuid, winner, betStatistics);
+        BetPayouts betPayouts = processPaymentsInBatch(horseRaceUuid, winner, betStatistics);
 
         logger.info("Finished processPayments process for horseRace with Uuid {}", horseRaceUuid);
-        return null;
+        return betPayouts;
     }
 
     private void validateHorseRaceStateIsValidOrThrow(HorseRaceModel horseRace) throws InvalidHorseRaceStateException {
@@ -60,7 +60,8 @@ public class ProcessPaymentsUseCase {
                         "occurred while getting winner for horseRace uuid %s. No winner found", horseRace.getUuid())));
     }
 
-    private void processPaymentsInBatch(UUID horseRaceUuid, ParticipantModel winner, BetStatisticsModel betStatistics) {
+    private BetPayouts processPaymentsInBatch(UUID horseRaceUuid, ParticipantModel winner,
+                                              BetStatisticsModel betStatistics) {
         double odds = getOddsForHorseOrThrow(winner.getHorseUuid(), betStatistics);
         long winningBets = getTotalBetsForHorseOrThrow(winner.getHorseUuid(), betStatistics);
 
@@ -74,6 +75,7 @@ public class ProcessPaymentsUseCase {
                 .build();
 
         logger.info("Process payments batch has finished. Results: {}", betPayouts.toString());
+        return betPayouts;
     }
 
     private double getOddsForHorseOrThrow(UUID horseUuid, BetStatisticsModel betStatistics) throws UnexpectedPaymentException {
