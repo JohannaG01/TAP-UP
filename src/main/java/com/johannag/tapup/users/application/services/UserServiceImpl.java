@@ -10,6 +10,7 @@ import com.johannag.tapup.users.domain.models.UserWithAuthTokenModel;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,6 +25,7 @@ public class UserServiceImpl implements UserService {
     private final AddFundsToUsersBalancesUseCase addFundsToUsersBalancesUseCase;
     private final FindOneUserByUuidUseCase findOneUserByUuidUseCase;
     private final SubtractFundsToUserBalanceUseCase subtractFundsToUserBalanceUseCase;
+    private final ValidateExistUsersUseCase validateExistUsersUseCase;
 
     @Override
     public UserModel signIn(CreateUserDTO dto) throws UserAlreadyExistsException {
@@ -58,5 +60,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserModel subtractFunds(SubtractUserFundsDTO dto) throws UserNotFoundException {
         return subtractFundsToUserBalanceUseCase.execute(dto);
+    }
+
+    @Override
+    public void validateExistance(Collection<UUID> userUuid) throws UserNotFoundException {
+        validateExistUsersUseCase.execute(userUuid);
     }
 }

@@ -11,10 +11,9 @@ import com.johannag.tapup.horseRaces.application.dtos.SubmitHorseRaceResultsDTO;
 import com.johannag.tapup.horseRaces.domain.models.HorseRaceModel;
 import com.johannag.tapup.horseRaces.infrastructure.db.adapters.HorseRaceRepository;
 import com.johannag.tapup.horses.application.exceptions.HorseNotAvailableException;
+import com.johannag.tapup.notifications.application.services.NotificationAsyncService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.context.PropertyPlaceholderAutoConfiguration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
@@ -31,13 +30,13 @@ public class SubmitHorseRaceResultsUseCase {
     private final HorseRaceRepository horseRaceRepository;
     private final FindOneHorseRaceByUuidUseCase findOneHorseRaceByUuidUseCase;
     private final BetAsyncService betAsyncService;
+    private final NotificationAsyncService notificationAsyncService;
 
     public HorseRaceModel execute(SubmitHorseRaceResultsDTO dto)
             throws HorseRaceNotFoundException, InvalidHorseRaceStateException, HorseNotAvailableException, UnexpectedPaymentException {
 
         logger.info("Starting SubmitHorseRaceResults process for horse race {}", dto.getHorseRaceUuid());
 
-        //TODO observer
         HorseRaceModel horseRace = findOneHorseRaceByUuidUseCase.execute(dto.getHorseRaceUuid());
         validateParticipantsExistsInRaceOrThrow(horseRace, dto.getParticipants());
         validateHorseRaceIsInValidStateToSubmitResultsOrThrow(horseRace);

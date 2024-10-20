@@ -15,6 +15,8 @@ import com.johannag.tapup.horseRaces.application.exceptions.InvalidHorseRaceStat
 import com.johannag.tapup.horseRaces.application.services.HorseRaceService;
 import com.johannag.tapup.horseRaces.domain.models.HorseRaceModel;
 import com.johannag.tapup.horseRaces.domain.models.ParticipantModel;
+import com.johannag.tapup.notifications.application.dtos.CreateNotificationDTO;
+import com.johannag.tapup.notifications.application.services.NotificationAsyncService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,7 @@ public class ProcessPaymentsUseCase {
     private static final Logger logger = Logger.getLogger(ProcessPaymentsUseCase.class);
     private final HorseRaceService horseRaceService;
     private final BetRepository betRepository;
+    private final NotificationAsyncService notificationAsyncService;
     private final GenerateBetStatisticsForHorseRacesUseCase generateBetStatisticsForHorseRacesUseCase;
     private final ProcessPaymentBatchIteration processPaymentBatchIteration;
     private final BetConfig betConfig;
@@ -42,6 +45,7 @@ public class ProcessPaymentsUseCase {
         ParticipantModel winner = obtainWinnerOrThrow(horseRace);
         BetStatisticsModel betStatistics = generateBetStatisticsForHorseRacesUseCase.execute(horseRaceUuid);
         BetPayouts betPayouts = processPaymentsInBatch(horseRaceUuid, winner, betStatistics);
+        notifyResultsToAdmins(betPayouts);
 
         logger.info("Finished processPayments process for horseRace with Uuid {}", horseRaceUuid);
         return betPayouts;
@@ -60,8 +64,10 @@ public class ProcessPaymentsUseCase {
                         "occurred while getting winner for horseRace uuid %s. No winner found", horseRace.getUuid())));
     }
 
-    private BetPayouts processPaymentsInBatch(UUID horseRaceUuid, ParticipantModel winner,
+    private BetPayouts processPaymentsInBatch(UUID horseRaceUuid,
+                                              ParticipantModel winner,
                                               BetStatisticsModel betStatistics) {
+
         double odds = getOddsForHorseOrThrow(winner.getHorseUuid(), betStatistics);
         long winningBets = getTotalBetsForHorseOrThrow(winner.getHorseUuid(), betStatistics);
 
@@ -99,7 +105,7 @@ public class ProcessPaymentsUseCase {
 
         try {
             do {
-                betsToPay = betRepository.findBetsByHorseRaceUuid(horseRaceUuid, currentPage, batchSize);
+                betsToPay = betRepository.findPendingBetsByHorseRaceUuid(horseRaceUuid, currentPage, batchSize);
 
                 if (betsToPay.hasContent()) {
                     betPayoutsDTO = processPaymentBatchIteration.execute(new ProcessPaymentBatchDTO(betsToPay, odds));
@@ -118,5 +124,9 @@ public class ProcessPaymentsUseCase {
                 .totalAmount(totalAmount)
                 .totalPayouts(totalPayouts)
                 .build();
+    }
+
+    private void notifyResultsToAdmins(BetPayouts betPayouts) {
+       //TODO
     }
 }

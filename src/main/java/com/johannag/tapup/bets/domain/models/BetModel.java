@@ -21,6 +21,10 @@ public class BetModel {
         return participant.isWinner() ? BetModelState.PAID : BetModelState.LOST;
     }
 
+    public UUID getUserUuid() {
+        return this.user != null ? this.user.getUuid() : null;
+    }
+
     public boolean isWinner(){
         return this.participant.isWinner();
     }

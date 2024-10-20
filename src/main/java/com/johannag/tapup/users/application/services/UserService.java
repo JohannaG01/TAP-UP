@@ -7,6 +7,7 @@ import com.johannag.tapup.users.application.exceptions.UserNotFoundException;
 import com.johannag.tapup.users.domain.models.UserModel;
 import com.johannag.tapup.users.domain.models.UserWithAuthTokenModel;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -87,4 +88,15 @@ public interface UserService {
      * @throws UserNotFoundException if the user associated with the provided details is not found.
      */
     UserModel subtractFunds(SubtractUserFundsDTO dto) throws UserNotFoundException;
+
+    /**
+     * Validates the existence of users identified by their unique UUIDs.
+     *
+     * <p>This method checks whether the users corresponding to the provided UUIDs exist.
+     * If any of the specified users are not found, a {@link UserNotFoundException} is thrown.</p>
+     *
+     * @param userUuid a collection of unique user identifiers (UUIDs) to validate.
+     * @throws UserNotFoundException if one or more users identified by the provided UUIDs do not exist.
+     */
+    void validateExistance(Collection<UUID> userUuid) throws UserNotFoundException;
 }

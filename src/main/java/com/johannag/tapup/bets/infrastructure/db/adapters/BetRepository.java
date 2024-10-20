@@ -43,14 +43,14 @@ public interface BetRepository {
     List<BetSummaryDTO> findBetDetails(UUID horseRaceUuid);
 
     /**
-     * Retrieves a paginated list of bets associated with a specific horse race.
+     * Retrieves a paginated list of pending bets associated with a specific horse race.
      *
      * @param horseRaceUuid the unique identifier of the horse race for which bets are retrieved.
      * @param page the page number to retrieve, starting from 0.
      * @param size the number of results per page.
      * @return a {@link Page} containing the {@link BetModel} entities corresponding to the specified horse race.
      */
-    Page<BetModel> findBetsByHorseRaceUuid(UUID horseRaceUuid, int page, int size);
+    Page<BetModel> findPendingBetsByHorseRaceUuid(UUID horseRaceUuid, int page, int size);
 
     /**
      * Updates the state of multiple bets based on the provided list of data transfer objects.
