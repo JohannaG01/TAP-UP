@@ -2,25 +2,22 @@ package com.johannag.tapup.bets.application.useCases.batch;
 
 import com.johannag.tapup.bets.application.config.BetConfig;
 import com.johannag.tapup.bets.application.dtos.ProcessPaymentBatchDTO;
-import com.johannag.tapup.bets.application.exceptions.UnexpectedPaymentException;
 import com.johannag.tapup.bets.application.useCases.GenerateBetStatisticsForHorseRacesUseCase;
 import com.johannag.tapup.bets.domain.dtos.BetPayoutsDTO;
 import com.johannag.tapup.bets.domain.models.BetModel;
 import com.johannag.tapup.bets.domain.models.BetPayouts;
 import com.johannag.tapup.bets.domain.models.BetStatisticsModel;
 import com.johannag.tapup.bets.infrastructure.db.adapters.BetRepository;
+import com.johannag.tapup.globals.application.useCases.BatchProcessor;
 import com.johannag.tapup.globals.infrastructure.utils.Logger;
 import com.johannag.tapup.horseRaces.application.exceptions.HorseRaceNotFoundException;
 import com.johannag.tapup.horseRaces.application.exceptions.InvalidHorseRaceStateException;
 import com.johannag.tapup.horseRaces.application.services.HorseRaceService;
 import com.johannag.tapup.horseRaces.domain.models.HorseRaceModel;
-import com.johannag.tapup.horseRaces.domain.models.ParticipantModel;
 import com.johannag.tapup.notifications.application.services.NotificationService;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.UUID;
 
 @Service
@@ -41,10 +38,8 @@ public class ProcessBetsForFinishedHorseRaceUseCase {
 
         HorseRaceModel horseRace = horseRaceService.findOneByUuid(horseRaceUuid);
         validateHorseRaceStateIsValidOrThrow(horseRace);
-        ParticipantModel winner = obtainWinnerOrThrow(horseRace);
         BetStatisticsModel betStatistics = generateBetStatisticsForHorseRacesUseCase.execute(horseRaceUuid);
-        BetPayouts betPayouts = processPaymentsInBatch(horseRaceUuid, winner, betStatistics);
-        notifyResultsToAdmins(betPayouts);
+        BetPayouts betPayouts = processPaymentsInBatch(horseRace, betStatistics);
 
         logger.info("Finished processPayments process for horseRace with Uuid {}", horseRaceUuid);
         return betPayouts;
@@ -57,20 +52,13 @@ public class ProcessBetsForFinishedHorseRaceUseCase {
         }
     }
 
-    private ParticipantModel obtainWinnerOrThrow(HorseRaceModel horseRace) throws UnexpectedPaymentException {
-        return horseRace.getWinner()
-                .orElseThrow(() -> new UnexpectedPaymentException(String.format("An unexpected error " +
-                        "occurred while getting winner for horseRace uuid %s. No winner found", horseRace.getUuid())));
-    }
-
-    private BetPayouts processPaymentsInBatch(UUID horseRaceUuid,
-                                              ParticipantModel winner,
+    private BetPayouts processPaymentsInBatch(HorseRaceModel horseRace,
                                               BetStatisticsModel betStatistics) {
 
-        double odds = getOddsForHorseOrThrow(winner.getHorseUuid(), betStatistics);
-        long winningBets = getTotalBetsForHorseOrThrow(winner.getHorseUuid(), betStatistics);
+        double odds = betStatistics.getOddsByHorseUuid(horseRace.getWinnerHorseUuid());
+        long winningBets = betStatistics.getTotalBetsByHorseUuid(horseRace.getWinnerHorseUuid());
 
-        BetPayoutsDTO betPayoutsDTO = iteratePaymentInBatches(horseRaceUuid, betConfig.getBatchSize(), odds);
+        BetPayoutsDTO betPayoutsDTO = iteratePaymentInBatches(horseRace.getUuid(), odds);
 
         BetPayouts betPayouts = BetPayouts.builder()
                 .totalBets(betStatistics.getTotalBets())
@@ -83,49 +71,16 @@ public class ProcessBetsForFinishedHorseRaceUseCase {
         return betPayouts;
     }
 
-    private double getOddsForHorseOrThrow(UUID horseUuid, BetStatisticsModel betStatistics) throws UnexpectedPaymentException {
-        return betStatistics.getOdds(horseUuid)
-                .orElseThrow(() -> new UnexpectedPaymentException(String.format("An unexpected error occurred while " +
-                        "getting odds for bets. Cannot find horse uuid %s in statistics for horse race", horseUuid)));
+    private BetPayoutsDTO iteratePaymentInBatches(UUID horseRaceUuid, double odds) {
+        int batchSize = betConfig.getBatchSize();
+
+        BatchProcessor<BetModel, BetPayoutsDTO> batchProcessor = new BatchProcessor<>(
+                batchSize,
+                currentPage -> betRepository.findPendingBetsByHorseRaceUuid(horseRaceUuid, currentPage, batchSize),
+                betsToPay -> processBetsForFinishedHorseRaceBatchIteration.execute(new ProcessPaymentBatchDTO(betsToPay, odds))
+        );
+
+        return batchProcessor.execute();
     }
 
-    private long getTotalBetsForHorseOrThrow(UUID horseUuid, BetStatisticsModel betStatistics) {
-        return betStatistics.getTotalBetsByHorseUuid(horseUuid)
-                .orElseThrow(() -> new UnexpectedPaymentException(String.format("An unexpected error occurred while " +
-                        "getting totalBets. Cannot find horse uuid %s in statistics for horse race", horseUuid)));
-    }
-
-    private BetPayoutsDTO iteratePaymentInBatches(UUID horseRaceUuid, int batchSize, double odds) {
-        int currentPage = 0;
-        BetPayoutsDTO betPayoutsDTO;
-        Page<BetModel> betsToPay;
-        BigDecimal totalAmount = new BigDecimal(0);
-        long totalPayouts = 0;
-
-        try {
-            do {
-                betsToPay = betRepository.findPendingBetsByHorseRaceUuid(horseRaceUuid, currentPage, batchSize);
-
-                if (betsToPay.hasContent()) {
-                    betPayoutsDTO = processBetsForFinishedHorseRaceBatchIteration.execute(new ProcessPaymentBatchDTO(betsToPay, odds));
-                    totalAmount = totalAmount.add(betPayoutsDTO.getTotalAmount());
-                    totalPayouts += betPayoutsDTO.getTotalPayouts();
-                    currentPage++;
-                }
-
-            } while (betsToPay.hasContent());
-        } catch (Exception e) {
-            logger.error("An error occurred while processing bets for horseRace {}. Error: {}", horseRaceUuid,
-                    e.getMessage());
-        }
-
-        return BetPayoutsDTO.builder()
-                .totalAmount(totalAmount)
-                .totalPayouts(totalPayouts)
-                .build();
-    }
-
-    private void notifyResultsToAdmins(BetPayouts betPayouts) {
-       //TODO
-    }
 }

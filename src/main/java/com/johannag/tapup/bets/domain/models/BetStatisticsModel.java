@@ -5,7 +5,7 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Data
@@ -16,17 +16,34 @@ public class BetStatisticsModel {
     private BigDecimal totalPayouts;
     private List<BetSummaryModel> bets;
 
-    public Optional<Double> getOdds(UUID horseUuid){
+    /**
+     * Retrieves the odds for a specific horse identified by its UUID.
+     *
+     * @param horseUuid the UUID of the horse for which to retrieve the odds
+     * @return the odds associated with the specified horse
+     * @throws NoSuchElementException if no odds are found for the given horse UUID
+     */
+    public Double getOddsByHorseUuid(UUID horseUuid) throws NoSuchElementException {
         return bets.stream()
                 .filter(summary -> summary.getHorseUuid().equals(horseUuid))
                 .map(BetSummaryModel::getOdds)
-                .findFirst();
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("Cannot find odds by horseUuid: " + horseUuid));
     }
 
-    public Optional<Long> getTotalBetsByHorseUuid(UUID horseUuid){
+
+    /**
+     * Retrieves the total number of bets placed for a specific horse identified by its UUID.
+     *
+     * @param horseUuid the UUID of the horse for which to retrieve the total number of bets
+     * @return the total number of bets associated with the specified horse
+     * @throws NoSuchElementException if no total bets are found for the given horse UUID
+     */
+    public Long getTotalBetsByHorseUuid(UUID horseUuid) throws NoSuchElementException{
         return bets.stream()
                 .filter(summary -> summary.getHorseUuid().equals(horseUuid))
                 .map(BetSummaryModel::getTotalBets)
-                .findFirst();
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("Cannot find totalBets by horseUuid: " + horseUuid));
     }
 }

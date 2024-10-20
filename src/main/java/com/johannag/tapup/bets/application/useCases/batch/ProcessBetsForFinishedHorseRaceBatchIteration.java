@@ -41,7 +41,7 @@ class ProcessBetsForFinishedHorseRaceBatchIteration {
     @Transactional
     public BetPayoutsDTO execute(ProcessPaymentBatchDTO dto) {
 
-        logger.info("Starting to process batch for process payments number: {}", dto.currentPage());
+        logger.info("Starting to process batch iteration: {}", dto.currentPage());
 
         List<BetModel> bets = dto.getBets().getContent();
         Map<Boolean, Map<UUID, List<BigDecimal>>> partitionedBets = partitionBetsByWinner(bets);
@@ -60,7 +60,7 @@ class ProcessBetsForFinishedHorseRaceBatchIteration {
         List<CreateNotificationDTO> createNotificationDTOS = mapToNotificationsDTOs(winnerBets, loserBets, odds);
         notificationService.createNotifications(createNotificationDTOS);
 
-        logger.info("Finished process batch for process payments number: {}", dto.currentPage());
+        logger.info("Finished process batch iteration: {}", dto.currentPage());
 
         //TODO change this for cache
 

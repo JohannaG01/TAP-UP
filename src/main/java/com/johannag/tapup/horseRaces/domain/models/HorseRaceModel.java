@@ -36,6 +36,12 @@ public class HorseRaceModel implements Serializable {
         return this.startTime.isBefore(DateTimeUtils.nowAsLocalDateTime());
     }
 
+    /**
+     * Checks for participants whose UUIDs are missing from the current list of participants.
+     *
+     * @param participantUuidsToValidate a collection of UUIDs representing the participants to validate
+     * @return a list of UUIDs that are missing from the current participants
+     */
     public List<UUID> checkForMissingParticipants(Collection<UUID> participantUuidsToValidate) {
         Set<UUID> participantUuids = this.participants.stream()
                 .map(ParticipantModel::getUuid)
@@ -46,9 +52,17 @@ public class HorseRaceModel implements Serializable {
                 .collect(Collectors.toList());
     }
 
-    public Optional<ParticipantModel> getWinner() {
+    /**
+     * Retrieves the horse uuid who is marked as the winner.
+     *
+     * @return the {@link UUID} representing the uuid of the winning horse
+     * @throws NoSuchElementException if no horse is found marked as the winner
+     */
+    public UUID getWinnerHorseUuid() throws NoSuchElementException {
         return this.participants.stream()
                 .filter(ParticipantModel::isWinner)
-                .findFirst();
+                .map(ParticipantModel::getHorseUuid)
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("No winner found among participants"));
     }
 }

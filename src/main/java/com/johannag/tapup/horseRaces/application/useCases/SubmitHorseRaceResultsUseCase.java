@@ -1,6 +1,5 @@
 package com.johannag.tapup.horseRaces.application.useCases;
 
-import com.johannag.tapup.bets.application.exceptions.UnexpectedPaymentException;
 import com.johannag.tapup.bets.application.services.BetAsyncService;
 import com.johannag.tapup.globals.infrastructure.utils.Logger;
 import com.johannag.tapup.horseRaces.application.exceptions.HorseRaceNotFoundException;
@@ -33,7 +32,7 @@ public class SubmitHorseRaceResultsUseCase {
     private final NotificationService notificationAsyncService;
 
     public HorseRaceModel execute(SubmitHorseRaceResultsDTO dto)
-            throws HorseRaceNotFoundException, InvalidHorseRaceStateException, HorseNotAvailableException, UnexpectedPaymentException {
+            throws HorseRaceNotFoundException, InvalidHorseRaceStateException, HorseNotAvailableException {
 
         logger.info("Starting SubmitHorseRaceResults process for horse race {}", dto.getHorseRaceUuid());
 
