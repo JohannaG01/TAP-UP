@@ -7,7 +7,7 @@ import com.johannag.tapup.users.application.exceptions.UserNotFoundException;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-public interface NotificationAsyncService {
+public interface NotificationService {
 
     /**
      * Creates notifications based on the provided list of notification data transfer objects (DTOs).

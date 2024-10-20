@@ -5,12 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Value;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 @Value
 @AllArgsConstructor
 @Builder(builderClassName = "Builder")
-public class UpdateBetEntityStateDTO {
-    UUID betUuid;
+public class UpdateBetEntitiesStateDTO {
+    Collection<UUID> betUuid;
     BetModelState state;
 }

@@ -4,7 +4,7 @@ import com.johannag.tapup.auth.infrastructure.utils.SecurityContextUtils;
 import com.johannag.tapup.bets.domain.dtos.BetSummaryDTO;
 import com.johannag.tapup.bets.domain.dtos.CreateBetEntityDTO;
 import com.johannag.tapup.bets.domain.dtos.FindBetEntitiesDTO;
-import com.johannag.tapup.bets.domain.dtos.UpdateBetEntityStateDTO;
+import com.johannag.tapup.bets.domain.dtos.UpdateBetEntitiesStateDTO;
 import com.johannag.tapup.bets.domain.mappers.BetDomainMapper;
 import com.johannag.tapup.bets.domain.models.BetModel;
 import com.johannag.tapup.bets.domain.models.BetModelState;
@@ -53,8 +53,6 @@ public class BetRepositoryImpl implements BetRepository {
         ParticipantEntity participantEntity = jpaParticipantRepository.findOneByUuid(dto.getParticipantUuid());
 
         BetEntity bet = betDomainMapper.toEntity(dto, user, participantEntity);
-        bet.setCreatedBy(SecurityContextUtils.userOnContextId());
-        bet.setUpdatedBy(SecurityContextUtils.userOnContextId());
 
         jpaBetRepository.saveAndFlush(bet);
         return betDomainMapper.toModel(bet);
@@ -96,22 +94,12 @@ public class BetRepositoryImpl implements BetRepository {
 
     @Override
     @Transactional
-    public List<BetModel> updateState(List<UpdateBetEntityStateDTO> dtos) {
-        logger.info("Updating bet states in DB");
-        Map<UUID, BetModelState> stateByBetUuid = new HashMap<>();
+    public List<BetModel> updateState(UpdateBetEntitiesStateDTO dto) {
+        logger.info("Updating {} bets state {} in DB", dto.getBetUuid().size(), dto.getState());
 
-        for (UpdateBetEntityStateDTO dto : dtos) {
-            stateByBetUuid.put(dto.getBetUuid(), dto.getState());
-        }
-
-        List<BetEntity> bets = jpaBetRepository.findAllByUuidForUpdate(stateByBetUuid.keySet());
-        bets.forEach(bet -> {
-            BetEntityState state = betDomainMapper.toEntity(stateByBetUuid.get(bet.getUuid()));
-            bet.setState(state);
-            bet.setUpdatedBy(SecurityContextUtils.userOnContextId());
-        });
-
-        jpaBetRepository.saveAllAndFlush(bets);
+        List<BetEntity> bets = jpaBetRepository.findAllByUuidForUpdate(dto.getBetUuid());
+        jpaBetRepository.updateBetStates(dto.getBetUuid(), betDomainMapper.toEntity(dto.getState()));
+        jpaBetRepository.flush();
 
         return bets.stream()
                 .map(betDomainMapper::toModel)

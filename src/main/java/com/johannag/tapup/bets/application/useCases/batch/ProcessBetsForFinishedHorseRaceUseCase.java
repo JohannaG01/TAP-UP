@@ -1,4 +1,4 @@
-package com.johannag.tapup.bets.application.useCases.payments;
+package com.johannag.tapup.bets.application.useCases.batch;
 
 import com.johannag.tapup.bets.application.config.BetConfig;
 import com.johannag.tapup.bets.application.dtos.ProcessPaymentBatchDTO;
@@ -15,8 +15,7 @@ import com.johannag.tapup.horseRaces.application.exceptions.InvalidHorseRaceStat
 import com.johannag.tapup.horseRaces.application.services.HorseRaceService;
 import com.johannag.tapup.horseRaces.domain.models.HorseRaceModel;
 import com.johannag.tapup.horseRaces.domain.models.ParticipantModel;
-import com.johannag.tapup.notifications.application.dtos.CreateNotificationDTO;
-import com.johannag.tapup.notifications.application.services.NotificationAsyncService;
+import com.johannag.tapup.notifications.application.services.NotificationService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -26,14 +25,14 @@ import java.util.UUID;
 
 @Service
 @AllArgsConstructor
-public class ProcessPaymentsUseCase {
+public class ProcessBetsForFinishedHorseRaceUseCase {
 
-    private static final Logger logger = Logger.getLogger(ProcessPaymentsUseCase.class);
+    private static final Logger logger = Logger.getLogger(ProcessBetsForFinishedHorseRaceUseCase.class);
     private final HorseRaceService horseRaceService;
     private final BetRepository betRepository;
-    private final NotificationAsyncService notificationAsyncService;
+    private final NotificationService notificationService;
     private final GenerateBetStatisticsForHorseRacesUseCase generateBetStatisticsForHorseRacesUseCase;
-    private final ProcessPaymentBatchIteration processPaymentBatchIteration;
+    private final ProcessBetsForFinishedHorseRaceBatchIteration processBetsForFinishedHorseRaceBatchIteration;
     private final BetConfig betConfig;
 
     public BetPayouts execute(UUID horseRaceUuid) throws HorseRaceNotFoundException,
@@ -108,7 +107,7 @@ public class ProcessPaymentsUseCase {
                 betsToPay = betRepository.findPendingBetsByHorseRaceUuid(horseRaceUuid, currentPage, batchSize);
 
                 if (betsToPay.hasContent()) {
-                    betPayoutsDTO = processPaymentBatchIteration.execute(new ProcessPaymentBatchDTO(betsToPay, odds));
+                    betPayoutsDTO = processBetsForFinishedHorseRaceBatchIteration.execute(new ProcessPaymentBatchDTO(betsToPay, odds));
                     totalAmount = totalAmount.add(betPayoutsDTO.getTotalAmount());
                     totalPayouts += betPayoutsDTO.getTotalPayouts();
                     currentPage++;

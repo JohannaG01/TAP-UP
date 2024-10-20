@@ -3,7 +3,7 @@ package com.johannag.tapup.bets.infrastructure.db.adapters;
 import com.johannag.tapup.bets.domain.dtos.BetSummaryDTO;
 import com.johannag.tapup.bets.domain.dtos.CreateBetEntityDTO;
 import com.johannag.tapup.bets.domain.dtos.FindBetEntitiesDTO;
-import com.johannag.tapup.bets.domain.dtos.UpdateBetEntityStateDTO;
+import com.johannag.tapup.bets.domain.dtos.UpdateBetEntitiesStateDTO;
 import com.johannag.tapup.bets.domain.models.BetModel;
 import org.springframework.data.domain.Page;
 
@@ -55,8 +55,8 @@ public interface BetRepository {
     /**
      * Updates the state of multiple bets based on the provided list of data transfer objects.
      *
-     * @param dtos a list of {@link UpdateBetEntityStateDTO} instances containing the new states and relevant information for each bet
+     * @param dtos a {@link UpdateBetEntitiesStateDTO} containing the new state and relevant information for each bet
      * @return a list of updated {@link BetModel} instances reflecting the new states
      */
-    List<BetModel> updateState(List<UpdateBetEntityStateDTO> dtos);
+    List<BetModel> updateState(UpdateBetEntitiesStateDTO dtos);
 }

@@ -1,6 +1,6 @@
 package com.johannag.tapup.bets.application.services;
 
-import com.johannag.tapup.bets.application.useCases.payments.ProcessPaymentsUseCase;
+import com.johannag.tapup.bets.application.useCases.batch.ProcessBetsForFinishedHorseRaceUseCase;
 import com.johannag.tapup.bets.domain.models.BetPayouts;
 import com.johannag.tapup.horseRaces.application.exceptions.HorseRaceNotFoundException;
 import com.johannag.tapup.horseRaces.application.exceptions.InvalidHorseRaceStateException;
@@ -15,11 +15,11 @@ import java.util.concurrent.CompletableFuture;
 @AllArgsConstructor
 public class BetAsyncServiceImpl implements BetAsyncService {
 
-    private final ProcessPaymentsUseCase processPaymentsUseCase;
+    private final ProcessBetsForFinishedHorseRaceUseCase processBetsForFinishedHorseRaceUseCase;
 
     @Override
     @Async
     public CompletableFuture<BetPayouts> processPayments(UUID horseRaceUuid) throws HorseRaceNotFoundException, InvalidHorseRaceStateException {
-        return CompletableFuture.completedFuture(processPaymentsUseCase.execute(horseRaceUuid));
+        return CompletableFuture.completedFuture(processBetsForFinishedHorseRaceUseCase.execute(horseRaceUuid));
     }
 }

@@ -4,11 +4,10 @@ import com.johannag.tapup.bets.application.dtos.CreateBetDTO;
 import com.johannag.tapup.bets.application.dtos.FindBetsDTO;
 import com.johannag.tapup.bets.domain.dtos.CreateBetEntityDTO;
 import com.johannag.tapup.bets.domain.dtos.FindBetEntitiesDTO;
-import com.johannag.tapup.bets.domain.dtos.UpdateBetEntityStateDTO;
-import com.johannag.tapup.bets.domain.models.BetModel;
+import com.johannag.tapup.bets.domain.dtos.UpdateBetEntitiesStateDTO;
+import com.johannag.tapup.bets.domain.models.BetModelState;
 import com.johannag.tapup.bets.presentation.dtos.queries.FindBetsQuery;
 import com.johannag.tapup.bets.presentation.dtos.requests.CreateBetRequestDTO;
-import org.springframework.data.domain.Page;
 
 import java.util.Collection;
 import java.util.List;
@@ -62,13 +61,12 @@ public interface BetApplicationMapper {
     FindBetEntitiesDTO toFindEntitiesDTO(FindBetsDTO dto);
 
     /**
-     * Converts a collection of {@link BetModel} objects into a list of {@link UpdateBetEntityStateDTO}
-     * containing the unique identifiers (UUIDs) and the states of the bets.
+     * Converts a collection of bet UUIDs and a given state into an {@link UpdateBetEntitiesStateDTO}.
      *
-     * @param bets a collection of {@link BetModel} objects to be converted; must not be {@code null} or empty.
-     * @return a list of {@link UpdateBetEntityStateDTO} representing the UUIDs and states of the provided bets.
-     * @throws IllegalArgumentException if the provided collection of bets is {@code null} or empty.
+     * @param betsUuids a collection of {@link UUID} representing the unique identifiers of the bets to be updated
+     * @param state the {@link BetModelState} representing the new state to set for each bet
+     * @return an {@link UpdateBetEntitiesStateDTO} objects containing the bet UUIDs and their corresponding new state
      */
-    List<UpdateBetEntityStateDTO> toUpdateEntityStateDTO(Collection<BetModel> bets);
+    UpdateBetEntitiesStateDTO toUpdateEntityStateDTO(Collection<UUID> betsUuids, BetModelState state);
 
 }

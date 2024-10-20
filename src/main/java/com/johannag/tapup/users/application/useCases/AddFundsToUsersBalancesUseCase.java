@@ -2,20 +2,15 @@ package com.johannag.tapup.users.application.useCases;
 
 import com.johannag.tapup.globals.infrastructure.utils.Logger;
 import com.johannag.tapup.users.application.dtos.AddUserFundsDTO;
-import com.johannag.tapup.users.application.exceptions.UserNotFoundException;
 import com.johannag.tapup.users.application.mappers.UserApplicationMapper;
 import com.johannag.tapup.users.domain.dtos.AddUserFundsToEntityDTO;
 import com.johannag.tapup.users.domain.models.UserModel;
 import com.johannag.tapup.users.infrastructure.db.adapter.UserRepository;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor

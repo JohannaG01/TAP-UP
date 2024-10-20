@@ -78,4 +78,15 @@ public interface JpaBetRepository extends JpaRepository<BetEntity, Long>, JpaSpe
     @Query("SELECT b FROM BetEntity b WHERE b.uuid IN :uuids")
     List<BetEntity> findAllByUuidForUpdate(Collection<UUID> uuids);
 
+    /**
+     * Updates the state of bets identified by their UUIDs to the specified state.
+     *
+     * @param betUuids a collection of {@link UUID} representing the unique identifiers of the bets to be updated
+     * @param state the {@link BetEntityState} representing the new state to set for the specified bets
+     * @return the number of bets that were updated
+     */
+    @Modifying
+    @Query("UPDATE BetEntity b SET b.state = :state WHERE b.uuid IN :betUuids")
+    int updateBetStates(Collection<UUID> betUuids, BetEntityState state);
+
 }

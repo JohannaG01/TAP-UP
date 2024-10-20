@@ -13,11 +13,10 @@ import java.util.concurrent.CompletableFuture;
 
 @Service
 @AllArgsConstructor
-public class NotificationAsyncServiceImpl implements NotificationAsyncService {
+public class NotificationServiceImpl implements NotificationService {
 
     private final CreateNotificationsUseCase createNotificationsUseCase;
 
-    @Async
     @Override
     public CompletableFuture<List<NotificationModel>> createNotifications(List<CreateNotificationDTO> dtos) throws UserNotFoundException {
         return CompletableFuture.completedFuture(createNotificationsUseCase.execute(dtos));

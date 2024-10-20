@@ -88,7 +88,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     @Transactional
     public List<UserModel> addFunds(List<AddUserFundsToEntityDTO> dtos) {
-        logger.info("Adding funds to users in DB");
+        logger.info("Modifying balance to {} users in DB", dtos.size());
 
         Map<UUID, BigDecimal> amountByUserUuid = dtos.stream()
                 .collect(Collectors.toMap(AddUserFundsToEntityDTO::getUserUuid, AddUserFundsToEntityDTO::getAmount));

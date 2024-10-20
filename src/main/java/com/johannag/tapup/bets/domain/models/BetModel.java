@@ -17,15 +17,15 @@ public class BetModel {
     private final BigDecimal amount;
     private final BetModelState state;
 
-    public BetModelState calculateNewStateFromParticipant(){
-        return participant.isWinner() ? BetModelState.PAID : BetModelState.LOST;
-    }
-
     public UUID getUserUuid() {
         return this.user != null ? this.user.getUuid() : null;
     }
 
     public boolean isWinner(){
         return this.participant.isWinner();
+    }
+
+    public boolean isLoser(){
+        return !isWinner();
     }
 }
