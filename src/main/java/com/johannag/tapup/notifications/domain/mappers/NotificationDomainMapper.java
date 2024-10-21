@@ -13,9 +13,9 @@ public interface NotificationDomainMapper {
      * Converts a list of {@link CreateNotificationEntityDTO} objects to a list of
      * {@link NotificationEntity} objects.
      *
-     * @param dtos    The list of {@link CreateNotificationEntityDTO} objects to be converted.
-     * @param users   The list of {@link UserEntity} objects to associate with the notifications.
-     * @return       A list of {@link NotificationEntity} objects that correspond to the provided DTOs.
+     * @param dtos  The list of {@link CreateNotificationEntityDTO} objects to be converted.
+     * @param users The list of {@link UserEntity} objects to associate with the notifications.
+     * @return A list of {@link NotificationEntity} objects that correspond to the provided DTOs.
      */
     List<NotificationEntity> toEntity(List<CreateNotificationEntityDTO> dtos, List<UserEntity> users);
 

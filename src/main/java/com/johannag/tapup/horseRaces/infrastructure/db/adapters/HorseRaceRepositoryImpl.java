@@ -26,7 +26,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Repository
 @AllArgsConstructor
@@ -138,7 +137,7 @@ public class HorseRaceRepositoryImpl implements HorseRaceRepository {
         return groupParticipantByRaceUuid(allParticipants);
     }
 
-    private Map<UUID, List<ParticipantEntity>> groupParticipantByRaceUuid(List<Object[]> participants){
+    private Map<UUID, List<ParticipantEntity>> groupParticipantByRaceUuid(List<Object[]> participants) {
         Map<UUID, List<ParticipantEntity>> groupedParticipants = new HashMap<>();
 
         for (Object[] result : participants) {

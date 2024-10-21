@@ -4,10 +4,8 @@ import com.johannag.tapup.users.infrastructure.db.entities.UserEntity;
 import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
-import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -80,7 +78,7 @@ public interface JpaUserRepository extends JpaRepository<UserEntity, Long> {
      * @param uuid the UUID of the user entities to be retrieved.
      *             The method will return all user entities that match this UUID.
      * @return a list of {@link UserEntity} objects that match the specified UUID.
-     *         If no entities are found, an empty list is returned.
+     * If no entities are found, an empty list is returned.
      */
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT u FROM UserEntity u WHERE u.uuid IN :uuid")

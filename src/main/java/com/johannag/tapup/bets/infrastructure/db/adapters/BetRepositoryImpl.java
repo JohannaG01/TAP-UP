@@ -84,7 +84,8 @@ public class BetRepositoryImpl implements BetRepository {
     public Page<BetModel> findPendingBetsByHorseRaceUuid(UUID horseRaceUuid, int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("user.id"));
 
-        return jpaBetRepository.findByParticipant_HorseRace_UuidAndState(horseRaceUuid, BetEntityState.PENDING, pageable)
+        return jpaBetRepository.findByParticipant_HorseRace_UuidAndState(horseRaceUuid, BetEntityState.PENDING,
+                        pageable)
                 .map(betDomainMapper::toModel);
     }
 

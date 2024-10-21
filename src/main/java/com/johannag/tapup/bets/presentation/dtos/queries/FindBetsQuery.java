@@ -19,7 +19,7 @@ import java.util.UUID;
 
 @Value
 @SuperBuilder
-@EqualsAndHashCode(callSuper=true)
+@EqualsAndHashCode(callSuper = true)
 public class FindBetsQuery extends PageQuery {
 
     Set<BetStateDTO> betStates;

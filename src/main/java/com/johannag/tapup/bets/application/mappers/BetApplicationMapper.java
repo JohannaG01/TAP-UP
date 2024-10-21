@@ -10,7 +10,6 @@ import com.johannag.tapup.bets.presentation.dtos.queries.FindBetsQuery;
 import com.johannag.tapup.bets.presentation.dtos.requests.CreateBetRequestDTO;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
 
 public interface BetApplicationMapper {
@@ -64,7 +63,7 @@ public interface BetApplicationMapper {
      * Converts a collection of bet UUIDs and a given state into an {@link UpdateBetEntitiesStateDTO}.
      *
      * @param betsUuids a collection of {@link UUID} representing the unique identifiers of the bets to be updated
-     * @param state the {@link BetModelState} representing the new state to set for each bet
+     * @param state     the {@link BetModelState} representing the new state to set for each bet
      * @return an {@link UpdateBetEntitiesStateDTO} objects containing the bet UUIDs and their corresponding new state
      */
     UpdateBetEntitiesStateDTO toUpdateEntityStateDTO(Collection<UUID> betsUuids, BetModelState state);

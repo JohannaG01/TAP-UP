@@ -21,11 +21,11 @@ public class BetModel {
         return this.user != null ? this.user.getUuid() : null;
     }
 
-    public boolean isWinner(){
+    public boolean isWinner() {
         return this.participant.isWinner();
     }
 
-    public boolean isLoser(){
+    public boolean isLoser() {
         return !isWinner();
     }
 }

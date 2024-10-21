@@ -7,9 +7,9 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class BatchProcessor<T> {
+    private static final Logger logger = Logger.getLogger(BatchProcessor.class);
     private final Function<Integer, Page<T>> fetchFunction;
     private final Consumer<Page<T>> processFunction;
-    private static final Logger logger = Logger.getLogger(BatchProcessor.class);
 
     public BatchProcessor(Function<Integer, Page<T>> fetchFunction, Consumer<Page<T>> processFunction) {
         this.fetchFunction = fetchFunction;
@@ -30,7 +30,8 @@ public class BatchProcessor<T> {
                     break;
                 }
             } catch (Exception e) {
-                logger.error("An error occurred while processing batch at page {}. Error: {}", currentPage, e.getMessage());
+                logger.error("An error occurred while processing batch at page {}. Error: {}", currentPage,
+                        e.getMessage());
                 break;
             }
         } while (true);

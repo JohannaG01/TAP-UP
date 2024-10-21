@@ -18,7 +18,8 @@ public class BetAsyncServiceImpl implements BetAsyncService {
 
     @Override
     @Async
-    public CompletableFuture<Void> processPayments(UUID horseRaceUuid) throws HorseRaceNotFoundException, InvalidHorseRaceStateException {
+    public CompletableFuture<Void> processPayments(UUID horseRaceUuid) throws HorseRaceNotFoundException,
+            InvalidHorseRaceStateException {
         processBetsPaymentUseCase.execute(horseRaceUuid);
         return CompletableFuture.completedFuture(null);
     }

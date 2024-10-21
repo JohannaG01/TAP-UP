@@ -16,7 +16,7 @@ public class ProcessPaymentBatchDTO {
     Page<BetModel> bets;
     double odds;
 
-    public int currentPage(){
+    public int currentPage() {
         return bets.getNumber();
     }
 }

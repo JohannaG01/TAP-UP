@@ -5,11 +5,9 @@ import com.johannag.tapup.notifications.application.useCases.CreateNotifications
 import com.johannag.tapup.notifications.domain.models.NotificationModel;
 import com.johannag.tapup.users.application.exceptions.UserNotFoundException;
 import lombok.AllArgsConstructor;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 @Service
 @AllArgsConstructor

@@ -2,11 +2,11 @@ package com.johannag.tapup.horseRaces.application.mappers;
 
 import com.johannag.tapup.horseRaces.application.dtos.CreateHorseRaceDTO;
 import com.johannag.tapup.horseRaces.application.dtos.FindHorseRacesDTO;
+import com.johannag.tapup.horseRaces.application.dtos.SubmitHorseRaceResultsDTO;
 import com.johannag.tapup.horseRaces.application.dtos.UpdateHorseRaceDTO;
 import com.johannag.tapup.horseRaces.domain.UpdateHorseRaceEntityDTO;
 import com.johannag.tapup.horseRaces.domain.dtos.CreateHorseRaceEntityDTO;
 import com.johannag.tapup.horseRaces.domain.dtos.FindHorseRaceEntitiesDTO;
-import com.johannag.tapup.horseRaces.application.dtos.SubmitHorseRaceResultsDTO;
 import com.johannag.tapup.horseRaces.domain.dtos.SubmitHorseRaceResultsForEntityDTO;
 import com.johannag.tapup.horseRaces.presentation.dtos.queries.FindHorseRacesQuery;
 import com.johannag.tapup.horseRaces.presentation.dtos.requests.CreateHorseRaceRequestDTO;
@@ -86,10 +86,10 @@ public interface HorseRaceApplicationMapper {
      *
      * @param horseRaceUuid The unique identifier of the horse race for which
      *                      the results are being submitted.
-     * @param dto The DTO containing the results to be submitted, which includes
-     *            the end time of the race and the participant results.
+     * @param dto           The DTO containing the results to be submitted, which includes
+     *                      the end time of the race and the participant results.
      * @return A {@link SubmitHorseRaceResultsDTO} object populated with the data
-     *         from the provided DTO, associated with the specified horse race.
+     * from the provided DTO, associated with the specified horse race.
      */
     SubmitHorseRaceResultsDTO toSubmitResultsDTO(UUID horseRaceUuid, SubmitHorseRaceResultsRequestDTO dto);
 
@@ -99,7 +99,7 @@ public interface HorseRaceApplicationMapper {
      *
      * @param dto the data transfer object containing the results of the horse race
      * @return a {@link SubmitHorseRaceResultsForEntityDTO} that represents the same
-     *         information as the provided {@link SubmitHorseRaceResultsDTO}
+     * information as the provided {@link SubmitHorseRaceResultsDTO}
      */
     SubmitHorseRaceResultsForEntityDTO toSubmitResultsForEntityDTO(SubmitHorseRaceResultsDTO dto);
 }

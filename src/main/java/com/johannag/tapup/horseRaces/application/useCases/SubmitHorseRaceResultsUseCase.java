@@ -1,6 +1,5 @@
 package com.johannag.tapup.horseRaces.application.useCases;
 
-import com.johannag.tapup.bets.application.constants.BetNotificationConstant;
 import com.johannag.tapup.bets.application.services.BetAsyncService;
 import com.johannag.tapup.bets.application.services.BetService;
 import com.johannag.tapup.bets.domain.models.BetPayouts;
@@ -91,16 +90,15 @@ public class SubmitHorseRaceResultsUseCase {
     private BetPayouts sendResultsToAdmins(UUID horseRaceUuid, Throwable throwable) {
         BetPayouts betPayouts = betService.generateBetPaymentResults(horseRaceUuid);
         List<UserModel> admins = userService.findAllAdmins();
-        List<CreateNotificationDTO> dtos = buildNotificationMessageAndLogResult(horseRaceUuid, throwable, betPayouts,
-                admins);
+        List<CreateNotificationDTO> dtos = buildNotificationMessageAndLog(horseRaceUuid, throwable, betPayouts, admins);
         notificationService.createNotifications(dtos);
         return betPayouts;
     }
 
-    private List<CreateNotificationDTO> buildNotificationMessageAndLogResult(UUID horseRaceUuid,
-                                                                             @Nullable Throwable throwable,
-                                                                             BetPayouts betPayouts,
-                                                                             List<UserModel> admins) {
+    private List<CreateNotificationDTO> buildNotificationMessageAndLog(UUID horseRaceUuid,
+                                                                       @Nullable Throwable throwable,
+                                                                       BetPayouts betPayouts,
+                                                                       List<UserModel> admins) {
         String message;
         NotificationModelType notificationType;
 

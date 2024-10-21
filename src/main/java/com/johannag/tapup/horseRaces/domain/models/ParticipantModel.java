@@ -31,7 +31,7 @@ public class ParticipantModel {
         return horseRace.getUuid();
     }
 
-    public boolean isWinner(){
+    public boolean isWinner() {
         return this.placement == 1;
     }
 }

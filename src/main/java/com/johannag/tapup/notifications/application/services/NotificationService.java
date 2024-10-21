@@ -13,7 +13,8 @@ public interface NotificationService {
      * Creates notifications based on the provided list of notification data transfer objects (DTOs).
      *
      * @param dtos a list of {@link CreateNotificationDTO} containing the details for the notifications to be created
-     * @return a {@link CompletableFuture} containing a list of {@link NotificationModel} representing the created notifications
+     * @return a {@link CompletableFuture} containing a list of {@link NotificationModel} representing the created
+     * notifications
      * @throws UserNotFoundException if any of the users specified in the notifications do not exist
      */
     List<NotificationModel> createNotifications(List<CreateNotificationDTO> dtos) throws UserNotFoundException;

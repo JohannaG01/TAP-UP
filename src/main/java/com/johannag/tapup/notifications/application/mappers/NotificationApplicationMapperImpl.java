@@ -1,11 +1,5 @@
 package com.johannag.tapup.notifications.application.mappers;
 
-import com.johannag.tapup.bets.application.dtos.CreateBetDTO;
-import com.johannag.tapup.bets.application.dtos.FindBetsDTO;
-import com.johannag.tapup.bets.domain.dtos.CreateBetEntityDTO;
-import com.johannag.tapup.bets.domain.dtos.FindBetEntitiesDTO;
-import com.johannag.tapup.bets.presentation.dtos.queries.FindBetsQuery;
-import com.johannag.tapup.bets.presentation.dtos.requests.CreateBetRequestDTO;
 import com.johannag.tapup.globals.application.utils.DateTimeUtils;
 import com.johannag.tapup.notifications.application.dtos.CreateNotificationDTO;
 import com.johannag.tapup.notifications.domain.dtos.CreateNotificationEntityDTO;
@@ -18,7 +12,7 @@ import java.util.UUID;
 import static com.johannag.tapup.globals.application.utils.ModelMapperUtils.builderTypeMapper;
 
 @Component
-public class NotificationApplicationMapperImpl implements NotificationApplicationMapper{
+public class NotificationApplicationMapperImpl implements NotificationApplicationMapper {
 
     private final TypeMap<CreateNotificationDTO, CreateNotificationEntityDTO.Builder> createDTOMapper;
 

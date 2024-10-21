@@ -39,7 +39,7 @@ public class BetStatisticsModel {
      * @return the total number of bets associated with the specified horse
      * @throws NoSuchElementException if no total bets are found for the given horse UUID
      */
-    public Long getTotalBetsByHorseUuid(UUID horseUuid) throws NoSuchElementException{
+    public Long getTotalBetsByHorseUuid(UUID horseUuid) throws NoSuchElementException {
         return bets.stream()
                 .filter(summary -> summary.getHorseUuid().equals(horseUuid))
                 .map(BetSummaryModel::getTotalBets)

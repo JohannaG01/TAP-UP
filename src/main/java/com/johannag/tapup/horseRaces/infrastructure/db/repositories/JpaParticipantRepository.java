@@ -1,9 +1,7 @@
 package com.johannag.tapup.horseRaces.infrastructure.db.repositories;
 
 import com.johannag.tapup.horseRaces.infrastructure.db.entities.ParticipantEntity;
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
-import com.johannag.tapup.horses.infrastructure.db.entities.HorseEntity;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 

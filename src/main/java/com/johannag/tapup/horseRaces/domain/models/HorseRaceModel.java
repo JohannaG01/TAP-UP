@@ -32,7 +32,7 @@ public class HorseRaceModel implements Serializable {
         return this.state == HorseRaceModelState.FINISHED;
     }
 
-    public boolean hasAlreadyStarted(){
+    public boolean hasAlreadyStarted() {
         return this.startTime.isBefore(DateTimeUtils.nowAsLocalDateTime());
     }
 

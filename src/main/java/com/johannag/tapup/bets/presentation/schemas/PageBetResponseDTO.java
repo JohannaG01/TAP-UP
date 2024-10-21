@@ -9,7 +9,7 @@ import lombok.Value;
 import java.util.List;
 
 @Value
-@EqualsAndHashCode(callSuper=true)
+@EqualsAndHashCode(callSuper = true)
 @Schema(description = "Pageable response containing bets")
 public class PageBetResponseDTO extends PageResponse {
     @Schema(description = "List of bet responses")

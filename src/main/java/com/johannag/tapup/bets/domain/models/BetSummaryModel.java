@@ -26,7 +26,7 @@ public class BetSummaryModel {
         this.totalAmountWagered = betSummaryDTO.getTotalWagered().setScale(scale, RoundingMode.HALF_UP);
     }
 
-    public UUID getHorseUuid(){
+    public UUID getHorseUuid() {
         return horse.getUuid();
     }
 }

@@ -35,7 +35,7 @@ public class CreateNotificationsUseCase {
         return notifications;
     }
 
-    private List<UUID> obtainsUserUuids(List<CreateNotificationDTO> dtos){
+    private List<UUID> obtainsUserUuids(List<CreateNotificationDTO> dtos) {
         return dtos.stream()
                 .map(CreateNotificationDTO::getUserUuid)
                 .toList();

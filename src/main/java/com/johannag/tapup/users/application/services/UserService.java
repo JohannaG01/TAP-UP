@@ -1,6 +1,9 @@
 package com.johannag.tapup.users.application.services;
 
-import com.johannag.tapup.users.application.dtos.*;
+import com.johannag.tapup.users.application.dtos.AddUserFundsDTO;
+import com.johannag.tapup.users.application.dtos.CreateUserDTO;
+import com.johannag.tapup.users.application.dtos.LogInUserDTO;
+import com.johannag.tapup.users.application.dtos.SubtractUserFundsDTO;
 import com.johannag.tapup.users.application.exceptions.InvalidLoginCredentialsException;
 import com.johannag.tapup.users.application.exceptions.UserAlreadyExistsException;
 import com.johannag.tapup.users.application.exceptions.UserNotFoundException;

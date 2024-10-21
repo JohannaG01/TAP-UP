@@ -1,15 +1,8 @@
 package com.johannag.tapup.notifications.domain.mappers;
 
-import com.johannag.tapup.bets.domain.dtos.BetSummaryDTO;
-import com.johannag.tapup.bets.domain.models.BetModel;
-import com.johannag.tapup.bets.infrastructure.db.entities.BetEntity;
-import com.johannag.tapup.bets.infrastructure.db.projections.BetSummaryProjection;
-import com.johannag.tapup.horseRaces.domain.mappers.ParticipantDomainMapper;
-import com.johannag.tapup.horses.domain.mappers.HorseDomainMapper;
 import com.johannag.tapup.notifications.domain.dtos.CreateNotificationEntityDTO;
 import com.johannag.tapup.notifications.domain.models.NotificationModel;
 import com.johannag.tapup.notifications.infrastructure.db.entities.NotificationEntity;
-import com.johannag.tapup.users.domain.mappers.UserDomainMapper;
 import com.johannag.tapup.users.infrastructure.db.entities.UserEntity;
 import org.modelmapper.TypeMap;
 import org.springframework.stereotype.Component;

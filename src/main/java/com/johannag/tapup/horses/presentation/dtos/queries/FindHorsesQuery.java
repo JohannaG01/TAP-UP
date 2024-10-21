@@ -19,7 +19,7 @@ import java.util.Set;
 
 @Value
 @SuperBuilder
-@EqualsAndHashCode(callSuper=true)
+@EqualsAndHashCode(callSuper = true)
 public class FindHorsesQuery extends PageQuery {
 
     Set<HorseStateDTO> states;

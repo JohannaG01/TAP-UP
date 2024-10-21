@@ -1,12 +1,12 @@
 package com.johannag.tapup.bets.application.useCases.processBetsPayment;
 
+import com.johannag.tapup.bets.application.cache.BetsPaymentCache;
 import com.johannag.tapup.bets.application.dtos.ProcessPaymentBatchDTO;
 import com.johannag.tapup.bets.application.mappers.BetApplicationMapper;
-import com.johannag.tapup.bets.application.cache.BetsPaymentCache;
-import com.johannag.tapup.bets.domain.models.BetPayoutsCache;
 import com.johannag.tapup.bets.domain.dtos.UpdateBetEntitiesStateDTO;
 import com.johannag.tapup.bets.domain.models.BetModel;
 import com.johannag.tapup.bets.domain.models.BetModelState;
+import com.johannag.tapup.bets.domain.models.BetPayoutsCache;
 import com.johannag.tapup.bets.infrastructure.db.adapters.BetRepository;
 import com.johannag.tapup.globals.application.utils.MoneyUtils;
 import com.johannag.tapup.globals.infrastructure.utils.Logger;
@@ -154,7 +154,7 @@ class ProcessBetsPaymentBatchIteration {
         cache.update(horseRaceUuid, cacheData);
     }
 
-    private BigDecimal obtainTotalPayoutAmount(Map<UUID, List<BigDecimal>> winnerBets){
+    private BigDecimal obtainTotalPayoutAmount(Map<UUID, List<BigDecimal>> winnerBets) {
         return winnerBets.values().stream()
                 .flatMap(List::stream)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);

@@ -2,12 +2,12 @@ package com.johannag.tapup.horseRaces.application.services;
 
 import com.johannag.tapup.horseRaces.application.dtos.CreateHorseRaceDTO;
 import com.johannag.tapup.horseRaces.application.dtos.FindHorseRacesDTO;
+import com.johannag.tapup.horseRaces.application.dtos.SubmitHorseRaceResultsDTO;
 import com.johannag.tapup.horseRaces.application.dtos.UpdateHorseRaceDTO;
 import com.johannag.tapup.horseRaces.application.exceptions.HorseRaceNotFoundException;
 import com.johannag.tapup.horseRaces.application.exceptions.InvalidHorseRaceStateException;
 import com.johannag.tapup.horseRaces.application.exceptions.ParticipantNotFoundException;
 import com.johannag.tapup.horseRaces.application.useCases.*;
-import com.johannag.tapup.horseRaces.application.dtos.SubmitHorseRaceResultsDTO;
 import com.johannag.tapup.horseRaces.domain.models.HorseRaceModel;
 import com.johannag.tapup.horses.application.exceptions.HorseNotAvailableException;
 import com.johannag.tapup.horses.application.exceptions.HorseNotFoundException;

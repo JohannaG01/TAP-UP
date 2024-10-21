@@ -60,7 +60,8 @@ public class ProcessBetsPaymentUseCase {
 
         BatchProcessor<BetModel> batchProcessor = new BatchProcessor<>(
                 currentPage -> betRepository.findPendingBetsByHorseRaceUuid(horseRaceUuid, currentPage, batchSize),
-                betsToPay -> processBetsPaymentBatchIteration.execute(new ProcessPaymentBatchDTO(horseRaceUuid, betsToPay, odds))
+                betsToPay -> processBetsPaymentBatchIteration.execute(new ProcessPaymentBatchDTO(horseRaceUuid,
+                        betsToPay, odds))
         );
 
         batchProcessor.execute();

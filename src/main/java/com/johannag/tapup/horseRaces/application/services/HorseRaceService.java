@@ -85,10 +85,10 @@ public interface HorseRaceService {
      * @param dto The DTO containing the results to be submitted, including
      *            participant placements and times.
      * @return The updated {@link HorseRaceModel} after submitting the results.
-     * @throws ParticipantNotFoundException   if any participant in the DTO
-     *                                        does not exist in the current race.
-     * @throws HorseRaceNotFoundException     if the horse race associated with
-     *                                        the results cannot be found.
+     * @throws ParticipantNotFoundException if any participant in the DTO
+     *                                      does not exist in the current race.
+     * @throws HorseRaceNotFoundException   if the horse race associated with
+     *                                      the results cannot be found.
      */
     HorseRaceModel submitResults(SubmitHorseRaceResultsDTO dto) throws ParticipantNotFoundException,
             HorseRaceNotFoundException, InvalidHorseRaceStateException;

@@ -4,11 +4,7 @@ import com.johannag.tapup.horseRaces.infrastructure.db.entities.HorseRaceEntity;
 import com.johannag.tapup.horseRaces.infrastructure.db.entities.ParticipantEntity;
 import com.johannag.tapup.horses.infrastructure.db.entities.HorseEntity;
 import jakarta.persistence.LockModeType;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.*;
-import org.springframework.lang.NonNull;
 
 import java.util.Optional;
 import java.util.UUID;

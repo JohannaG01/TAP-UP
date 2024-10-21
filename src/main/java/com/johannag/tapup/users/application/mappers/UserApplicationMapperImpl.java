@@ -1,6 +1,9 @@
 package com.johannag.tapup.users.application.mappers;
 
-import com.johannag.tapup.users.application.dtos.*;
+import com.johannag.tapup.users.application.dtos.AddUserFundsDTO;
+import com.johannag.tapup.users.application.dtos.CreateUserDTO;
+import com.johannag.tapup.users.application.dtos.LogInUserDTO;
+import com.johannag.tapup.users.application.dtos.SubtractUserFundsDTO;
 import com.johannag.tapup.users.domain.dtos.AddUserFundsToEntityDTO;
 import com.johannag.tapup.users.domain.dtos.CreateUserEntityDTO;
 import com.johannag.tapup.users.domain.dtos.SubtractUserFundsToEntityDTO;

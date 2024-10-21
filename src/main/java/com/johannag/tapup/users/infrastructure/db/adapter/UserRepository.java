@@ -81,10 +81,10 @@ public interface UserRepository {
      * of the user accounts accordingly.</p>
      *
      * @param dtos a list of {@link AddUserFundsToEntityDTO} instances, each containing
-     *              the user UUID and the amount to be added. Must not be null
-     *              or contain null elements.
+     *             the user UUID and the amount to be added. Must not be null
+     *             or contain null elements.
      * @return a list of {@link UserModel} representing the updated user
-     *         accounts after the funds have been added.
+     * accounts after the funds have been added.
      */
     List<UserModel> addFunds(List<AddUserFundsToEntityDTO> dtos);
 

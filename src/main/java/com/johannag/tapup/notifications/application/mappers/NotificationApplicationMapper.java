@@ -18,7 +18,7 @@ public interface NotificationApplicationMapper {
      * @param dtos the list of {@link CreateNotificationDTO} to be converted,
      *             must not be null or empty.
      * @return a list of {@link CreateNotificationEntityDTO} containing the converted
-     *         notification data..
+     * notification data..
      */
     List<CreateNotificationEntityDTO> toCreateDTO(List<CreateNotificationDTO> dtos);
 }

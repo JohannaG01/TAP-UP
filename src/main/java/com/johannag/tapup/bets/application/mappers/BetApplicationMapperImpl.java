@@ -12,7 +12,6 @@ import org.modelmapper.TypeMap;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
 
 import static com.johannag.tapup.globals.application.utils.ModelMapperUtils.builderTypeMapper;

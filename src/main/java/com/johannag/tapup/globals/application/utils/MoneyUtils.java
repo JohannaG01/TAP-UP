@@ -8,8 +8,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
-import java.util.Locale;
 
 @Component
 @AllArgsConstructor
@@ -17,13 +15,13 @@ public class MoneyUtils {
 
     private final MoneyConfig moneyConfig;
 
-    public BigDecimal ToBigDecimal(double value){
+    public BigDecimal ToBigDecimal(double value) {
         return BigDecimal
                 .valueOf(value)
                 .setScale(moneyConfig.getScale(), RoundingMode.HALF_UP);
     }
 
-    public String toString(BigDecimal value){
+    public String toString(BigDecimal value) {
         DecimalFormatSymbols symbols = new DecimalFormatSymbols();
         symbols.setDecimalSeparator(',');
         symbols.setGroupingSeparator('.');

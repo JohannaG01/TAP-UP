@@ -51,18 +51,19 @@ public interface JpaBetRepository extends JpaRepository<BetEntity, Long>, JpaSpe
 
     /**
      * Finds all bets for a specific horse race, paginated and sorted by the user ID.
-     *
+     * <p>
      * This method retrieves a paginated list of bets associated with a specific horse race UUID.
      * The results are sorted in ascending order by the user's ID.
      *
      * @param horseRaceUuid the UUID of the horse race for which bets are retrieved
-     * @param page the page number to retrieve, starting from 0
-     * @param size the size of the page (number of items per page)
+     * @param page          the page number to retrieve, starting from 0
+     * @param size          the size of the page (number of items per page)
      * @return a Page object containing a list of BetModel objects for the specified horse race,
-     *         sorted by the user ID
+     * sorted by the user ID
      */
     @EntityGraph(attributePaths = {"user", "participant.horseRace", "participant.horse"})
-    Page<BetEntity> findByParticipant_HorseRace_UuidAndState(UUID horseRaceUuid, BetEntityState state, Pageable pageable);
+    Page<BetEntity> findByParticipant_HorseRace_UuidAndState(UUID horseRaceUuid, BetEntityState state,
+                                                             Pageable pageable);
 
     /**
      * Retrieves a list of {@link BetEntity} objects by their unique identifiers (UUIDs)
@@ -72,7 +73,7 @@ public interface JpaBetRepository extends JpaRepository<BetEntity, Long>, JpaSpe
      * @param uuids a collection of unique identifiers of the {@link BetEntity} objects
      *              to be retrieved; must not be {@code null} or empty.
      * @return a list of {@link BetEntity} objects corresponding to the provided UUIDs,
-     *         or an empty list if no entities are found.
+     * or an empty list if no entities are found.
      */
     @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT b FROM BetEntity b WHERE b.uuid IN :uuids")
@@ -82,7 +83,7 @@ public interface JpaBetRepository extends JpaRepository<BetEntity, Long>, JpaSpe
      * Updates the state of bets identified by their UUIDs to the specified state.
      *
      * @param betUuids a collection of {@link UUID} representing the unique identifiers of the bets to be updated
-     * @param state the {@link BetEntityState} representing the new state to set for the specified bets
+     * @param state    the {@link BetEntityState} representing the new state to set for the specified bets
      * @return the number of bets that were updated
      */
     @Modifying
@@ -104,7 +105,7 @@ public interface JpaBetRepository extends JpaRepository<BetEntity, Long>, JpaSpe
      * Counts the total number of bets for a given horse race and a specific participant placement.
      *
      * @param horseRaceUuid the UUID of the horse race to count bets for
-     * @param placement the placement of the participant to filter by
+     * @param placement     the placement of the participant to filter by
      * @return the number of bets that match the given horse race and participant placement
      */
     long countByParticipant_HorseRace_UuidAndParticipant_Placement(UUID horseRaceUuid, int placement);

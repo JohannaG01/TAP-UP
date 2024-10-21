@@ -19,10 +19,10 @@ import java.util.UUID;
 @AllArgsConstructor
 public class NotificationRepositoryImpl implements NotificationRepository {
 
+    private static final Logger logger = Logger.getLogger(NotificationRepositoryImpl.class);
     private final JpaNotificationRepository jpaNotificationRepository;
     private final JpaUserRepository jpaUserRepository;
     private final NotificationDomainMapper notificationDomainMapper;
-    private static final Logger logger = Logger.getLogger(NotificationRepositoryImpl.class);
 
     @Override
     public List<NotificationModel> create(List<CreateNotificationEntityDTO> dtos) {

@@ -1,13 +1,9 @@
 package com.johannag.tapup.notifications.domain.models;
 
-import com.johannag.tapup.notifications.infrastructure.db.entities.NotificationEntityType;
 import com.johannag.tapup.users.domain.models.UserModel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
