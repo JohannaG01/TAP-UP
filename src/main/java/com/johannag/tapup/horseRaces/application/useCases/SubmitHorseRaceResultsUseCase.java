@@ -1,6 +1,9 @@
 package com.johannag.tapup.horseRaces.application.useCases;
 
+import com.johannag.tapup.bets.application.constants.BetNotificationConstant;
 import com.johannag.tapup.bets.application.services.BetAsyncService;
+import com.johannag.tapup.bets.application.services.BetService;
+import com.johannag.tapup.bets.domain.models.BetPayouts;
 import com.johannag.tapup.globals.infrastructure.utils.Logger;
 import com.johannag.tapup.horseRaces.application.exceptions.HorseRaceNotFoundException;
 import com.johannag.tapup.horseRaces.application.exceptions.InvalidHorseRaceStateException;
@@ -10,7 +13,11 @@ import com.johannag.tapup.horseRaces.application.dtos.SubmitHorseRaceResultsDTO;
 import com.johannag.tapup.horseRaces.domain.models.HorseRaceModel;
 import com.johannag.tapup.horseRaces.infrastructure.db.adapters.HorseRaceRepository;
 import com.johannag.tapup.horses.application.exceptions.HorseNotAvailableException;
+import com.johannag.tapup.notifications.application.dtos.CreateNotificationDTO;
 import com.johannag.tapup.notifications.application.services.NotificationService;
+import com.johannag.tapup.notifications.domain.models.NotificationModelType;
+import com.johannag.tapup.users.application.services.UserService;
+import com.johannag.tapup.users.domain.models.UserModel;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
@@ -29,7 +36,9 @@ public class SubmitHorseRaceResultsUseCase {
     private final HorseRaceRepository horseRaceRepository;
     private final FindOneHorseRaceByUuidUseCase findOneHorseRaceByUuidUseCase;
     private final BetAsyncService betAsyncService;
-    private final NotificationService notificationAsyncService;
+    private final BetService betService;
+    private final NotificationService notificationService;
+    private final UserService userService;
 
     public HorseRaceModel execute(SubmitHorseRaceResultsDTO dto)
             throws HorseRaceNotFoundException, InvalidHorseRaceStateException, HorseNotAvailableException {
@@ -41,13 +50,14 @@ public class SubmitHorseRaceResultsUseCase {
         validateHorseRaceIsInValidStateToSubmitResultsOrThrow(horseRace);
         var submitHorseRaceResultsForEntityDTO = horseRaceApplicationMapper.toSubmitResultsForEntityDTO(dto);
         HorseRaceModel updatedHorseRace = horseRaceRepository.submitResults(submitHorseRaceResultsForEntityDTO);
-        betAsyncService.processPayments(dto.getHorseRaceUuid());
+        processPaymentsAndHandleAsyncResponse(dto.getHorseRaceUuid());
 
         logger.info("Finished SubmitHorseRaceResults process for horse race {}", dto.getHorseRaceUuid());
         return updatedHorseRace;
     }
 
-    private void validateHorseRaceIsInValidStateToSubmitResultsOrThrow(HorseRaceModel horseRace) throws InvalidHorseRaceStateException {
+    private void validateHorseRaceIsInValidStateToSubmitResultsOrThrow(HorseRaceModel horseRace)
+            throws InvalidHorseRaceStateException {
         if (!horseRace.isScheduled() || !horseRace.hasAlreadyStarted()) {
             throw new InvalidHorseRaceStateException(String.format("Horse race UUID %s must be SCHEDULED and had " +
                     "already started in order to submit results", horseRace.getUuid())
@@ -71,20 +81,39 @@ public class SubmitHorseRaceResultsUseCase {
     }
 
     private void processPaymentsAndHandleAsyncResponse(UUID horseRaceUuid){
-        betAsyncService.processPayments(horseRaceUuid)
-                .handle((result, throwable) -> {
-                    if (throwable != null) {
-                        logger.error("Error processing payments for horse race {}: Error {}", horseRaceUuid, throwable.getMessage());
-                    } else {
-                        logger.info("Payments processed successfully for horse race {}", horseRaceUuid);
-                    }
+        betAsyncService
+                .processPayments(horseRaceUuid)
+                .handle((result, throwable) -> sendResultsToAdmins(horseRaceUuid, throwable));
+    }
 
-                    return null;
-                });
+    private BetPayouts sendResultsToAdmins(UUID horseRaceUuid, Throwable throwable) {
+        BetPayouts betPayouts = betService.generateBetPaymentResults(horseRaceUuid);
+        List<UserModel> admins = userService.findAllAdmins();
+        List<CreateNotificationDTO> dtos = buildNotificationMessageAndLogResult(horseRaceUuid, throwable, betPayouts, admins);
+        notificationService.createNotifications(dtos);
+        return betPayouts;
     }
-    private void handleAsyncResponseIfFailed(UUID horseRaceUuid, Throwable throwable) {
+
+    private List<CreateNotificationDTO> buildNotificationMessageAndLogResult(UUID horseRaceUuid,
+                                                                             Throwable throwable,
+                                                                             BetPayouts betPayouts,
+                                                                             List<UserModel> admins) {
+       String message;
+       NotificationModelType notificationType;
+
         if (throwable != null) {
-            logger.error("Error processing payments for horse race {}: Error {}", horseRaceUuid, throwable.getMessage());
+            message = String.format(BetNotificationConstant.FAILED_PAYMENTS, horseRaceUuid, betPayouts);
+            notificationType = NotificationModelType.ERROR;
+        } else{
+            message = String.format(BetNotificationConstant.SUCCESSFUL_PAYMENTS, horseRaceUuid, betPayouts);
+            notificationType = NotificationModelType.SUCCESS;
         }
+
+        logger.info(message);
+
+        return admins.stream()
+                .map(admin -> new CreateNotificationDTO(admin.getUuid(), message, notificationType))
+                .toList();
     }
+
 }

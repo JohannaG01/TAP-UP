@@ -107,4 +107,11 @@ public interface UserRepository {
      * @return the unique identifier of the user, or {@code null} if no user is found
      */
     Long findUserIdByEmail(String email);
+
+    /**
+     * Retrieves a list of all administrators.
+     *
+     * @return a list of {@link UserModel} representing the administrators in the system.
+     */
+    List<UserModel> findAllAdmins();
 }

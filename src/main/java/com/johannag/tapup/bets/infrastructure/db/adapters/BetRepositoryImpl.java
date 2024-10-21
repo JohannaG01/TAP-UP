@@ -1,13 +1,11 @@
 package com.johannag.tapup.bets.infrastructure.db.adapters;
 
-import com.johannag.tapup.auth.infrastructure.utils.SecurityContextUtils;
 import com.johannag.tapup.bets.domain.dtos.BetSummaryDTO;
 import com.johannag.tapup.bets.domain.dtos.CreateBetEntityDTO;
 import com.johannag.tapup.bets.domain.dtos.FindBetEntitiesDTO;
 import com.johannag.tapup.bets.domain.dtos.UpdateBetEntitiesStateDTO;
 import com.johannag.tapup.bets.domain.mappers.BetDomainMapper;
 import com.johannag.tapup.bets.domain.models.BetModel;
-import com.johannag.tapup.bets.domain.models.BetModelState;
 import com.johannag.tapup.bets.infrastructure.db.entities.BetEntity;
 import com.johannag.tapup.bets.infrastructure.db.entities.BetEntityState;
 import com.johannag.tapup.bets.infrastructure.db.projections.BetSummaryProjection;
@@ -29,9 +27,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @Slf4j
@@ -90,6 +86,16 @@ public class BetRepositoryImpl implements BetRepository {
 
         return jpaBetRepository.findByParticipant_HorseRace_UuidAndState(horseRaceUuid, BetEntityState.PENDING, pageable)
                 .map(betDomainMapper::toModel);
+    }
+
+    @Override
+    public Long countBetsByHorseRaceUuid(UUID horseRaceUuid) {
+        return jpaBetRepository.countByParticipant_HorseRace_Uuid(horseRaceUuid);
+    }
+
+    @Override
+    public Long countWinningBetsByHorseRaceUuid(UUID horseRaceUuid) {
+        return jpaBetRepository.countByParticipant_HorseRace_UuidAndParticipant_Placement(horseRaceUuid, 1);
     }
 
     @Override

@@ -26,6 +26,7 @@ public class UserServiceImpl implements UserService {
     private final FindOneUserByUuidUseCase findOneUserByUuidUseCase;
     private final SubtractFundsToUserBalanceUseCase subtractFundsToUserBalanceUseCase;
     private final ValidateExistUsersUseCase validateExistUsersUseCase;
+    private final FindAdminUsersUseCase findAllAdminUsersUseCase;
 
     @Override
     public UserModel signIn(CreateUserDTO dto) throws UserAlreadyExistsException {
@@ -65,5 +66,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public void validateExistance(Collection<UUID> userUuid) throws UserNotFoundException {
         validateExistUsersUseCase.execute(userUuid);
+    }
+
+    @Override
+    public List<UserModel> findAllAdmins() {
+        return findAllAdminUsersUseCase.execute();
     }
 }

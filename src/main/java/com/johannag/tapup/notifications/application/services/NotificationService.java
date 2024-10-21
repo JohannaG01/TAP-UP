@@ -16,5 +16,5 @@ public interface NotificationService {
      * @return a {@link CompletableFuture} containing a list of {@link NotificationModel} representing the created notifications
      * @throws UserNotFoundException if any of the users specified in the notifications do not exist
      */
-    CompletableFuture<List<NotificationModel>> createNotifications(List<CreateNotificationDTO> dtos) throws UserNotFoundException;
+    List<NotificationModel> createNotifications(List<CreateNotificationDTO> dtos) throws UserNotFoundException;
 }

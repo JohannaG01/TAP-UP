@@ -1,4 +1,4 @@
-package com.johannag.tapup.bets.application.useCases.processBetsPayment.cache;
+package com.johannag.tapup.bets.application.cache;
 
 import com.johannag.tapup.bets.domain.models.BetPayoutsCache;
 import org.springframework.cache.annotation.CacheEvict;
@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Service
-public class ProcessBetsPaymentCache {
+public class BetsPaymentCache {
     private final Map<UUID, BetPayoutsCache> cache = new HashMap<>();
 
     @Cacheable(value = "processBetsForFinishedHorseRaceCache", key = "#key")

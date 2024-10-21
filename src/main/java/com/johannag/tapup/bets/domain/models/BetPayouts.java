@@ -12,4 +12,13 @@ public class BetPayouts {
     private Long totalWinningBets;
     private Long totalPayouts;
     private BigDecimal totalAmount;
+
+    @Override
+    public String toString() {
+        return " [TotalBets=" + totalBets +
+                ", TotalWinningBets=" + totalWinningBets +
+                ", TotalPayouts=" + totalPayouts +
+                ", TotalAmount=" + totalAmount +
+                ']';
+    }
 }

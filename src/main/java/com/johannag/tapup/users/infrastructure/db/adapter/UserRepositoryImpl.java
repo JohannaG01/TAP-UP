@@ -123,4 +123,11 @@ public class UserRepositoryImpl implements UserRepository {
     public Long findUserIdByEmail(String email) {
         return jpaUserRepository.findIdByEmail(email);
     }
+
+    @Override
+    public List<UserModel> findAllAdmins() {
+        return jpaUserRepository.findByIsAdmin(true).stream()
+                .map(userDomainMapper::toModel)
+                .toList();
+    }
 }

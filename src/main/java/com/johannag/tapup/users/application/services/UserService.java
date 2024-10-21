@@ -99,4 +99,11 @@ public interface UserService {
      * @throws UserNotFoundException if one or more users identified by the provided UUIDs do not exist.
      */
     void validateExistance(Collection<UUID> userUuid) throws UserNotFoundException;
+
+    /**
+     * Retrieves a list of all administrators.
+     *
+     * @return a list of {@link UserModel} representing the administrators in the system.
+     */
+    List<UserModel> findAllAdmins();
 }

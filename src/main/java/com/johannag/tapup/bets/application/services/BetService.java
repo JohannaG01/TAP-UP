@@ -4,6 +4,7 @@ import com.johannag.tapup.bets.application.dtos.CreateBetDTO;
 import com.johannag.tapup.bets.application.dtos.FindBetsDTO;
 import com.johannag.tapup.bets.application.exceptions.InsufficientBalanceException;
 import com.johannag.tapup.bets.domain.models.BetModel;
+import com.johannag.tapup.bets.domain.models.BetPayouts;
 import com.johannag.tapup.bets.domain.models.BetStatisticsModel;
 import com.johannag.tapup.bets.domain.models.BetSummaryModel;
 import com.johannag.tapup.horseRaces.application.exceptions.HorseRaceNotFoundException;
@@ -62,4 +63,13 @@ public interface BetService {
      * @throws HorseRaceNotFoundException if no horse race is found for the provided UUID
      */
     BetStatisticsModel generateBetStatistics(UUID horseRaceUuid) throws HorseRaceNotFoundException;
+
+    /**
+     * Generates the payment results for bets placed on a given horse race.
+     * The method calculates and returns the payouts for all eligible bets.
+     *
+     * @param horseRaceUuid the UUID of the horse race to generate bet payment results for
+     * @return the {@code BetPayouts} object containing the calculated payouts for the specified horse race
+     */
+    BetPayouts generateBetPaymentResults(UUID horseRaceUuid);
 }

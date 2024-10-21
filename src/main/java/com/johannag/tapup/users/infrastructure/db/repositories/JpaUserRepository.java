@@ -110,4 +110,13 @@ public interface JpaUserRepository extends JpaRepository<UserEntity, Long> {
     @Query("SELECT u.id FROM UserEntity u WHERE u.email = :email")
     Long findIdByEmail(String email);
 
+    /**
+     * Retrieves a list of user entities based on their admin status.
+     *
+     * @param isAdmin a boolean value indicating whether to fetch administrators (true)
+     *                or non-administrators (false).
+     * @return a list of {@link UserEntity} representing the users matching the specified admin status.
+     */
+    List<UserEntity> findByIsAdmin(boolean isAdmin);
+
 }

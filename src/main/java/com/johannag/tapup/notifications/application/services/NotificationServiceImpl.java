@@ -18,7 +18,7 @@ public class NotificationServiceImpl implements NotificationService {
     private final CreateNotificationsUseCase createNotificationsUseCase;
 
     @Override
-    public CompletableFuture<List<NotificationModel>> createNotifications(List<CreateNotificationDTO> dtos) throws UserNotFoundException {
-        return CompletableFuture.completedFuture(createNotificationsUseCase.execute(dtos));
+    public List<NotificationModel> createNotifications(List<CreateNotificationDTO> dtos) throws UserNotFoundException {
+        return createNotificationsUseCase.execute(dtos);
     }
 }

@@ -53,6 +53,25 @@ public interface BetRepository {
     Page<BetModel> findPendingBetsByHorseRaceUuid(UUID horseRaceUuid, int page, int size);
 
     /**
+     * Counts the total number of bets associated with a specific horse race.
+     *
+     * This method returns the total number of bets that have been placed for the horse race identified
+     * by the provided UUID.
+     *
+     * @param horseRaceUuid the UUID of the horse race for which to count bets
+     * @return the total number of bets placed for the specified horse race
+     */
+    Long countBetsByHorseRaceUuid(UUID horseRaceUuid);
+
+    /**
+     * Counts the total number of winning bets for a given horse race identified by its UUID.
+     *
+     * @param horseRaceUuid the UUID of the horse race to count winning bets for
+     * @return the number of winning bets for the specified horse race
+     */
+    Long countWinningBetsByHorseRaceUuid(UUID horseRaceUuid);
+
+    /**
      * Updates the state of multiple bets based on the provided list of data transfer objects.
      *
      * @param dtos a {@link UpdateBetEntitiesStateDTO} containing the new state and relevant information for each bet

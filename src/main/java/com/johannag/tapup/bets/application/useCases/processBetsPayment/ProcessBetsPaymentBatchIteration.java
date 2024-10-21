@@ -2,7 +2,7 @@ package com.johannag.tapup.bets.application.useCases.processBetsPayment;
 
 import com.johannag.tapup.bets.application.dtos.ProcessPaymentBatchDTO;
 import com.johannag.tapup.bets.application.mappers.BetApplicationMapper;
-import com.johannag.tapup.bets.application.useCases.processBetsPayment.cache.ProcessBetsPaymentCache;
+import com.johannag.tapup.bets.application.cache.BetsPaymentCache;
 import com.johannag.tapup.bets.domain.models.BetPayoutsCache;
 import com.johannag.tapup.bets.domain.dtos.UpdateBetEntitiesStateDTO;
 import com.johannag.tapup.bets.domain.models.BetModel;
@@ -37,7 +37,7 @@ class ProcessBetsPaymentBatchIteration {
     private final BetRepository betRepository;
     private final BetApplicationMapper betApplicationMapper;
     private final NotificationService notificationService;
-    private final ProcessBetsPaymentCache cache;
+    private final BetsPaymentCache cache;
     private final MoneyUtils moneyUtils;
 
     @Transactional

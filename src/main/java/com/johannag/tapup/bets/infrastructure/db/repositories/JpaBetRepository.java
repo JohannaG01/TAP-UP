@@ -89,4 +89,24 @@ public interface JpaBetRepository extends JpaRepository<BetEntity, Long>, JpaSpe
     @Query("UPDATE BetEntity b SET b.state = :state WHERE b.uuid IN :betUuids")
     int updateBetStates(Collection<UUID> betUuids, BetEntityState state);
 
+    /**
+     * Counts the total number of bet entities associated with a specific horse race.
+     * <p>
+     * This method returns the total number of bet entities that are linked to the participants
+     * in the horse race identified by the provided UUID.
+     *
+     * @param horseRaceUuid the UUID of the horse race for which to count bet entities
+     * @return the total number of bet entities linked to the specified horse race
+     */
+    long countByParticipant_HorseRace_Uuid(UUID horseRaceUuid);
+
+    /**
+     * Counts the total number of bets for a given horse race and a specific participant placement.
+     *
+     * @param horseRaceUuid the UUID of the horse race to count bets for
+     * @param placement the placement of the participant to filter by
+     * @return the number of bets that match the given horse race and participant placement
+     */
+    long countByParticipant_HorseRace_UuidAndParticipant_Placement(UUID horseRaceUuid, int placement);
+
 }
