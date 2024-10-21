@@ -5,11 +5,11 @@ import com.johannag.tapup.bets.application.services.BetAsyncService;
 import com.johannag.tapup.bets.application.services.BetService;
 import com.johannag.tapup.bets.domain.models.BetPayouts;
 import com.johannag.tapup.globals.infrastructure.utils.Logger;
+import com.johannag.tapup.horseRaces.application.dtos.SubmitHorseRaceResultsDTO;
 import com.johannag.tapup.horseRaces.application.exceptions.HorseRaceNotFoundException;
 import com.johannag.tapup.horseRaces.application.exceptions.InvalidHorseRaceStateException;
 import com.johannag.tapup.horseRaces.application.exceptions.ParticipantNotFoundException;
 import com.johannag.tapup.horseRaces.application.mappers.HorseRaceApplicationMapper;
-import com.johannag.tapup.horseRaces.application.dtos.SubmitHorseRaceResultsDTO;
 import com.johannag.tapup.horseRaces.domain.models.HorseRaceModel;
 import com.johannag.tapup.horseRaces.infrastructure.db.adapters.HorseRaceRepository;
 import com.johannag.tapup.horses.application.exceptions.HorseNotAvailableException;
@@ -19,14 +19,16 @@ import com.johannag.tapup.notifications.domain.models.NotificationModelType;
 import com.johannag.tapup.users.application.services.UserService;
 import com.johannag.tapup.users.domain.models.UserModel;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
-@Slf4j
+import static com.johannag.tapup.bets.application.constants.BetNotificationConstant.FAILED_PAYMENTS;
+import static com.johannag.tapup.bets.application.constants.BetNotificationConstant.SUCCESSFUL_PAYMENTS;
+
 @Service
 @AllArgsConstructor(onConstructor = @__(@Lazy))
 public class SubmitHorseRaceResultsUseCase {
@@ -80,7 +82,7 @@ public class SubmitHorseRaceResultsUseCase {
         }
     }
 
-    private void processPaymentsAndHandleAsyncResponse(UUID horseRaceUuid){
+    private void processPaymentsAndHandleAsyncResponse(UUID horseRaceUuid) {
         betAsyncService
                 .processPayments(horseRaceUuid)
                 .handle((result, throwable) -> sendResultsToAdmins(horseRaceUuid, throwable));
@@ -89,23 +91,24 @@ public class SubmitHorseRaceResultsUseCase {
     private BetPayouts sendResultsToAdmins(UUID horseRaceUuid, Throwable throwable) {
         BetPayouts betPayouts = betService.generateBetPaymentResults(horseRaceUuid);
         List<UserModel> admins = userService.findAllAdmins();
-        List<CreateNotificationDTO> dtos = buildNotificationMessageAndLogResult(horseRaceUuid, throwable, betPayouts, admins);
+        List<CreateNotificationDTO> dtos = buildNotificationMessageAndLogResult(horseRaceUuid, throwable, betPayouts,
+                admins);
         notificationService.createNotifications(dtos);
         return betPayouts;
     }
 
     private List<CreateNotificationDTO> buildNotificationMessageAndLogResult(UUID horseRaceUuid,
-                                                                             Throwable throwable,
+                                                                             @Nullable Throwable throwable,
                                                                              BetPayouts betPayouts,
                                                                              List<UserModel> admins) {
-       String message;
-       NotificationModelType notificationType;
+        String message;
+        NotificationModelType notificationType;
 
         if (throwable != null) {
-            message = String.format(BetNotificationConstant.FAILED_PAYMENTS, horseRaceUuid, betPayouts);
+            message = String.format(FAILED_PAYMENTS, horseRaceUuid, throwable.getMessage(), betPayouts);
             notificationType = NotificationModelType.ERROR;
-        } else{
-            message = String.format(BetNotificationConstant.SUCCESSFUL_PAYMENTS, horseRaceUuid, betPayouts);
+        } else {
+            message = String.format(SUCCESSFUL_PAYMENTS, horseRaceUuid, betPayouts);
             notificationType = NotificationModelType.SUCCESS;
         }
 
