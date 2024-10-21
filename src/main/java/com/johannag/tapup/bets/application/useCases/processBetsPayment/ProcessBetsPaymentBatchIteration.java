@@ -1,8 +1,9 @@
-package com.johannag.tapup.bets.application.useCases.batch;
+package com.johannag.tapup.bets.application.useCases.processBetsPayment;
 
 import com.johannag.tapup.bets.application.dtos.ProcessPaymentBatchDTO;
 import com.johannag.tapup.bets.application.mappers.BetApplicationMapper;
-import com.johannag.tapup.bets.domain.dtos.BetPayoutsDTO;
+import com.johannag.tapup.bets.application.useCases.processBetsPayment.cache.ProcessBetsPaymentCache;
+import com.johannag.tapup.bets.domain.models.BetPayoutsCache;
 import com.johannag.tapup.bets.domain.dtos.UpdateBetEntitiesStateDTO;
 import com.johannag.tapup.bets.domain.models.BetModel;
 import com.johannag.tapup.bets.domain.models.BetModelState;
@@ -29,61 +30,40 @@ import static com.johannag.tapup.notifications.domain.models.NotificationModelTy
 
 @Service
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
-class ProcessBetsForFinishedHorseRaceBatchIteration {
+class ProcessBetsPaymentBatchIteration {
 
-    private static final Logger logger = Logger.getLogger(ProcessBetsForFinishedHorseRaceBatchIteration.class);
+    private static final Logger logger = Logger.getLogger(ProcessBetsPaymentBatchIteration.class);
     private final UserService userService;
     private final BetRepository betRepository;
     private final BetApplicationMapper betApplicationMapper;
     private final NotificationService notificationService;
+    private final ProcessBetsPaymentCache cache;
     private final MoneyUtils moneyUtils;
 
     @Transactional
-    public BetPayoutsDTO execute(ProcessPaymentBatchDTO dto) {
+    public void execute(ProcessPaymentBatchDTO dto) {
 
         logger.info("Starting to process batch iteration: {}", dto.currentPage());
 
         List<BetModel> bets = dto.getBets().getContent();
+        BigDecimal odds = moneyUtils.ToBigDecimal(dto.getOdds());
+
         Map<Boolean, Map<UUID, List<BigDecimal>>> partitionedBets = partitionBetsByWinner(bets);
         Map<UUID, List<BigDecimal>> winnerBets = partitionedBets.get(true);
         Map<UUID, List<BigDecimal>> loserBets = partitionedBets.get(false);
-        BigDecimal odds = moneyUtils.ToBigDecimal(dto.getOdds());
 
         List<AddUserFundsDTO> addUserFundsDTOs = mapToAddUserFundsDTO(winnerBets, odds);
         UpdateBetEntitiesStateDTO updateWinnerBetsDTO = mapToUpdateBetDTOs(winnerBetsUuids(bets), PAID);
         UpdateBetEntitiesStateDTO updateLoserBetsDTO = mapToUpdateBetDTOs(loserBetsUuids(bets), LOST);
+        List<CreateNotificationDTO> createNotificationDTOS = mapToNotificationsDTOs(winnerBets, loserBets, odds);
 
         userService.addFunds(addUserFundsDTOs);
         betRepository.updateState(updateWinnerBetsDTO);
         betRepository.updateState(updateLoserBetsDTO);
-
-        List<CreateNotificationDTO> createNotificationDTOS = mapToNotificationsDTOs(winnerBets, loserBets, odds);
         notificationService.createNotifications(createNotificationDTOS);
+        updateCache(dto.getHorseRaceUuid(), winnerBets);
 
         logger.info("Finished process batch iteration: {}", dto.currentPage());
-
-        //TODO change this for cache
-
-        // Sumar todos los valores de las listas
-        BigDecimal totalSum = winnerBets.values().stream()
-                .flatMap(List::stream) // Aplanar las listas en un solo stream
-                .reduce(BigDecimal.ZERO, BigDecimal::add); // Sumar todos los valores
-
-        // Contar cuántas listas hay en el mapa
-        int numberOfEntities = winnerBets.size();
-
-        int totalElementsInLists = winnerBets.values().stream()
-                .mapToInt(List::size) // Obtener el tamaño de cada lista
-                .sum(); // Sumar los tamaños
-
-        // Multiplicar la suma total por el número de listas
-        BigDecimal total = totalSum.multiply(BigDecimal.valueOf(numberOfEntities));
-
-        return BetPayoutsDTO.builder()
-                .totalAmount(total)
-                .totalPayouts(totalElementsInLists)
-                .build();
-
     }
 
     private Map<Boolean, Map<UUID, List<BigDecimal>>> partitionBetsByWinner(List<BetModel> bets) {
@@ -165,5 +145,24 @@ class ProcessBetsForFinishedHorseRaceBatchIteration {
         }
 
         return notifications;
+    }
+
+    private void updateCache(UUID horseRaceUuid, Map<UUID, List<BigDecimal>> winnerBets) {
+        BetPayoutsCache cacheData = cache.getOrDefault(horseRaceUuid);
+        cacheData.addAmount(obtainTotalPayoutAmount(winnerBets));
+        cacheData.addPayouts(obtainTotalPayouts(winnerBets));
+        cache.update(horseRaceUuid, cacheData);
+    }
+
+    private BigDecimal obtainTotalPayoutAmount(Map<UUID, List<BigDecimal>> winnerBets){
+        return winnerBets.values().stream()
+                .flatMap(List::stream)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    private long obtainTotalPayouts(Map<UUID, List<BigDecimal>> winnerBets) {
+        return winnerBets.values().stream()
+                .mapToInt(List::size)
+                .sum();
     }
 }

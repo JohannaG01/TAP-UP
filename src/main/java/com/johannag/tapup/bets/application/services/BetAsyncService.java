@@ -10,12 +10,15 @@ import java.util.concurrent.CompletableFuture;
 public interface BetAsyncService {
 
     /**
-     * Processes payments for bets associated with a specific horse race.
+     * Processes the payments for a given horse race asynchronously.
      *
-     * @param horseRaceUuid the unique identifier of the horse race
-     * @return a {@link CompletableFuture} containing the payouts for the bets once the processing is complete
-     * @throws HorseRaceNotFoundException if no horse race is found for the given UUID
+     * This method initiates the payment process for the specified horse race identified by its UUID.
+     * It will execute the necessary logic to process bets associated with the horse race.
+     *
+     * @param horseRaceUuid the UUID of the horse race for which payments are to be processed
+     * @throws HorseRaceNotFoundException if no horse race is found with the specified UUID
      * @throws InvalidHorseRaceStateException if the horse race is in an invalid state for processing payments
+     * @return a CompletableFuture that will be completed when the payment processing is done
      */
-    CompletableFuture<BetPayouts> processPayments(UUID horseRaceUuid) throws HorseRaceNotFoundException, InvalidHorseRaceStateException;
+    CompletableFuture<Void> processPayments(UUID horseRaceUuid) throws HorseRaceNotFoundException, InvalidHorseRaceStateException;
 }

@@ -1,32 +1,30 @@
-package com.johannag.tapup.globals.application.useCases;
+package com.johannag.tapup.globals.application;
 
 import com.johannag.tapup.globals.infrastructure.utils.Logger;
 import org.springframework.data.domain.Page;
 
+import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class BatchProcessor<T, R> {
-    private final int batchSize;
+public class BatchProcessor<T> {
     private final Function<Integer, Page<T>> fetchFunction;
-    private final Function<Page<T>, R> processFunction;
+    private final Consumer<Page<T>> processFunction;
     private static final Logger logger = Logger.getLogger(BatchProcessor.class);
 
-    public BatchProcessor(int batchSize, Function<Integer, Page<T>> fetchFunction, Function<Page<T>, R> processFunction) {
-        this.batchSize = batchSize;
+    public BatchProcessor(Function<Integer, Page<T>> fetchFunction, Consumer<Page<T>> processFunction) {
         this.fetchFunction = fetchFunction;
         this.processFunction = processFunction;
     }
 
-    public R execute() {
+    public void execute() {
         int currentPage = 0;
-        R result = null;
         Page<T> batch;
 
         do {
             try {
                 batch = fetchFunction.apply(currentPage);
                 if (!batch.isEmpty()) {
-                    result = processFunction.apply(batch);
+                    processFunction.accept(batch);
                     currentPage++;
                 } else {
                     break;
@@ -36,7 +34,5 @@ public class BatchProcessor<T, R> {
                 break;
             }
         } while (true);
-
-        return result;
     }
 }

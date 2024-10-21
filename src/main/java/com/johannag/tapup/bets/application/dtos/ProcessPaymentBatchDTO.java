@@ -6,10 +6,13 @@ import lombok.Builder;
 import lombok.Value;
 import org.springframework.data.domain.Page;
 
+import java.util.UUID;
+
 @Value
 @Builder(builderClassName = "Builder")
 @AllArgsConstructor
 public class ProcessPaymentBatchDTO {
+    UUID horseRaceUuid;
     Page<BetModel> bets;
     double odds;
 

@@ -69,4 +69,22 @@ public class SubmitHorseRaceResultsUseCase {
             throw new ParticipantNotFoundException(missingParticipants, horseRace.getUuid());
         }
     }
+
+    private void processPaymentsAndHandleAsyncResponse(UUID horseRaceUuid){
+        betAsyncService.processPayments(horseRaceUuid)
+                .handle((result, throwable) -> {
+                    if (throwable != null) {
+                        logger.error("Error processing payments for horse race {}: Error {}", horseRaceUuid, throwable.getMessage());
+                    } else {
+                        logger.info("Payments processed successfully for horse race {}", horseRaceUuid);
+                    }
+
+                    return null;
+                });
+    }
+    private void handleAsyncResponseIfFailed(UUID horseRaceUuid, Throwable throwable) {
+        if (throwable != null) {
+            logger.error("Error processing payments for horse race {}: Error {}", horseRaceUuid, throwable.getMessage());
+        }
+    }
 }
