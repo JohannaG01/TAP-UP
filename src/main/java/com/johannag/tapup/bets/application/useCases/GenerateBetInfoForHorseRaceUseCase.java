@@ -5,6 +5,7 @@ import com.johannag.tapup.bets.application.config.MoneyConfig;
 import com.johannag.tapup.bets.domain.dtos.BetSummaryDTO;
 import com.johannag.tapup.bets.domain.models.BetSummaryModel;
 import com.johannag.tapup.bets.infrastructure.db.adapters.BetRepository;
+import com.johannag.tapup.globals.application.utils.MoneyUtils;
 import com.johannag.tapup.globals.infrastructure.utils.Logger;
 import com.johannag.tapup.horseRaces.application.services.HorseRaceService;
 import lombok.AllArgsConstructor;
@@ -24,6 +25,7 @@ public class GenerateBetInfoForHorseRaceUseCase {
     private final HorseRaceService horseRaceService;
     private final BetConfig betConfig;
     private final MoneyConfig moneyConfig;
+    private final MoneyUtils moneyUtils;
 
     public List<BetSummaryModel> execute(UUID horseRaceUuid) {
         logger.info("Starting GenerateBetDetails process for Horse Race with UUID {}", horseRaceUuid);
@@ -65,10 +67,7 @@ public class GenerateBetInfoForHorseRaceUseCase {
 
     private BigDecimal calculateOdds(Long maxTotalBets, Long bets) {
         double odds = betConfig.getMinOdds() + (maxTotalBets - bets) / (maxTotalBets + 1.0);
-
-        return BigDecimal
-                .valueOf(odds)
-                .setScale(moneyConfig.getScale(), RoundingMode.HALF_UP);
+        return moneyUtils.ToBigDecimal(odds);
     }
 
     private BigDecimal calculateTotalPayouts(BigDecimal odds, BigDecimal baseTotalPayouts) {

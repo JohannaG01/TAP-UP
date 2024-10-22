@@ -3,6 +3,7 @@ package com.johannag.tapup.bets.infrastructure.db.adapters;
 import com.johannag.tapup.bets.domain.dtos.BetSummaryDTO;
 import com.johannag.tapup.bets.domain.dtos.CreateBetEntityDTO;
 import com.johannag.tapup.bets.domain.dtos.FindBetEntitiesDTO;
+import com.johannag.tapup.bets.domain.dtos.UpdateBetEntitiesStateDTO;
 import com.johannag.tapup.bets.domain.models.BetModel;
 import org.springframework.data.domain.Page;
 
@@ -40,4 +41,41 @@ public interface BetRepository {
      * If no bets are found for the given horse race UUID, an empty list is returned.
      */
     List<BetSummaryDTO> findBetDetails(UUID horseRaceUuid);
+
+    /**
+     * Retrieves a paginated list of pending bets associated with a specific horse race.
+     *
+     * @param horseRaceUuid the unique identifier of the horse race for which bets are retrieved.
+     * @param page          the page number to retrieve, starting from 0.
+     * @param size          the number of results per page.
+     * @return a {@link Page} containing the {@link BetModel} entities corresponding to the specified horse race.
+     */
+    Page<BetModel> findPendingBetsByHorseRaceUuid(UUID horseRaceUuid, int page, int size);
+
+    /**
+     * Counts the total number of bets associated with a specific horse race.
+     * <p>
+     * This method returns the total number of bets that have been placed for the horse race identified
+     * by the provided UUID.
+     *
+     * @param horseRaceUuid the UUID of the horse race for which to count bets
+     * @return the total number of bets placed for the specified horse race
+     */
+    Long countBetsByHorseRaceUuid(UUID horseRaceUuid);
+
+    /**
+     * Counts the total number of winning bets for a given horse race identified by its UUID.
+     *
+     * @param horseRaceUuid the UUID of the horse race to count winning bets for
+     * @return the number of winning bets for the specified horse race
+     */
+    Long countWinningBetsByHorseRaceUuid(UUID horseRaceUuid);
+
+    /**
+     * Updates the state of multiple bets based on the provided list of data transfer objects.
+     *
+     * @param dtos a {@link UpdateBetEntitiesStateDTO} containing the new state and relevant information for each bet
+     * @return a list of updated {@link BetModel} instances reflecting the new states
+     */
+    List<BetModel> updateState(UpdateBetEntitiesStateDTO dtos);
 }

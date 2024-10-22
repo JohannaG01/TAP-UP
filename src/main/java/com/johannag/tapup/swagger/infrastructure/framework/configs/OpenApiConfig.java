@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 
 @Configuration
 @SecurityScheme(
@@ -40,7 +39,7 @@ public class OpenApiConfig {
         ObjectSchema schema = new ObjectSchema();
         schema.setType("string");
         schema.setFormat("time");
-        schema.setExample(LocalTime.now().format(DateTimeFormatter.ofPattern("mm:ss.SSS")));
+        schema.setExample("00:01:23");
 
         SpringDocUtils.getConfig().replaceWithSchema(LocalTime.class, schema);
     }

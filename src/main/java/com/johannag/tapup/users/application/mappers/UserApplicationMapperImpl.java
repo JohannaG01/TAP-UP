@@ -14,6 +14,7 @@ import org.modelmapper.TypeMap;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 
 import static com.johannag.tapup.globals.application.utils.ModelMapperUtils.builderTypeMapper;
@@ -73,11 +74,19 @@ public class UserApplicationMapperImpl implements UserApplicationMapper {
     }
 
     @Override
-    public AddUserFundsToEntityDTO toAddFundsToEntityDTO(AddUserFundsDTO dto) {
+    public AddUserFundsToEntityDTO toAddFundsToEntitiesDTO(AddUserFundsDTO dto) {
         return addFundsToEntityDTOMapper
                 .map(dto)
                 .build();
     }
+
+    @Override
+    public List<AddUserFundsToEntityDTO> toAddFundsToEntitiesDTO(List<AddUserFundsDTO> dtos) {
+        return dtos.stream()
+                .map(this::toAddFundsToEntitiesDTO)
+                .toList();
+    }
+
 
     @Override
     public SubtractUserFundsToEntityDTO toSubtractFundsToEntityDTO(SubtractUserFundsDTO dto) {

@@ -4,12 +4,14 @@ import com.johannag.tapup.bets.application.dtos.CreateBetDTO;
 import com.johannag.tapup.bets.application.dtos.FindBetsDTO;
 import com.johannag.tapup.bets.domain.dtos.CreateBetEntityDTO;
 import com.johannag.tapup.bets.domain.dtos.FindBetEntitiesDTO;
+import com.johannag.tapup.bets.domain.dtos.UpdateBetEntitiesStateDTO;
 import com.johannag.tapup.bets.domain.models.BetModelState;
 import com.johannag.tapup.bets.presentation.dtos.queries.FindBetsQuery;
 import com.johannag.tapup.bets.presentation.dtos.requests.CreateBetRequestDTO;
 import org.modelmapper.TypeMap;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
 import java.util.UUID;
 
 import static com.johannag.tapup.globals.application.utils.ModelMapperUtils.builderTypeMapper;
@@ -59,6 +61,11 @@ public class BetApplicationMapperImpl implements BetApplicationMapper {
         return findBetEntitiesDTOMapper
                 .map(dto)
                 .build();
+    }
+
+    @Override
+    public UpdateBetEntitiesStateDTO toUpdateEntityStateDTO(Collection<UUID> betsUuids, BetModelState state) {
+        return new UpdateBetEntitiesStateDTO(betsUuids, state);
     }
 
 

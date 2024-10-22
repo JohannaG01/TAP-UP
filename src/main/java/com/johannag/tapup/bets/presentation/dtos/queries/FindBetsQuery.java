@@ -5,6 +5,7 @@ import com.johannag.tapup.globals.presentation.dtos.query.PageQuery;
 import com.johannag.tapup.horseRaces.presentation.dtos.HorseRaceStateDTO;
 import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.validation.constraints.AssertFalse;
+import lombok.EqualsAndHashCode;
 import lombok.Value;
 import lombok.experimental.SuperBuilder;
 import org.springframework.lang.Nullable;
@@ -18,6 +19,7 @@ import java.util.UUID;
 
 @Value
 @SuperBuilder
+@EqualsAndHashCode(callSuper = true)
 public class FindBetsQuery extends PageQuery {
 
     Set<BetStateDTO> betStates;

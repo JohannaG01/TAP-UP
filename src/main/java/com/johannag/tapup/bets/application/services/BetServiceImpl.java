@@ -3,11 +3,9 @@ package com.johannag.tapup.bets.application.services;
 import com.johannag.tapup.bets.application.dtos.CreateBetDTO;
 import com.johannag.tapup.bets.application.dtos.FindBetsDTO;
 import com.johannag.tapup.bets.application.exceptions.InsufficientBalanceException;
-import com.johannag.tapup.bets.application.useCases.CreateBetForUserUseCase;
-import com.johannag.tapup.bets.application.useCases.FindBetsForUserUseCase;
-import com.johannag.tapup.bets.application.useCases.GenerateBetInfoForHorseRaceUseCase;
-import com.johannag.tapup.bets.application.useCases.GenerateHorseRacesBetStatisticsUseCase;
+import com.johannag.tapup.bets.application.useCases.*;
 import com.johannag.tapup.bets.domain.models.BetModel;
+import com.johannag.tapup.bets.domain.models.BetPayouts;
 import com.johannag.tapup.bets.domain.models.BetStatisticsModel;
 import com.johannag.tapup.bets.domain.models.BetSummaryModel;
 import com.johannag.tapup.horseRaces.application.exceptions.HorseRaceNotFoundException;
@@ -28,7 +26,8 @@ public class BetServiceImpl implements BetService {
     private final CreateBetForUserUseCase createBetForUserUseCase;
     private final FindBetsForUserUseCase findBetsForUserUseCase;
     private final GenerateBetInfoForHorseRaceUseCase generateBetInfoForHorseRaceUseCase;
-    private final GenerateHorseRacesBetStatisticsUseCase generateHorseRacesBetStatisticsUseCase;
+    private final GenerateBetStatisticsForHorseRacesUseCase generateBetStatisticsForHorseRacesUseCase;
+    private final GenerateBetsPaymentResultsUseCase generateBetsPaymentResultsUseCase;
 
     @Override
     public BetModel create(CreateBetDTO dto) throws UserNotFoundException, ParticipantNotFoundException,
@@ -48,6 +47,11 @@ public class BetServiceImpl implements BetService {
 
     @Override
     public BetStatisticsModel generateBetStatistics(UUID horseRaceUuid) throws HorseRaceNotFoundException {
-        return generateHorseRacesBetStatisticsUseCase.execute(horseRaceUuid);
+        return generateBetStatisticsForHorseRacesUseCase.execute(horseRaceUuid);
+    }
+
+    @Override
+    public BetPayouts generateBetPaymentResults(UUID horseRaceUuid) {
+        return generateBetsPaymentResultsUseCase.execute(horseRaceUuid);
     }
 }

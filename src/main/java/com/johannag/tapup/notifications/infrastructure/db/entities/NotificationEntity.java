@@ -26,6 +26,9 @@ public class NotificationEntity {
     @Column(name = "uuid", nullable = false, updatable = false)
     private UUID uuid;
 
+    @Column(name = "message", nullable = false, updatable = false)
+    private String message;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false, updatable = false)
     private UserEntity user;

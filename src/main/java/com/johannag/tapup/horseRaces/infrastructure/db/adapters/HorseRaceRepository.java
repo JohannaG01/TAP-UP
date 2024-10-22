@@ -3,6 +3,7 @@ package com.johannag.tapup.horseRaces.infrastructure.db.adapters;
 import com.johannag.tapup.horseRaces.domain.UpdateHorseRaceEntityDTO;
 import com.johannag.tapup.horseRaces.domain.dtos.CreateHorseRaceEntityDTO;
 import com.johannag.tapup.horseRaces.domain.dtos.FindHorseRaceEntitiesDTO;
+import com.johannag.tapup.horseRaces.domain.dtos.SubmitHorseRaceResultsForEntityDTO;
 import com.johannag.tapup.horseRaces.domain.models.HorseRaceModel;
 import org.springframework.data.domain.Page;
 
@@ -67,4 +68,12 @@ public interface HorseRaceRepository {
      * @return an {@link Optional} containing the {@link HorseRaceModel} if found, or an empty {@link Optional} if not.
      */
     Optional<HorseRaceModel> findOneMaybeByParticipantUuid(UUID participantUuid);
+
+    /**
+     * Submits the results for a horse race based on the provided data transfer object (DTO).
+     *
+     * @param dto the data transfer object containing the results to submit for the horse race
+     * @return the updated {@link HorseRaceModel} after submitting the results
+     */
+    HorseRaceModel submitResults(SubmitHorseRaceResultsForEntityDTO dto);
 }

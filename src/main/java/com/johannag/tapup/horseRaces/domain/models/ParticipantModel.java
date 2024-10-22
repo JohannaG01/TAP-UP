@@ -26,4 +26,12 @@ public class ParticipantModel {
     public UUID getHorseUuid() {
         return horse.getUuid();
     }
+
+    public UUID getHorseRaceUuid() {
+        return horseRace.getUuid();
+    }
+
+    public boolean isWinner() {
+        return this.placement == 1;
+    }
 }

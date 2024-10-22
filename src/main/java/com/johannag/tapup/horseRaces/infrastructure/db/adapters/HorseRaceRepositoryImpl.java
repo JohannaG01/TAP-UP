@@ -5,11 +5,15 @@ import com.johannag.tapup.globals.infrastructure.utils.Logger;
 import com.johannag.tapup.horseRaces.domain.UpdateHorseRaceEntityDTO;
 import com.johannag.tapup.horseRaces.domain.dtos.CreateHorseRaceEntityDTO;
 import com.johannag.tapup.horseRaces.domain.dtos.FindHorseRaceEntitiesDTO;
+import com.johannag.tapup.horseRaces.domain.dtos.SubmitHorseRaceResultsForEntityDTO;
 import com.johannag.tapup.horseRaces.domain.mappers.HorseRaceDomainMapper;
 import com.johannag.tapup.horseRaces.domain.models.HorseRaceModel;
 import com.johannag.tapup.horseRaces.infrastructure.db.entities.HorseRaceEntity;
+import com.johannag.tapup.horseRaces.infrastructure.db.entities.HorseRaceEntityState;
+import com.johannag.tapup.horseRaces.infrastructure.db.entities.ParticipantEntity;
 import com.johannag.tapup.horseRaces.infrastructure.db.repositories.JpaHorseRaceRepository;
 import com.johannag.tapup.horseRaces.infrastructure.db.repositories.JpaHorseRaceSpecifications;
+import com.johannag.tapup.horseRaces.infrastructure.db.repositories.JpaParticipantRepository;
 import com.johannag.tapup.horses.infrastructure.db.entities.HorseEntity;
 import com.johannag.tapup.horses.infrastructure.db.repositories.JpaHorseRepository;
 import jakarta.transaction.Transactional;
@@ -21,9 +25,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Repository
 @AllArgsConstructor
@@ -33,6 +35,7 @@ public class HorseRaceRepositoryImpl implements HorseRaceRepository {
     private final HorseRaceDomainMapper horseRaceDomainMapper;
     private final JpaHorseRepository jpaHorseRepository;
     private final JpaHorseRaceRepository jpaHorseRaceRepository;
+    private final JpaParticipantRepository jpaParticipantRepository;
 
     @Override
     @Transactional
@@ -88,9 +91,12 @@ public class HorseRaceRepositoryImpl implements HorseRaceRepository {
                 .withHorseBreed(dto.getHorseBreed())
                 .build(Sort.by("startTime").descending());
 
-        return jpaHorseRaceRepository
-                .findAll(spec, pageable)
-                .map(horseRaceDomainMapper::toModel);
+        Page<HorseRaceEntity> horseRaces = jpaHorseRaceRepository.findAll(spec, pageable);
+
+        Map<UUID, List<ParticipantEntity>> participantsByRaceUuid = obtainParticipantsGroupedForRaces(horseRaces);
+        horseRaces.forEach(horseRace -> horseRace.setParticipants(participantsByRaceUuid.get(horseRace.getUuid())));
+
+        return horseRaces.map(horseRaceDomainMapper::toModel);
     }
 
     @Override
@@ -98,5 +104,49 @@ public class HorseRaceRepositoryImpl implements HorseRaceRepository {
         return jpaHorseRaceRepository
                 .findOneMaybeByParticipants_Uuid(participantUuid)
                 .map(horseRaceDomainMapper::toModel);
+    }
+
+    @Override
+    @Transactional
+    public HorseRaceModel submitResults(SubmitHorseRaceResultsForEntityDTO dto) {
+        logger.info("Updating Horse Race states and participants positions and time in DB");
+
+        HorseRaceEntity horseRace = jpaHorseRaceRepository.findOneFetchedByUuidForUpdate(dto.getHorseRaceUuid());
+        horseRace.setState(HorseRaceEntityState.FINISHED);
+        horseRace.setEndTime(dto.getEndTime());
+        horseRace.setUpdatedBy(SecurityContextUtils.userOnContextId());
+
+        horseRace.getParticipants()
+                .forEach(participant -> {
+                    participant.setPlacement(dto.getPlacementForParticipantUuid(participant.getUuid()));
+                    participant.setTime(dto.getTimeForParticipantUuid(participant.getUuid()));
+                    participant.setUpdatedBy(SecurityContextUtils.userOnContextId());
+                });
+
+        jpaHorseRaceRepository.saveAndFlush(horseRace);
+        return horseRaceDomainMapper.toModel(horseRace);
+    }
+
+    private Map<UUID, List<ParticipantEntity>> obtainParticipantsGroupedForRaces(Page<HorseRaceEntity> horseRaces) {
+        List<UUID> horseRaceUuids = horseRaces.stream()
+                .map(HorseRaceEntity::getUuid)
+                .toList();
+
+        List<Object[]> allParticipants = jpaParticipantRepository.findParticipantsGroupedByHorseRace(horseRaceUuids);
+
+        return groupParticipantByRaceUuid(allParticipants);
+    }
+
+    private Map<UUID, List<ParticipantEntity>> groupParticipantByRaceUuid(List<Object[]> participants) {
+        Map<UUID, List<ParticipantEntity>> groupedParticipants = new HashMap<>();
+
+        for (Object[] result : participants) {
+            UUID raceUuid = (UUID) result[0];
+            ParticipantEntity participant = (ParticipantEntity) result[1];
+
+            groupedParticipants.computeIfAbsent(raceUuid, key -> new ArrayList<>()).add(participant);
+        }
+
+        return groupedParticipants;
     }
 }

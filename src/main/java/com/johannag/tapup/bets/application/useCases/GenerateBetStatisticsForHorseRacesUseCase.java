@@ -13,9 +13,9 @@ import java.util.UUID;
 
 @Service
 @AllArgsConstructor
-public class GenerateHorseRacesBetStatisticsUseCase {
+public class GenerateBetStatisticsForHorseRacesUseCase {
 
-    private static final Logger logger = Logger.getLogger(GenerateHorseRacesBetStatisticsUseCase.class);
+    private static final Logger logger = Logger.getLogger(GenerateBetStatisticsForHorseRacesUseCase.class);
     private final GenerateBetInfoForHorseRaceUseCase generateBetInfoForHorseRaceUseCase;
 
     public BetStatisticsModel execute(UUID horseRaceUuid) throws HorseRaceNotFoundException {

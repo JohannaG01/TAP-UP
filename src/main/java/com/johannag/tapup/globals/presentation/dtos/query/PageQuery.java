@@ -1,12 +1,14 @@
 package com.johannag.tapup.globals.presentation.dtos.query;
 
 import jakarta.validation.constraints.Min;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 @SuperBuilder
 public abstract class PageQuery {
     @Min(value = 1, message = "Size must be at least 1")

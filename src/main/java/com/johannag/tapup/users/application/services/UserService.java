@@ -10,6 +10,8 @@ import com.johannag.tapup.users.application.exceptions.UserNotFoundException;
 import com.johannag.tapup.users.domain.models.UserModel;
 import com.johannag.tapup.users.domain.models.UserWithAuthTokenModel;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 public interface UserService {
@@ -73,6 +75,15 @@ public interface UserService {
     UserModel addFunds(AddUserFundsDTO dto) throws UserNotFoundException;
 
     /**
+     * Adds funds to the users specified in the provided list of {@link AddUserFundsDTO}.
+     *
+     * @param dtos the list of {@link AddUserFundsDTO} containing user UUIDs and corresponding amounts to be added
+     * @return a list of {@link UserModel} representing the users whose funds were successfully updated
+     * @throws UserNotFoundException if any user in the provided list does not exist
+     */
+    List<UserModel> addFunds(List<AddUserFundsDTO> dtos) throws UserNotFoundException;
+
+    /**
      * Subtracts funds from a user account based on the provided {@link SubtractUserFundsDTO}.
      *
      * @param dto the {@link SubtractUserFundsDTO} containing the details of the funds to be subtracted.
@@ -80,4 +91,22 @@ public interface UserService {
      * @throws UserNotFoundException if the user associated with the provided details is not found.
      */
     UserModel subtractFunds(SubtractUserFundsDTO dto) throws UserNotFoundException;
+
+    /**
+     * Validates the existence of users identified by their unique UUIDs.
+     *
+     * <p>This method checks whether the users corresponding to the provided UUIDs exist.
+     * If any of the specified users are not found, a {@link UserNotFoundException} is thrown.</p>
+     *
+     * @param userUuid a collection of unique user identifiers (UUIDs) to validate.
+     * @throws UserNotFoundException if one or more users identified by the provided UUIDs do not exist.
+     */
+    void validateExistance(Collection<UUID> userUuid) throws UserNotFoundException;
+
+    /**
+     * Retrieves a list of all administrators.
+     *
+     * @return a list of {@link UserModel} representing the administrators in the system.
+     */
+    List<UserModel> findAllAdmins();
 }
