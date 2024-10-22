@@ -26,8 +26,7 @@ public class UpdateNotificationReadStatusForUserUseCase {
         logger.info("Starting updateNotificationReadStatus process for user {}", dto.getUserUuid());
 
         userService.findOneByUuid(dto.getUserUuid());
-        UpdateNotificationReadStatusForEntityDTO updateNotificationReadStatusDTO =
-                notificationApplicationMapper.toUpdateEntityDTO(dto);
+        var updateNotificationReadStatusDTO = notificationApplicationMapper.toUpdateEntityDTO(dto);
         NotificationModel notification = notificationRepository.updateReadStatus(updateNotificationReadStatusDTO);
 
         logger.info("Finished updateNotificationReadStatus process for user {}", dto.getUserUuid());
