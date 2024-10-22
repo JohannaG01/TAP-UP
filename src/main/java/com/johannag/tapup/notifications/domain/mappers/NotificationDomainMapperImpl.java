@@ -2,11 +2,14 @@ package com.johannag.tapup.notifications.domain.mappers;
 
 import com.johannag.tapup.notifications.domain.dtos.CreateNotificationEntityDTO;
 import com.johannag.tapup.notifications.domain.models.NotificationModel;
+import com.johannag.tapup.notifications.domain.models.NotificationModelType;
 import com.johannag.tapup.notifications.infrastructure.db.entities.NotificationEntity;
+import com.johannag.tapup.notifications.infrastructure.db.entities.NotificationEntityType;
 import com.johannag.tapup.users.infrastructure.db.entities.UserEntity;
 import org.modelmapper.TypeMap;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -39,8 +42,22 @@ public class NotificationDomainMapperImpl implements NotificationDomainMapper {
     }
 
     @Override
+    public List<NotificationEntityType> toEntity(Collection<NotificationModelType> types) {
+        return types.stream()
+                .map(this::toEntity)
+                .toList();
+    }
+
+    @Override
+    public NotificationEntityType toEntity(NotificationModelType type) {
+        return NotificationEntityType.valueOf(type.name());
+    }
+
+    @Override
     public List<NotificationModel> toModel(List<NotificationEntity> entities) {
-        return List.of();
+        return entities.stream()
+                .map(this::toModel)
+                .toList();
     }
 
     private NotificationEntity toEntity(CreateNotificationEntityDTO dto, UserEntity user) {
@@ -50,7 +67,8 @@ public class NotificationDomainMapperImpl implements NotificationDomainMapper {
                 .build();
     }
 
-    private NotificationModel toModel(NotificationEntity entity) {
+    @Override
+    public NotificationModel toModel(NotificationEntity entity) {
         return modelMapper
                 .map(entity)
                 .build();

@@ -14,6 +14,7 @@ public class NotificationModel {
     private final UUID uuid;
     private final UserModel user;
     private final NotificationModelType type;
+    private final String message;
     private final LocalDateTime sentAt;
     private final Boolean read;
 }

@@ -1,9 +1,13 @@
 package com.johannag.tapup.notifications.application.mappers;
 
 import com.johannag.tapup.notifications.application.dtos.CreateNotificationDTO;
+import com.johannag.tapup.notifications.application.dtos.FindNotificationsDTO;
 import com.johannag.tapup.notifications.domain.dtos.CreateNotificationEntityDTO;
+import com.johannag.tapup.notifications.domain.dtos.FindNotificationEntitiesDTO;
+import com.johannag.tapup.notifications.presentation.dtos.queries.FindNotificationsQuery;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface NotificationApplicationMapper {
 
@@ -18,7 +22,36 @@ public interface NotificationApplicationMapper {
      * @param dtos the list of {@link CreateNotificationDTO} to be converted,
      *             must not be null or empty.
      * @return a list of {@link CreateNotificationEntityDTO} containing the converted
-     * notification data..
+     * notification data.
      */
     List<CreateNotificationEntityDTO> toCreateDTO(List<CreateNotificationDTO> dtos);
+
+    /**
+     * Converts a {@link FindNotificationsQuery} into a {@link FindNotificationsDTO}.
+     *
+     * <p>This method takes a query object representing the search criteria for notifications
+     * and the user ID associated with the query, and maps it to a data transfer object
+     * that can be used for further processing or API responses.</p>
+     *
+     * @param query    the {@link FindNotificationsQuery} containing the criteria for finding notifications,
+     *                 must not be null.
+     * @param userUuid the UUID of the user for whom the notifications are being queried,
+     *                 must not be null.
+     * @return a {@link FindNotificationsDTO} representing the mapped notification criteria.
+     * @throws IllegalArgumentException if either {@code query} or {@code userUuid} is null.
+     */
+    FindNotificationsDTO toFindDTO(FindNotificationsQuery query, UUID userUuid);
+
+    /**
+     * Converts a {@link FindNotificationsDTO} into a {@link FindNotificationEntitiesDTO}.
+     *
+     * <p>This method takes an input DTO containing notification search criteria and maps it
+     * to a {@link FindNotificationEntitiesDTO} that can be used for further processing
+     * or storage of notification data.</p>
+     *
+     * @param dto the {@link FindNotificationsDTO} containing the criteria for finding notifications,
+     *            must not be null.
+     * @return a {@link FindNotificationEntitiesDTO} representing the mapped notification search criteria.
+     */
+    FindNotificationEntitiesDTO toFindEntitiesDTO(FindNotificationsDTO dto);
 }

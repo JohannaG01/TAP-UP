@@ -41,17 +41,9 @@ public class HorseRaceRepositoryImpl implements HorseRaceRepository {
     @Transactional
     public HorseRaceModel create(CreateHorseRaceEntityDTO dto) {
         logger.info("Saving in DB horse race");
+
         List<HorseEntity> horses = jpaHorseRepository.findByUuidIn(dto.getHorseUuids());
-
         HorseRaceEntity horseRace = horseRaceDomainMapper.toEntity(dto, horses);
-        horseRace.setCreatedBy(SecurityContextUtils.userOnContextId());
-        horseRace.setUpdatedBy(SecurityContextUtils.userOnContextId());
-
-        horseRace.getParticipants()
-                .forEach(participant -> {
-                    participant.setCreatedBy(SecurityContextUtils.userOnContextId());
-                    participant.setUpdatedBy(SecurityContextUtils.userOnContextId());
-                });
 
         jpaHorseRaceRepository.saveAndFlush(horseRace);
         return horseRaceDomainMapper.toModel(horseRace);
@@ -68,18 +60,18 @@ public class HorseRaceRepositoryImpl implements HorseRaceRepository {
     @Transactional
     public HorseRaceModel update(UpdateHorseRaceEntityDTO dto) {
         logger.info("Updating in DB horse race");
+
         HorseRaceEntity horseRace = jpaHorseRaceRepository.findOneByUuidForUpdate(dto.getRaceUuid());
         horseRace.setStartTime(dto.getStartTime());
-        horseRace.setUpdatedBy(SecurityContextUtils.userOnContextId());
-
         jpaHorseRaceRepository.save(horseRace);
+
         HorseRaceEntity updatedHorseRace = jpaHorseRaceRepository.findOneByUuid(dto.getRaceUuid());
         return horseRaceDomainMapper.toModel(updatedHorseRace);
     }
 
     @Override
     public Page<HorseRaceModel> findAll(FindHorseRaceEntitiesDTO dto) {
-        Pageable pageable = PageRequest.of(dto.getPage(), dto.getSize());
+        Pageable pageable = PageRequest.of(dto.getPage(), dto.getSize(), Sort.by("startTime").descending());
 
         Specification<HorseRaceEntity> spec = new JpaHorseRaceSpecifications.Builder()
                 .withStates(horseRaceDomainMapper.toEntity(dto.getStates()))
@@ -89,7 +81,7 @@ public class HorseRaceRepositoryImpl implements HorseRaceRepository {
                 .withHorseCode(dto.getHorseCode())
                 .withHorseName(dto.getHorseName())
                 .withHorseBreed(dto.getHorseBreed())
-                .build(Sort.by("startTime").descending());
+                .build();
 
         Page<HorseRaceEntity> horseRaces = jpaHorseRaceRepository.findAll(spec, pageable);
 
@@ -114,13 +106,11 @@ public class HorseRaceRepositoryImpl implements HorseRaceRepository {
         HorseRaceEntity horseRace = jpaHorseRaceRepository.findOneFetchedByUuidForUpdate(dto.getHorseRaceUuid());
         horseRace.setState(HorseRaceEntityState.FINISHED);
         horseRace.setEndTime(dto.getEndTime());
-        horseRace.setUpdatedBy(SecurityContextUtils.userOnContextId());
 
         horseRace.getParticipants()
                 .forEach(participant -> {
                     participant.setPlacement(dto.getPlacementForParticipantUuid(participant.getUuid()));
                     participant.setTime(dto.getTimeForParticipantUuid(participant.getUuid()));
-                    participant.setUpdatedBy(SecurityContextUtils.userOnContextId());
                 });
 
         jpaHorseRaceRepository.saveAndFlush(horseRace);

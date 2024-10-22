@@ -1,7 +1,9 @@
 package com.johannag.tapup.notifications.infrastructure.adapters;
 
 import com.johannag.tapup.notifications.domain.dtos.CreateNotificationEntityDTO;
+import com.johannag.tapup.notifications.domain.dtos.FindNotificationEntitiesDTO;
 import com.johannag.tapup.notifications.domain.models.NotificationModel;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -20,4 +22,18 @@ public interface NotificationRepository {
      * @return a list of {@link NotificationModel} created from the input DTOs.
      */
     List<NotificationModel> create(List<CreateNotificationEntityDTO> dtos);
+
+    /**
+     * Retrieves a paginated list of {@link NotificationModel} based on the specified criteria.
+     *
+     * <p>This method takes a {@link FindNotificationEntitiesDTO} containing the search criteria
+     * for retrieving notifications and returns a {@link Page} of {@link NotificationModel} objects
+     * that match the criteria.</p>
+     *
+     * @param dto the {@link FindNotificationEntitiesDTO} containing the criteria for finding notifications,
+     *            must not be null.
+     * @return a {@link Page} of {@link NotificationModel} that match the search criteria.
+     * @throws IllegalArgumentException if {@code dto} is null.
+     */
+    Page<NotificationModel> findAll(FindNotificationEntitiesDTO dto);
 }

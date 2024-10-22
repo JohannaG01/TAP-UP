@@ -59,16 +59,13 @@ public class HorseRepositoryImpl implements HorseRepository {
             savedHorseEntity.setSex(globalDomainMapper.toEntity(dto.getSex()));
             savedHorseEntity.setState(horseDomainMapper.toEntity(dto.getState()));
             savedHorseEntity.setColor(dto.getColor());
-            savedHorseEntity.setUpdatedBy(SecurityContextUtils.userOnContextId());
             jpaHorseRepository.saveAndFlush(savedHorseEntity);
 
             return horseDomainMapper.toModel(savedHorseEntity);
         } else {
             HorseEntity newHorseEntity = horseDomainMapper.toEntity(dto);
-            newHorseEntity.setCreatedBy(SecurityContextUtils.userOnContextId());
-            newHorseEntity.setUpdatedBy(SecurityContextUtils.userOnContextId());
-            jpaHorseRepository.saveAndFlush(newHorseEntity);
 
+            jpaHorseRepository.saveAndFlush(newHorseEntity);
             return horseDomainMapper.toModel(newHorseEntity);
         }
 
@@ -117,7 +114,7 @@ public class HorseRepositoryImpl implements HorseRepository {
 
     @Override
     public Page<HorseModel> findAll(FindHorseEntitiesDTO dto) {
-        Pageable pageable = PageRequest.of(dto.getPage(), dto.getSize());
+        Pageable pageable = PageRequest.of(dto.getPage(), dto.getSize(), Sort.by("createdAt").descending());
 
         Specification<HorseEntity> spec = new JpaHorseSpecifications.Builder()
                 .withStates(horseDomainMapper.toEntity(dto.getStates()))
@@ -128,7 +125,7 @@ public class HorseRepositoryImpl implements HorseRepository {
                 .withBirthDateTo(dto.getBirthDateTo())
                 .withBreed(dto.getBreed())
                 .withColor(dto.getColor())
-                .build(Sort.by("createdAt").descending());
+                .build();
 
         return jpaHorseRepository
                 .findAll(spec, pageable)

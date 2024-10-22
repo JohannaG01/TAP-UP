@@ -56,7 +56,7 @@ public class BetRepositoryImpl implements BetRepository {
 
     @Override
     public Page<BetModel> findAll(FindBetEntitiesDTO dto) {
-        Pageable pageable = PageRequest.of(dto.getPage(), dto.getSize());
+        Pageable pageable = PageRequest.of(dto.getPage(), dto.getSize(), Sort.by("createdAt").descending());
 
         Specification<BetEntity> spec = new JpaBetSpecifications.Builder()
                 .withBetStates(betDomainMapper.toEntity(dto.getBetStates()))
@@ -67,7 +67,7 @@ public class BetRepositoryImpl implements BetRepository {
                 .withHorseUuid(dto.getHorseUuid())
                 .withStartTimeFrom(dto.getStartTimeFrom())
                 .withStartTimeTo(dto.getStartTimeTo())
-                .build(Sort.by("createdAt").descending());
+                .build();
 
         return jpaBetRepository
                 .findAll(spec, pageable)
