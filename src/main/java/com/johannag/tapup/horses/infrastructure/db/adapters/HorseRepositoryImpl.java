@@ -117,7 +117,7 @@ public class HorseRepositoryImpl implements HorseRepository {
 
     @Override
     public Page<HorseModel> findAll(FindHorseEntitiesDTO dto) {
-        Pageable pageable = PageRequest.of(dto.getPage(), dto.getSize());
+        Pageable pageable = PageRequest.of(dto.getPage(), dto.getSize(), Sort.by("createdAt").descending());
 
         Specification<HorseEntity> spec = new JpaHorseSpecifications.Builder()
                 .withStates(horseDomainMapper.toEntity(dto.getStates()))
@@ -128,7 +128,7 @@ public class HorseRepositoryImpl implements HorseRepository {
                 .withBirthDateTo(dto.getBirthDateTo())
                 .withBreed(dto.getBreed())
                 .withColor(dto.getColor())
-                .build(Sort.by("createdAt").descending());
+                .build();
 
         return jpaHorseRepository
                 .findAll(spec, pageable)

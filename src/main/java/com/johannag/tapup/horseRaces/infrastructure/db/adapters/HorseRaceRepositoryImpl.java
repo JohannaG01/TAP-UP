@@ -79,7 +79,7 @@ public class HorseRaceRepositoryImpl implements HorseRaceRepository {
 
     @Override
     public Page<HorseRaceModel> findAll(FindHorseRaceEntitiesDTO dto) {
-        Pageable pageable = PageRequest.of(dto.getPage(), dto.getSize());
+        Pageable pageable = PageRequest.of(dto.getPage(), dto.getSize(), Sort.by("startTime").descending());
 
         Specification<HorseRaceEntity> spec = new JpaHorseRaceSpecifications.Builder()
                 .withStates(horseRaceDomainMapper.toEntity(dto.getStates()))
@@ -89,7 +89,7 @@ public class HorseRaceRepositoryImpl implements HorseRaceRepository {
                 .withHorseCode(dto.getHorseCode())
                 .withHorseName(dto.getHorseName())
                 .withHorseBreed(dto.getHorseBreed())
-                .build(Sort.by("startTime").descending());
+                .build();
 
         Page<HorseRaceEntity> horseRaces = jpaHorseRaceRepository.findAll(spec, pageable);
 
