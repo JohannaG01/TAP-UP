@@ -1,7 +1,6 @@
 package com.johannag.tapup.horses.presentation.dtos.requests;
 
 import com.johannag.tapup.globals.presentation.dtos.SexDTO;
-import com.johannag.tapup.horses.presentation.dtos.responses.HorseStateDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

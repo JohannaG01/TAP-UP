@@ -2,6 +2,7 @@ package com.johannag.tapup.notifications.infrastructure.adapters;
 
 import com.johannag.tapup.notifications.domain.dtos.CreateNotificationEntityDTO;
 import com.johannag.tapup.notifications.domain.dtos.FindNotificationEntitiesDTO;
+import com.johannag.tapup.notifications.domain.dtos.UpdateNotificationReadStatusForEntityDTO;
 import com.johannag.tapup.notifications.domain.models.NotificationModel;
 import org.springframework.data.domain.Page;
 
@@ -36,4 +37,14 @@ public interface NotificationRepository {
      * @throws IllegalArgumentException if {@code dto} is null.
      */
     Page<NotificationModel> findAll(FindNotificationEntitiesDTO dto);
+
+    /**
+     * Updates the read status of a notification based on the provided
+     * {@link UpdateNotificationReadStatusForEntityDTO}.
+     *
+     * @param dto the {@link UpdateNotificationReadStatusForEntityDTO} containing the
+     *            notification ID and the new read status
+     * @return the updated {@link NotificationModel} reflecting the new read status
+     */
+    NotificationModel updateReadStatus(UpdateNotificationReadStatusForEntityDTO dto);
 }

@@ -2,9 +2,12 @@ package com.johannag.tapup.notifications.application.mappers;
 
 import com.johannag.tapup.notifications.application.dtos.CreateNotificationDTO;
 import com.johannag.tapup.notifications.application.dtos.FindNotificationsDTO;
+import com.johannag.tapup.notifications.application.dtos.UpdateNotificationReadStatusDTO;
 import com.johannag.tapup.notifications.domain.dtos.CreateNotificationEntityDTO;
 import com.johannag.tapup.notifications.domain.dtos.FindNotificationEntitiesDTO;
+import com.johannag.tapup.notifications.domain.dtos.UpdateNotificationReadStatusForEntityDTO;
 import com.johannag.tapup.notifications.presentation.dtos.queries.FindNotificationsQuery;
+import com.johannag.tapup.notifications.presentation.dtos.requests.UpdateNotificationReadStatusRequestDTO;
 
 import java.util.List;
 import java.util.UUID;
@@ -54,4 +57,29 @@ public interface NotificationApplicationMapper {
      * @return a {@link FindNotificationEntitiesDTO} representing the mapped notification search criteria.
      */
     FindNotificationEntitiesDTO toFindEntitiesDTO(FindNotificationsDTO dto);
+
+    /**
+     * Converts the provided {@link UpdateNotificationReadStatusRequestDTO} into an
+     * {@link UpdateNotificationReadStatusDTO} for updating the read status of a notification.
+     *
+     * @param userUuid         the UUID of the user associated with the notification
+     * @param notificationUuid the UUID of the notification to update
+     * @param dto              the {@link UpdateNotificationReadStatusRequestDTO} containing the new read status
+     * @return an {@link UpdateNotificationReadStatusDTO} containing the user UUID,
+     * notification UUID, and the new read status
+     */
+    UpdateNotificationReadStatusDTO toUpdateDTO(UUID userUuid, UUID notificationUuid,
+                                                UpdateNotificationReadStatusRequestDTO dto);
+
+    /**
+     * Converts the provided {@link UpdateNotificationReadStatusDTO} into an
+     * {@link UpdateNotificationReadStatusForEntityDTO} for updating the read status
+     * of a notification entity.
+     *
+     * @param dto the {@link UpdateNotificationReadStatusDTO} containing the user and
+     *            notification information along with the new read status
+     * @return an {@link UpdateNotificationReadStatusForEntityDTO} containing the necessary
+     * information to update the notification entity
+     */
+    UpdateNotificationReadStatusForEntityDTO toUpdateEntityDTO(UpdateNotificationReadStatusDTO dto);
 }

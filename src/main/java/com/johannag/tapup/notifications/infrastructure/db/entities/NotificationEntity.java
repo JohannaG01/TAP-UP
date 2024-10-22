@@ -4,8 +4,6 @@ import com.johannag.tapup.globals.infrastructure.db.entities.AuditableEntity;
 import com.johannag.tapup.users.infrastructure.db.entities.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

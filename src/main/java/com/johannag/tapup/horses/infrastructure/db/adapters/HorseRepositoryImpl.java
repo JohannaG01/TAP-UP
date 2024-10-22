@@ -1,6 +1,5 @@
 package com.johannag.tapup.horses.infrastructure.db.adapters;
 
-import com.johannag.tapup.auth.infrastructure.utils.SecurityContextUtils;
 import com.johannag.tapup.globals.domain.mappers.GlobalDomainMapper;
 import com.johannag.tapup.globals.infrastructure.utils.Logger;
 import com.johannag.tapup.horses.domain.dtos.CreateHorseEntityDTO;

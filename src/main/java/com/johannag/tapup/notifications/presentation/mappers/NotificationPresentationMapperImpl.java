@@ -22,7 +22,8 @@ public class NotificationPresentationMapperImpl implements NotificationPresentat
         return models.map(this::toResponseDTO);
     }
 
-    private NotificationResponseDTO toResponseDTO(NotificationModel model) {
+    @Override
+    public NotificationResponseDTO toResponseDTO(NotificationModel model) {
         return responseDTOMapper
                 .map(model)
                 .build();
