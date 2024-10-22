@@ -1,5 +1,6 @@
 package com.johannag.tapup.horseRaces.infrastructure.db.entities;
 
+import com.johannag.tapup.globals.infrastructure.db.entities.AuditableEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -18,7 +19,7 @@ import java.util.UUID;
 @Builder(builderClassName = "Builder")
 @Entity
 @Table(name = "horse_races")
-public class HorseRaceEntity {
+public class HorseRaceEntity extends AuditableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,18 +43,4 @@ public class HorseRaceEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "state", nullable = false)
     private HorseRaceEntityState state;
-
-    @CreationTimestamp
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    @Column(name = "created_by", nullable = false, updatable = false)
-    private Long createdBy;
-
-    @UpdateTimestamp
-    @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
-
-    @Column(name = "updated_by", nullable = false)
-    private Long updatedBy;
 }

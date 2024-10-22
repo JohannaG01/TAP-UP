@@ -59,16 +59,13 @@ public class HorseRepositoryImpl implements HorseRepository {
             savedHorseEntity.setSex(globalDomainMapper.toEntity(dto.getSex()));
             savedHorseEntity.setState(horseDomainMapper.toEntity(dto.getState()));
             savedHorseEntity.setColor(dto.getColor());
-            savedHorseEntity.setUpdatedBy(SecurityContextUtils.userOnContextId());
             jpaHorseRepository.saveAndFlush(savedHorseEntity);
 
             return horseDomainMapper.toModel(savedHorseEntity);
         } else {
             HorseEntity newHorseEntity = horseDomainMapper.toEntity(dto);
-            newHorseEntity.setCreatedBy(SecurityContextUtils.userOnContextId());
-            newHorseEntity.setUpdatedBy(SecurityContextUtils.userOnContextId());
-            jpaHorseRepository.saveAndFlush(newHorseEntity);
 
+            jpaHorseRepository.saveAndFlush(newHorseEntity);
             return horseDomainMapper.toModel(newHorseEntity);
         }
 

@@ -41,13 +41,8 @@ public class NotificationRepositoryImpl implements NotificationRepository {
 
         List<UserEntity> users = jpaUserRepository.findAllByUuidIn(userUuids);
         List<NotificationEntity> notificationEntities = notificationDomainMapper.toEntity(dtos, users);
-        notificationEntities.forEach(notificationEntity -> {
-            notificationEntity.setCreatedBy(SecurityContextUtils.userOnContextId());
-            notificationEntity.setUpdatedBy(SecurityContextUtils.userOnContextId());
-        });
 
         jpaNotificationRepository.saveAllAndFlush(notificationEntities);
-
         return notificationDomainMapper.toModel(notificationEntities);
     }
 

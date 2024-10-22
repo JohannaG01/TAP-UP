@@ -1,6 +1,7 @@
 package com.johannag.tapup.horseRaces.infrastructure.db.entities;
 
 import com.johannag.tapup.bets.infrastructure.db.entities.BetEntity;
+import com.johannag.tapup.globals.infrastructure.db.entities.AuditableEntity;
 import com.johannag.tapup.horses.infrastructure.db.entities.HorseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -21,7 +22,7 @@ import java.util.UUID;
 @Builder(builderClassName = "Builder")
 @Entity
 @Table(name = "participants")
-public class ParticipantEntity {
+public class ParticipantEntity extends AuditableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,18 +51,4 @@ public class ParticipantEntity {
     @Nullable
     @Column(name = "time")
     private LocalTime time;
-
-    @CreationTimestamp
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    @Column(name = "created_by", nullable = false, updatable = false)
-    private Long createdBy;
-
-    @UpdateTimestamp
-    @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
-
-    @Column(name = "updated_by", nullable = false)
-    private Long updatedBy;
 }

@@ -1,5 +1,6 @@
 package com.johannag.tapup.notifications.infrastructure.db.entities;
 
+import com.johannag.tapup.globals.infrastructure.db.entities.AuditableEntity;
 import com.johannag.tapup.users.infrastructure.db.entities.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -16,7 +17,7 @@ import java.util.UUID;
 @Builder(builderClassName = "Builder")
 @Entity
 @Table(name = "notifications")
-public class NotificationEntity {
+public class NotificationEntity extends AuditableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,18 +43,4 @@ public class NotificationEntity {
 
     @Column(name = "read", nullable = false)
     private Boolean read;
-
-    @CreationTimestamp
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    @Column(name = "created_by", nullable = false, updatable = false)
-    private Long createdBy;
-
-    @UpdateTimestamp
-    @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
-
-    @Column(name = "updated_by", nullable = false)
-    private Long updatedBy;
 }

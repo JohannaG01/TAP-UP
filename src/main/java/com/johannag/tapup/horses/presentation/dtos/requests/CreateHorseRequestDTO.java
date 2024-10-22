@@ -37,7 +37,4 @@ public class CreateHorseRequestDTO {
     @NotBlank
     @Schema(example = "Black")
     String color;
-
-    @NotNull
-    HorseStateDTO state;
 }
