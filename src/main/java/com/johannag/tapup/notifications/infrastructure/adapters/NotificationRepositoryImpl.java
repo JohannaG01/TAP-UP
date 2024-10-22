@@ -1,9 +1,9 @@
 package com.johannag.tapup.notifications.infrastructure.adapters;
 
-import com.johannag.tapup.auth.infrastructure.utils.SecurityContextUtils;
 import com.johannag.tapup.globals.infrastructure.utils.Logger;
 import com.johannag.tapup.notifications.domain.dtos.CreateNotificationEntityDTO;
 import com.johannag.tapup.notifications.domain.dtos.FindNotificationEntitiesDTO;
+import com.johannag.tapup.notifications.domain.dtos.UpdateNotificationReadStatusForEntityDTO;
 import com.johannag.tapup.notifications.domain.mappers.NotificationDomainMapper;
 import com.johannag.tapup.notifications.domain.models.NotificationModel;
 import com.johannag.tapup.notifications.infrastructure.db.entities.NotificationEntity;
@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -61,6 +62,18 @@ public class NotificationRepositoryImpl implements NotificationRepository {
         return jpaNotificationRepository
                 .findAll(spec, pageable)
                 .map(notificationDomainMapper::toModel);
+    }
+
+    @Override
+    @Transactional
+    public NotificationModel updateReadStatus(UpdateNotificationReadStatusForEntityDTO dto) {
+        logger.info("Updating notification read status in DB");
+        NotificationEntity notification = jpaNotificationRepository.findOneByUuidForUpdate(dto.getNotificationUuid());
+        notification.setRead(dto.getRead());
+
+        jpaNotificationRepository.saveAndFlush(notification);
+
+        return notificationDomainMapper.toModel(notification);
     }
 
 }

@@ -18,4 +18,12 @@ public interface NotificationPresentationMapper {
      * @return a {@link Page} of {@link NotificationResponseDTO} containing the converted notification data.
      */
     Page<NotificationResponseDTO> toResponseDTO(Page<NotificationModel> models);
+
+    /**
+     * Converts the specified {@link NotificationModel} to a {@link NotificationResponseDTO}.
+     *
+     * @param model the {@link NotificationModel} to be converted
+     * @return a {@link NotificationResponseDTO} representing the notification
+     */
+    NotificationResponseDTO toResponseDTO(NotificationModel model);
 }

@@ -2,6 +2,8 @@ package com.johannag.tapup.notifications.application.services;
 
 import com.johannag.tapup.notifications.application.dtos.CreateNotificationDTO;
 import com.johannag.tapup.notifications.application.dtos.FindNotificationsDTO;
+import com.johannag.tapup.notifications.application.dtos.UpdateNotificationReadStatusDTO;
+import com.johannag.tapup.notifications.application.exceptions.NotificationNotFoundException;
 import com.johannag.tapup.notifications.domain.models.NotificationModel;
 import com.johannag.tapup.users.application.exceptions.UserNotFoundException;
 import org.springframework.data.domain.Page;
@@ -35,5 +37,14 @@ public interface NotificationService {
      */
     Page<NotificationModel> findByUser(FindNotificationsDTO dto) throws UserNotFoundException;
 
-    ;
+    /**
+     * Updates read status of a {@link NotificationModel} based on the provided {@link UpdateNotificationReadStatusDTO}.
+     *
+     * @param dto the {@link UpdateNotificationReadStatusDTO} containing the update details
+     * @return the updated {@link NotificationModel}
+     * @throws UserNotFoundException         if the user associated with the notification does not exist
+     * @throws NotificationNotFoundException if the notification to update does not exist
+     */
+    NotificationModel updateReadStatusByUser(UpdateNotificationReadStatusDTO dto) throws UserNotFoundException,
+            NotificationNotFoundException;
 }

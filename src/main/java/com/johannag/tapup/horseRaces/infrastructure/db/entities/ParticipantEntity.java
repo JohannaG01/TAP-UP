@@ -5,11 +5,8 @@ import com.johannag.tapup.globals.infrastructure.db.entities.AuditableEntity;
 import com.johannag.tapup.horses.infrastructure.db.entities.HorseEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.lang.Nullable;
 
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
