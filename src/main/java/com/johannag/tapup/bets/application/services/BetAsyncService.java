@@ -21,4 +21,19 @@ public interface BetAsyncService {
      */
     CompletableFuture<Void> processPayments(UUID horseRaceUuid) throws HorseRaceNotFoundException,
             InvalidHorseRaceStateException;
+
+    /**
+     * Processes refunds for the specified horse race.
+     * <p>
+     * This method asynchronously processes refunds for all bets associated with
+     * the given horse race UUID. It ensures that all necessary validations and
+     * operations are performed in a non-blocking manner.
+     *
+     * @param horseRaceUuid the UUID of the horse race for which refunds are to be processed
+     * @return a CompletableFuture that completes when the refund processing is finished
+     * @throws HorseRaceNotFoundException     if the horse race with the specified UUID does not exist
+     * @throws InvalidHorseRaceStateException if the horse race is in an invalid state for processing payments
+     */
+    CompletableFuture<Void> processRefunds(UUID horseRaceUuid) throws HorseRaceNotFoundException,
+            InvalidHorseRaceStateException;
 }

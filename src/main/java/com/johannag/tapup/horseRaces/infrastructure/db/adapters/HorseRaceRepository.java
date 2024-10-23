@@ -76,4 +76,16 @@ public interface HorseRaceRepository {
      * @return the updated {@link HorseRaceModel} after submitting the results
      */
     HorseRaceModel submitResults(SubmitHorseRaceResultsForEntityDTO dto);
+
+    /**
+     * Cancels a horse race identified by the given UUID.
+     *
+     * <p>This method changes the state of the horse race to canceled.
+     * It will throw an exception if the horse race is not found
+     * or if the current state of the race does not allow for cancellation.</p>
+     *
+     * @param horseRaceUuid the unique identifier of the horse race to be canceled
+     * @return the updated {@link HorseRaceModel} after cancellation
+     */
+    HorseRaceModel cancel(UUID horseRaceUuid);
 }

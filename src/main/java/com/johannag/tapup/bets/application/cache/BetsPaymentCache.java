@@ -14,7 +14,7 @@ import java.util.UUID;
 public class BetsPaymentCache {
     private final Map<UUID, BetPayoutsCache> cache = new HashMap<>();
 
-    @Cacheable(value = "processBetsForFinishedHorseRaceCache", key = "#key")
+    @Cacheable(value = "processBetsPaymentCache", key = "#key")
     public BetPayoutsCache get(UUID key) {
         return cache.get(key);
     }
@@ -23,13 +23,13 @@ public class BetsPaymentCache {
         return cache.getOrDefault(key, new BetPayoutsCache());
     }
 
-    @CachePut(value = "processBetsForFinishedHorseRaceCache", key = "#key")
+    @CachePut(value = "processBetsPaymentCache", key = "#key")
     public BetPayoutsCache update(UUID key, BetPayoutsCache value) {
         cache.put(key, value);
         return value;
     }
 
-    @CacheEvict(value = "processBetsForFinishedHorseRaceCache", key = "#key")
+    @CacheEvict(value = "processBetsPaymentCache", key = "#key")
     public void evict(UUID key) {
         cache.remove(key);
     }

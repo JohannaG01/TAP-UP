@@ -19,7 +19,7 @@ public class GenerateBetsPaymentResultsUseCase {
     private final BetsPaymentCache betsPaymentCache;
 
     public BetPayouts execute(UUID horseRaceUuid) {
-        logger.info("Starting processBetsPaymentResults process for horse race uuid {}", horseRaceUuid);
+        logger.info("Starting generateBetsPaymentResults process for horse race uuid {}", horseRaceUuid);
 
         Long totalBets = betRepository.countBetsByHorseRaceUuid(horseRaceUuid);
         Long winningBets = betRepository.countWinningBetsByHorseRaceUuid(horseRaceUuid);
@@ -27,7 +27,7 @@ public class GenerateBetsPaymentResultsUseCase {
         BetPayouts results = buildResults(totalBets, winningBets, cache);
         betsPaymentCache.evict(horseRaceUuid);
 
-        logger.info("Finished processBetsPaymentResults process for horse race uuid {}", horseRaceUuid);
+        logger.info("Finished generateBetsPaymentResults process for horse race uuid {}", horseRaceUuid);
 
         return results;
     }

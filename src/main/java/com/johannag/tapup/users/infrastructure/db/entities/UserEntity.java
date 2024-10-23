@@ -1,5 +1,6 @@
 package com.johannag.tapup.users.infrastructure.db.entities;
 
+import com.johannag.tapup.auth.infrastructure.utils.SecurityContextUtils;
 import com.johannag.tapup.bets.infrastructure.db.entities.BetEntity;
 import com.johannag.tapup.notifications.infrastructure.db.entities.NotificationEntity;
 import jakarta.persistence.*;
@@ -69,6 +70,11 @@ public class UserEntity {
 
     @Column(name = "updated_by", nullable = false)
     private Long updatedBy;
+
+    @PreUpdate
+    protected void preUpdate() {
+        this.updatedBy = SecurityContextUtils.userOnContextId();
+    }
 
     public void addBalance(BigDecimal amount) {
         this.balance = this.balance.add(amount);

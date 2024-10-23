@@ -116,6 +116,19 @@ public class HorseRaceRepositoryImpl implements HorseRaceRepository {
         return horseRaceDomainMapper.toModel(horseRace);
     }
 
+    @Override
+    @Transactional
+    public HorseRaceModel cancel(UUID horseRaceUuid) {
+        logger.info("Updating state to CANCELLED for horse race {} in DB", horseRaceUuid);
+
+        HorseRaceEntity horseRace = jpaHorseRaceRepository.findOneByUuidForUpdate(horseRaceUuid);
+        horseRace.setState(HorseRaceEntityState.CANCELLED);
+        jpaHorseRaceRepository.save(horseRace);
+
+        HorseRaceEntity updatedHorseRace = jpaHorseRaceRepository.findOneByUuid(horseRaceUuid);
+        return horseRaceDomainMapper.toModel(updatedHorseRace);
+    }
+
     private Map<UUID, List<ParticipantEntity>> obtainParticipantsGroupedForRaces(Page<HorseRaceEntity> horseRaces) {
         List<UUID> horseRaceUuids = horseRaces.stream()
                 .map(HorseRaceEntity::getUuid)

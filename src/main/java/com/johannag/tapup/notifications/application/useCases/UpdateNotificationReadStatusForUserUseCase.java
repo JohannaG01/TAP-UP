@@ -4,7 +4,6 @@ import com.johannag.tapup.globals.infrastructure.utils.Logger;
 import com.johannag.tapup.notifications.application.dtos.UpdateNotificationReadStatusDTO;
 import com.johannag.tapup.notifications.application.exceptions.NotificationNotFoundException;
 import com.johannag.tapup.notifications.application.mappers.NotificationApplicationMapper;
-import com.johannag.tapup.notifications.domain.dtos.UpdateNotificationReadStatusForEntityDTO;
 import com.johannag.tapup.notifications.domain.models.NotificationModel;
 import com.johannag.tapup.notifications.infrastructure.adapters.NotificationRepository;
 import com.johannag.tapup.users.application.exceptions.UserNotFoundException;

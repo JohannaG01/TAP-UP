@@ -3,10 +3,7 @@ package com.johannag.tapup.bets.application.services;
 import com.johannag.tapup.bets.application.dtos.CreateBetDTO;
 import com.johannag.tapup.bets.application.dtos.FindBetsDTO;
 import com.johannag.tapup.bets.application.exceptions.InsufficientBalanceException;
-import com.johannag.tapup.bets.domain.models.BetModel;
-import com.johannag.tapup.bets.domain.models.BetPayouts;
-import com.johannag.tapup.bets.domain.models.BetStatisticsModel;
-import com.johannag.tapup.bets.domain.models.BetSummaryModel;
+import com.johannag.tapup.bets.domain.models.*;
 import com.johannag.tapup.horseRaces.application.exceptions.HorseRaceNotFoundException;
 import com.johannag.tapup.horseRaces.application.exceptions.InvalidHorseRaceStateException;
 import com.johannag.tapup.horseRaces.application.exceptions.ParticipantNotFoundException;
@@ -72,4 +69,12 @@ public interface BetService {
      * @return the {@code BetPayouts} object containing the calculated payouts for the specified horse race
      */
     BetPayouts generateBetPaymentResults(UUID horseRaceUuid);
+
+    /**
+     * Generates the refund results for bets placed on a specific horse race.
+     *
+     * @param horseRaceUuid The unique identifier of the horse race for which the refund results are generated.
+     * @return A {@link BetRefunds} object containing the results of the refunded bets.
+     */
+    BetRefunds generateBetsRefundResults(UUID horseRaceUuid);
 }

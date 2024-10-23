@@ -2,10 +2,12 @@ package com.johannag.tapup.notifications.application.services;
 
 import com.johannag.tapup.notifications.application.dtos.CreateNotificationDTO;
 import com.johannag.tapup.notifications.application.dtos.FindNotificationsDTO;
+import com.johannag.tapup.notifications.application.dtos.SendNotificationsInternalProcessDTO;
 import com.johannag.tapup.notifications.application.dtos.UpdateNotificationReadStatusDTO;
 import com.johannag.tapup.notifications.application.exceptions.NotificationNotFoundException;
 import com.johannag.tapup.notifications.application.useCases.CreateNotificationsUseCase;
 import com.johannag.tapup.notifications.application.useCases.FindNotificationsForUserUseCase;
+import com.johannag.tapup.notifications.application.useCases.SendNotificationsForInternalProcessUseCase;
 import com.johannag.tapup.notifications.application.useCases.UpdateNotificationReadStatusForUserUseCase;
 import com.johannag.tapup.notifications.domain.models.NotificationModel;
 import com.johannag.tapup.users.application.exceptions.UserNotFoundException;
@@ -22,9 +24,10 @@ public class NotificationServiceImpl implements NotificationService {
     private final CreateNotificationsUseCase createNotificationsUseCase;
     private final FindNotificationsForUserUseCase findNotificationsForUserUseCase;
     private final UpdateNotificationReadStatusForUserUseCase updateNotificationReadStatusForUserUseCase;
+    private final SendNotificationsForInternalProcessUseCase sendNotificationsForInternalProcessUseCase;
 
     @Override
-    public List<NotificationModel> createNotifications(List<CreateNotificationDTO> dtos) throws UserNotFoundException {
+    public List<NotificationModel> create(List<CreateNotificationDTO> dtos) throws UserNotFoundException {
         return createNotificationsUseCase.execute(dtos);
     }
 
@@ -34,8 +37,13 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public NotificationModel updateReadStatusByUser(UpdateNotificationReadStatusDTO dto) throws UserNotFoundException
-            , NotificationNotFoundException {
+    public NotificationModel updateReadStatusByUser(UpdateNotificationReadStatusDTO dto) throws UserNotFoundException,
+            NotificationNotFoundException {
         return updateNotificationReadStatusForUserUseCase.execute(dto);
+    }
+
+    @Override
+    public void sendForInternalProcess(SendNotificationsInternalProcessDTO dto) {
+        sendNotificationsForInternalProcessUseCase.execute(dto);
     }
 }
