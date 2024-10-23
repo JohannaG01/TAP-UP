@@ -23,7 +23,7 @@ public class AddFundsToUserBalanceUseCase {
         logger.info("Starting addFunds process for user {}", dto.getUserUuid());
 
         findOneUserByUuidUseCase.execute(dto.getUserUuid());
-        AddUserFundsToEntityDTO addUserFundsToEntityDTO = userApplicationMapper.toAddFundsToEntitiesDTO(dto);
+        AddUserFundsToEntityDTO addUserFundsToEntityDTO = userApplicationMapper.toAddFundsToEntityDTO(dto);
         UserModel userModel = userRepository.addFunds(addUserFundsToEntityDTO);
 
         logger.info("Finished addFunds process for user {}", dto.getUserUuid());

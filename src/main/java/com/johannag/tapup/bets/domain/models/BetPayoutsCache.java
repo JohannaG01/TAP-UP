@@ -12,7 +12,11 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BetPayoutsCache {
+
+    @Builder.Default
     private long totalPayouts = 0;
+
+    @Builder.Default
     private BigDecimal totalAmount = BigDecimal.ZERO;
 
     public void addAmount(BigDecimal amount) {

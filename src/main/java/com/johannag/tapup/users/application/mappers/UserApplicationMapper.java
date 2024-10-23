@@ -62,7 +62,7 @@ public interface UserApplicationMapper {
      * @param dto the {@link AddUserFundsDTO} object to be converted. Must not be null.
      * @return the converted {@link AddUserFundsToEntityDTO} object.
      */
-    AddUserFundsToEntityDTO toAddFundsToEntitiesDTO(AddUserFundsDTO dto);
+    AddUserFundsToEntityDTO toAddFundsToEntityDTO(AddUserFundsDTO dto);
 
     /**
      * Converts a list of {@link AddUserFundsDTO} to a list of {@link AddUserFundsToEntityDTO}.
