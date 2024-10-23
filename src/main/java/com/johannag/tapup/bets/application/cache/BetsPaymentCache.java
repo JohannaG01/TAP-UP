@@ -19,6 +19,7 @@ public class BetsPaymentCache {
         return cache.get(key);
     }
 
+    @Cacheable(value = "processBetsPaymentCache", key = "#key")
     public BetPayoutsCache getOrDefault(UUID key) {
         return cache.getOrDefault(key, new BetPayoutsCache());
     }

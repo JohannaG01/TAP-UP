@@ -74,7 +74,7 @@ public class UserApplicationMapperImpl implements UserApplicationMapper {
     }
 
     @Override
-    public AddUserFundsToEntityDTO toAddFundsToEntitiesDTO(AddUserFundsDTO dto) {
+    public AddUserFundsToEntityDTO toAddFundsToEntityDTO(AddUserFundsDTO dto) {
         return addFundsToEntityDTOMapper
                 .map(dto)
                 .build();
@@ -83,7 +83,7 @@ public class UserApplicationMapperImpl implements UserApplicationMapper {
     @Override
     public List<AddUserFundsToEntityDTO> toAddFundsToEntitiesDTO(List<AddUserFundsDTO> dtos) {
         return dtos.stream()
-                .map(this::toAddFundsToEntitiesDTO)
+                .map(this::toAddFundsToEntityDTO)
                 .toList();
     }
 

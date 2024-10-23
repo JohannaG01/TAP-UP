@@ -45,6 +45,7 @@ public class LogInUserUseCase {
 
     private void validateMatchingPasswordOrThrow(UserModel user, String password) throws InvalidLoginCredentialsException {
         logger.info("Validating credentials for user [{}]", user.getEmail());
+
         if (!PasswordUtils.match(password, user.getHashedPassword())) {
             throw new InvalidLoginCredentialsException();
         }
