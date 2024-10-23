@@ -73,7 +73,7 @@ public class HorseRaceController {
     @PreAuthorize("hasAnyAuthority({'ADMIN'})")
     @JsonView(ParticipantView.ParticipantWithoutRace.class)
     @PostMapping("/horse-races")
-    public ResponseEntity<HorseRaceResponseDTO> create(@Valid @RequestBody CreateHorseRaceRequestDTO createHorseRaceRequestDTO) throws
+    public ResponseEntity<HorseRaceResponseDTO> submitResults(@Valid @RequestBody CreateHorseRaceRequestDTO createHorseRaceRequestDTO) throws
             HorseNotAvailableException, HorseNotFoundException {
 
         CreateHorseRaceDTO createHorseRaceDTO = horseRaceApplicationMapper.toCreateDTO(createHorseRaceRequestDTO);
@@ -205,13 +205,48 @@ public class HorseRaceController {
     @PreAuthorize("hasAnyAuthority({'ADMIN'})")
     @JsonView(ParticipantView.ParticipantWithoutRace.class)
     @PostMapping("/horse-races/{horseRaceUuid}/results")
-    public ResponseEntity<HorseRaceResponseDTO> create(@PathVariable UUID horseRaceUuid,
-                                                       @Valid @RequestBody SubmitHorseRaceResultsRequestDTO submitResultsRequestDTO)
+    public ResponseEntity<HorseRaceResponseDTO> submitResults(@PathVariable UUID horseRaceUuid,
+                                                              @Valid @RequestBody SubmitHorseRaceResultsRequestDTO submitResultsRequestDTO)
             throws ParticipantNotFoundException, HorseRaceNotFoundException, InvalidHorseRaceStateException {
 
 
         var submitResultsDTO = horseRaceApplicationMapper.toSubmitResultsDTO(horseRaceUuid, submitResultsRequestDTO);
         HorseRaceModel horseRace = horseRaceService.submitResults(submitResultsDTO);
+        HorseRaceResponseDTO response = horseRacePresentationMapper.toResponseDTO(horseRace);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+
+    @Operation(summary = "Cancels horse race")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Horse race has been cancelled successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid request", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "401", description = "Unauthorized: Invalid credentials", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "403", description = "Forbidden: Not enough privileges", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "404", description = "Not Found: Horse Race Not Found", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "409", description = "Conflict: Invalid state", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = {
+                    @Content(mediaType = "application/json", schema =
+                    @Schema(implementation = ErrorResponse.class))})
+    })
+    @PreAuthorize("hasAnyAuthority({'ADMIN'})")
+    @JsonView(ParticipantView.ParticipantWithoutRace.class)
+    @DeleteMapping("/horse-races/{horseRaceUuid}")
+    public ResponseEntity<HorseRaceResponseDTO> cancel(@PathVariable UUID horseRaceUuid)
+            throws HorseRaceNotFoundException, InvalidHorseRaceStateException {
+
+        HorseRaceModel horseRace = horseRaceService.cancel(horseRaceUuid);
         HorseRaceResponseDTO response = horseRacePresentationMapper.toResponseDTO(horseRace);
 
         return new ResponseEntity<>(response, HttpStatus.OK);

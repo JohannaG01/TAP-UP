@@ -78,7 +78,6 @@ public class UserRepositoryImpl implements UserRepository {
 
         UserEntity userEntity = jpaUserRepository.findOneByUuidForUpdate(dto.getUserUuid());
         userEntity.addBalance(dto.getAmount());
-        userEntity.setUpdatedBy(SecurityContextUtils.userOnContextId());
         jpaUserRepository.saveAndFlush(jpaUserRepository.save(userEntity));
 
         return userDomainMapper.toModel(userEntity);
@@ -87,7 +86,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     @Transactional
     public List<UserModel> addFunds(List<AddUserFundsToEntityDTO> dtos) {
-        logger.info("Modifying balance to {} users in DB", dtos.size());
+        logger.info("Adding funds to balance for {} users in DB", dtos.size());
 
         Map<UUID, BigDecimal> amountByUserUuid = dtos.stream()
                 .collect(Collectors.toMap(AddUserFundsToEntityDTO::getUserUuid, AddUserFundsToEntityDTO::getAmount));
@@ -95,7 +94,6 @@ public class UserRepositoryImpl implements UserRepository {
         List<UserEntity> users = jpaUserRepository.findByUuidForUpdate(amountByUserUuid.keySet());
         users.forEach(user -> {
             user.addBalance(amountByUserUuid.get(user.getUuid()));
-            user.setUpdatedBy(SecurityContextUtils.userOnContextId());
         });
 
         jpaUserRepository.saveAllAndFlush(users);
@@ -112,7 +110,6 @@ public class UserRepositoryImpl implements UserRepository {
 
         UserEntity userEntity = jpaUserRepository.findOneByUuidForUpdate(dto.getUserUuid());
         userEntity.subtractBalance(dto.getAmount());
-        userEntity.setUpdatedBy(SecurityContextUtils.userOnContextId());
         jpaUserRepository.saveAndFlush(jpaUserRepository.save(userEntity));
 
         return userDomainMapper.toModel(userEntity);

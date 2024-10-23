@@ -4,10 +4,7 @@ import com.johannag.tapup.bets.application.dtos.CreateBetDTO;
 import com.johannag.tapup.bets.application.dtos.FindBetsDTO;
 import com.johannag.tapup.bets.application.exceptions.InsufficientBalanceException;
 import com.johannag.tapup.bets.application.useCases.*;
-import com.johannag.tapup.bets.domain.models.BetModel;
-import com.johannag.tapup.bets.domain.models.BetPayouts;
-import com.johannag.tapup.bets.domain.models.BetStatisticsModel;
-import com.johannag.tapup.bets.domain.models.BetSummaryModel;
+import com.johannag.tapup.bets.domain.models.*;
 import com.johannag.tapup.horseRaces.application.exceptions.HorseRaceNotFoundException;
 import com.johannag.tapup.horseRaces.application.exceptions.InvalidHorseRaceStateException;
 import com.johannag.tapup.horseRaces.application.exceptions.ParticipantNotFoundException;
@@ -28,6 +25,7 @@ public class BetServiceImpl implements BetService {
     private final GenerateBetInfoForHorseRaceUseCase generateBetInfoForHorseRaceUseCase;
     private final GenerateBetStatisticsForHorseRacesUseCase generateBetStatisticsForHorseRacesUseCase;
     private final GenerateBetsPaymentResultsUseCase generateBetsPaymentResultsUseCase;
+    private final GenerateBetsRefundResultsUseCase generateBetsRefundResultsUseCase;
 
     @Override
     public BetModel create(CreateBetDTO dto) throws UserNotFoundException, ParticipantNotFoundException,
@@ -53,5 +51,10 @@ public class BetServiceImpl implements BetService {
     @Override
     public BetPayouts generateBetPaymentResults(UUID horseRaceUuid) {
         return generateBetsPaymentResultsUseCase.execute(horseRaceUuid);
+    }
+
+    @Override
+    public BetRefunds generateBetsRefundResults(UUID horseRaceUuid) {
+        return generateBetsRefundResultsUseCase.execute(horseRaceUuid);
     }
 }

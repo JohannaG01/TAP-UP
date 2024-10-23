@@ -32,6 +32,10 @@ public class HorseRaceModel implements Serializable {
         return this.state == HorseRaceModelState.FINISHED;
     }
 
+    public boolean isCancelled() {
+        return this.state == HorseRaceModelState.CANCELLED;
+    }
+
     public boolean hasAlreadyStarted() {
         return this.startTime.isBefore(DateTimeUtils.nowAsLocalDateTime());
     }

@@ -37,7 +37,7 @@ class ProcessBetsPaymentBatchIteration {
     private final BetRepository betRepository;
     private final BetApplicationMapper betApplicationMapper;
     private final NotificationService notificationService;
-    private final BetsPaymentCache cache;
+    private final BetsPaymentCache betsPaymentCache;
     private final MoneyUtils moneyUtils;
 
     @Transactional
@@ -60,7 +60,7 @@ class ProcessBetsPaymentBatchIteration {
         userService.addFunds(addUserFundsDTOs);
         betRepository.updateState(updateWinnerBetsDTO);
         betRepository.updateState(updateLoserBetsDTO);
-        notificationService.createNotifications(createNotificationDTOS);
+        notificationService.create(createNotificationDTOS);
         updateCache(dto.getHorseRaceUuid(), winnerBets);
 
         logger.info("Finished process batch iteration: {}", dto.currentPage());
@@ -148,10 +148,10 @@ class ProcessBetsPaymentBatchIteration {
     }
 
     private void updateCache(UUID horseRaceUuid, Map<UUID, List<BigDecimal>> winnerBets) {
-        BetPayoutsCache cacheData = cache.getOrDefault(horseRaceUuid);
+        BetPayoutsCache cacheData = betsPaymentCache.getOrDefault(horseRaceUuid);
         cacheData.addAmount(obtainTotalPayoutAmount(winnerBets));
         cacheData.addPayouts(obtainTotalPayouts(winnerBets));
-        cache.update(horseRaceUuid, cacheData);
+        betsPaymentCache.update(horseRaceUuid, cacheData);
     }
 
     private BigDecimal obtainTotalPayoutAmount(Map<UUID, List<BigDecimal>> winnerBets) {

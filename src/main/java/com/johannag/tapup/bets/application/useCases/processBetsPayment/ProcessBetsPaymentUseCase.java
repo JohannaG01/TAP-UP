@@ -28,9 +28,8 @@ public class ProcessBetsPaymentUseCase {
     private final ProcessBetsPaymentBatchIteration processBetsPaymentBatchIteration;
     private final BetConfig betConfig;
 
-    public void execute(UUID horseRaceUuid) throws HorseRaceNotFoundException,
-            InvalidHorseRaceStateException {
-        logger.info("Starting processPayments process for horseRace with Uuid {}", horseRaceUuid);
+    public void execute(UUID horseRaceUuid) throws HorseRaceNotFoundException, InvalidHorseRaceStateException {
+        logger.info("Starting processPayments for horseRace with Uuid {}", horseRaceUuid);
 
         HorseRaceModel horseRace = horseRaceService.findOneByUuid(horseRaceUuid);
         validateHorseRaceStateIsValidOrThrow(horseRace);
@@ -38,7 +37,7 @@ public class ProcessBetsPaymentUseCase {
         BetStatisticsModel betStatistics = generateBetStatisticsForHorseRacesUseCase.execute(horseRaceUuid);
         processPaymentsInBatch(horseRace, betStatistics);
 
-        logger.info("Finished processPayments process for horseRace with Uuid {}", horseRaceUuid);
+        logger.info("Finished processPayments for horseRace with Uuid {}", horseRaceUuid);
     }
 
     private void validateHorseRaceStateIsValidOrThrow(HorseRaceModel horseRace) throws InvalidHorseRaceStateException {

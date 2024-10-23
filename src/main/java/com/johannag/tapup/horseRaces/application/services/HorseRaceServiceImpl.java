@@ -27,6 +27,7 @@ public class HorseRaceServiceImpl implements HorseRaceService {
     private final FindHorseRacesUseCase findHorseRacesUseCase;
     private final FindOneHorseRaceByParticipantUuidUseCase findOneHorseRaceByParticipantUuidUseCase;
     private final SubmitHorseRaceResultsUseCase submitHorseRaceResultsUseCase;
+    private final CancelHorseRaceUseCase cancelHorseRaceUseCase;
 
     @Override
     public HorseRaceModel create(CreateHorseRaceDTO dto) throws HorseNotAvailableException, HorseNotFoundException {
@@ -58,5 +59,10 @@ public class HorseRaceServiceImpl implements HorseRaceService {
     public HorseRaceModel submitResults(SubmitHorseRaceResultsDTO dto)
             throws ParticipantNotFoundException, HorseRaceNotFoundException, InvalidHorseRaceStateException {
         return submitHorseRaceResultsUseCase.execute(dto);
+    }
+
+    @Override
+    public HorseRaceModel cancel(UUID horseRaceUuid) throws HorseRaceNotFoundException, InvalidHorseRaceStateException {
+        return cancelHorseRaceUseCase.execute(horseRaceUuid);
     }
 }

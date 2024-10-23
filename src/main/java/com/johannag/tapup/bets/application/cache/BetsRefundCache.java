@@ -1,6 +1,7 @@
 package com.johannag.tapup.bets.application.cache;
 
 import com.johannag.tapup.bets.domain.models.BetPayoutsCache;
+import com.johannag.tapup.bets.domain.models.BetRefundsCache;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -11,25 +12,25 @@ import java.util.Map;
 import java.util.UUID;
 
 @Service
-public class BetsPaymentCache {
-    private final Map<UUID, BetPayoutsCache> cache = new HashMap<>();
+public class BetsRefundCache {
+    private final Map<UUID, BetRefundsCache> cache = new HashMap<>();
 
-    @Cacheable(value = "processBetsPaymentCache", key = "#key")
-    public BetPayoutsCache get(UUID key) {
+    @Cacheable(value = "processBetsRefundCache", key = "#key")
+    public BetRefundsCache get(UUID key) {
         return cache.get(key);
     }
 
-    public BetPayoutsCache getOrDefault(UUID key) {
-        return cache.getOrDefault(key, new BetPayoutsCache());
+    public BetRefundsCache getOrDefault(UUID key) {
+        return cache.getOrDefault(key, new BetRefundsCache());
     }
 
-    @CachePut(value = "processBetsPaymentCache", key = "#key")
-    public BetPayoutsCache update(UUID key, BetPayoutsCache value) {
+    @CachePut(value = "processBetsRefundCache", key = "#key")
+    public BetRefundsCache update(UUID key, BetRefundsCache value) {
         cache.put(key, value);
         return value;
     }
 
-    @CacheEvict(value = "processBetsPaymentCache", key = "#key")
+    @CacheEvict(value = "processBetsRefundCache", key = "#key")
     public void evict(UUID key) {
         cache.remove(key);
     }

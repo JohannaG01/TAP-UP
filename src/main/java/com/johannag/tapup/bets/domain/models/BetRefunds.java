@@ -7,18 +7,16 @@ import java.math.BigDecimal;
 
 @Data
 @Builder(builderClassName = "Builder")
-public class BetPayouts {
+public class BetRefunds {
     private Long totalBets;
-    private Long totalWinningBets;
-    private Long totalPayouts;
+    private Long totalRefunds;
     private BigDecimal totalAmount;
 
     @Override
     public String toString() {
-        return  "[" +
+        return "[" +
                 "  TotalBets=" + totalBets +
-                ", TotalWinningBets=" + totalWinningBets +
-                ", TotalPayouts=" + totalPayouts +
+                ", TotalRefunds=" + totalRefunds +
                 ", TotalAmount=" + totalAmount +
                 ']';
     }

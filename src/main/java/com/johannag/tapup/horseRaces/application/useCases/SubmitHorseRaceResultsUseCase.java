@@ -3,6 +3,7 @@ package com.johannag.tapup.horseRaces.application.useCases;
 import com.johannag.tapup.bets.application.services.BetAsyncService;
 import com.johannag.tapup.bets.application.services.BetService;
 import com.johannag.tapup.bets.domain.models.BetPayouts;
+import com.johannag.tapup.bets.domain.models.BetRefunds;
 import com.johannag.tapup.globals.infrastructure.utils.Logger;
 import com.johannag.tapup.horseRaces.application.dtos.SubmitHorseRaceResultsDTO;
 import com.johannag.tapup.horseRaces.application.exceptions.HorseRaceNotFoundException;
@@ -13,6 +14,7 @@ import com.johannag.tapup.horseRaces.domain.models.HorseRaceModel;
 import com.johannag.tapup.horseRaces.infrastructure.db.adapters.HorseRaceRepository;
 import com.johannag.tapup.horses.application.exceptions.HorseNotAvailableException;
 import com.johannag.tapup.notifications.application.dtos.CreateNotificationDTO;
+import com.johannag.tapup.notifications.application.dtos.SendNotificationsInternalProcessDTO;
 import com.johannag.tapup.notifications.application.services.NotificationService;
 import com.johannag.tapup.notifications.domain.models.NotificationModelType;
 import com.johannag.tapup.users.application.services.UserService;
@@ -23,10 +25,11 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
-import static com.johannag.tapup.bets.application.constants.BetNotificationConstant.FAILED_PAYMENTS;
-import static com.johannag.tapup.bets.application.constants.BetNotificationConstant.SUCCESSFUL_PAYMENTS;
+import static com.johannag.tapup.bets.application.constants.BetNotificationConstant.FAILED_PAYMENTS_MSG;
+import static com.johannag.tapup.bets.application.constants.BetNotificationConstant.SUCCESSFUL_PAYMENTS_MSG;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Lazy))
@@ -87,34 +90,28 @@ public class SubmitHorseRaceResultsUseCase {
                 .handle((result, throwable) -> sendResultsToAdmins(horseRaceUuid, throwable));
     }
 
-    private BetPayouts sendResultsToAdmins(UUID horseRaceUuid, Throwable throwable) {
+    private BetPayouts sendResultsToAdmins(UUID horseRaceUuid, @Nullable Throwable throwable) {
         BetPayouts betPayouts = betService.generateBetPaymentResults(horseRaceUuid);
-        List<UserModel> admins = userService.findAllAdmins();
-        List<CreateNotificationDTO> dtos = buildNotificationMessageAndLog(horseRaceUuid, throwable, betPayouts, admins);
-        notificationService.createNotifications(dtos);
+        SendNotificationsInternalProcessDTO dto = buildSendNotificationsDTO(horseRaceUuid, betPayouts, throwable);
+        notificationService.sendForInternalProcess(dto);
         return betPayouts;
     }
 
-    private List<CreateNotificationDTO> buildNotificationMessageAndLog(UUID horseRaceUuid,
-                                                                       @Nullable Throwable throwable,
-                                                                       BetPayouts betPayouts,
-                                                                       List<UserModel> admins) {
-        String message;
-        NotificationModelType notificationType;
+    private SendNotificationsInternalProcessDTO buildSendNotificationsDTO(UUID horseRaceUuid,
+                                                                          BetPayouts betPayouts,
+                                                                          @Nullable Throwable throwable) {
+        String errorMessage = Optional.ofNullable(throwable)
+                .map(Throwable::getMessage)
+                .orElse("");
 
-        if (throwable != null) {
-            message = String.format(FAILED_PAYMENTS, horseRaceUuid, throwable.getMessage(), betPayouts);
-            notificationType = NotificationModelType.ERROR;
-        } else {
-            message = String.format(SUCCESSFUL_PAYMENTS, horseRaceUuid, betPayouts);
-            notificationType = NotificationModelType.SUCCESS;
-        }
+        String failureMessage = String.format(FAILED_PAYMENTS_MSG, horseRaceUuid, errorMessage, betPayouts);
+        String successfulMessage = String.format(SUCCESSFUL_PAYMENTS_MSG, horseRaceUuid, betPayouts);
 
-        logger.info(message);
-
-        return admins.stream()
-                .map(admin -> new CreateNotificationDTO(admin.getUuid(), message, notificationType))
-                .toList();
+        return SendNotificationsInternalProcessDTO.builder()
+                .failed(throwable != null)
+                .successfulMessage(successfulMessage)
+                .failureMessage(failureMessage)
+                .build();
     }
 
 }

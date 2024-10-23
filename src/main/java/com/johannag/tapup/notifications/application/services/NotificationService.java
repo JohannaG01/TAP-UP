@@ -2,6 +2,7 @@ package com.johannag.tapup.notifications.application.services;
 
 import com.johannag.tapup.notifications.application.dtos.CreateNotificationDTO;
 import com.johannag.tapup.notifications.application.dtos.FindNotificationsDTO;
+import com.johannag.tapup.notifications.application.dtos.SendNotificationsInternalProcessDTO;
 import com.johannag.tapup.notifications.application.dtos.UpdateNotificationReadStatusDTO;
 import com.johannag.tapup.notifications.application.exceptions.NotificationNotFoundException;
 import com.johannag.tapup.notifications.domain.models.NotificationModel;
@@ -21,7 +22,7 @@ public interface NotificationService {
      * notifications
      * @throws UserNotFoundException if any of the users specified in the notifications do not exist
      */
-    List<NotificationModel> createNotifications(List<CreateNotificationDTO> dtos) throws UserNotFoundException;
+    List<NotificationModel> create(List<CreateNotificationDTO> dtos) throws UserNotFoundException;
 
     /**
      * Retrieves a paginated list of {@link NotificationModel} for a specified user.
@@ -47,4 +48,16 @@ public interface NotificationService {
      */
     NotificationModel updateReadStatusByUser(UpdateNotificationReadStatusDTO dto) throws UserNotFoundException,
             NotificationNotFoundException;
+
+    /**
+     * Sends notifications for internal processing.
+     * <p>
+     * This method takes a {@link SendNotificationsInternalProcessDTO} object
+     * containing the necessary data to initiate the internal notification
+     * processing workflow.
+     *
+     * @param dto the data transfer object containing the information required for
+     *            sending notifications for internal processing
+     */
+    void sendForInternalProcess(SendNotificationsInternalProcessDTO dto);
 }
