@@ -13,7 +13,6 @@ import com.johannag.tapup.globals.infrastructure.utils.Logger;
 import com.johannag.tapup.notifications.application.dtos.CreateNotificationDTO;
 import com.johannag.tapup.notifications.application.services.NotificationService;
 import com.johannag.tapup.users.application.dtos.AddUserFundsDTO;
-import com.johannag.tapup.users.application.dtos.SubtractUserFundsDTO;
 import com.johannag.tapup.users.application.services.UserService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -26,7 +25,7 @@ import java.util.UUID;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-import static com.johannag.tapup.bets.application.constants.BetNotificationConstant.*;
+import static com.johannag.tapup.bets.application.constants.BetNotificationConstant.REFUND_MSG;
 import static com.johannag.tapup.notifications.domain.models.NotificationModelType.INFO;
 
 @Service
@@ -70,7 +69,7 @@ public class ProcessBetsRefundBatchIteration {
                 .toList();
     }
 
-    private UpdateBetEntitiesStateDTO mapToUpdateBetDTO(List<BetModel> bets){
+    private UpdateBetEntitiesStateDTO mapToUpdateBetDTO(List<BetModel> bets) {
 
         List<UUID> betUuids = bets.stream()
                 .map(BetModel::getUuid)

@@ -1,9 +1,6 @@
 package com.johannag.tapup.bets.application.useCases;
 
-import com.johannag.tapup.bets.application.cache.BetsPaymentCache;
 import com.johannag.tapup.bets.application.cache.BetsRefundCache;
-import com.johannag.tapup.bets.domain.models.BetPayouts;
-import com.johannag.tapup.bets.domain.models.BetPayoutsCache;
 import com.johannag.tapup.bets.domain.models.BetRefunds;
 import com.johannag.tapup.bets.domain.models.BetRefundsCache;
 import com.johannag.tapup.bets.infrastructure.db.adapters.BetRepository;

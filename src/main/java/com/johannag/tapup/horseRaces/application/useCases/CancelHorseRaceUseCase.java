@@ -10,7 +10,6 @@ import com.johannag.tapup.horseRaces.domain.models.HorseRaceModel;
 import com.johannag.tapup.horseRaces.infrastructure.db.adapters.HorseRaceRepository;
 import com.johannag.tapup.notifications.application.dtos.SendNotificationsInternalProcessDTO;
 import com.johannag.tapup.notifications.application.services.NotificationService;
-import com.johannag.tapup.users.application.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.lang.Nullable;
@@ -19,7 +18,8 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.johannag.tapup.bets.application.constants.BetNotificationConstant.*;
+import static com.johannag.tapup.bets.application.constants.BetNotificationConstant.FAILED_REFUNDS_MSG;
+import static com.johannag.tapup.bets.application.constants.BetNotificationConstant.SUCCESSFUL_REFUNDS_MSG;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Lazy))

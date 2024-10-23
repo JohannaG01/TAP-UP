@@ -15,7 +15,7 @@ public class BetPayouts {
 
     @Override
     public String toString() {
-        return  "[" +
+        return "[" +
                 "  TotalBets=" + totalBets +
                 ", TotalWinningBets=" + totalWinningBets +
                 ", TotalPayouts=" + totalPayouts +

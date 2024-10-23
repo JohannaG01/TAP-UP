@@ -19,7 +19,7 @@ public class SendNotificationsForInternalProcessUseCase {
     private final UserService userService;
     private final CreateNotificationsUseCase createNotificationsUseCase;
 
-    public void execute(SendNotificationsInternalProcessDTO dto){
+    public void execute(SendNotificationsInternalProcessDTO dto) {
         logger.info("Starting sendNotificationForInternalProcess process for all admin users");
 
         List<UserModel> admins = userService.findAllAdmins();
@@ -28,6 +28,7 @@ public class SendNotificationsForInternalProcessUseCase {
 
         logger.info("Finished sendNotificationForInternalProcess process for all admin users");
     }
+
     private List<CreateNotificationDTO> buildAndLogNotificationMessage(List<UserModel> admins,
                                                                        SendNotificationsInternalProcessDTO dto) {
         String message;

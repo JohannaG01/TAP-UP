@@ -1,6 +1,5 @@
 package com.johannag.tapup.bets.application.cache;
 
-import com.johannag.tapup.bets.domain.models.BetPayoutsCache;
 import com.johannag.tapup.bets.domain.models.BetRefundsCache;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;

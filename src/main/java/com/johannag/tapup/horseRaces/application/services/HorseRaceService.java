@@ -98,7 +98,7 @@ public interface HorseRaceService {
      *
      * @param horseRaceUuid the unique identifier of the horse race to be canceled.
      * @return the updated {@link HorseRaceModel} after cancellation.
-     * @throws HorseRaceNotFoundException if no horse race with the specified UUID exists.
+     * @throws HorseRaceNotFoundException     if no horse race with the specified UUID exists.
      * @throws InvalidHorseRaceStateException if the horse race cannot be canceled due to its current state.
      */
     HorseRaceModel cancel(UUID horseRaceUuid) throws HorseRaceNotFoundException, InvalidHorseRaceStateException;

@@ -44,6 +44,6 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public void sendForInternalProcess(SendNotificationsInternalProcessDTO dto) {
-         sendNotificationsForInternalProcessUseCase.execute(dto);
+        sendNotificationsForInternalProcessUseCase.execute(dto);
     }
 }
