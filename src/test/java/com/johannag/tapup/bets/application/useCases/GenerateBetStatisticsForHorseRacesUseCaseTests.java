@@ -26,15 +26,13 @@ import static org.mockito.Mockito.doThrow;
 @MockitoSettings(strictness = Strictness.LENIENT)
 public class GenerateBetStatisticsForHorseRacesUseCaseTests {
 
+    private final List<BetSummaryModel> betSummaries = BetStubs.betSummaryModels();
+    private final BetStatisticsModel betStatistics = BetStubs.betStatisticsModel();
     @Mock
     private GenerateBetInfoForHorseRaceUseCase generateBetInfoForHorseRaceUseCase;
-
     @Spy
     @InjectMocks
     private GenerateBetStatisticsForHorseRacesUseCase generateBetStatisticsForHorseRacesUseCase;
-
-    private final List<BetSummaryModel> betSummaries = BetStubs.betSummaryModels();
-    private final BetStatisticsModel betStatistics = BetStubs.betStatisticsModel();
 
     @Test
     public void horseRaceNotFound() {

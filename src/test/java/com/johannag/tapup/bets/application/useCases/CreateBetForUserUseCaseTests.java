@@ -38,22 +38,6 @@ import static org.mockito.Mockito.doThrow;
 @MockitoSettings(strictness = Strictness.LENIENT)
 public class CreateBetForUserUseCaseTests {
 
-    @Mock
-    private BetApplicationMapper betApplicationMapper;
-
-    @Mock
-    private UserService userService;
-
-    @Mock
-    private HorseRaceService horseRaceService;
-
-    @Mock
-    private BetRepository betRepository;
-
-    @Spy
-    @InjectMocks
-    private CreateBetForUserUseCase createBetForUserUseCase;
-
     private final CreateBetDTO highCreateBetDTO = BetStubs.createBetDTO(new BigDecimal(8000));
     private final CreateBetDTO lowCreateBetDTO = BetStubs.createBetDTO(new BigDecimal(1));
     private final HorseRaceModel scheduledHorseRace = HorseRaceStubs.horseRaceStub(HorseRaceModelState.SCHEDULED);
@@ -61,6 +45,17 @@ public class CreateBetForUserUseCaseTests {
     private final UserModel user = UserStubs.userModel();
     private final CreateBetEntityDTO createBetEntityDTO = BetStubs.createBetEntityDTO();
     private final BetModel bet = BetStubs.betModel();
+    @Mock
+    private BetApplicationMapper betApplicationMapper;
+    @Mock
+    private UserService userService;
+    @Mock
+    private HorseRaceService horseRaceService;
+    @Mock
+    private BetRepository betRepository;
+    @Spy
+    @InjectMocks
+    private CreateBetForUserUseCase createBetForUserUseCase;
 
     @Test
     public void userNotFound() {

@@ -24,19 +24,16 @@ import static org.mockito.Mockito.*;
 @MockitoSettings(strictness = Strictness.LENIENT)
 public class SignInUserUseCaseTests {
 
-    @Mock
-    private UserRepository userRepository;
-
-    @Mock
-    private UserApplicationMapper userApplicationMapper;
-
-    @Spy
-    @InjectMocks
-    private SignInUserUseCase signInUserUseCase;
-
     private final CreateUserDTO createUserDTO = UserStubs.createUserDTO();
     private final CreateUserEntityDTO createUserEntityDTO = UserStubs.createUserEntityDTO();
     private final UserModel user = UserStubs.userModel();
+    @Mock
+    private UserRepository userRepository;
+    @Mock
+    private UserApplicationMapper userApplicationMapper;
+    @Spy
+    @InjectMocks
+    private SignInUserUseCase signInUserUseCase;
 
     @Test
     public void userAlreadyExists() {

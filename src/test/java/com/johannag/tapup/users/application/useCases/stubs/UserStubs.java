@@ -1,13 +1,11 @@
 package com.johannag.tapup.users.application.useCases.stubs;
 
-import com.johannag.tapup.auth.application.useCases.stubs.AuthTokenStubs;
 import com.johannag.tapup.users.application.dtos.AddUserFundsDTO;
 import com.johannag.tapup.users.application.dtos.CreateUserDTO;
 import com.johannag.tapup.users.application.dtos.LogInUserDTO;
 import com.johannag.tapup.users.domain.dtos.AddUserFundsToEntityDTO;
 import com.johannag.tapup.users.domain.dtos.CreateUserEntityDTO;
 import com.johannag.tapup.users.domain.models.UserModel;
-import com.johannag.tapup.users.domain.models.UserWithAuthTokenModel;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -36,7 +34,7 @@ public class UserStubs {
                 .build();
     }
 
-    public static UserModel userModel(){
+    public static UserModel userModel() {
         return UserModel.builder()
                 .uuid(UUID.randomUUID())
                 .bets(new ArrayList<>())
@@ -49,14 +47,14 @@ public class UserStubs {
                 .build();
     }
 
-    public static LogInUserDTO logInUserDTO(){
+    public static LogInUserDTO logInUserDTO() {
         return LogInUserDTO.builder()
                 .email("example@gmail.com")
                 .password("Password123$")
                 .build();
     }
 
-    public static AddUserFundsDTO addUserFundsDTO(){
+    public static AddUserFundsDTO addUserFundsDTO() {
         return AddUserFundsDTO
                 .builder()
                 .userUuid(UUID.randomUUID())
@@ -64,7 +62,7 @@ public class UserStubs {
                 .build();
     }
 
-    public static AddUserFundsToEntityDTO addUserFundsToEntityDTO(){
+    public static AddUserFundsToEntityDTO addUserFundsToEntityDTO() {
         return AddUserFundsToEntityDTO
                 .builder()
                 .userUuid(UUID.randomUUID())
