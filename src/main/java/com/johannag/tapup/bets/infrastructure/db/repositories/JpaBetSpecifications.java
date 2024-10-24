@@ -16,6 +16,15 @@ import java.util.UUID;
 
 public class JpaBetSpecifications {
 
+    public static Specification<BetEntity> withUserUuid(UUID userUuid) {
+        return (Root<BetEntity> root, CriteriaQuery<?> query, CriteriaBuilder builder) -> {
+            if (userUuid == null) {
+                return builder.conjunction();
+            }
+            return builder.equal(root.get("user").get("uuid"), userUuid);
+        };
+    }
+
     public static Specification<BetEntity> withBetStates(List<BetEntityState> betStates) {
         return (Root<BetEntity> root, CriteriaQuery<?> query, CriteriaBuilder builder) -> {
             if (betStates == null || betStates.isEmpty()) {
@@ -102,6 +111,13 @@ public class JpaBetSpecifications {
     }
 
     public static class Builder extends BaseSpecificationBuilder<BetEntity> {
+
+        public Builder withUserUuid(UUID userUuid) {
+            if (userUuid != null) {
+                spec = spec.and(JpaBetSpecifications.withUserUuid(userUuid));
+            }
+            return this;
+        }
 
         public Builder withBetStates(List<BetEntityState> betStates) {
             if (betStates != null && !betStates.isEmpty()) {

@@ -24,16 +24,22 @@ import static org.mockito.Mockito.*;
 @MockitoSettings(strictness = Strictness.LENIENT)
 public class SignInUserUseCaseTests {
 
-    @Mock private UserRepository userRepository;
-    @Mock private UserApplicationMapper userApplicationMapper;
-    @InjectMocks @Spy private SignInUserUseCase signInUserUseCase;
+    @Mock
+    private UserRepository userRepository;
+
+    @Mock
+    private UserApplicationMapper userApplicationMapper;
+
+    @Spy
+    @InjectMocks
+    private SignInUserUseCase signInUserUseCase;
 
     private final CreateUserDTO createUserDTO = UserStubs.createUserDTO();
     private final CreateUserEntityDTO createUserEntityDTO = UserStubs.createUserEntityDTO();
     private final UserModel user = UserStubs.userModel();
 
     @Test
-    public void userAlreadyExists(){
+    public void userAlreadyExists() {
         UserAlreadyExistsException exception = new UserAlreadyExistsException(createUserDTO.getEmail());
 
         doThrow(exception)
@@ -44,7 +50,7 @@ public class SignInUserUseCaseTests {
     }
 
     @Test
-    public void userSignInSuccessfully(){
+    public void userSignInSuccessfully() {
         doReturn(false)
                 .when(userRepository)
                 .existsUser(any());

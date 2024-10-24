@@ -49,14 +49,14 @@ public class CreateBetForUserUseCase {
         return bet;
     }
 
-    private void validateUserHasEnoughBalanceOrThrow(UserModel user, BigDecimal amount) {
+    private void validateUserHasEnoughBalanceOrThrow(UserModel user, BigDecimal amount) throws InsufficientBalanceException {
         logger.info("Validating user's balance for User Uuid {}", user.getUuid());
         if (!user.hasEnoughBalance(amount)) {
             throw new InsufficientBalanceException(user.getUuid(), amount);
         }
     }
 
-    private void validateHorseRaceStateIsValidOrThrow(HorseRaceModel horseRace) {
+    private void validateHorseRaceStateIsValidOrThrow(HorseRaceModel horseRace) throws InvalidHorseRaceStateException {
         logger.info("Validating horse race state for Uuid {}", horseRace.getUuid());
         if (!horseRace.isScheduled()) {
             throw new InvalidHorseRaceStateException("The participant must be in a scheduled horse race to place a " +
