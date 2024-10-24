@@ -5,7 +5,7 @@ import com.johannag.tapup.globals.application.utils.DateTimeUtils;
 
 public class AuthTokenStubs {
 
-    public static AuthTokenModel authTokenModel(){
+    public static AuthTokenModel authTokenModel() {
         return AuthTokenModel.builder()
                 .value("token_value")
                 .type("bearer")

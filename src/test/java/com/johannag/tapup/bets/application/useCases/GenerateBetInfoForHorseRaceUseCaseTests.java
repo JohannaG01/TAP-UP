@@ -12,7 +12,6 @@ import com.johannag.tapup.horseRaces.application.services.HorseRaceService;
 import com.johannag.tapup.horseRaces.application.useCases.stubs.HorseRaceStubs;
 import com.johannag.tapup.horseRaces.domain.models.HorseRaceModel;
 import com.johannag.tapup.horseRaces.domain.models.HorseRaceModelState;
-import com.johannag.tapup.users.application.exceptions.UserNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -36,32 +35,26 @@ import static org.mockito.Mockito.doThrow;
 @MockitoSettings(strictness = Strictness.LENIENT)
 public class GenerateBetInfoForHorseRaceUseCaseTests {
 
+    private final HorseRaceModel horseRace = HorseRaceStubs.horseRaceStub(HorseRaceModelState.SCHEDULED);
+    private final List<BetSummaryDTO> betSummaryDTOS = BetStubs.betSummaryDTO();
+    private final List<BetSummaryModel> betSummaryModels = BetStubs.betSummaryModels();
     @Mock
     private BetRepository betRepository;
-
     @Mock
     private HorseRaceService horseRaceService;
-
     @Mock
     private BetConfig betConfig;
-
     @Mock
     private MoneyConfig moneyConfig;
-
     @Mock
     private MoneyUtils moneyUtils;
-
     @Spy
     @InjectMocks
     private GenerateBetInfoForHorseRaceUseCase generateBetInfoUseCase;
 
-    private final HorseRaceModel horseRace = HorseRaceStubs.horseRaceStub(HorseRaceModelState.SCHEDULED);
-    private final List<BetSummaryDTO> betSummaryDTOS = BetStubs.betSummaryDTO();
-    private final List<BetSummaryModel> betSummaryModels = BetStubs.betSummaryModels();
-
     @Test
-    public void horseRaceNotFound(){
-        HorseRaceNotFoundException exception = new  HorseRaceNotFoundException(UUID.randomUUID());
+    public void horseRaceNotFound() {
+        HorseRaceNotFoundException exception = new HorseRaceNotFoundException(UUID.randomUUID());
 
         doThrow(exception)
                 .when(horseRaceService)
@@ -72,7 +65,7 @@ public class GenerateBetInfoForHorseRaceUseCaseTests {
     }
 
     @Test
-    public void betInfoGeneratedSuccessfully(){
+    public void betInfoGeneratedSuccessfully() {
 
         doReturn(horseRace)
                 .when(horseRaceService)

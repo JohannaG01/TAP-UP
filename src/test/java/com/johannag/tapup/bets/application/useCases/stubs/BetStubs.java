@@ -9,8 +9,6 @@ import com.johannag.tapup.bets.domain.models.BetModel;
 import com.johannag.tapup.bets.domain.models.BetModelState;
 import com.johannag.tapup.bets.domain.models.BetStatisticsModel;
 import com.johannag.tapup.bets.domain.models.BetSummaryModel;
-import com.johannag.tapup.horseRaces.application.useCases.stubs.HorseRaceStubs;
-import com.johannag.tapup.horseRaces.domain.models.HorseRaceModel;
 import com.johannag.tapup.horses.domain.models.HorseModel;
 import com.johannag.tapup.users.application.useCases.stubs.UserStubs;
 import org.springframework.data.domain.Page;
@@ -19,7 +17,6 @@ import org.springframework.data.domain.PageRequest;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 
@@ -70,7 +67,7 @@ public class BetStubs {
     }
 
     public static Page<BetModel> betModelsPage() {
-        return new PageImpl<>(List.of(betModel()), PageRequest.of(0,1), 1);
+        return new PageImpl<>(List.of(betModel()), PageRequest.of(0, 1), 1);
     }
 
     public static List<BetSummaryDTO> betSummaryDTO() {
@@ -84,7 +81,7 @@ public class BetStubs {
         return List.of(betSummaryDTO);
     }
 
-    public static List<BetSummaryModel> betSummaryModels(){
+    public static List<BetSummaryModel> betSummaryModels() {
         BigDecimal value = BigDecimal.ZERO;
         BigDecimal scaledValue = value.setScale(2, RoundingMode.HALF_UP);
 
@@ -99,7 +96,7 @@ public class BetStubs {
         return List.of(betSummaryModel);
     }
 
-    public static BetStatisticsModel betStatisticsModel(){
+    public static BetStatisticsModel betStatisticsModel() {
         BigDecimal value = BigDecimal.ZERO;
         BigDecimal scaledValue = value.setScale(2, RoundingMode.HALF_UP);
 

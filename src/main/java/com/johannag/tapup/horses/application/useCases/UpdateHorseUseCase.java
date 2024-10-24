@@ -35,7 +35,7 @@ public class UpdateHorseUseCase {
         return horseModel;
     }
 
-    public void validateCanUpdateHorseOrThrow(UpdateHorseDTO dto) {
+    public void validateCanUpdateHorseOrThrow(UpdateHorseDTO dto) throws CannotTransitionHorseStateException {
         if (dto.isStateTemporallyInactive() && horseRepository.isHorseInScheduledMatch(dto.getUuid())) {
             throw new CannotTransitionHorseStateException(String.format(
                     "Unable to update state to [TEMPORALLY_INACTIVE]. The horse with UUID %s is currently in a " +

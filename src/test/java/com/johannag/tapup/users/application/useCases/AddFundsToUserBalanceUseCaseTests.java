@@ -26,17 +26,21 @@ import static org.mockito.Mockito.doThrow;
 @MockitoSettings(strictness = Strictness.LENIENT)
 public class AddFundsToUserBalanceUseCaseTests {
 
-    @Mock private UserRepository userRepository;
-    @Mock private UserApplicationMapper userApplicationMapper;
-    @Mock private FindOneUserByUuidUseCase findOneUserByUuidUseCase;
-    @InjectMocks @Spy private AddFundsToUserBalanceUseCase addFundsToUserBalanceUseCase;
-
     private final AddUserFundsDTO addUserFundsDTO = UserStubs.addUserFundsDTO();
     private final UserModel user = UserStubs.userModel();
     private final AddUserFundsToEntityDTO addUserFundsToEntityDTO = UserStubs.addUserFundsToEntityDTO();
+    @Mock
+    private UserRepository userRepository;
+    @Mock
+    private UserApplicationMapper userApplicationMapper;
+    @Mock
+    private FindOneUserByUuidUseCase findOneUserByUuidUseCase;
+    @InjectMocks
+    @Spy
+    private AddFundsToUserBalanceUseCase addFundsToUserBalanceUseCase;
 
     @Test
-    public void userNotFound(){
+    public void userNotFound() {
         UserNotFoundException notFoundException = new UserNotFoundException(addUserFundsDTO.getUserUuid());
 
         doThrow(notFoundException)
@@ -47,7 +51,7 @@ public class AddFundsToUserBalanceUseCaseTests {
     }
 
     @Test
-    public void userFundsAddedSuccessfully(){
+    public void userFundsAddedSuccessfully() {
 
         doReturn(user)
                 .when(findOneUserByUuidUseCase)
