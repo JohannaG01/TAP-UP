@@ -27,6 +27,7 @@ services:
       POSTGRES_PORT: ${POSTGRES_PORT}
       POSTGRES_HOST: db
       ENVIRONMENT: ${ENVIRONMENT}
+      JWT_SECRET_WORD: ${JWT_SECRET_WORD}
     ports:
       - "8080:8080"
     depends_on:

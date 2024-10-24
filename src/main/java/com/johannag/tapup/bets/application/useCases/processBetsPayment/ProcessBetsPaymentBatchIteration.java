@@ -46,7 +46,7 @@ class ProcessBetsPaymentBatchIteration {
         logger.info("Starting to process batch iteration: {}", dto.currentPage());
 
         List<BetModel> bets = dto.getBets().getContent();
-        BigDecimal odds = moneyUtils.ToBigDecimal(dto.getOdds());
+        BigDecimal odds = moneyUtils.toBigDecimal(dto.getOdds());
 
         Map<Boolean, Map<UUID, List<BigDecimal>>> partitionedBets = partitionBetsByWinner(bets);
         Map<UUID, List<BigDecimal>> winnerBets = partitionedBets.get(true);

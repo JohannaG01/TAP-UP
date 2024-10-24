@@ -59,6 +59,7 @@ public class BetRepositoryImpl implements BetRepository {
         Pageable pageable = PageRequest.of(dto.getPage(), dto.getSize(), Sort.by("createdAt").descending());
 
         Specification<BetEntity> spec = new JpaBetSpecifications.Builder()
+                .withUserUuid(dto.getUserUuid())
                 .withBetStates(betDomainMapper.toEntity(dto.getBetStates()))
                 .withHorseRaceStates(horseRaceDomainMapper.toEntity(dto.getHorseRaceStates()))
                 .withMinAmount(dto.getMinAmount())

@@ -67,7 +67,7 @@ public class GenerateBetInfoForHorseRaceUseCase {
 
     private BigDecimal calculateOdds(Long maxTotalBets, Long bets) {
         double odds = betConfig.getMinOdds() + (maxTotalBets - bets) / (maxTotalBets + 1.0);
-        return moneyUtils.ToBigDecimal(odds);
+        return moneyUtils.toBigDecimal(odds);
     }
 
     private BigDecimal calculateTotalPayouts(BigDecimal odds, BigDecimal baseTotalPayouts) {

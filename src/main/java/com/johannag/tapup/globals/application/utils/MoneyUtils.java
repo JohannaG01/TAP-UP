@@ -15,7 +15,7 @@ public class MoneyUtils {
 
     private final MoneyConfig moneyConfig;
 
-    public BigDecimal ToBigDecimal(double value) {
+    public BigDecimal toBigDecimal(double value) {
         return BigDecimal
                 .valueOf(value)
                 .setScale(moneyConfig.getScale(), RoundingMode.HALF_UP);
