@@ -5,10 +5,7 @@ import com.johannag.tapup.bets.application.dtos.FindBetsDTO;
 import com.johannag.tapup.bets.domain.dtos.BetSummaryDTO;
 import com.johannag.tapup.bets.domain.dtos.CreateBetEntityDTO;
 import com.johannag.tapup.bets.domain.dtos.FindBetEntitiesDTO;
-import com.johannag.tapup.bets.domain.models.BetModel;
-import com.johannag.tapup.bets.domain.models.BetModelState;
-import com.johannag.tapup.bets.domain.models.BetStatisticsModel;
-import com.johannag.tapup.bets.domain.models.BetSummaryModel;
+import com.johannag.tapup.bets.domain.models.*;
 import com.johannag.tapup.horses.domain.models.HorseModel;
 import com.johannag.tapup.users.application.useCases.stubs.UserStubs;
 import org.springframework.data.domain.Page;
@@ -105,6 +102,23 @@ public class BetStubs {
                 .totalAmountWagered(scaledValue)
                 .totalPayouts(scaledValue)
                 .bets(betSummaryModels())
+                .build();
+    }
+
+    public static BetPayouts betPayouts(){
+        return BetPayouts.builder()
+                .totalBets(0L)
+                .totalWinningBets(0L)
+                .totalPayouts(0L)
+                .totalAmount(BigDecimal.ZERO)
+                .build();
+    }
+
+    public static BetRefunds betRefunds(){
+        return BetRefunds.builder()
+                .totalRefunds(0L)
+                .totalBets(0L)
+                .totalAmount(BigDecimal.ZERO)
                 .build();
     }
 }
