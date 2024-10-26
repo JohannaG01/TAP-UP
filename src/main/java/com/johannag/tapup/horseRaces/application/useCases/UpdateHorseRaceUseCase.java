@@ -41,7 +41,7 @@ public class UpdateHorseRaceUseCase {
         return updatedHorseRace;
     }
 
-    private void validateHorseRaceIsScheduledOrThrow(HorseRaceModel horseRace) {
+    private void validateHorseRaceIsScheduledOrThrow(HorseRaceModel horseRace) throws InvalidHorseRaceStateException {
         if (!horseRace.isScheduled()) {
             throw new InvalidHorseRaceStateException(String.format("Cannot update horse race with UUID %s: it must be" +
                     " in SCHEDULED state.", horseRace.getUuid()));

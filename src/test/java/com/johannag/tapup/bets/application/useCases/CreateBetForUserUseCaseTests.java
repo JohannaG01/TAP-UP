@@ -40,8 +40,8 @@ public class CreateBetForUserUseCaseTests {
 
     private final CreateBetDTO highCreateBetDTO = BetStubs.createBetDTO(new BigDecimal(8000));
     private final CreateBetDTO lowCreateBetDTO = BetStubs.createBetDTO(new BigDecimal(1));
-    private final HorseRaceModel scheduledHorseRace = HorseRaceStubs.horseRaceStub(HorseRaceModelState.SCHEDULED);
-    private final HorseRaceModel finishedHorseRace = HorseRaceStubs.horseRaceStub(HorseRaceModelState.FINISHED);
+    private final HorseRaceModel scheduledHorseRace = HorseRaceStubs.horseRaceModel(HorseRaceModelState.SCHEDULED);
+    private final HorseRaceModel finishedHorseRace = HorseRaceStubs.horseRaceModel(HorseRaceModelState.FINISHED);
     private final UserModel user = UserStubs.userModel();
     private final CreateBetEntityDTO createBetEntityDTO = BetStubs.createBetEntityDTO();
     private final BetModel bet = BetStubs.betModel();

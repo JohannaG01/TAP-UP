@@ -14,7 +14,6 @@ import com.johannag.tapup.horseRaces.infrastructure.db.adapters.HorseRaceReposit
 import com.johannag.tapup.horses.application.exceptions.HorseNotAvailableException;
 import com.johannag.tapup.notifications.application.dtos.SendNotificationsInternalProcessDTO;
 import com.johannag.tapup.notifications.application.services.NotificationService;
-import com.johannag.tapup.users.application.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.lang.Nullable;
@@ -38,7 +37,6 @@ public class SubmitHorseRaceResultsUseCase {
     private final BetAsyncService betAsyncService;
     private final BetService betService;
     private final NotificationService notificationService;
-    private final UserService userService;
 
     public HorseRaceModel execute(SubmitHorseRaceResultsDTO dto)
             throws HorseRaceNotFoundException, InvalidHorseRaceStateException, HorseNotAvailableException {

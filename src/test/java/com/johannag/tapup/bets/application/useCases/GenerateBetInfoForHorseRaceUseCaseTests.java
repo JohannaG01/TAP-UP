@@ -35,7 +35,7 @@ import static org.mockito.Mockito.doThrow;
 @MockitoSettings(strictness = Strictness.LENIENT)
 public class GenerateBetInfoForHorseRaceUseCaseTests {
 
-    private final HorseRaceModel horseRace = HorseRaceStubs.horseRaceStub(HorseRaceModelState.SCHEDULED);
+    private final HorseRaceModel horseRace = HorseRaceStubs.horseRaceModel(HorseRaceModelState.SCHEDULED);
     private final List<BetSummaryDTO> betSummaryDTOS = BetStubs.betSummaryDTO();
     private final List<BetSummaryModel> betSummaryModels = BetStubs.betSummaryModels();
     @Mock
