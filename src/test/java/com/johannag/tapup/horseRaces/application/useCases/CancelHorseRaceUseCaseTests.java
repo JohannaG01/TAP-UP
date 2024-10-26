@@ -33,29 +33,23 @@ import static org.mockito.Mockito.*;
 @MockitoSettings(strictness = Strictness.LENIENT)
 public class CancelHorseRaceUseCaseTests {
 
-    @Mock
-    private BetAsyncService betAsyncService;
-
-    @Mock
-    private BetService betService;
-
-    @Mock
-    private HorseRaceRepository horseRaceRepository;
-
-    @Mock
-    private NotificationService notificationService;
-
-    @Mock
-    private FindOneHorseRaceByUuidUseCase findOneHorseRaceByUuidUseCase;
-
-    @Spy
-    @InjectMocks
-    private CancelHorseRaceUseCase cancelHorseRaceUseCase;
-
     private final HorseRaceModel scheduledHorseRace = HorseRaceStubs.horseRaceModel(HorseRaceModelState.SCHEDULED);
     private final HorseRaceModel finishedHorseRace = HorseRaceStubs.horseRaceModel(HorseRaceModelState.FINISHED);
     private final HorseRaceModel cancelledHorseRace = HorseRaceStubs.horseRaceModel(HorseRaceModelState.CANCELLED);
     private final BetRefunds betRefunds = BetStubs.betRefunds();
+    @Mock
+    private BetAsyncService betAsyncService;
+    @Mock
+    private BetService betService;
+    @Mock
+    private HorseRaceRepository horseRaceRepository;
+    @Mock
+    private NotificationService notificationService;
+    @Mock
+    private FindOneHorseRaceByUuidUseCase findOneHorseRaceByUuidUseCase;
+    @Spy
+    @InjectMocks
+    private CancelHorseRaceUseCase cancelHorseRaceUseCase;
 
     @Test
     public void horseRaceNotFound() {

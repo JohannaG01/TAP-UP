@@ -27,17 +27,15 @@ import static org.mockito.Mockito.doThrow;
 @MockitoSettings(strictness = Strictness.LENIENT)
 public class FindOneHorseRaceByUuidUseCaseTests {
 
+    private final HorseRaceModel horseRace = HorseRaceStubs.horseRaceModel(HorseRaceModelState.SCHEDULED);
     @Mock
     private HorseRaceRepository horseRaceRepository;
-
     @Spy
     @InjectMocks
     private FindOneHorseRaceByUuidUseCase findOneHorseRaceByUuidUseCase;
 
-    private final HorseRaceModel horseRace = HorseRaceStubs.horseRaceModel(HorseRaceModelState.SCHEDULED);
-
     @Test
-    public void horseNotFound(){
+    public void horseNotFound() {
         HorseRaceNotFoundException exception = new HorseRaceNotFoundException(UUID.randomUUID());
 
         doThrow(exception)

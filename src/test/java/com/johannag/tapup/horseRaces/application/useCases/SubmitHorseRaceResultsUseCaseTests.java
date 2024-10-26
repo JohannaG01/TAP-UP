@@ -38,34 +38,27 @@ import static org.mockito.Mockito.*;
 @MockitoSettings(strictness = Strictness.LENIENT)
 public class SubmitHorseRaceResultsUseCaseTests {
 
-    @Mock
-    private HorseRaceApplicationMapper horseRaceApplicationMapper;
-
-    @Mock
-    private HorseRaceRepository horseRaceRepository;
-
-    @Mock
-    private FindOneHorseRaceByUuidUseCase findOneHorseRaceByUuidUseCase;
-
-    @Mock
-    private BetAsyncService betAsyncService;
-
-    @Mock
-    private BetService betService;
-
-    @Mock
-    private NotificationService notificationService;
-
-    @Spy
-    @InjectMocks
-    private SubmitHorseRaceResultsUseCase submitHorseRaceResultsUseCase;
-
     private final SubmitHorseRaceResultsDTO submitHorseRaceResultsDTO = HorseRaceStubs.submitHorseRaceResultsDTO();
     private final HorseRaceModel scheduledHorseRace = HorseRaceStubs.horseRaceModel(HorseRaceModelState.SCHEDULED);
     private final HorseRaceModel finishedHorseRace = HorseRaceStubs.horseRaceModel(HorseRaceModelState.FINISHED);
     private final BetPayouts betPayouts = BetStubs.betPayouts();
     private final SubmitHorseRaceResultsForEntityDTO submitHorseRaceResultsForEntityDTO =
             HorseRaceStubs.submitHorseRaceResultsForEntityDTO();
+    @Mock
+    private HorseRaceApplicationMapper horseRaceApplicationMapper;
+    @Mock
+    private HorseRaceRepository horseRaceRepository;
+    @Mock
+    private FindOneHorseRaceByUuidUseCase findOneHorseRaceByUuidUseCase;
+    @Mock
+    private BetAsyncService betAsyncService;
+    @Mock
+    private BetService betService;
+    @Mock
+    private NotificationService notificationService;
+    @Spy
+    @InjectMocks
+    private SubmitHorseRaceResultsUseCase submitHorseRaceResultsUseCase;
 
     @Test
     public void horseRaceNotFound() {

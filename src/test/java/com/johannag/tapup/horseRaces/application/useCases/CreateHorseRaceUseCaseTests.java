@@ -31,22 +31,18 @@ import static org.mockito.Mockito.*;
 @MockitoSettings(strictness = Strictness.LENIENT)
 public class CreateHorseRaceUseCaseTests {
 
-    @Mock
-    private HorseRaceRepository horseRaceRepository;
-
-    @Mock
-    private HorseRaceApplicationMapper horseRaceApplicationMapper;
-
-    @Mock
-    private HorseService horseService;
-
-    @Spy
-    @InjectMocks
-    private CreateHorseRaceUseCase createHorseRaceUseCase;
-
     private final CreateHorseRaceDTO createHorseRaceDTO = HorseRaceStubs.createHorseRaceDTO();
     private final CreateHorseRaceEntityDTO createHorseRaceEntityDTO = HorseRaceStubs.createHorseRaceEntityDTO();
     private final HorseRaceModel horseRace = HorseRaceStubs.horseRaceModel(HorseRaceModelState.SCHEDULED);
+    @Mock
+    private HorseRaceRepository horseRaceRepository;
+    @Mock
+    private HorseRaceApplicationMapper horseRaceApplicationMapper;
+    @Mock
+    private HorseService horseService;
+    @Spy
+    @InjectMocks
+    private CreateHorseRaceUseCase createHorseRaceUseCase;
 
     @Test
     public void horsesNotFound() {

@@ -16,8 +16,6 @@ import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.springframework.data.domain.Page;
 
-import java.util.UUID;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
@@ -26,22 +24,19 @@ import static org.mockito.Mockito.doReturn;
 @MockitoSettings(strictness = Strictness.LENIENT)
 public class FindHorseRacesUseCaseTests {
 
+    private final Page<HorseRaceModel> horseRaces = HorseRaceStubs.horseRaceModelPage();
+    private final FindHorseRacesDTO findHorseRacesDTO = HorseRaceStubs.findHorseRacesDTO();
+    private final FindHorseRaceEntitiesDTO findHorseEntitiesDTO = HorseRaceStubs.findHorseRaceEntitiesDTO();
     @Mock
     private HorseRaceRepository horseRaceRepository;
-
     @Mock
     private HorseRaceApplicationMapper horseRaceApplicationMapper;
-
     @Spy
     @InjectMocks
     private FindHorseRacesUseCase findHorseRacesUseCase;
 
-    private final Page<HorseRaceModel> horseRaces = HorseRaceStubs.horseRaceModelPage();
-    private final FindHorseRacesDTO findHorseRacesDTO = HorseRaceStubs.findHorseRacesDTO();
-    private final FindHorseRaceEntitiesDTO findHorseEntitiesDTO = HorseRaceStubs.findHorseRaceEntitiesDTO();
-
     @Test
-    public void horseRacesFoundSuccessfully(){
+    public void horseRacesFoundSuccessfully() {
 
         doReturn(findHorseEntitiesDTO)
                 .when(horseRaceApplicationMapper)
