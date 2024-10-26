@@ -20,7 +20,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "{{tapup_token}}",
+											"value": "{{tapup_regular_token}}",
 											"type": "string"
 										}
 									]
@@ -29,7 +29,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"amount\": 909\r\n}",
+									"raw": "{\r\n    \"amount\": 9090\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -51,7 +51,267 @@
 									"variable": [
 										{
 											"key": "userUuid",
-											"value": "c55ec13a-d7ba-437d-a700-e44649366218"
+											"value": "6aee3634-83d3-4c76-aca2-22c35280f868"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Bets",
+					"item": [
+						{
+							"name": "Bets",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{tapup_regular_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"participantUuid\": \"3e3654c1-c70a-4b3d-b725-a9eece53e5fb\",\r\n    \"amount\": 3120\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{localhost}}/api/v1/users/:userUuid/bets",
+									"host": [
+										"{{localhost}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users",
+										":userUuid",
+										"bets"
+									],
+									"variable": [
+										{
+											"key": "userUuid",
+											"value": "a2104582-ce52-4bf5-bfe3-d585873079bd"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Bets",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{tapup_admin_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{localhost}}/api/v1/users/:uuid/bets?horseUuid=16ebb0f7-f8f2-45e0-9348-50d5d87f89be&horseRaceState=SCHEDULED&startTimeTo=2098-10-16T23:17:37.03",
+									"host": [
+										"{{localhost}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users",
+										":uuid",
+										"bets"
+									],
+									"query": [
+										{
+											"key": "horseRaceUuid",
+											"value": "96c8a8e8-a30d-4475-861a-7ad13f7a5464",
+											"disabled": true
+										},
+										{
+											"key": "horseUuid",
+											"value": "16ebb0f7-f8f2-45e0-9348-50d5d87f89be"
+										},
+										{
+											"key": "minAmount",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "betState",
+											"value": "REFUND",
+											"disabled": true
+										},
+										{
+											"key": "horseRaceState",
+											"value": "SCHEDULED"
+										},
+										{
+											"key": "maxAmount",
+											"value": "2000000",
+											"disabled": true
+										},
+										{
+											"key": "placement",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "startTimeFrom",
+											"value": "2078-10-16T23:17:37.03",
+											"disabled": true
+										},
+										{
+											"key": "startTimeTo",
+											"value": "2098-10-16T23:17:37.03"
+										},
+										{
+											"key": "size",
+											"value": "5",
+											"disabled": true
+										}
+									],
+									"variable": [
+										{
+											"key": "uuid",
+											"value": "a2104582-ce52-4bf5-bfe3-d585873079bd"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Notifications",
+					"item": [
+						{
+							"name": "Notifications",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{tapup_regular_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{localhost}}/api/v1/users/:userUuid/notifications?type=INFO&sentTo=2024-10-21T20:41:56.636044",
+									"host": [
+										"{{localhost}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users",
+										":userUuid",
+										"notifications"
+									],
+									"query": [
+										{
+											"key": "type",
+											"value": "INFO"
+										},
+										{
+											"key": "sentFrom",
+											"value": "2024-10-21T20:41:56.636044",
+											"disabled": true
+										},
+										{
+											"key": "sentTo",
+											"value": "2024-10-21T20:41:56.636044"
+										},
+										{
+											"key": "isRead",
+											"value": "true",
+											"disabled": true
+										},
+										{
+											"key": "page",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "size",
+											"value": "",
+											"disabled": true
+										}
+									],
+									"variable": [
+										{
+											"key": "userUuid",
+											"value": "a2104582-ce52-4bf5-bfe3-d585873079bd"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Notification",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{tapup_regular_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"read\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{localhost}}/api/v1/users/:userUuid/notifications/:notificationUuid",
+									"host": [
+										"{{localhost}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users",
+										":userUuid",
+										"notifications",
+										":notificationUuid"
+									],
+									"variable": [
+										{
+											"key": "userUuid",
+											"value": "a2104582-ce52-4bf5-bfe3-d585873079bd"
+										},
+										{
+											"key": "notificationUuid",
+											"value": "13b4c5ca-9984-4ba1-8e33-ca3c2f4610a4"
 										}
 									]
 								}
@@ -67,7 +327,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"j.gendler.g+test3@gmail.com\",\r\n    \"name\": \"Johanna\",\r\n    \"lastName\": \"Gendler\",\r\n    \"password\": \"Password123$\"\r\n}",
+							"raw": "{\r\n    \"email\": \"j.gendler.g+test10@gmail.com\",\r\n    \"name\": \"Johanna\",\r\n    \"lastName\": \"Gendler\",\r\n    \"password\": \"Password123$\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -95,7 +355,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"j.gendler.g+test1@gmail.com\",\r\n    \"password\": \"Password123$\"\r\n}",
+							"raw": "{\r\n    \"email\": \"j.gendler.g+test10@gmail.com\",\r\n    \"password\": \"Password123$\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -129,7 +389,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZWU3NjAxMi01NzcyLTQ3MmItODRiNy0yODE2MzRlNjM5NDgiLCJpYXQiOjE3Mjg2NzY4ODIsImV4cCI6MTcyOTM5Njg4MiwiaWQiOjEsInV1aWQiOiJhZWU3NjAxMi01NzcyLTQ3MmItODRiNy0yODE2MzRlNjM5NDgiLCJmaXJzdE5hbWUiOiJTeXN0ZW0iLCJsYXN0TmFtZSI6IkFkbWluIiwiZW1haWwiOiJ0YXB1cCtzeXN0ZW1fYWRtaW5AdGFwdXAuY29tIiwiaXNBZG1pbiI6dHJ1ZX0.GORMExXNoa27c7Gxq6nHoNOiXd-OYGv51Y8P6HihsJwcj7NzRwMPy_0hpD7ydlnRaloY8Zqg5RyLoAQjJxY_HA",
+									"value": "{{tapup_admin_token}}",
 									"type": "string"
 								}
 							]
@@ -138,7 +398,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"code\": \"42747\",\r\n    \"name\": \"Juancho\",\r\n    \"breed\": \"Horse\",\r\n    \"birthDate\": \"2020-05-06\",\r\n    \"sex\": \"MALE\",\r\n    \"color\": \"Black\"\r\n}",
+							"raw": "{\r\n    \"code\": \"78120\",\r\n    \"name\": \"Roman\",\r\n    \"breed\": \"Horse\",\r\n    \"birthDate\": \"2020-05-06\",\r\n    \"sex\": \"MALE\",\r\n    \"color\": \"Black\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -167,7 +427,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{tapup_token}}",
+									"value": "{{tapup_admin_token}}",
 									"type": "string"
 								}
 							]
@@ -176,7 +436,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Mancho\",\r\n    \"breed\": \"Dog\",\r\n    \"birthDate\": \"2021-05-06\",\r\n    \"sex\": \"FEMALE\",\r\n    \"color\": \"Brown\",\r\n    \"state\": \"TEMPORALLY_INACTIVE\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Mancho\",\r\n    \"breed\": \"Cat\",\r\n    \"birthDate\": \"2021-05-06\",\r\n    \"sex\": \"FEMALE\",\r\n    \"color\": \"Brown\",\r\n    \"state\": \"TEMPORALLY_INACTIVE\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -197,7 +457,7 @@
 							"variable": [
 								{
 									"key": "uuid",
-									"value": "05568fd8-5251-4531-9d84-299daf77eff9"
+									"value": "5131dc55-642b-4a66-8e57-dfdfb16d4ca1"
 								}
 							]
 						}
@@ -212,7 +472,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{tapup_regular_token}}",
+									"value": "{{tapup_admin_token}}",
 									"type": "string"
 								}
 							]
@@ -233,7 +493,7 @@
 							"variable": [
 								{
 									"key": "uuid",
-									"value": "757c1401-b7c3-4b8e-afe2-21f7167b38ea"
+									"value": "c89e19f1-111d-4d9c-b949-a2fc32b45efb"
 								}
 							]
 						}
@@ -273,7 +533,7 @@
 								},
 								{
 									"key": "size",
-									"value": "1",
+									"value": "-1",
 									"disabled": true
 								},
 								{
@@ -336,6 +596,372 @@
 								{
 									"key": "uuid",
 									"value": "16ebb0f7-f8f2-45e0-9348-50d5d87f89be"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Horse Races",
+			"item": [
+				{
+					"name": "Bets",
+					"item": [
+						{
+							"name": "Bet Info",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{tapup_regular_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{localhost}}/api/v1/horse-races/:horseUuid/bet-info",
+									"host": [
+										"{{localhost}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"horse-races",
+										":horseUuid",
+										"bet-info"
+									],
+									"variable": [
+										{
+											"key": "horseUuid",
+											"value": "96c8a8e8-a30d-4475-861a-7ad13f7a5464"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Bet Statistics",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{tapup_admin_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{localhost}}/api/v1/horse-races/:horseRaceUuid/bet-statistics",
+									"host": [
+										"{{localhost}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"horse-races",
+										":horseRaceUuid",
+										"bet-statistics"
+									],
+									"variable": [
+										{
+											"key": "horseRaceUuid",
+											"value": "96c8a8e8-a30d-4475-861a-7ad13f7a5464"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Resutls",
+					"item": [
+						{
+							"name": "Results",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{tapup_admin_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"endTime\": \"2020-10-16T23:17:37.030Z\",\r\n    \"participants\": [\r\n        {\r\n            \"uuid\": \"bc5fb1a4-eaf5-403c-83a9-fa0925c67926\",\r\n            \"placement\": 1,\r\n                         \"time\": \"00:01:23\"\r\n        },\r\n                {\r\n            \"uuid\": \"639889f4-ef5e-466d-9fd3-c1826623ee11\",\r\n            \"placement\": 2,\r\n                         \"time\": \"00:01:24\"\r\n        }\r\n    ]\r\n\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{localhost}}/api/v1/horse-races/:horseRaceUuid/results",
+									"host": [
+										"{{localhost}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"horse-races",
+										":horseRaceUuid",
+										"results"
+									],
+									"variable": [
+										{
+											"key": "horseRaceUuid",
+											"value": "86cedbb6-7db5-4190-a132-a3b5da8961b2"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Horse Races",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tapup_admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"startTime\": \"2101-10-16T23:17:37.030Z\",\r\n  \"horsesUuids\": [\r\n    \"16ebb0f7-f8f2-45e0-9348-50d5d87f89be\",\r\n    \"254df818-f616-4ed6-be4b-fd0c21ffacee\"\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost}}/api/v1/horse-races",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"horse-races"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Horse Race",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tapup_admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"startTime\": \"2098-10-16T23:17:37.030Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost}}/api/v1/horse-races/:horseRaceUuid",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"horse-races",
+								":horseRaceUuid"
+							],
+							"variable": [
+								{
+									"key": "horseRaceUuid",
+									"value": "96c8a8e8-a30d-4475-861a-7ad13f7a5464"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Horse Race",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tapup_admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}/api/v1/horse-races/:horseRaceUuid",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"horse-races",
+								":horseRaceUuid"
+							],
+							"variable": [
+								{
+									"key": "horseRaceUuid",
+									"value": "cb8aef99-88d6-4163-b8cc-9f18fad29d1d"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Horse Races",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tapup_admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}/api/v1/horse-races",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"horse-races"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0",
+									"disabled": true
+								},
+								{
+									"key": "startTimeFrom",
+									"value": "2050-11-13T23:17:37.03",
+									"disabled": true
+								},
+								{
+									"key": "startTimeTo",
+									"value": "2024-10-19T23:17:37.03",
+									"disabled": true
+								},
+								{
+									"key": "state",
+									"value": "SCHEDULED",
+									"disabled": true
+								},
+								{
+									"key": "state",
+									"value": "CANCELLED",
+									"disabled": true
+								},
+								{
+									"key": "horseUuid",
+									"value": "16ebb0f7-f8f2-45e0-9348-50d5d87f89be",
+									"disabled": true
+								},
+								{
+									"key": "horseCode",
+									"value": "12747",
+									"disabled": true
+								},
+								{
+									"key": "horseName",
+									"value": "Juancho",
+									"disabled": true
+								},
+								{
+									"key": "size",
+									"value": "2",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Horse Race",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tapup_admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}/api/v1/horse-races/:horseRaceUuid",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"horse-races",
+								":horseRaceUuid"
+							],
+							"variable": [
+								{
+									"key": "horseRaceUuid",
+									"value": "e4a46ff9-89f1-42c5-b082-c355104146aa"
 								}
 							]
 						}

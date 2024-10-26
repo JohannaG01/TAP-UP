@@ -1,10 +1,56 @@
 # TAP-UP
 
-## Local Execution
+## Tapup - Horse Betting Application
+Tapup is a horse race betting platform that allows users to place bets, manage horse races, and process refunds. This project is built using Spring Boot and Java 17, leveraging modern web technologies and security best practices.
 
+### Key Features
+- **Horse Race Management:** Create, schedule, and cancel horse races.
+- **Betting System:** Users can place bets on upcoming races and manage their bets.
+- **Refund Processing:** Handle refunds automatically when a race is canceled.
+- **User Management:** Users can register and log in.
+- **Notifications:** Users receive real-time notifications about race updates, results, and betting outcomes.
+- **Horse System:** Manage horses, including adding, updating, and tracking their race performance.
+- **Payment Processing:** Secure payment gateway integration for deposits, bet placements, and payouts.
+- **Security:** Integrated with Spring Security for authentication and authorization.
+- **Unit Tests:** Ensure application reliability and maintainability with comprehensive unit testing.
+- **REST API Documentation:** Provides easy-to-use OpenAPI documentation for the endpoints.
+
+### Dependencies
+This project uses the following dependencies:
+
+- **Spring Boot 3.3.4:**
+  - `spring-boot-starter-web:` For building RESTful web services.
+  - `spring-boot-starter-data-jpa:` For data persistence using JPA and Hibernate.
+  - `spring-boot-starter-security:` To handle authentication and security.
+  - `spring-boot-starter-actuator:` Provides operational information and health checks.
+  - `spring-boot-starter-validation:` For validating user input in API requests.
+  - `spring-boot-starter-hateoas:` To add HATEOAS (Hypermedia as the Engine of Application State) support.
+- **PostgreSQL 42.7.4:** PostgreSQL driver for database integration.
+- **JUnit 5.11.2:** For testing the application.
+- **JWT (JSON Web Token) 0.12.6:** To handle authentication using JWT tokens.
+- **ModelMapper 3.2.1:** For object mapping between DTOs and entities.
+- **Lombok 1.18.34:** To reduce boilerplate code, such as getters, setters, and constructors.
+- **SpotBugs 4.8.6:** To catch bugs and improve code quality.
+- **Springdoc OpenAPI 2.6.0:** To generate OpenAPI documentation for your REST APIs.
+  Prerequisites
+  Java 17+
+  Maven 3.6+
+  PostgreSQL database
+
+### Prerequisites
+- Java 17+
+- Maven 3.6+
+
+## Local Execution (With Docker)
 To run the application in your local environment, follow these steps:
 
-### 1. Set Environment Variables
+### 1. Clone the repository
+
+```
+git clone https://github.com/JohannaG01/TAP-UP.git
+```
+
+### 2. Set Environment Variables
 
 Before starting the application, make sure to define the following environment variables:
 
@@ -28,7 +74,14 @@ JWT_SECRET_WORD=your_secret_word
 ENVIRONMENT=your_environment
 ```
 
-### 2. Build the Application
+### 3. Navigate to the Docker Compose Directory
+   First, navigate to the directory where the docker-compose-local.yml file is located. Run the following command:
+
+```
+cd path/to/your/docker-compose-directory
+```
+
+### 4. Build the Application
 
 Run the following command to build the application:
 
@@ -36,15 +89,15 @@ Run the following command to build the application:
 docker-compose -f docker-compose-local.yml build
 ```
 
-### 3. Run Docker Compose
+### 5. Run Docker Compose
 
-Navigate to the directory where the `docker-compose-local.yml` file is located and run the following command:
+Run the following command to run de application:
 
 ```
 docker-compose -f docker-compose-local.yml up -d
 ```
 
-### 4. Create Admin User
+### 6. Create Admin User
 
 To initialize your database with an admin user, you can execute the following SQL script. This script will create a new
 user with the ID of 1, ensuring that the user has administrative privileges. Remember to replace `hashed_password` for
@@ -69,7 +122,6 @@ UPDATE users
 SET created_by = id,
     updated_by = id
 WHERE id = (SELECT MAX(id) FROM users);
--- Get the last inserted id
 
 -- Reinstate NOT NULL constraints
 ALTER TABLE users
@@ -80,3 +132,19 @@ ALTER TABLE users
 
 ```
 
+## Local Execution (Without Docker)
+If you prefer to run your application locally without using Docker, you can follow these steps instead of step 5:
+
+1. **Start the Database Service:** First, ensure the database service is running with the following command:
+
+```
+docker-compose -f docker-compose-local.yml up -d db
+```
+
+2. **Run the Application:** After the database is running, execute your application with:
+
+```
+mvn spring-boot:run
+```
+
+###### Note: The .env file is not automatically loaded when using mvn spring-boot:run. To ensure that your application recognizes the environment variables defined in the .env file, you can either export them manually in your terminal before running the command or use a library like dotenv to load them programmatically.

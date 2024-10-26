@@ -71,11 +71,6 @@ public class UserEntity {
     @Column(name = "updated_by", nullable = false)
     private Long updatedBy;
 
-    @PreUpdate
-    protected void preUpdate() {
-        this.updatedBy = SecurityContextUtils.userOnContextId();
-    }
-
     public void addBalance(BigDecimal amount) {
         this.balance = this.balance.add(amount);
     }

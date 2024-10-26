@@ -11,6 +11,12 @@ FROM amazoncorretto:17-alpine
 
 WORKDIR /app
 
+ENV TZ=America/Argentina/Buenos_Aires
+
+RUN apk add --no-cache tzdata && \
+    ln -sf /usr/share/zoneinfo/$TZ /etc/localtime && \
+    echo $TZ > /etc/timezone
+
 RUN apk add --no-cache shadow
 RUN useradd -ms /bin/bash appuser
 
