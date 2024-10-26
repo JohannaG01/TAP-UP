@@ -32,29 +32,24 @@ import static org.mockito.Mockito.*;
 @MockitoSettings(strictness = Strictness.LENIENT)
 public class UpdateHorseRaceUseCaseTests {
 
-    @Mock
-    private HorseRaceRepository horseRaceRepository;
-
-    @Mock
-    private HorseRaceApplicationMapper horseRaceApplicationMapper;
-
-    @Mock
-    private HorseService horseService;
-
-    @Mock
-    private FindOneHorseRaceByUuidUseCase findOneHorseRaceByUuidUseCase;
-
-    @Spy
-    @InjectMocks
-    private UpdateHorseRaceUseCase updateHorseRaceUseCase;
-
     private final UpdateHorseRaceDTO updateHorseRaceDTO = HorseRaceStubs.updateHorseRaceDTO();
     private final UpdateHorseRaceEntityDTO updateHorseRaceEntityDTO = HorseRaceStubs.updateHorseRaceEntityDTO();
     private final HorseRaceModel finishedHorseRace = HorseRaceStubs.horseRaceModel(HorseRaceModelState.FINISHED);
     private final HorseRaceModel scheduledHorseRace = HorseRaceStubs.horseRaceModel(HorseRaceModelState.SCHEDULED);
+    @Mock
+    private HorseRaceRepository horseRaceRepository;
+    @Mock
+    private HorseRaceApplicationMapper horseRaceApplicationMapper;
+    @Mock
+    private HorseService horseService;
+    @Mock
+    private FindOneHorseRaceByUuidUseCase findOneHorseRaceByUuidUseCase;
+    @Spy
+    @InjectMocks
+    private UpdateHorseRaceUseCase updateHorseRaceUseCase;
 
     @Test
-    public void horseRaceNotFound(){
+    public void horseRaceNotFound() {
         HorseRaceNotFoundException exception = new HorseRaceNotFoundException(UUID.randomUUID());
 
         doThrow(exception)
@@ -65,7 +60,7 @@ public class UpdateHorseRaceUseCaseTests {
     }
 
     @Test
-    public void horseRaceIsNotScheduled(){
+    public void horseRaceIsNotScheduled() {
 
         doReturn(finishedHorseRace)
                 .when(findOneHorseRaceByUuidUseCase)
@@ -75,7 +70,7 @@ public class UpdateHorseRaceUseCaseTests {
     }
 
     @Test
-    public void horsesAreNoAvailableForNewStartTime(){
+    public void horsesAreNoAvailableForNewStartTime() {
         HorseNotAvailableException exception =
                 new HorseNotAvailableException(List.of(UUID.randomUUID()), 0, updateHorseRaceDTO.getStartTime());
 

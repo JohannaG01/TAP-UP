@@ -105,7 +105,7 @@ public class BetStubs {
                 .build();
     }
 
-    public static BetPayouts betPayouts(){
+    public static BetPayouts betPayouts() {
         return BetPayouts.builder()
                 .totalBets(0L)
                 .totalWinningBets(0L)
@@ -114,7 +114,7 @@ public class BetStubs {
                 .build();
     }
 
-    public static BetRefunds betRefunds(){
+    public static BetRefunds betRefunds() {
         return BetRefunds.builder()
                 .totalRefunds(0L)
                 .totalBets(0L)

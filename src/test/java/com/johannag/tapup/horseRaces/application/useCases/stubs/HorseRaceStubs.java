@@ -34,9 +34,9 @@ public class HorseRaceStubs {
                 .build();
     }
 
-    public static Page<HorseRaceModel> horseRaceModelPage(){
+    public static Page<HorseRaceModel> horseRaceModelPage() {
         Pageable pageable = Pageable.ofSize(10);
-        return new PageImpl<>(List.of(horseRaceModel(HorseRaceModelState.FINISHED)),pageable,5);
+        return new PageImpl<>(List.of(horseRaceModel(HorseRaceModelState.FINISHED)), pageable, 5);
     }
 
     public static FindHorseRacesDTO findHorseRacesDTO() {
@@ -83,7 +83,7 @@ public class HorseRaceStubs {
                 .build();
     }
 
-    public static SubmitHorseRaceResultsDTO submitHorseRaceResultsDTO(){
+    public static SubmitHorseRaceResultsDTO submitHorseRaceResultsDTO() {
         return SubmitHorseRaceResultsDTO.builder()
                 .horseRaceUuid(UUID.randomUUID())
                 .endTime(DateTimeUtils.nowAsLocalDateTime())
@@ -91,7 +91,7 @@ public class HorseRaceStubs {
                 .build();
     }
 
-    public static SubmitHorseRaceResultsDTO.Participant submitHorseRaceResultsDTOParticipant(){
+    public static SubmitHorseRaceResultsDTO.Participant submitHorseRaceResultsDTOParticipant() {
         return SubmitHorseRaceResultsDTO.Participant.builder()
                 .uuid(UUID.randomUUID())
                 .placement(1)
@@ -99,7 +99,7 @@ public class HorseRaceStubs {
                 .build();
     }
 
-    public static SubmitHorseRaceResultsForEntityDTO submitHorseRaceResultsForEntityDTO(){
+    public static SubmitHorseRaceResultsForEntityDTO submitHorseRaceResultsForEntityDTO() {
         return SubmitHorseRaceResultsForEntityDTO.builder()
                 .horseRaceUuid(UUID.randomUUID())
                 .endTime(DateTimeUtils.nowAsLocalDateTime())
@@ -107,7 +107,7 @@ public class HorseRaceStubs {
                 .build();
     }
 
-    public static ParticipantModel participantModel(){
+    public static ParticipantModel participantModel() {
         return ParticipantModel.builder()
                 .uuid(UUID.randomUUID())
                 .horse(HorseModel.builder().build())
